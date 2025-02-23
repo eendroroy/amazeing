@@ -1,1 +1,1 @@
-# a-maze-ing
+# amazeing
