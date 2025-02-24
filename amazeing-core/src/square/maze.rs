@@ -13,4 +13,12 @@ impl<const ROWS: usize, const COLS: usize> Maze<ROWS, COLS> {
     pub fn from(data: [[u8; COLS]; ROWS]) -> Self {
         Self { data }
     }
+
+    pub fn rows(&self) -> usize {
+        ROWS.clone()
+    }
+
+    pub fn cols(&self) -> usize {
+        COLS.clone()
+    }
 }
