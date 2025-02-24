@@ -75,7 +75,7 @@ pub fn bfs<const ROWS: usize, const COLS: usize>(
     end: (usize, usize),
 ) -> Vec<(usize, usize)> {
     let mut queue = Queue::<(usize, usize)>::new();
-    traverse(maze, start, &vec![R, D, L, U], end, &mut queue)
+    traverse(maze, start, &vec![D, R, L, U], end, &mut queue)
 }
 
 pub fn dfs<const ROWS: usize, const COLS: usize>(
@@ -84,5 +84,5 @@ pub fn dfs<const ROWS: usize, const COLS: usize>(
     end: (usize, usize),
 ) -> Vec<(usize, usize)> {
     let mut queue = Stack::<(usize, usize)>::new();
-    traverse(maze, start, &vec![D, R, L, U], end, &mut queue)
+    traverse(maze, start, &vec![U, L, R, D], end, &mut queue)
 }
