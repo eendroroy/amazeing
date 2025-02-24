@@ -6,3 +6,12 @@ edition = "2021"
 [dependencies]
 amazeing-core = { version = "*", path = "../amazeing-core" }
 colored = "3.0.0"
+macroquad = "0.4.13"
+
+[[bin]]
+name = "cli"
+path = "src/cli.rs"
+
+[[bin]]
+name = "gui"
+path = "src/gui.rs"
