@@ -1,7 +1,8 @@
 [package]
-name = "maze-app"
+name = "amazeing-app"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-maze-core = "0.0.2"
+amazeing-core = { version = "*", path = "../amazeing-core" }
+colored = "3.0.0"
