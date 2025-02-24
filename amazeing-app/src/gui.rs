@@ -38,7 +38,7 @@ async fn main() {
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     ]);
 
-    let (from, to) = ((0, 0), (30, 9));
+    let (from, to) = ((5, 0), (30, 9));
     let path = bfs(&maze, from, to);
 
     // let maze = Maze::from([
@@ -48,7 +48,7 @@ async fn main() {
     //     [0, 0, 0, 0],
     // ]);
 
-    let (margin, padding) = (20., 1.);
+    let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
     let (cell_width, cell_height) = (20., 20.);
     let (screen_width, screen_height) = (
@@ -59,16 +59,16 @@ async fn main() {
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
     loop {
-        clear_background(DARKGRAY);
+        clear_background(BLACK);
 
         for r in 0..maze.rows() {
             for c in 0..maze.cols() {
                 let color: Color = if path.contains(&(r, c)) {
-                    DARKGREEN
+                    GOLD
                 } else if maze[(r, c)] > 0 {
                     LIGHTGRAY
                 } else {
-                    BLANK
+                    DARKGRAY
                 };
 
                 draw_rectangle(
