@@ -1,31 +1,38 @@
 use crate::square::maze::Maze;
 use std::iter::Iterator;
 
-type Neighbour = fn((usize, usize)) -> (usize, usize);
+pub(crate) type Node = (usize, usize);
+pub(crate) type Neighbour = fn((usize, usize)) -> Option<(usize, usize)>;
 
-const D: Neighbour = |of| -> (usize, usize) { (of.0 + 1, of.1) };
-const R: Neighbour = |of| -> (usize, usize) { (of.0, of.1 + 1) };
-const L: Neighbour = |of| -> (usize, usize) { (of.0, of.1 - 1) };
-const U: Neighbour = |of| -> (usize, usize) { (of.0 - 1, of.1) };
+pub(crate) const D: Neighbour = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
+pub(crate) const R: Neighbour = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };
+pub(crate) const L: Neighbour = |of| -> Option<Node> {
+    if of.1 > 0 {
+        Some((of.0, of.1 - 1))
+    } else {
+        None
+    }
+};
+pub(crate) const U: Neighbour = |of| -> Option<Node> {
+    if of.0 > 0 {
+        Some((of.0 - 1, of.1))
+    } else {
+        None
+    }
+};
 
 pub(crate) fn neighbours<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
     pos: (usize, usize),
+    direction: &Vec<Neighbour>,
 ) -> Vec<(usize, usize)> {
-    match pos {
-        (r, c) if (r, c) == (0, 0) => vec![D, R],        // top-left
-        (r, c) if (r, c) == (ROWS - 1, 0) => vec![R, U], // bottom-left
-        (r, c) if (r, c) == (ROWS - 1, COLS - 1) => vec![L, U], // bottom-right
-        (r, c) if (r, c) == (0, COLS - 1) => vec![D, L], // top-right
-        (r, _) if r == 0 => vec![D, R, L],               // top
-        (_, c) if c == 0 => vec![D, R, U],               // left
-        (r, _) if r == ROWS - 1 => vec![R, L, U],        // bottom
-        (_, c) if c == COLS - 1 => vec![D, L, U],        // right
-        (_, _) => vec![D, R, L, U],                      // inner
-    }
-    .iter()
-    .map(|i| i(pos))
-    .filter(|p| maze[*p] > 0)
-    .map(|p| p.clone())
-    .collect()
+    direction
+        .iter()
+        .map(|i| i(pos))
+        .filter(|p| p.is_some())
+        .map(|p| p.unwrap())
+        .filter(|p| p.0 < ROWS && p.1 < COLS)
+        .filter(|p| maze[*p] > 0)
+        .map(|p| p.clone())
+        .collect()
 }

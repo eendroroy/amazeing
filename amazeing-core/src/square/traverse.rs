@@ -1,4 +1,4 @@
-use crate::square::neighbour::neighbours;
+use crate::square::neighbour::{neighbours, Neighbour, D, L, R, U};
 use crate::square::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
@@ -32,6 +32,7 @@ fn validate<const ROWS: usize, const COLS: usize>(
 fn traverse<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
     source: (usize, usize),
+    direction: &Vec<Neighbour>,
     destination: (usize, usize),
     storage: &mut dyn DataStorage<(usize, usize)>,
 ) -> Vec<(usize, usize)> {
@@ -40,10 +41,11 @@ fn traverse<const ROWS: usize, const COLS: usize>(
     let mut visited: HashMap<(usize, usize), bool> = HashMap::with_capacity(ROWS * COLS);
     let mut parent: BTreeMap<(usize, usize), (usize, usize)> = BTreeMap::new();
 
-    visited.insert(source, true);
     storage.push(source);
 
     while let Some(current) = storage.pop() {
+        visited.insert(current, true);
+
         if current == destination {
             let mut path = Vec::<(usize, usize)>::new();
             let mut current = destination;
@@ -56,9 +58,8 @@ fn traverse<const ROWS: usize, const COLS: usize>(
             return path;
         }
 
-        for next in neighbours(maze, current) {
+        for next in neighbours(maze, current, direction) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
-                visited.insert(next, true);
                 parent.insert(next, current);
                 storage.push(next);
             }
@@ -74,7 +75,7 @@ pub fn bfs<const ROWS: usize, const COLS: usize>(
     end: (usize, usize),
 ) -> Vec<(usize, usize)> {
     let mut queue = Queue::<(usize, usize)>::new();
-    traverse(maze, start, end, &mut queue)
+    traverse(maze, start, &vec![R, D, L, U], end, &mut queue)
 }
 
 pub fn dfs<const ROWS: usize, const COLS: usize>(
@@ -83,5 +84,5 @@ pub fn dfs<const ROWS: usize, const COLS: usize>(
     end: (usize, usize),
 ) -> Vec<(usize, usize)> {
     let mut queue = Stack::<(usize, usize)>::new();
-    traverse(maze, start, end, &mut queue)
+    traverse(maze, start, &vec![D, R, L, U], end, &mut queue)
 }
