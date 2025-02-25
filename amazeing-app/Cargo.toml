@@ -13,5 +13,9 @@ name = "cli"
 path = "src/cli.rs"
 
 [[bin]]
-name = "gui"
-path = "src/gui.rs"
+name = "dfs"
+path = "src/dsf.rs"
+
+[[bin]]
+name = "bfs"
+path = "src/bsf.rs"
