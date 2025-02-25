@@ -2,7 +2,7 @@ use amazeing_core::square::{bfs, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-#[macroquad::main("BasicShapes")]
+#[macroquad::main("Maze Solver")]
 async fn main() {
     let maze = Maze::from([
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
