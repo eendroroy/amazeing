@@ -38,13 +38,9 @@ pub fn visualize() {
     ]);
     let (from, to) = ((0, 0), (29, 30));
 
-    // let maze = Maze::from([[1, 2, 3], [4, 0, 6], [7, 8, 9]]);
-    // let (from, to) = ((0, 0), (2, 2));
-
     let mut viz = CliViz::from_maze(&maze, '█', '█', '█', formatter::formatter);
 
     viz.merge_maze(&maze);
 
-    println!("{}", viz);
     println!("BFS:{}", viz.merged_path(bfs(&maze, from, to, &mut None)));
 }
