@@ -1,5 +1,5 @@
-use crate::square::neighbour::{neighbours, Neighbour, D, L, R, U};
-use crate::square::Maze;
+use crate::solver::matrix::neighbour::{neighbours, Neighbour, D, L, R, U};
+use crate::solver::matrix::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;

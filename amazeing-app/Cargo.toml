@@ -9,13 +9,5 @@ colored = "3.0.0"
 macroquad = "0.4.13"
 
 [[bin]]
-name = "cli"
-path = "src/cli.rs"
-
-[[bin]]
-name = "dfs"
-path = "src/dsf.rs"
-
-[[bin]]
-name = "bfs"
-path = "src/bsf.rs"
+name = "amezing"
+path = "src/main.rs"

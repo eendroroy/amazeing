@@ -1,11 +1,11 @@
-use amazeing_core::square::{bfs, Maze};
+use amazeing_core::solver::matrix::{bfs, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::thread::sleep;
 use std::time::Duration;
 
 #[macroquad::main("Maze Solver (BFS)")]
-async fn main() {
+pub async fn main() {
     let maze = Maze::from([
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
@@ -59,7 +59,15 @@ async fn main() {
 
     loop {
         if solved {
-            draw(maze, margin, padding, cell_width, cell_height, data.last().unwrap().clone(), GOLD);
+            draw(
+                maze,
+                margin,
+                padding,
+                cell_width,
+                cell_height,
+                data.last().unwrap().clone(),
+                GOLD,
+            );
             next_frame().await
         } else {
             for i in 0..data.len() {
@@ -68,7 +76,15 @@ async fn main() {
                 }
 
                 sleep(Duration::from_millis(150));
-                draw(maze, margin, padding, cell_width, cell_height, data[i].clone(), MAGENTA);
+                draw(
+                    maze,
+                    margin,
+                    padding,
+                    cell_width,
+                    cell_height,
+                    data[i].clone(),
+                    MAGENTA,
+                );
                 next_frame().await
             }
         }

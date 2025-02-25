@@ -1,4 +1,4 @@
-use crate::square::maze::Maze;
+use crate::solver::matrix::Maze;
 use std::ops::{Index, IndexMut};
 
 impl<const ROWS: usize, const COLS: usize> Index<(usize, usize)> for Maze<ROWS, COLS> {

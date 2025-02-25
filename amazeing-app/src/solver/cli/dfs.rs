@@ -1,18 +1,9 @@
-mod square;
+use crate::solver::cli::formatter;
+use crate::solver::matrix::cli_viz::CliViz;
+use amazeing_core::solver::matrix::{dfs, Maze};
 
-use crate::square::cli_viz::{CliViz, VizType};
-use amazeing_core::square::{bfs, dfs, Maze};
-use colored::{Color, Colorize};
 
-fn formatter(d: char, t: VizType) -> String {
-    match t {
-        VizType::OPEN => String::from(d).color(Color::White).to_string(),
-        VizType::BLOCK => String::from(d).color(Color::Red).to_string(),
-        VizType::PATH => String::from(d).color(Color::Blue).to_string(),
-    }
-}
-
-fn main() {
+pub fn visualize() {
     let maze = Maze::from([
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
@@ -51,12 +42,10 @@ fn main() {
     // let maze = Maze::from([[1, 2, 3], [4, 0, 6], [7, 8, 9]]);
     // let (from, to) = ((0, 0), (2, 2));
 
-
-    let mut viz = CliViz::from_maze(&maze, '█', '█', '█', formatter);
+    let mut viz = CliViz::from_maze(&maze, '█', '█', '█', formatter::formatter);
 
     viz.merge_maze(&maze);
 
     println!("{}", viz);
-    println!("BFS:{}", viz.merged_path(bfs(&maze, from, to, &mut None)));
     println!("DFS:{}", viz.merged_path(dfs(&maze, from, to, &mut None)));
 }

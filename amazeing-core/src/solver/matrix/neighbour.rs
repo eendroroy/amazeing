@@ -1,4 +1,4 @@
-use crate::square::maze::Maze;
+use crate::solver::matrix::Maze;
 use std::iter::Iterator;
 
 pub(crate) type Node = (usize, usize);
