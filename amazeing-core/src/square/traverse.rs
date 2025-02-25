@@ -29,12 +29,28 @@ fn validate<const ROWS: usize, const COLS: usize>(
     }
 }
 
+fn reconstruct_path(
+    destination: (usize, usize),
+    parent: &BTreeMap<(usize, usize), (usize, usize)>,
+) -> Vec<(usize, usize)> {
+    let mut path = Vec::<(usize, usize)>::new();
+    let mut current_node = destination;
+    while parent.contains_key(&current_node) {
+        path.push(current_node);
+        current_node = parent[&current_node];
+    }
+    path.push(current_node);
+    path.reverse();
+    path
+}
+
 fn traverse<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
     source: (usize, usize),
     direction: &Vec<Neighbour>,
     destination: (usize, usize),
     storage: &mut dyn DataStorage<(usize, usize)>,
+    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
 ) -> Vec<(usize, usize)> {
     validate(maze, source, destination);
 
@@ -46,15 +62,12 @@ fn traverse<const ROWS: usize, const COLS: usize>(
     while let Some(current) = storage.pop() {
         visited.insert(current, true);
 
+        if let Some(trace) = tracer {
+            trace.push(reconstruct_path(current, &parent));
+        }
+
         if current == destination {
-            let mut path = Vec::<(usize, usize)>::new();
-            let mut current = destination;
-            while parent.contains_key(&current) {
-                path.push(current);
-                current = parent[&current];
-            }
-            path.push(current);
-            path.reverse();
+            let path = reconstruct_path(destination, &parent);
             return path;
         }
 
@@ -73,16 +86,18 @@ pub fn bfs<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
     start: (usize, usize),
     end: (usize, usize),
+    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
 ) -> Vec<(usize, usize)> {
     let mut queue = Queue::<(usize, usize)>::new();
-    traverse(maze, start, &vec![D, R, L, U], end, &mut queue)
+    traverse(maze, start, &vec![D, R, L, U], end, &mut queue, tracer)
 }
 
 pub fn dfs<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
     start: (usize, usize),
     end: (usize, usize),
+    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
 ) -> Vec<(usize, usize)> {
     let mut queue = Stack::<(usize, usize)>::new();
-    traverse(maze, start, &vec![U, L, R, D], end, &mut queue)
+    traverse(maze, start, &vec![U, L, R, D], end, &mut queue, tracer)
 }
