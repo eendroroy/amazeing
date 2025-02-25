@@ -61,7 +61,7 @@ impl<const ROWS: usize, const COLS: usize> std::fmt::Display for CliViz<ROWS, CO
         writeln!(f).expect("Failed to write to formatter");
         for i in 0..ROWS {
             for j in 0..COLS {
-                write!(f, "{}", self.data[i][j]).expect("Failed to write to formatter");
+                write!(f, "{}{}", self.data[i][j], self.data[i][j]).expect("Failed to write to formatter");
             }
             writeln!(f).expect("Failed to write to formatter");
         }
