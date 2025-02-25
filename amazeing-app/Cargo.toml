@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-amazeing-core = { version = "*", path = "../amazeing-core" }
+amazeing = { version = "*", path = "../amazeing" }
 colored = "3.0.0"
 macroquad = "0.4.13"
 

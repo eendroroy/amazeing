@@ -64,9 +64,9 @@ let maze = Maze::from([
 ]);
 ```
 
-| BFS CLI                                                          | DFS CLI                                                          |
-|------------------------------------------------------------------|------------------------------------------------------------------|
-| <img alt="bfs_cli.png" height="300px" src="images/bfs_cli.png"/> | <img alt="dfs_cli.png" height="300px" src="images/dfs_cli.png"/> |
+| BFS CLI                                                                | DFS CLI                                                                |
+|------------------------------------------------------------------------|------------------------------------------------------------------------|
+| <img alt="bfs_cli.png" height="300px" src=".data/images/bfs_cli.png"/> | <img alt="dfs_cli.png" height="300px" src=".data/images/dfs_cli.png"/> |
 
 ## License
 

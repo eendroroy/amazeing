@@ -1,6 +1,6 @@
 use crate::solver::cli::formatter;
 use crate::solver::matrix::cli_viz::CliViz;
-use amazeing_core::solver::matrix::{bfs, Maze};
+use amazeing::solver::matrix::{bfs, Maze};
 
 pub fn visualize() {
     let maze = Maze::from([

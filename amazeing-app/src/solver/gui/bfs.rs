@@ -1,4 +1,4 @@
-use amazeing_core::solver::matrix::{bfs, Maze};
+use amazeing::solver::matrix::{bfs, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::thread::sleep;
