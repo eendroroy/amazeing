@@ -1,4 +1,4 @@
-use crate::solver::matrix::neighbour::{neighbours, Neighbour, D, L, R, U};
+use crate::solver::matrix::neighbour::{neighbours, FnNeighbour, DNode, D, L, R, U};
 use crate::solver::matrix::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
@@ -7,8 +7,8 @@ use std::collections::{BTreeMap, HashMap};
 
 fn validate<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
-    source: (usize, usize),
-    destination: (usize, usize),
+    source: DNode,
+    destination: DNode,
 ) {
     if source.0 >= ROWS || source.1 >= COLS || destination.0 >= ROWS || destination.1 >= COLS {
         panic!(
@@ -29,11 +29,8 @@ fn validate<const ROWS: usize, const COLS: usize>(
     }
 }
 
-fn reconstruct_path(
-    destination: (usize, usize),
-    parent: &BTreeMap<(usize, usize), (usize, usize)>,
-) -> Vec<(usize, usize)> {
-    let mut path = Vec::<(usize, usize)>::new();
+fn reconstruct_path(destination: DNode, parent: &BTreeMap<DNode, DNode>) -> Vec<DNode> {
+    let mut path = Vec::<DNode>::new();
     let mut current_node = destination;
     while parent.contains_key(&current_node) {
         path.push(current_node);
@@ -46,16 +43,16 @@ fn reconstruct_path(
 
 fn traverse<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
-    source: (usize, usize),
-    direction: &Vec<Neighbour>,
-    destination: (usize, usize),
-    storage: &mut dyn DataStorage<(usize, usize)>,
-    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
-) -> Vec<(usize, usize)> {
+    source: DNode,
+    direction: &Vec<FnNeighbour>,
+    destination: DNode,
+    storage: &mut dyn DataStorage<DNode>,
+    tracer: &mut Option<Vec<Vec<DNode>>>,
+) -> Vec<DNode> {
     validate(maze, source, destination);
 
-    let mut visited: HashMap<(usize, usize), bool> = HashMap::with_capacity(ROWS * COLS);
-    let mut parent: BTreeMap<(usize, usize), (usize, usize)> = BTreeMap::new();
+    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(ROWS * COLS);
+    let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
 
     storage.push(source);
 
@@ -84,20 +81,20 @@ fn traverse<const ROWS: usize, const COLS: usize>(
 
 pub fn bfs<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
-    start: (usize, usize),
-    end: (usize, usize),
-    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
-) -> Vec<(usize, usize)> {
-    let mut queue = Queue::<(usize, usize)>::new();
+    start: DNode,
+    end: DNode,
+    tracer: &mut Option<Vec<Vec<DNode>>>,
+) -> Vec<DNode> {
+    let mut queue = Queue::<DNode>::new();
     traverse(maze, start, &vec![D, R, L, U], end, &mut queue, tracer)
 }
 
 pub fn dfs<const ROWS: usize, const COLS: usize>(
     maze: &Maze<ROWS, COLS>,
-    start: (usize, usize),
-    end: (usize, usize),
-    tracer: &mut Option<Vec<Vec<(usize, usize)>>>,
-) -> Vec<(usize, usize)> {
-    let mut queue = Stack::<(usize, usize)>::new();
+    start: DNode,
+    end: DNode,
+    tracer: &mut Option<Vec<Vec<DNode>>>,
+) -> Vec<DNode> {
+    let mut queue = Stack::<DNode>::new();
     traverse(maze, start, &vec![U, L, R, D], end, &mut queue, tracer)
 }
