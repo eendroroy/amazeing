@@ -3,6 +3,8 @@ use std::env;
 
 pub(crate) mod solver;
 
+pub static mut PATH: String = String::new();
+
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
 }
@@ -31,22 +33,28 @@ fn help() {
     println!(
         "{} {}",
         command("    -h, --help"),
-        description("    Print the help menu")
+        description("          Print the help menu")
     );
     println!(
         "{} {}",
         command("        --ui-cli"),
-        description("  Run the simulation in cli mode instead of gui")
+        description("        Run the simulation in cli mode instead of gui")
     );
     println!(
         "{} {}",
         command("        --bfs"),
-        description("     Run the simulation for BFS")
+        description("           Run the simulation for BFS")
     );
     println!(
         "{} {}",
         command("        --dfs"),
-        description("     Run the simulation for DFS")
+        description("           Run the simulation for DFS")
+    );
+    println!(
+        "{} {} {}",
+        command("        --path"),
+        value("<str>"),
+        description("    Path to the maze file"),
     );
     std::process::exit(0);
 }
@@ -63,6 +71,7 @@ fn main() {
             "--ui-cli" => ui_cli = true,
             "--bfs" => simulation_name = "bfs",
             "--dfs" => simulation_name = "dfs",
+            "--path" => unsafe { PATH = args.next().unwrap() },
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
