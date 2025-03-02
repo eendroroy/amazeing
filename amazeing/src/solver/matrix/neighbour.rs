@@ -21,8 +21,8 @@ pub(crate) const U: FnNeighbour = |of| -> Option<DNode> {
     }
 };
 
-pub(crate) fn neighbours<const ROWS: usize, const COLS: usize>(
-    maze: &Maze<ROWS, COLS>,
+pub(crate) fn neighbours(
+    maze: &Maze,
     pos: DNode,
     direction: &Vec<FnNeighbour>,
 ) -> Vec<DNode> {
@@ -31,7 +31,7 @@ pub(crate) fn neighbours<const ROWS: usize, const COLS: usize>(
         .map(|i| i(pos))
         .filter(|p| p.is_some())
         .map(|p| p.unwrap())
-        .filter(|p| p.0 < ROWS && p.1 < COLS)
+        .filter(|p| p.0 < maze.rows() && p.1 < maze.cols())
         .filter(|p| maze[*p] > 0)
         .map(|p| p.clone())
         .collect()

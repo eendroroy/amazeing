@@ -1,24 +1,24 @@
-use crate::solver::matrix::neighbour::{neighbours, FnNeighbour, DNode, D, L, R, U};
+use crate::solver::matrix::neighbour::{neighbours, DNode, FnNeighbour, D, L, R, U};
 use crate::solver::matrix::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;
 use std::collections::{BTreeMap, HashMap};
 
-fn validate<const ROWS: usize, const COLS: usize>(
-    maze: &Maze<ROWS, COLS>,
-    source: DNode,
-    destination: DNode,
-) {
-    if source.0 >= ROWS || source.1 >= COLS || destination.0 >= ROWS || destination.1 >= COLS {
+fn validate(maze: &Maze, source: DNode, destination: DNode) {
+    if source.0 >= maze.rows()
+        || source.1 >= maze.cols()
+        || destination.0 >= maze.rows()
+        || destination.1 >= maze.cols()
+    {
         panic!(
             "Invalid start({},{}) or end({},{}) node, available nodes (0,0 - {},{})",
             source.0,
             source.1,
             destination.0,
             destination.1,
-            ROWS - 1,
-            COLS - 1
+            maze.rows() - 1,
+            maze.cols() - 1
         );
     }
     if maze[source] < 1 || maze[destination] < 1 {
@@ -41,8 +41,8 @@ fn reconstruct_path(destination: DNode, parent: &BTreeMap<DNode, DNode>) -> Vec<
     path
 }
 
-fn traverse<const ROWS: usize, const COLS: usize>(
-    maze: &Maze<ROWS, COLS>,
+fn traverse(
+    maze: &Maze,
     source: DNode,
     direction: &Vec<FnNeighbour>,
     destination: DNode,
@@ -51,7 +51,7 @@ fn traverse<const ROWS: usize, const COLS: usize>(
 ) -> Vec<DNode> {
     validate(maze, source, destination);
 
-    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(ROWS * COLS);
+    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
     let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
 
     storage.push(source);
@@ -79,8 +79,8 @@ fn traverse<const ROWS: usize, const COLS: usize>(
     Vec::new()
 }
 
-pub fn bfs<const ROWS: usize, const COLS: usize>(
-    maze: &Maze<ROWS, COLS>,
+pub fn bfs(
+    maze: &Maze,
     start: DNode,
     end: DNode,
     tracer: &mut Option<Vec<Vec<DNode>>>,
@@ -89,8 +89,8 @@ pub fn bfs<const ROWS: usize, const COLS: usize>(
     traverse(maze, start, &vec![D, R, L, U], end, &mut queue, tracer)
 }
 
-pub fn dfs<const ROWS: usize, const COLS: usize>(
-    maze: &Maze<ROWS, COLS>,
+pub fn dfs(
+    maze: &Maze,
     start: DNode,
     end: DNode,
     tracer: &mut Option<Vec<Vec<DNode>>>,

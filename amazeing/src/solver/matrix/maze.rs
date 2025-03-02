@@ -1,24 +1,22 @@
-#[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
-pub struct Maze<const ROWS: usize, const COLS: usize> {
-    pub(crate) data: [[u8; COLS]; ROWS],
+#[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq)]
+pub struct Maze {
+    pub(crate) data: Vec<Vec<u32>>,
 }
 
-impl<const ROWS: usize, const COLS: usize> Maze<ROWS, COLS> {
+impl Maze {
     pub fn new() -> Self {
-        Self {
-            data: std::array::from_fn(|_| std::array::from_fn(|_| 0u8)),
-        }
+        Self { data: vec![] }
     }
 
-    pub fn from(data: [[u8; COLS]; ROWS]) -> Self {
+    pub fn from(data: Vec<Vec<u32>>) -> Self {
         Self { data }
     }
 
     pub fn rows(&self) -> usize {
-        ROWS.clone()
+        self.data.iter().len()
     }
 
     pub fn cols(&self) -> usize {
-        COLS.clone()
+        self.data.get(0).unwrap().iter().len()
     }
 }

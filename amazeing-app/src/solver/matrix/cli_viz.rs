@@ -8,41 +8,39 @@ pub enum VizType {
 }
 
 #[derive(Debug, Clone)]
-pub struct CliViz<const ROWS: usize, const COLS: usize = ROWS> {
-    pub(crate) data: [[String; COLS]; ROWS],
+pub struct CliViz {
+    pub(crate) data: Vec<Vec<String>>,
     pub(crate) open: String,
     pub(crate) path: String,
 }
 
-impl<const ROWS: usize, const COLS: usize> CliViz<ROWS, COLS> {
-    pub fn from(open: char, block: char, path: char, f: fn(char, VizType) -> String) -> Self {
+impl CliViz {
+    pub fn from(open: char, block: char, path: char, f: fn(char, VizType) -> String, rows: usize, cols: usize) -> Self {
         Self {
-            data: core::array::from_fn(|_| core::array::from_fn(|_| f(block, BLOCK))),
+            data: vec![vec![f(block, BLOCK); cols]; rows],
             open: f(open, OPEN),
             path: f(path, PATH),
         }
     }
 
     pub fn from_maze(
-        maze: &Maze<ROWS, COLS>,
+        maze: &Maze,
         open: char,
         block: char,
         path: char,
         f: fn(char, VizType) -> String,
     ) -> Self {
-        let mut vis = Self::from(open, block, path, f);
+        let mut vis = Self::from(open, block, path, f, maze.rows(), maze.cols());
         vis.merge_maze(maze);
         vis
     }
 
-    pub fn merge_maze(&mut self, maze: &Maze<ROWS, COLS>) {
-        for i in 0..ROWS {
-            for j in 0..COLS {
-                if maze[(i, j)] > 0 {
-                    self.data[i][j] = self.open.clone()
-                }
-            }
-        }
+    pub fn rows(&self) -> usize {
+        self.data.iter().len()
+    }
+
+    pub fn cols(&self) -> usize {
+        self.data.get(0).unwrap().iter().len()
     }
 
     pub fn merged_path(&mut self, path: Vec<(usize, usize)>) -> Self {
@@ -54,13 +52,23 @@ impl<const ROWS: usize, const COLS: usize> CliViz<ROWS, COLS> {
 
         copy
     }
+
+    pub fn merge_maze(&mut self, maze: &Maze) {
+        for i in 0..maze.rows() {
+            for j in 0..maze.cols() {
+                if maze[(i, j)] > 0 {
+                    self.data[i][j] = self.open.clone()
+                }
+            }
+        }
+    }
 }
 
-impl<const ROWS: usize, const COLS: usize> std::fmt::Display for CliViz<ROWS, COLS> {
+impl std::fmt::Display for CliViz {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> core::fmt::Result {
         writeln!(f).expect("Failed to write to formatter");
-        for i in 0..ROWS {
-            for j in 0..COLS {
+        for i in 0..self.rows() {
+            for j in 0..self.cols() {
                 write!(f, "{}{}", self.data[i][j], self.data[i][j]).expect("Failed to write to formatter");
             }
             writeln!(f).expect("Failed to write to formatter");
