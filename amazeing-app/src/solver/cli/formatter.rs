@@ -1,5 +1,5 @@
-use colored::{Color, Colorize};
 use crate::solver::matrix::cli_viz::VizType;
+use colored::{Color, Colorize};
 
 pub(crate) fn formatter(d: char, t: VizType) -> String {
     match t {

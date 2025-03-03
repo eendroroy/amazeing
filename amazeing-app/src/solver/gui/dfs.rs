@@ -1,26 +1,24 @@
-use crate::solver::matrix::loader::loader;
-use crate::PATH;
+use crate::solver::gui::draw::draw;
+use crate::solver::matrix::loader::{loader_maze_from_file, parse_node};
+use crate::{FROM, PATH, TO};
 use amazeing::solver::matrix::dfs;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::thread::sleep;
 use std::time::Duration;
-use crate::solver::gui::draw::draw;
 
 #[macroquad::main("Maze Solver (DFS)")]
 pub async fn main() {
-    let maze = unsafe { loader(&**&raw const PATH) };
+    let (maze, from, to) = unsafe {
+        (
+            loader_maze_from_file(&*PATH),
+            parse_node(&*FROM),
+            parse_node(&*TO),
+        )
+    };
 
-    let (from, to) = ((5, 0), (29, 30));
     let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
     dfs(&maze, from, to, &mut tracer);
-
-    // let maze = Maze::from([
-    //     [0, 0, 0, 0],
-    //     [0, 0, 1, 0],
-    //     [0, 0, 0, 0],
-    //     [0, 0, 0, 0],
-    // ]);
 
     let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
