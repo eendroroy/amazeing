@@ -25,10 +25,17 @@ fn description(text: &str) -> String {
 
 fn help() {
     println!(
-        "{} {} {}",
+        "{} {} {} {} {} {} {} {} {} {}",
         header("Usage:"),
-        command("amezing"),
-        value("[options]")
+        command("amazeing"),
+        command("--path"),
+        value("path/to/maze.txt"),
+        command("--from"),
+        value("usize,usize"),
+        command("--to"),
+        value("usize,usize"),
+        command("<--bfs|--dfs>"),
+        command("[--ui-cli]"),
     );
     println!();
     println!("{}", header("Options:"));
@@ -36,6 +43,24 @@ fn help() {
         "{} {}",
         command("    -h, --help"),
         description("              Print the help menu")
+    );
+    println!(
+        "{} {} {}",
+        command("        --path"),
+        value("  str"),
+        description("        Path to the maze file"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --from"),
+        value("  usize,usize"),
+        description("Start point"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --to"),
+        value("    usize,usize"),
+        description("End point"),
     );
     println!(
         "{} {}",
@@ -51,24 +76,6 @@ fn help() {
         "{} {}",
         command("        --dfs"),
         description("               Run the simulation for DFS")
-    );
-    println!(
-        "{} {} {}",
-        command("        --path"),
-        value("<str>"),
-        description("        Path to the maze file"),
-    );
-    println!(
-        "{} {} {}",
-        command("        --from"),
-        value("<usize|usize>"),
-        description("Start point"),
-    );
-    println!(
-        "{} {} {}",
-        command("        --to"),
-        value("  <usize|usize>"),
-        description("End point"),
     );
     std::process::exit(0);
 }

@@ -17,5 +17,5 @@ pub fn visualize() {
 
     viz.merge_maze(&maze);
 
-    println!("DFS:{}", viz.merged_path(dfs(&maze, from, to, &mut None)));
+    println!("{}", viz.merged_path(dfs(&maze, from, to, &mut None)));
 }

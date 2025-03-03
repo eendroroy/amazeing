@@ -16,22 +16,24 @@ cargo install --path amazeing-app
 ## Usage
 
 ```txt
-Usage: amezing [options]
+Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs> [--ui-cli]
 
 Options:
-    -h, --help           Print the help menu
-        --ui-cli         Run the simulation in cli mode instead of gui
-        --bfs            Run the simulation for BFS
-        --dfs            Run the simulation for DFS
-        --path <str>     Path to the maze file
+    -h, --help               Print the help menu
+        --path   str         Path to the maze file
+        --from   usize,usize Start point
+        --to     usize,usize End point
+        --ui-cli             Run the simulation in cli mode instead of gui
+        --bfs                Run the simulation for BFS
+        --dfs                Run the simulation for DFS
 ```
 
 ## Sample
 
-| BFS CLI                                                      | DFS CLI                                                      |
-|--------------------------------------------------------------|--------------------------------------------------------------|
-| `$ amezing --bfs --ui-cli --path assets/maze/M1_R31_C31.txt` | `$ amezing --dfs --ui-cli --path assets/maze/M1_R31_C31.txt` |
-| ![bfs_cli.png](assets/images/bfs_cli.png)                    | ![dfs_cli.png](assets/images/dfs_cli.png)                    |
+| BFS CLI                                                                               | DFS CLI                                                                               |
+|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| `$ amazeing --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` | `$ amazeing --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` |
+| ![bfs_cli.png](assets/images/bfs_cli.png)                                             | ![dfs_cli.png](assets/images/dfs_cli.png)                                             |
 
 ## License
 
