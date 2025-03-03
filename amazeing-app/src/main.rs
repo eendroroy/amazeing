@@ -1,6 +1,6 @@
 use crate::solver::matrix::loader::{loader_maze_data_from_file, parse_node};
 use colored::Colorize;
-use macroquad::color::{Color, BLACK, DARKGRAY, GOLD, LIGHTGRAY, RED};
+use macroquad::color::{Color, BEIGE, BLACK, DARKGRAY, GOLD, LIGHTGRAY, RED};
 use std::path::Path;
 use std::sync::Mutex;
 use std::{env, fs};
@@ -12,6 +12,7 @@ pub static BLOCK: Color = DARKGRAY;
 pub static OPEN: Color = LIGHTGRAY;
 pub static VISITING: Color = RED;
 pub static PATH: Color = GOLD;
+pub static TRAVERSED: Color = BEIGE;
 
 pub static FPS: Mutex<u8> = Mutex::new(7u8);
 pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);

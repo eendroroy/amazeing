@@ -1,4 +1,4 @@
-use crate::{BG, BLOCK, FPS, OPEN, PATH, VISITING};
+use crate::{BG, BLOCK, FPS, OPEN, PATH, TRAVERSED, VISITING};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
@@ -13,13 +13,17 @@ pub(crate) fn draw(
     cell_height: f32,
     path: Vec<(usize, usize)>,
     path_color: Color,
+    traversed: &mut Maze,
 ) {
     clear_background(BG);
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let color: Color = if path.contains(&(r, c)) {
+                traversed[(r,c)] = 1;
                 path_color
+            } else if traversed[(r,c)] == 1 {
+                TRAVERSED
             } else if maze[(r, c)] > 0 {
                 OPEN
             } else {
@@ -45,6 +49,7 @@ pub(crate) async fn looper(
     cell_height: f32,
     data: Vec<Vec<(usize, usize)>>,
 ) {
+    let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
     let mut solved = false;
     loop {
         if solved {
@@ -56,6 +61,7 @@ pub(crate) async fn looper(
                 cell_height,
                 data.last().unwrap().clone(),
                 PATH,
+                &mut traversed,
             );
             next_frame().await
         } else {
@@ -75,6 +81,7 @@ pub(crate) async fn looper(
                     cell_height,
                     data[i].clone(),
                     VISITING,
+                    &mut traversed,
                 );
                 next_frame().await
             }
