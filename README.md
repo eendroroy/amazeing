@@ -1,6 +1,6 @@
 # amazeing
 
-Amazeing is a Rust-based maze generator/solver application.
+Amazeing is a maze generator/solver application with visualization/simulation.
 
 ## Installation
 
