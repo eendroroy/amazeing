@@ -1,26 +1,48 @@
 use crate::solver::matrix::common::{reconstruct_path, validate};
 use crate::solver::matrix::neighbour::{neighbours, DNode, D, L, R, U};
 use crate::solver::matrix::Maze;
-use crate::structure::queue::Queue;
-use crate::structure::stack::Stack;
-use crate::structure::structure_traits::DataStorage;
-use std::collections::{BTreeMap, HashMap};
+use std::cmp::Ordering;
+use std::collections::{BTreeMap, BinaryHeap, HashMap};
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+struct DNodeWeighted {
+    pub(crate) node: DNode,
+    pub(crate) cost: u32,
+}
+
+impl PartialOrd<Self> for DNodeWeighted {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for DNodeWeighted {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.cost.cmp(&self.cost)
+    }
+}
 
 fn traverse(
     maze: &Maze,
     source: DNode,
     destination: DNode,
-    storage: &mut dyn DataStorage<DNode>,
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     validate(maze, source, destination);
 
-    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let capacity = maze.rows() * maze.cols();
+
+    let mut storage: BinaryHeap<DNodeWeighted> = BinaryHeap::with_capacity(capacity);
+    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(capacity);
     let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
 
-    storage.push(source);
+    storage.push(DNodeWeighted {
+        node: source,
+        cost: maze[source],
+    });
 
-    while let Some(current) = storage.pop() {
+    while let Some(node) = storage.pop() {
+        let (current, cost) = (node.node, node.cost);
         visited.insert(current, true);
 
         if let Some(trace) = tracer {
@@ -35,7 +57,10 @@ fn traverse(
         for next in neighbours(maze, current, &vec![R, D, L, U]) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
-                storage.push(next);
+                storage.push(DNodeWeighted {
+                    node: next,
+                    cost: cost + maze[next],
+                });
             }
         }
     }
@@ -43,22 +68,11 @@ fn traverse(
     Vec::new()
 }
 
-pub fn bfs(
+pub fn dijkstra(
     maze: &Maze,
     start: DNode,
     end: DNode,
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
-    let mut queue = Queue::<DNode>::new();
-    traverse(maze, start, end, &mut queue, tracer)
-}
-
-pub fn dfs(
-    maze: &Maze,
-    start: DNode,
-    end: DNode,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
-) -> Vec<DNode> {
-    let mut queue = Stack::<DNode>::new();
-    traverse(maze, start, end, &mut queue, tracer)
+    traverse(maze, start, end, tracer)
 }

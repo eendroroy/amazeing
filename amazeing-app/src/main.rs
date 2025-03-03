@@ -46,7 +46,7 @@ fn help() {
         value("usize,usize"),
         command("--to"),
         value("usize,usize"),
-        command("<--bfs|--dfs>"),
+        command("<--bfs|--dfs|--dijkstra>"),
         command("[--ui-cli]"),
     );
     println!();
@@ -114,6 +114,7 @@ fn main() {
             "--ui-cli" => ui_cli = true,
             "--bfs" => simulation_name = "bfs",
             "--dfs" => simulation_name = "dfs",
+            "--dijkstra" => simulation_name = "dijkstra",
             "--path" => path = args.next().unwrap(),
             "--from" => from = args.next().unwrap(),
             "--to" => to = args.next().unwrap(),
@@ -159,8 +160,10 @@ fn main() {
     match (ui_cli, simulation_name) {
         (true, "bfs") => solver::cli::bfs::visualize(),
         (true, "dfs") => solver::cli::dfs::visualize(),
+        (true, "dijkstra") => solver::cli::dijkstra::visualize(),
         (false, "bfs") => solver::gui::bfs::main(),
         (false, "dfs") => solver::gui::dfs::main(),
+        (false, "dijkstra") => solver::gui::dijkstra::main(),
         _ => help(),
     }
 }
