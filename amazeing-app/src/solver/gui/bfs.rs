@@ -1,10 +1,8 @@
-use crate::solver::gui::draw::draw;
-use crate::{FPS, FROM, MAZE_DATA, TO};
+use crate::solver::gui::draw::looper;
+use crate::{FROM, MAZE_DATA, TO};
 use amazeing::solver::matrix::{bfs, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
-use std::thread::sleep;
-use std::time::Duration;
 
 #[macroquad::main("Maze Solver (BFS)")]
 pub async fn main() {
@@ -27,41 +25,12 @@ pub async fn main() {
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
-    let data = tracer.clone().unwrap();
-    let mut solved = false;
-
-    loop {
-        if solved {
-            draw(
-                &maze,
-                margin,
-                padding,
-                cell_width,
-                cell_height,
-                data.last().unwrap().clone(),
-                GOLD,
-            );
-            next_frame().await
-        } else {
-            for i in 0..data.len() {
-                if i == data.len() - 1 {
-                    solved = true
-                }
-
-                sleep(Duration::from_millis(
-                    1000u64 / FPS.lock().unwrap().clone() as u64,
-                ));
-                draw(
-                    &maze,
-                    margin,
-                    padding,
-                    cell_width,
-                    cell_height,
-                    data[i].clone(),
-                    MAGENTA,
-                );
-                next_frame().await
-            }
-        }
-    }
+    looper(
+        maze,
+        margin,
+        padding,
+        cell_width,
+        cell_height,
+        tracer.clone().unwrap(),
+    ).await
 }

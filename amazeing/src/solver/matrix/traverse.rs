@@ -1,4 +1,4 @@
-use crate::solver::matrix::neighbour::{neighbours, DNode, FnNeighbour, D, L, R, U};
+use crate::solver::matrix::neighbour::{neighbours, DNode, D, L, R, U};
 use crate::solver::matrix::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
@@ -44,7 +44,6 @@ fn reconstruct_path(destination: DNode, parent: &BTreeMap<DNode, DNode>) -> Vec<
 fn traverse(
     maze: &Maze,
     source: DNode,
-    direction: &Vec<FnNeighbour>,
     destination: DNode,
     storage: &mut dyn DataStorage<DNode>,
     tracer: &mut Option<Vec<Vec<DNode>>>,
@@ -68,7 +67,7 @@ fn traverse(
             return path;
         }
 
-        for next in neighbours(maze, current, direction) {
+        for next in neighbours(maze, current, &vec![R, D, L, U]) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
                 storage.push(next);
@@ -86,7 +85,7 @@ pub fn bfs(
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     let mut queue = Queue::<DNode>::new();
-    traverse(maze, start, &vec![D, R, L, U], end, &mut queue, tracer)
+    traverse(maze, start, end, &mut queue, tracer)
 }
 
 pub fn dfs(
@@ -96,5 +95,5 @@ pub fn dfs(
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     let mut queue = Stack::<DNode>::new();
-    traverse(maze, start, &vec![U, L, R, D], end, &mut queue, tracer)
+    traverse(maze, start, end, &mut queue, tracer)
 }
