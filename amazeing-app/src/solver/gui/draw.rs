@@ -20,9 +20,9 @@ pub(crate) fn draw(
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let color: Color = if path.contains(&(r, c)) {
-                traversed[(r,c)] = 1;
+                traversed[(r, c)] = 1;
                 path_color
-            } else if traversed[(r,c)] == 1 {
+            } else if traversed[(r, c)] == 1 {
                 TRAVERSED
             } else if maze[(r, c)] > 0 {
                 OPEN
