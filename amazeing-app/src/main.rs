@@ -18,6 +18,7 @@ pub static FPS: Mutex<u8> = Mutex::new(7u8);
 pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);
 pub static FROM: Mutex<(usize, usize)> = Mutex::new((0, 0));
 pub static TO: Mutex<(usize, usize)> = Mutex::new((0, 0));
+pub static HEURISTIC: Mutex<String> = Mutex::new(String::new());
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
@@ -46,7 +47,7 @@ fn help() {
         value("usize,usize"),
         command("--to"),
         value("usize,usize"),
-        command("<--bfs|--dfs|--dijkstra>"),
+        command("<--bfs|--dfs|--dijkstra|--a-star>"),
         command("[--ui-cli]"),
     );
     println!();
@@ -54,45 +55,61 @@ fn help() {
     println!(
         "{} {}",
         command("    -h, --help"),
-        description("              Print the help menu")
+        description("                Print the help menu")
     );
     println!(
         "{} {} {}",
         command("        --path"),
-        value("  str"),
+        value("    str"),
         description("        Path to the maze file"),
     );
     println!(
         "{} {} {}",
         command("        --from"),
-        value("  usize,usize"),
+        value("    usize,usize"),
         description("Start point"),
     );
     println!(
         "{} {} {}",
         command("        --to"),
-        value("    usize,usize"),
+        value("      usize,usize"),
         description("End point"),
     );
     println!(
         "{} {}",
         command("        --ui-cli"),
-        description("            Run the simulation in cli mode instead of gui")
+        description("              Run the simulation in cli mode instead of gui")
     );
     println!(
         "{} {}",
         command("        --bfs"),
-        description("               Run the simulation for BFS")
+        description("                 Run the simulation for BFS")
     );
     println!(
         "{} {}",
         command("        --dfs"),
-        description("               Run the simulation for DFS")
+        description("                 Run the simulation for DFS")
+    );
+    println!(
+        "{} {}",
+        command("        --dijkstra"),
+        description("            Run the simulation for Dijkstra")
+    );
+    println!(
+        "{} {}",
+        command("        --a-star"),
+        description("              Run the simulation for A* (--heu arg is mandatory)")
+    );
+    println!(
+        "{} {} {}",
+        command("        --heu"),
+        value("     str"),
+        description("        Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)")
     );
     println!(
         "{} {} {}",
         command("        --fps"),
-        value("   u8"),
+        value("     u8"),
         description("         Gui FPS"),
     );
     std::process::exit(0);
@@ -103,6 +120,7 @@ fn main() {
 
     let mut ui_cli = false;
     let mut simulation_name = "";
+    let mut heu = String::from("");
     let mut path = String::from("");
     let mut from = String::from("");
     let mut to = String::from("");
@@ -115,6 +133,8 @@ fn main() {
             "--bfs" => simulation_name = "bfs",
             "--dfs" => simulation_name = "dfs",
             "--dijkstra" => simulation_name = "dijkstra",
+            "--a-star" => simulation_name = "a-star",
+            "--heu" => heu = args.next().unwrap(),
             "--path" => path = args.next().unwrap(),
             "--from" => from = args.next().unwrap(),
             "--to" => to = args.next().unwrap(),
@@ -157,13 +177,18 @@ fn main() {
         *FPS.lock().unwrap() = u8::from_str_radix(&fps, 10).unwrap();
     }
 
+    *HEURISTIC.lock().unwrap() = heu.clone();
+
     match (ui_cli, simulation_name) {
         (true, "bfs") => solver::cli::bfs::visualize(),
         (true, "dfs") => solver::cli::dfs::visualize(),
         (true, "dijkstra") => solver::cli::dijkstra::visualize(),
+        (true, "a-star") => solver::cli::a_star::visualize(),
+
         (false, "bfs") => solver::gui::bfs::main(),
         (false, "dfs") => solver::gui::dfs::main(),
         (false, "dijkstra") => solver::gui::dijkstra::main(),
+        (false, "a-star") => solver::gui::a_star::main(),
         _ => help(),
     }
 }

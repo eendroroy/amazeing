@@ -1,6 +1,6 @@
 # amazeing
 
-Amazeing is a maze generator/solver application with visualization/simulation.
+Amazeing is a maze generator/solver application with simulation/visualization.
 
 ## Installation
 
@@ -16,17 +16,20 @@ cargo install --path amazeing-app
 ## Usage
 
 ```txt
-Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs> [--ui-cli]
+Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs|--dijkstra|--a-star> [--ui-cli]
 
 Options:
-    -h, --help               Print the help menu
-        --path   str         Path to the maze file
-        --from   usize,usize Start point
-        --to     usize,usize End point
-        --ui-cli             Run the simulation in cli mode instead of gui
-        --bfs                Run the simulation for BFS
-        --dfs                Run the simulation for DFS
-        --fps    u8          Gui FPS
+    -h, --help                 Print the help menu
+        --path     str         Path to the maze file
+        --from     usize,usize Start point
+        --to       usize,usize End point
+        --ui-cli               Run the simulation in cli mode instead of gui
+        --bfs                  Run the simulation for BFS
+        --dfs                  Run the simulation for DFS
+        --dijkstra             Run the simulation for Dijkstra
+        --a-star               Run the simulation for A* (--heu arg is mandatory)
+        --heu      str         Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)
+        --fps      u8          Gui FPS
 ```
 
 ## Sample

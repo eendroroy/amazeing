@@ -1,6 +1,6 @@
 use crate::solver::matrix::common::{reconstruct_path, validate};
 use crate::solver::matrix::neighbour::{neighbours, DNode, D, L, R, U};
-use crate::solver::matrix::Maze;
+use crate::solver::matrix::{dijkstra_heuristic, Maze};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap};
 
@@ -8,6 +8,7 @@ use std::collections::{BTreeMap, BinaryHeap, HashMap};
 struct DNodeWeighted {
     pub(crate) node: DNode,
     pub(crate) cost: u32,
+    pub(crate) heu_cost: u32,
 }
 
 impl PartialOrd<Self> for DNodeWeighted {
@@ -18,14 +19,15 @@ impl PartialOrd<Self> for DNodeWeighted {
 
 impl Ord for DNodeWeighted {
     fn cmp(&self, other: &Self) -> Ordering {
-        other.cost.cmp(&self.cost)
+        other.heu_cost.cmp(&self.heu_cost)
     }
 }
 
-fn traverse(
+fn weighted_traverse(
     maze: &Maze,
     source: DNode,
     destination: DNode,
+    heu: fn(DNode, DNode) -> u32,
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     validate(maze, source, destination);
@@ -39,10 +41,11 @@ fn traverse(
     storage.push(DNodeWeighted {
         node: source,
         cost: maze[source],
+        heu_cost: maze[source] + heu(source, destination),
     });
 
     while let Some(node) = storage.pop() {
-        let (current, cost) = (node.node, node.cost);
+        let (current, cost, _) = (node.node, node.cost, node.heu_cost);
         visited.insert(current, true);
 
         if let Some(trace) = tracer {
@@ -60,6 +63,7 @@ fn traverse(
                 storage.push(DNodeWeighted {
                     node: next,
                     cost: cost + maze[next],
+                    heu_cost: cost + maze[next] + heu(next, destination),
                 });
             }
         }
@@ -74,5 +78,15 @@ pub fn dijkstra(
     end: DNode,
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
-    traverse(maze, start, end, tracer)
+    weighted_traverse(maze, start, end, dijkstra_heuristic, tracer)
+}
+
+pub fn a_star(
+    maze: &Maze,
+    start: DNode,
+    end: DNode,
+    heu: fn(DNode, DNode) -> u32,
+    tracer: &mut Option<Vec<Vec<DNode>>>,
+) -> Vec<DNode> {
+    weighted_traverse(maze, start, end, heu, tracer)
 }
