@@ -21,11 +21,7 @@ pub(crate) const U: FnNeighbour = |of| -> Option<DNode> {
     }
 };
 
-pub(crate) fn neighbours(
-    maze: &Maze,
-    pos: DNode,
-    direction: &Vec<FnNeighbour>,
-) -> Vec<DNode> {
+pub(crate) fn neighbours(maze: &Maze, pos: DNode, direction: &Vec<FnNeighbour>) -> Vec<DNode> {
     direction
         .iter()
         .map(|i| i(pos))
