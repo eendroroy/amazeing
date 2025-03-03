@@ -26,6 +26,7 @@ Options:
         --ui-cli             Run the simulation in cli mode instead of gui
         --bfs                Run the simulation for BFS
         --dfs                Run the simulation for DFS
+        --fps    u8          Gui FPS
 ```
 
 ## Sample

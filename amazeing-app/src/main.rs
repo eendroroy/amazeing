@@ -1,11 +1,15 @@
+use crate::solver::matrix::loader::{loader_maze_data_from_file, parse_node};
 use colored::Colorize;
-use std::env;
+use std::path::Path;
+use std::sync::Mutex;
+use std::{env, fs};
 
 pub(crate) mod solver;
 
-pub static mut PATH: String = String::new();
-pub static mut FROM: String = String::new();
-pub static mut TO: String = String::new();
+pub static FPS: Mutex<u8> = Mutex::new(7u8);
+pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);
+pub static FROM: Mutex<(usize, usize)> = Mutex::new((0, 0));
+pub static TO: Mutex<(usize, usize)> = Mutex::new((0, 0));
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
@@ -77,6 +81,12 @@ fn help() {
         command("        --dfs"),
         description("               Run the simulation for DFS")
     );
+    println!(
+        "{} {} {}",
+        command("        --fps"),
+        value("   u8"),
+        description("         Gui FPS"),
+    );
     std::process::exit(0);
 }
 
@@ -85,6 +95,10 @@ fn main() {
 
     let mut ui_cli = false;
     let mut simulation_name = "";
+    let mut path = String::from("");
+    let mut from = String::from("");
+    let mut to = String::from("");
+    let mut fps = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
@@ -92,9 +106,10 @@ fn main() {
             "--ui-cli" => ui_cli = true,
             "--bfs" => simulation_name = "bfs",
             "--dfs" => simulation_name = "dfs",
-            "--path" => unsafe { PATH = args.next().unwrap() },
-            "--from" => unsafe { FROM = args.next().unwrap() },
-            "--to" => unsafe { TO = args.next().unwrap() },
+            "--path" => path = args.next().unwrap(),
+            "--from" => from = args.next().unwrap(),
+            "--to" => to = args.next().unwrap(),
+            "--fps" => fps = args.next().unwrap(),
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -103,6 +118,34 @@ fn main() {
                 }
             }
         }
+    }
+
+    if !fs::exists(Path::new(&path)).unwrap() {
+        panic!("Maze file {} does not exists", path)
+    } else {
+        loader_maze_data_from_file(&*path).iter().for_each(|row| {
+            MAZE_DATA.lock().unwrap().push(row.clone());
+        });
+    }
+
+    if from == String::from("") {
+        panic!("Invalid start node {}", from)
+    } else {
+        let node = parse_node(&from);
+        FROM.lock().unwrap().0 = node.0;
+        FROM.lock().unwrap().1 = node.1;
+    }
+
+    if to == String::from("") {
+        panic!("Invalid end node {}", to)
+    } else {
+        let node = parse_node(&to);
+        TO.lock().unwrap().0 = node.0;
+        TO.lock().unwrap().1 = node.1;
+    }
+
+    if fps != String::from("") {
+        *FPS.lock().unwrap() = u8::from_str_radix(&fps, 10).unwrap();
     }
 
     match (ui_cli, simulation_name) {

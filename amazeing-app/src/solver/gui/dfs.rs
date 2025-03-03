@@ -1,7 +1,6 @@
 use crate::solver::gui::draw::draw;
-use crate::solver::matrix::loader::{loader_maze_from_file, parse_node};
-use crate::{FROM, PATH, TO};
-use amazeing::solver::matrix::dfs;
+use crate::{FPS, FROM, MAZE_DATA, TO};
+use amazeing::solver::matrix::{dfs, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::thread::sleep;
@@ -9,13 +8,11 @@ use std::time::Duration;
 
 #[macroquad::main("Maze Solver (DFS)")]
 pub async fn main() {
-    let (maze, from, to) = unsafe {
-        (
-            loader_maze_from_file(&*PATH),
-            parse_node(&*FROM),
-            parse_node(&*TO),
-        )
-    };
+    let (maze, from, to) = (
+        Maze::from(MAZE_DATA.lock().unwrap().clone()),
+        FROM.lock().unwrap().clone(),
+        TO.lock().unwrap().clone(),
+    );
 
     let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
     dfs(&maze, from, to, &mut tracer);
@@ -51,7 +48,9 @@ pub async fn main() {
                     solved = true
                 }
 
-                sleep(Duration::from_millis(150));
+                sleep(Duration::from_millis(
+                    1000u64 / FPS.lock().unwrap().clone() as u64,
+                ));
                 draw(
                     &maze,
                     margin,

@@ -12,6 +12,10 @@ impl Maze {
         Self { data }
     }
 
+    pub fn set_data(&mut self, data: Vec<Vec<u32>>) {
+        self.data = data
+    }
+
     pub fn rows(&self) -> usize {
         self.data.iter().len()
     }

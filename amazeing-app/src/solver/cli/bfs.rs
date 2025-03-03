@@ -1,17 +1,14 @@
 use crate::solver::cli::formatter;
 use crate::solver::matrix::cli_viz::CliViz;
-use crate::solver::matrix::loader::{loader_maze_from_file, parse_node};
-use crate::{FROM, PATH, TO};
-use amazeing::solver::matrix::bfs;
+use crate::{FROM, MAZE_DATA, TO};
+use amazeing::solver::matrix::{bfs, Maze};
 
 pub fn visualize() {
-    let (maze, from, to) = unsafe {
-        (
-            loader_maze_from_file(&*PATH),
-            parse_node(&*FROM),
-            parse_node(&*TO),
-        )
-    };
+    let (maze, from, to) = (
+        Maze::from(MAZE_DATA.lock().unwrap().clone()),
+        FROM.lock().unwrap().clone(),
+        TO.lock().unwrap().clone(),
+    );
 
     let mut viz = CliViz::from_maze(&maze, '█', '█', '█', formatter::formatter);
 
