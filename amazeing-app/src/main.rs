@@ -194,7 +194,7 @@ fn main() {
         "chebyshev" => chebyshev_heuristic,
         "octile" => octile_heuristic,
         "dijkstra" => dijkstra_heuristic,
-        other => panic!("Invalid heuristic function {}", other),
+        _ => dijkstra_heuristic,
     };
 
     match (ui_cli, simulation_name) {
