@@ -1,4 +1,4 @@
-use crate::solver::gui::draw::looper;
+use crate::gui::draw::looper;
 use crate::{FROM, MAZE_DATA, TO};
 use amazeing::solver::matrix::{dfs, Maze};
 use macroquad::miniquad::window::set_window_size;

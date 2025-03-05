@@ -1,10 +1,10 @@
-use crate::solver::gui::draw::looper;
-use crate::{FROM, MAZE_DATA, TO};
-use amazeing::solver::matrix::{bfs, Maze};
+use crate::gui::draw::looper;
+use crate::{FROM, HEURISTIC, MAZE_DATA, TO};
+use amazeing::solver::matrix::{a_star, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-#[macroquad::main("Maze Solver (BFS)")]
+#[macroquad::main("Maze Solver (A*)")]
 pub async fn main() {
     let (maze, from, to) = (
         Maze::from(MAZE_DATA.lock().unwrap().clone()),
@@ -13,7 +13,7 @@ pub async fn main() {
     );
 
     let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
-    bfs(&maze, from, to, &mut tracer);
+    a_star(&maze, from, to, *HEURISTIC.lock().unwrap(), &mut tracer);
 
     let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());

@@ -1,6 +1,5 @@
-use crate::solver::cli::formatter;
-use crate::solver::matrix::cli_viz::CliViz;
-
+use crate::cli::formatter;
+use crate::matrix::cli_viz::CliViz;
 use crate::{FROM, HEURISTIC, MAZE_DATA, TO};
 use amazeing::solver::matrix::{a_star, Maze};
 

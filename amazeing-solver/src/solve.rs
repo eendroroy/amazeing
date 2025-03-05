@@ -1,4 +1,4 @@
-use crate::solver::matrix::loader::{loader_maze_data_from_file, parse_node};
+use crate::matrix::loader::{loader_maze_data_from_file, parse_node};
 use amazeing::solver::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
     octile_heuristic,
@@ -9,7 +9,9 @@ use std::path::Path;
 use std::sync::Mutex;
 use std::{env, fs};
 
-pub(crate) mod solver;
+pub(crate) mod cli;
+pub(crate) mod gui;
+pub(crate) mod matrix;
 
 pub static BG: Color = BLACK;
 pub static BLOCK: Color = DARKGRAY;
@@ -198,15 +200,15 @@ fn main() {
     };
 
     match (ui_cli, simulation_name) {
-        (true, "bfs") => solver::cli::bfs::visualize(),
-        (true, "dfs") => solver::cli::dfs::visualize(),
-        (true, "dijkstra") => solver::cli::dijkstra::visualize(),
-        (true, "a-star") => solver::cli::a_star::visualize(),
+        (true, "bfs") => cli::bfs::visualize(),
+        (true, "dfs") => cli::dfs::visualize(),
+        (true, "dijkstra") => cli::dijkstra::visualize(),
+        (true, "a-star") => cli::a_star::visualize(),
 
-        (false, "bfs") => solver::gui::bfs::main(),
-        (false, "dfs") => solver::gui::dfs::main(),
-        (false, "dijkstra") => solver::gui::dijkstra::main(),
-        (false, "a-star") => solver::gui::a_star::main(),
+        (false, "bfs") => gui::bfs::main(),
+        (false, "dfs") => gui::dfs::main(),
+        (false, "dijkstra") => gui::dijkstra::main(),
+        (false, "a-star") => gui::a_star::main(),
         _ => help(),
     }
 }

@@ -1,7 +1,7 @@
-use crate::solver::cli::formatter;
-use crate::solver::matrix::cli_viz::CliViz;
+use crate::cli::formatter;
+use crate::matrix::cli_viz::CliViz;
 use crate::{FROM, MAZE_DATA, TO};
-use amazeing::solver::matrix::{bfs, Maze};
+use amazeing::solver::matrix::{dfs, Maze};
 
 pub fn visualize() {
     let (maze, from, to) = (
@@ -14,5 +14,5 @@ pub fn visualize() {
 
     viz.merge_maze(&maze);
 
-    println!("{}", viz.merged_path(bfs(&maze, from, to, &mut None)));
+    println!("{}", viz.merged_path(dfs(&maze, from, to, &mut None)));
 }
