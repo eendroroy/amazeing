@@ -16,7 +16,7 @@ cargo install --path amazeing-app
 ## Usage
 
 ```txt
-Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs|--dijkstra|--a-star> [--hue heuristic_name] [--ui-cli]
+Usage: amazeing-solve --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs|--dijkstra|--a-star> [--hue heuristic_name] [--ui-cli]
 
 Options:
     -h, --help                 Print the help menu
@@ -36,10 +36,10 @@ Options:
 
 ## Sample
 
-| BFS CLI                                                                               | DFS CLI                                                                               |
-|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| `$ amazeing --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` | `$ amazeing --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` |
-| ![bfs_cli.png](assets/images/bfs_cli.png)                                             | ![dfs_cli.png](assets/images/dfs_cli.png)                                             |
+| BFS CLI                                                                                     | DFS CLI                                                                                     |
+|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| `$ amazeing-solve --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` | `$ amazeing-solve --path ./assets/maze/M2_R31_C31.txt --from 0,0 --to 29,30 --bfs --ui-cli` |
+| ![bfs_cli.png](assets/images/bfs_cli.png)                                                   | ![dfs_cli.png](assets/images/dfs_cli.png)                                                   |
 
 ## License
 
