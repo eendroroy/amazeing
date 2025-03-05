@@ -45,7 +45,7 @@ fn help() {
     println!(
         "{} {} {} {} {} {} {} {} {} {} {}{} {}",
         header("Usage:"),
-        command("amazeing"),
+        command("amazeing-solve"),
         command("--path"),
         value("path/to/maze.txt"),
         command("--from"),
