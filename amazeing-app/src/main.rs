@@ -1,4 +1,8 @@
 use crate::solver::matrix::loader::{loader_maze_data_from_file, parse_node};
+use amazeing::solver::matrix::{
+    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
+    octile_heuristic,
+};
 use colored::Colorize;
 use macroquad::color::{Color, BEIGE, BLACK, DARKGRAY, GOLD, LIGHTGRAY, RED};
 use std::path::Path;
@@ -18,7 +22,8 @@ pub static FPS: Mutex<u8> = Mutex::new(7u8);
 pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);
 pub static FROM: Mutex<(usize, usize)> = Mutex::new((0, 0));
 pub static TO: Mutex<(usize, usize)> = Mutex::new((0, 0));
-pub static HEURISTIC: Mutex<String> = Mutex::new(String::new());
+pub static HEURISTIC: Mutex<fn((usize, usize), (usize, usize)) -> u32> =
+    Mutex::new(dijkstra_heuristic);
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
@@ -104,7 +109,9 @@ fn help() {
         "{} {} {}",
         command("        --heu"),
         value("     str"),
-        description("        Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)")
+        description(
+            "        Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)"
+        )
     );
     println!(
         "{} {} {}",
@@ -177,7 +184,14 @@ fn main() {
         *FPS.lock().unwrap() = u8::from_str_radix(&fps, 10).unwrap();
     }
 
-    *HEURISTIC.lock().unwrap() = heu.clone();
+    *HEURISTIC.lock().unwrap() = match &*heu {
+        "manhattan" => manhattan_heuristic,
+        "euclidean" => euclidean_heuristic,
+        "chebyshev" => chebyshev_heuristic,
+        "octile" => octile_heuristic,
+        "dijkstra" => dijkstra_heuristic,
+        other => panic!("Invalid heuristic function {}", other),
+    };
 
     match (ui_cli, simulation_name) {
         (true, "bfs") => solver::cli::bfs::visualize(),
