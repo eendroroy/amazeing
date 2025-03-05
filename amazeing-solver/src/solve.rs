@@ -9,9 +9,9 @@ use std::path::Path;
 use std::sync::Mutex;
 use std::{env, fs};
 
-pub(crate) mod cli;
-pub(crate) mod gui;
-pub(crate) mod matrix;
+mod cli;
+mod gui;
+mod matrix;
 
 pub static BG: Color = BLACK;
 pub static BLOCK: Color = DARKGRAY;

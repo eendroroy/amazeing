@@ -10,4 +10,4 @@ macroquad = "0.4.13"
 
 [[bin]]
 name = "amazeing-gen"
-path = "src/main.rs"
+path = "src/gen.rs"
