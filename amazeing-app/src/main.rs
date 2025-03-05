@@ -43,7 +43,7 @@ fn description(text: &str) -> String {
 
 fn help() {
     println!(
-        "{} {} {} {} {} {} {} {} {} {}",
+        "{} {} {} {} {} {} {} {} {} {} {}{} {}",
         header("Usage:"),
         command("amazeing"),
         command("--path"),
@@ -53,6 +53,9 @@ fn help() {
         command("--to"),
         value("usize,usize"),
         command("<--bfs|--dfs|--dijkstra|--a-star>"),
+        command("[--hue"),
+        value("heuristic_name"),
+        command("]"),
         command("[--ui-cli]"),
     );
     println!();
@@ -103,15 +106,16 @@ fn help() {
     println!(
         "{} {}",
         command("        --a-star"),
-        description("              Run the simulation for A* (--heu arg is mandatory)")
+        description("              Run the simulation for A*")
     );
     println!(
-        "{} {} {}",
+        "{} {} {} {} {} {}",
         command("        --heu"),
         value("     str"),
-        description(
-            "        Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)"
-        )
+        description("        Heuristic function to use with A*"),
+        description("\n                               Choose from:"),
+        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
+        description("\n                               Default dijkstra if none provided"),
     );
     println!(
         "{} {} {}",

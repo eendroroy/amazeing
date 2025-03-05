@@ -16,7 +16,7 @@ cargo install --path amazeing-app
 ## Usage
 
 ```txt
-Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs|--dijkstra|--a-star> [--ui-cli]
+Usage: amazeing --path path/to/maze.txt --from usize,usize --to usize,usize <--bfs|--dfs|--dijkstra|--a-star> [--hue heuristic_name] [--ui-cli]
 
 Options:
     -h, --help                 Print the help menu
@@ -27,8 +27,10 @@ Options:
         --bfs                  Run the simulation for BFS
         --dfs                  Run the simulation for DFS
         --dijkstra             Run the simulation for Dijkstra
-        --a-star               Run the simulation for A* (--heu arg is mandatory)
-        --heu      str         Heuristic function to use with A* (manhattan, euclidean, chebyshev, octile, dijkstra)
+        --a-star               Run the simulation for A*
+        --heu      str         Heuristic function to use with A*
+                               Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                               Default dijkstra if none provided
         --fps      u8          Gui FPS
 ```
 

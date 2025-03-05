@@ -1,9 +1,6 @@
 use crate::solver::gui::draw::looper;
 use crate::{FROM, HEURISTIC, MAZE_DATA, TO};
-use amazeing::solver::matrix::{
-    a_star, Maze
-    ,
-};
+use amazeing::solver::matrix::{a_star, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 

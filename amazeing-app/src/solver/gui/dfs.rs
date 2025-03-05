@@ -32,5 +32,6 @@ pub async fn main() {
         cell_width,
         cell_height,
         tracer.clone().unwrap(),
-    ).await
+    )
+    .await
 }
