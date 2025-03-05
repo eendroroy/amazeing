@@ -1,11 +1,10 @@
 [package]
 name = "amazeing"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+rust-version = "1.85.0"
 
 [lib]
 name = "amazeing"
 path = "src/lib.rs"
 crate-type = ["lib"]
-
-[dependencies]
