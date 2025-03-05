@@ -1,13 +1,15 @@
 use crate::manual::draw::looper;
 use crate::matrix::dumper::dump_mae_to_file;
+use crate::{COLS, PATH, ROWS};
 use amazeing::solver::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
-use crate::PATH;
 
 #[macroquad::main("Maze Generator (Manually)")]
 pub async fn main() {
-    let mut maze = Maze::from(vec![vec![0u32; 20]; 20]);
+    let mut maze = Maze::from(
+        vec![vec![0u32; COLS.lock().unwrap().clone()]; ROWS.lock().unwrap().clone()]
+    );
 
     let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
