@@ -1,8 +1,8 @@
 [package]
-name = "amazeing-solver"
+name = "amazeing-generator"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85.0"
+
 
 [dependencies]
 amazeing = { version = "*", path = "../amazeing" }
@@ -10,5 +10,5 @@ colored = "3.0.0"
 macroquad = "0.4.13"
 
 [[bin]]
-name = "amazeing-solve"
-path = "src/solve.rs"
+name = "amazeing-gen"
+path = "src/main.rs"

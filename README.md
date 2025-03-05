@@ -11,6 +11,7 @@ git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
 cargo build --release
 cargo install --path amazeing-solver
+cargo install --path amazeing-generator
 ```
 
 ## Usage
