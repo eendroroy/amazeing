@@ -1,6 +1,6 @@
 use macroquad::color::{Color, BLACK, DARKGRAY, LIGHTGRAY};
-use std::sync::Mutex;
 use std::env;
+use std::sync::Mutex;
 
 mod manual;
 mod matrix;

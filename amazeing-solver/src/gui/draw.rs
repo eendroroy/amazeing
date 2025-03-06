@@ -1,4 +1,4 @@
-use crate::{COLORS, FPS};
+use crate::{COLORS, SOLVER_CONTEXT};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
@@ -71,7 +71,7 @@ pub(crate) async fn looper(
                 }
 
                 sleep(Duration::from_millis(
-                    1000u64 / FPS.lock().unwrap().clone() as u64,
+                    1000u64 / SOLVER_CONTEXT.read().unwrap().fps as u64,
                 ));
                 draw(
                     &maze,

@@ -42,8 +42,8 @@ pub(crate) async fn looper(
             };
 
             let (mx, my) = mouse_position();
-            let r = ((my - margin)/(cell_height + padding)).floor();
-            let c = ((mx - margin)/(cell_width + padding)).floor();
+            let r = ((my - margin) / (cell_height + padding)).floor();
+            let c = ((mx - margin) / (cell_width + padding)).floor();
 
             maze[(r as usize, c as usize)] = value;
         }

@@ -1,4 +1,4 @@
-use crate::contexts::Colors;
+use crate::context::{Colors, SolverContext};
 use crate::matrix::loader::{loader_maze_data_from_file, parse_node};
 use amazeing::solver::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
@@ -6,22 +6,17 @@ use amazeing::solver::matrix::{
 };
 use colored::Colorize;
 use std::path::Path;
-use std::sync::{LazyLock, Mutex};
+use std::sync::{LazyLock, RwLock};
 use std::{env, fs};
 
 mod cli;
+mod context;
 mod gui;
 mod matrix;
-mod contexts;
 
 pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
-
-pub static FPS: Mutex<u8> = Mutex::new(7u8);
-pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);
-pub static FROM: Mutex<(usize, usize)> = Mutex::new((0, 0));
-pub static TO: Mutex<(usize, usize)> = Mutex::new((0, 0));
-pub static HEURISTIC: Mutex<fn((usize, usize), (usize, usize)) -> u32> =
-    Mutex::new(dijkstra_heuristic);
+pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> =
+    LazyLock::new(|| RwLock::new(SolverContext::new()));
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
@@ -162,31 +157,27 @@ fn main() {
         panic!("Maze file {} does not exists", path)
     } else {
         loader_maze_data_from_file(&*path).iter().for_each(|row| {
-            MAZE_DATA.lock().unwrap().push(row.clone());
+            SOLVER_CONTEXT.write().unwrap().maze_data.push(row.clone());
         });
     }
 
     if from == String::from("") {
         panic!("Invalid start node {}", from)
     } else {
-        let node = parse_node(&from);
-        FROM.lock().unwrap().0 = node.0;
-        FROM.lock().unwrap().1 = node.1;
+        SOLVER_CONTEXT.write().unwrap().from = parse_node(&from);
     }
 
     if to == String::from("") {
         panic!("Invalid end node {}", to)
     } else {
-        let node = parse_node(&to);
-        TO.lock().unwrap().0 = node.0;
-        TO.lock().unwrap().1 = node.1;
+        SOLVER_CONTEXT.write().unwrap().to = parse_node(&to);
     }
 
     if fps != String::from("") {
-        *FPS.lock().unwrap() = u8::from_str_radix(&fps, 10).unwrap();
+        SOLVER_CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();
     }
 
-    *HEURISTIC.lock().unwrap() = match &*heu {
+    SOLVER_CONTEXT.write().unwrap().heuristic = match &*heu {
         "manhattan" => manhattan_heuristic,
         "euclidean" => euclidean_heuristic,
         "chebyshev" => chebyshev_heuristic,

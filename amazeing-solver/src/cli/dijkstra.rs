@@ -1,13 +1,13 @@
 use crate::cli::formatter;
 use crate::matrix::cli_viz::CliViz;
-use crate::{FROM, MAZE_DATA, TO};
+use crate::SOLVER_CONTEXT;
 use amazeing::solver::matrix::{dijkstra, Maze};
 
 pub fn visualize() {
     let (maze, from, to) = (
-        Maze::from(MAZE_DATA.lock().unwrap().clone()),
-        FROM.lock().unwrap().clone(),
-        TO.lock().unwrap().clone(),
+        Maze::from(SOLVER_CONTEXT.read().unwrap().maze_data.clone()),
+        SOLVER_CONTEXT.read().unwrap().from,
+        SOLVER_CONTEXT.read().unwrap().to,
     );
 
     let mut viz = CliViz::from_maze(&maze, '█', '█', '█', formatter::formatter);
