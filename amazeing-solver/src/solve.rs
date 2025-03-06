@@ -1,10 +1,11 @@
 use crate::context::{Colors, SolverContext};
 use crate::matrix::loader::{loader_maze_data_from_file, parse_node};
 use amazeing::solver::matrix::{
-    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
-    octile_heuristic,
+    a_star, bfs, chebyshev_heuristic, dfs, dijkstra, dijkstra_heuristic, euclidean_heuristic,
+    manhattan_heuristic, octile_heuristic,
 };
 use colored::Colorize;
+use macroquad::prelude::Conf;
 use std::path::Path;
 use std::sync::{LazyLock, RwLock};
 use std::{env, fs};
@@ -15,8 +16,9 @@ mod gui;
 mod matrix;
 
 pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
-pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> =
-    LazyLock::new(|| RwLock::new(SolverContext::new()));
+pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> = LazyLock::new(|| {
+    RwLock::new(SolverContext::new())
+});
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())
@@ -119,6 +121,13 @@ fn help() {
     std::process::exit(0);
 }
 
+pub fn get_conf() -> Conf {
+    Conf {
+        window_title: SOLVER_CONTEXT.read().unwrap().title.clone(),
+        ..Default::default()
+    }
+}
+
 fn main() {
     let mut args = env::args().skip(1);
 
@@ -156,46 +165,55 @@ fn main() {
     if !fs::exists(Path::new(&path)).unwrap() {
         panic!("Maze file {} does not exists", path)
     } else {
-        loader_maze_data_from_file(&*path).iter().for_each(|row| {
-            SOLVER_CONTEXT.write().unwrap().maze_data.push(row.clone());
-        });
-    }
-
-    if from == String::from("") {
-        panic!("Invalid start node {}", from)
-    } else {
-        SOLVER_CONTEXT.write().unwrap().from = parse_node(&from);
-    }
-
-    if to == String::from("") {
-        panic!("Invalid end node {}", to)
-    } else {
-        SOLVER_CONTEXT.write().unwrap().to = parse_node(&to);
+            SOLVER_CONTEXT.write().unwrap().maze = loader_maze_data_from_file(&*path);
     }
 
     if fps != String::from("") {
         SOLVER_CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();
     }
 
-    SOLVER_CONTEXT.write().unwrap().heuristic = match &*heu {
-        "manhattan" => manhattan_heuristic,
-        "euclidean" => euclidean_heuristic,
-        "chebyshev" => chebyshev_heuristic,
-        "octile" => octile_heuristic,
-        "dijkstra" => dijkstra_heuristic,
-        _ => dijkstra_heuristic,
+    let maze = SOLVER_CONTEXT.read().unwrap().maze.clone();
+
+    let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
+
+    let maze_path = match simulation_name {
+        "bfs" => {
+            SOLVER_CONTEXT.write().unwrap().title = String::from("Maze Solver (BFS)");
+            bfs(&maze, parse_node(&from), parse_node(&to), &mut tracer)
+        },
+        "dfs" => {
+            SOLVER_CONTEXT.write().unwrap().title = String::from("Maze Solver (DFS)");
+            dfs(&maze, parse_node(&from), parse_node(&to), &mut tracer)
+        },
+        "dijkstra" => {
+            SOLVER_CONTEXT.write().unwrap().title = String::from("Maze Solver (Dijkstra)");
+            dijkstra(&maze, parse_node(&from), parse_node(&to), &mut tracer)
+        },
+        "a-star" => {
+            SOLVER_CONTEXT.write().unwrap().title = String::from("Maze Solver (A*)");
+            let heuristic = match &*heu {
+                "manhattan" => manhattan_heuristic,
+                "euclidean" => euclidean_heuristic,
+                "chebyshev" => chebyshev_heuristic,
+                "octile" => octile_heuristic,
+                "dijkstra" => dijkstra_heuristic,
+                _ => dijkstra_heuristic,
+            };
+            a_star(
+                &maze,
+                parse_node(&from),
+                parse_node(&to),
+                heuristic,
+                &mut tracer,
+            )
+        }
+        _ => panic!("Unknown simulation name {}", simulation_name),
     };
 
-    match (ui_cli, simulation_name) {
-        (true, "bfs") => cli::bfs::visualize(),
-        (true, "dfs") => cli::dfs::visualize(),
-        (true, "dijkstra") => cli::dijkstra::visualize(),
-        (true, "a-star") => cli::a_star::visualize(),
+    SOLVER_CONTEXT.write().unwrap().tracer = tracer.unwrap();
 
-        (false, "bfs") => gui::bfs::main(),
-        (false, "dfs") => gui::dfs::main(),
-        (false, "dijkstra") => gui::dijkstra::main(),
-        (false, "a-star") => gui::a_star::main(),
-        _ => help(),
+    match ui_cli {
+        true => cli::visualize::visualize(&maze, maze_path),
+        false => gui::simulation::main(),
     }
 }

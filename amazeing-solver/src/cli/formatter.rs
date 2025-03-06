@@ -1,4 +1,4 @@
-use crate::matrix::cli_viz::VizType;
+use crate::cli::cli_viz::VizType;
 use colored::{Color, Colorize};
 
 pub(crate) fn formatter(d: char, t: VizType) -> String {

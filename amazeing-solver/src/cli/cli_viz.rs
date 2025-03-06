@@ -1,4 +1,4 @@
-use crate::matrix::cli_viz::VizType::{BLOCK, OPEN, PATH};
+use crate::cli::cli_viz::VizType::{BLOCK, OPEN, PATH};
 use amazeing::solver::matrix::Maze;
 
 pub enum VizType {

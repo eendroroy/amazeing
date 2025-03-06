@@ -1,19 +1,12 @@
+use crate::get_conf;
 use crate::gui::draw::looper;
 use crate::SOLVER_CONTEXT;
-use amazeing::solver::matrix::{dijkstra, Maze};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-#[macroquad::main("Maze Solver (Dijkstra)")]
+#[macroquad::main(get_conf())]
 pub async fn main() {
-    let (maze, from, to) = (
-        Maze::from(SOLVER_CONTEXT.read().unwrap().maze_data.clone()),
-        SOLVER_CONTEXT.read().unwrap().from,
-        SOLVER_CONTEXT.read().unwrap().to,
-    );
-
-    let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
-    dijkstra(&maze, from, to, &mut tracer);
+    let maze = SOLVER_CONTEXT.read().unwrap().maze.clone();
 
     let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
@@ -31,7 +24,7 @@ pub async fn main() {
         padding,
         cell_width,
         cell_height,
-        tracer.clone().unwrap(),
+        SOLVER_CONTEXT.read().unwrap().tracer.clone(),
     )
-        .await
+    .await
 }
