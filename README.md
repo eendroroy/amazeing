@@ -24,11 +24,9 @@ Options:
         --path     str         Path to the maze file
         --from     usize,usize Start point
         --to       usize,usize End point
-        --bfs                  Run the simulation for BFS
-        --dfs                  Run the simulation for DFS
-        --dijkstra             Run the simulation for Dijkstra
-        --a-star               Run the simulation for A*
-        --heu      str         Heuristic function to use with A*
+        --algorithm            Algorithm name for simulation
+                               Choose from: bfs, dfs, dijkstra, a-star
+        --heu      str         Heuristic function to use with a-star
                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
                                Default dijkstra if none provided
         --fps      u8          Gui FPS

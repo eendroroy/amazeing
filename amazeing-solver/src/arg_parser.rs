@@ -4,7 +4,7 @@ use std::env;
 pub(crate) fn parse_arg() -> (String, String, String, String, String, String) {
     let mut args = env::args().skip(1);
 
-    let mut algorithm = "";
+    let mut algorithm = String::from("");
     let mut heu = String::from("");
     let mut path = String::from("");
     let mut from = String::from("");
@@ -14,10 +14,7 @@ pub(crate) fn parse_arg() -> (String, String, String, String, String, String) {
     while let Some(arg) = args.next() {
         match &arg[..] {
             "-h" | "--help" => help::help(),
-            "--bfs" => algorithm = "bfs",
-            "--dfs" => algorithm = "dfs",
-            "--dijkstra" => algorithm = "dijkstra",
-            "--a-star" => algorithm = "a-star",
+            "--algorithm" => algorithm = args.next().unwrap(),
             "--heu" => heu = args.next().unwrap(),
             "--path" => path = args.next().unwrap(),
             "--from" => from = args.next().unwrap(),

@@ -44,30 +44,17 @@ pub(crate) fn help() {
         description("End point"),
     );
     println!(
-        "{} {}",
-        command("        --bfs"),
-        description("                 Run the simulation for BFS")
-    );
-    println!(
-        "{} {}",
-        command("        --dfs"),
-        description("                 Run the simulation for DFS")
-    );
-    println!(
-        "{} {}",
-        command("        --dijkstra"),
-        description("            Run the simulation for Dijkstra")
-    );
-    println!(
-        "{} {}",
-        command("        --a-star"),
-        description("              Run the simulation for A*")
+        "{} {} {} {}",
+        command("        --algorithm"),
+        description("           Algorithm name for simulation"),
+        description("\n                               Choose from:"),
+        description("bfs, dfs, dijkstra, a-star"),
     );
     println!(
         "{} {} {} {} {} {}",
         command("        --heu"),
         value("     str"),
-        description("        Heuristic function to use with A*"),
+        description("        Heuristic function to use with a-star"),
         description("\n                               Choose from:"),
         description("manhattan, euclidean, chebyshev, octile, dijkstra"),
         description("\n                               Default dijkstra if none provided"),
