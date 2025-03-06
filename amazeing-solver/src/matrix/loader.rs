@@ -2,7 +2,7 @@ use amazeing::solver::matrix::Maze;
 use std::fs;
 use std::path::Path;
 
-pub(crate) fn loader_maze_data_from_file(path: &str) -> Maze {
+pub(crate) fn loader_maze_from_file(path: &str) -> Maze {
     if !fs::exists(Path::new(&path)).unwrap() {
         panic!("Maze file {} does not exists", path)
     }

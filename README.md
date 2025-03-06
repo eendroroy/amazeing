@@ -11,25 +11,35 @@ git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
 cargo build --release
 cargo install --path amazeing-solver
-cargo install --path amazeing-generator
 ```
 
 ## Usage
 
 ```txt
-Usage: amazeing
+Usage: amazeing --solve | --generate
 
 Options:
-    -h, --help                 Print the help menu
-        --path     str         Path to the maze file
-        --from     usize,usize Start point
-        --to       usize,usize End point
-        --algorithm            Algorithm name for simulation
-                               Choose from: bfs, dfs, dijkstra, a-star
-        --heu      str         Heuristic function to use with a-star
-                               Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
-                               Default dijkstra if none provided
-        --fps      u8          Gui FPS
+    -h, --help Print the help menu
+
+Usage: amazeing --solve
+
+Options:
+        --path      str         Path to the maze file
+        --from      usize,usize Start point
+        --to        usize,usize End point
+        --algorithm             Algorithm name for simulation
+                                Choose from: bfs, dfs, dijkstra, a-star
+        --heu       str         Heuristic function to use with a-star
+                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                                Default dijkstra if none provided
+        --fps       u8          Gui FPS
+
+Usage: amazeing --generate
+
+Options:
+        --path str   Path to the file to dump the maze (existing file will preload the data)
+        --rows usize Number of ROWS in the maze
+        --cols usize Number of COLS in the maze
 ```
 
 ## License

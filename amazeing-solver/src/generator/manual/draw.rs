@@ -1,4 +1,4 @@
-use crate::{BG, BLOCK, OPEN};
+use crate::generate::{BG, BLOCK, OPEN};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::input::{is_key_down, is_key_pressed, KeyCode};
