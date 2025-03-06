@@ -1,15 +1,22 @@
 use crate::manual::draw::looper;
-use crate::matrix::dumper::dump_mae_to_file;
+use crate::matrix::dumper::dump_maze_to_file;
+use crate::matrix::loader::load_maze_data_from_file;
 use crate::{COLS, PATH, ROWS};
 use amazeing::solver::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
+use std::fs;
+use std::path::Path;
 
 #[macroquad::main("Maze Generator (Manually)")]
 pub async fn main() {
-    let mut maze = Maze::from(
+    let maze_data = if fs::exists(Path::new(&PATH.lock().unwrap().clone())).unwrap() {
+        load_maze_data_from_file(&PATH.lock().unwrap().clone())
+    } else {
         vec![vec![0u32; COLS.lock().unwrap().clone()]; ROWS.lock().unwrap().clone()]
-    );
+    };
+
+    let mut maze = Maze::from(maze_data);
 
     let (margin, padding) = (20., 3.);
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
@@ -23,5 +30,5 @@ pub async fn main() {
 
     looper(&mut maze, margin, padding, cell_width, cell_height).await;
 
-    dump_mae_to_file(&PATH.lock().unwrap(), maze);
+    dump_maze_to_file(&PATH.lock().unwrap(), maze);
 }

@@ -1,7 +1,6 @@
 use macroquad::color::{Color, BLACK, DARKGRAY, LIGHTGRAY};
-use std::path::Path;
 use std::sync::Mutex;
-use std::{env, fs};
+use std::env;
 
 mod manual;
 mod matrix;
@@ -36,11 +35,8 @@ fn main() {
         }
     }
 
-    if fs::exists(Path::new(&path)).unwrap() {
-        panic!("Maze file {} already exists", path)
-    } else {
-        *PATH.lock().unwrap() = path.clone();
-    }
+
+    *PATH.lock().unwrap() = path.clone();
 
     if rows != String::new() {
         *ROWS.lock().unwrap() = usize::from_str_radix(rows.as_str(), 10).unwrap();
