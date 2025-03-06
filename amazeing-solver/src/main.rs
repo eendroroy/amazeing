@@ -8,16 +8,15 @@ use amazeing::solver::matrix::{
 use macroquad::prelude::Conf;
 use std::sync::{LazyLock, RwLock};
 
+mod arg_parser;
 mod context;
 mod gui;
-mod matrix;
 mod help;
-mod arg_parser;
+mod matrix;
 
 pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
-pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> = LazyLock::new(|| {
-    RwLock::new(SolverContext::new())
-});
+pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> =
+    LazyLock::new(|| RwLock::new(SolverContext::new()));
 
 pub fn get_conf() -> Conf {
     Conf {
@@ -50,12 +49,16 @@ fn main() {
     SOLVER_CONTEXT.write().unwrap().maze = maze.clone();
 
     let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
+    let (source, destination) = (parse_node(&from), parse_node(&to));
+
+    SOLVER_CONTEXT.write().unwrap().source = source;
+    SOLVER_CONTEXT.write().unwrap().destination = destination;
 
     match &*algorithm {
-        "bfs" => bfs(&maze, parse_node(&from), parse_node(&to), &mut tracer),
-        "dfs" => dfs(&maze, parse_node(&from), parse_node(&to), &mut tracer),
-        "dijkstra" => dijkstra(&maze, parse_node(&from), parse_node(&to), &mut tracer),
-        "a-star" => a_star(&maze, parse_node(&from), parse_node(&to), get_heu(&*heu), &mut tracer),
+        "bfs" => bfs(&maze, source, destination, &mut tracer),
+        "dfs" => dfs(&maze, source, destination, &mut tracer),
+        "dijkstra" => dijkstra(&maze, source, destination, &mut tracer),
+        "a-star" => a_star(&maze, source, destination, get_heu(&*heu), &mut tracer),
         _ => panic!("Unknown algorithm name {}", algorithm),
     };
 

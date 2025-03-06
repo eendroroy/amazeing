@@ -20,7 +20,11 @@ pub(crate) fn draw_simulation(
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            let color: Color = if path.contains(&(r, c)) {
+            let color: Color = if SOLVER_CONTEXT.read().unwrap().source == (r, c) {
+                COLORS.color_source
+            } else if SOLVER_CONTEXT.read().unwrap().destination == (r, c) {
+                COLORS.color_destination
+            } else if path.contains(&(r, c)) {
                 traversed[(r, c)] = 1;
                 path_color
             } else if traversed[(r, c)] == 1 {
@@ -47,7 +51,11 @@ pub(crate) fn draw_maze(maze: &Maze, margin: f32, padding: f32, cell_width: f32,
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            let color: Color = if maze[(r, c)] > 0 {
+            let color: Color = if SOLVER_CONTEXT.read().unwrap().source == (r, c) {
+                COLORS.color_source
+            } else if SOLVER_CONTEXT.read().unwrap().destination == (r, c) {
+                COLORS.color_destination
+            } else if maze[(r, c)] > 0 {
                 COLORS.color_open
             } else {
                 COLORS.color_block
@@ -75,7 +83,6 @@ pub(crate) async fn looper(
     let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
     let mut end = false;
     let mut start = false;
-    let mut path: Vec<(usize, usize)> = Vec::new();
     loop {
         if is_key_pressed(KeyCode::S) {
             start = true;
