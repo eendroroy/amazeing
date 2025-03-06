@@ -42,6 +42,14 @@ Options:
         --cols usize Number of COLS in the maze
 ```
 
+## Demo
+
+## Demo
+
+| Algorithm |                                                                                                           |
+|-----------|-----------------------------------------------------------------------------------------------------------|
+| DFS       | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU) |
+
 ## License
 
 This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html). See
