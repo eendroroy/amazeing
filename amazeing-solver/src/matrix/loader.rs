@@ -3,6 +3,9 @@ use std::fs;
 use std::path::Path;
 
 pub(crate) fn loader_maze_data_from_file(path: &str) -> Maze {
+    if !fs::exists(Path::new(&path)).unwrap() {
+        panic!("Maze file {} does not exists", path)
+    }
     Maze::from(
         fs::read_to_string(Path::new(path))
             .expect("Should have been able to read the file")

@@ -10,5 +10,5 @@ colored = "3.0.0"
 macroquad = "0.4.13"
 
 [[bin]]
-name = "amazeing-solve"
+name = "amazeing"
 path = "src/main.rs"
