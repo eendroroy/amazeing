@@ -14,7 +14,7 @@ mod gui;
 mod matrix;
 mod contexts;
 
-pub static COLORS: LazyLock<Mutex<Colors>> = LazyLock::new(|| {Mutex::from(Colors::new())});
+pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
 
 pub static FPS: Mutex<u8> = Mutex::new(7u8);
 pub static MAZE_DATA: Mutex<Vec<Vec<u32>>> = Mutex::new(vec![]);
@@ -22,10 +22,6 @@ pub static FROM: Mutex<(usize, usize)> = Mutex::new((0, 0));
 pub static TO: Mutex<(usize, usize)> = Mutex::new((0, 0));
 pub static HEURISTIC: Mutex<fn((usize, usize), (usize, usize)) -> u32> =
     Mutex::new(dijkstra_heuristic);
-
-pub fn colors() -> Colors {
-    COLORS.lock().unwrap().clone()
-}
 
 fn header(text: &str) -> String {
     format!("{}", text.truecolor(162, 190, 140).bold())

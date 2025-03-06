@@ -1,4 +1,4 @@
-use crate::{colors, FPS};
+use crate::{COLORS, FPS};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
@@ -15,7 +15,7 @@ pub(crate) fn draw(
     path_color: Color,
     traversed: &mut Maze,
 ) {
-    clear_background(colors().color_bg);
+    clear_background(COLORS.color_bg);
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
@@ -23,11 +23,11 @@ pub(crate) fn draw(
                 traversed[(r, c)] = 1;
                 path_color
             } else if traversed[(r, c)] == 1 {
-                colors().color_traversed
+                COLORS.color_traversed
             } else if maze[(r, c)] > 0 {
-                colors().color_open
+                COLORS.color_open
             } else {
-                colors().color_block
+                COLORS.color_block
             };
 
             draw_rectangle(
@@ -60,7 +60,7 @@ pub(crate) async fn looper(
                 cell_width,
                 cell_height,
                 data.last().unwrap().clone(),
-                colors().color_path,
+                COLORS.color_path,
                 &mut traversed,
             );
             next_frame().await
@@ -80,7 +80,7 @@ pub(crate) async fn looper(
                     cell_width,
                     cell_height,
                     data[i].clone(),
-                    colors().color_visiting,
+                    COLORS.color_visiting,
                     &mut traversed,
                 );
                 next_frame().await
