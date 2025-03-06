@@ -41,8 +41,9 @@ fn traverse(
     }
 
     if let Some(trace) = tracer {
-        trace.push(vec![]);
+        trace.push(vec![source, destination]);
     }
+
     Vec::new()
 }
 
