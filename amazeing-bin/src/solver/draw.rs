@@ -105,6 +105,12 @@ pub(crate) async fn looper(
                 trace_complete = true;
             }
         }
+
+        if is_key_pressed(KeyCode::Q) {
+            println!("Quitting");
+            break;
+        }
+
         if simulating {
             if !trace_complete && last_millis + update_interval <= current_millis() {
                 current_path = trace.remove(0);
@@ -130,10 +136,9 @@ pub(crate) async fn looper(
                 color,
                 &mut traversed,
             );
-            next_frame().await
         } else {
             draw_maze(&maze, margin, padding, cell_width, cell_height);
-            next_frame().await
         }
+        next_frame().await
     }
 }
