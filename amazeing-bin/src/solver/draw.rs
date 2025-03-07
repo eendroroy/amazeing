@@ -1,10 +1,16 @@
+use crate::solve::{COLORS, SOLVER_CONTEXT};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::input::{is_key_pressed, KeyCode};
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
-use std::thread::sleep;
-use std::time::Duration;
-use crate::solve::{COLORS, SOLVER_CONTEXT};
+use std::time::{SystemTime, UNIX_EPOCH};
+
+fn current_millis() -> u128 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis()
+}
 
 pub(crate) fn draw_simulation(
     maze: &Maze,
@@ -78,50 +84,53 @@ pub(crate) async fn looper(
     padding: f32,
     cell_width: f32,
     cell_height: f32,
-    data: Vec<Vec<(usize, usize)>>,
+    trace: &mut Vec<Vec<(usize, usize)>>,
 ) {
-    let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
-    let mut end = false;
-    let mut start = false;
-    loop {
-        if is_key_pressed(KeyCode::S) {
-            start = true;
-        }
-        if start {
-            if end {
-                draw_simulation(
-                    &maze,
-                    margin,
-                    padding,
-                    cell_width,
-                    cell_height,
-                    data.last().unwrap().clone(),
-                    COLORS.color_path,
-                    &mut traversed,
-                );
-                next_frame().await
-            } else {
-                for i in 0..data.len() {
-                    if i == data.len() - 1 {
-                        end = true
-                    }
+    let mut current_path: Vec<(usize, usize)> = vec![];
+    let mut last_millis = current_millis();
+    let update_interval = 1000 / SOLVER_CONTEXT.read().unwrap().fps as u128;
 
-                    sleep(Duration::from_millis(
-                        1000u64 / SOLVER_CONTEXT.read().unwrap().fps as u64,
-                    ));
-                    draw_simulation(
-                        &maze,
-                        margin,
-                        padding,
-                        cell_width,
-                        cell_height,
-                        data[i].clone(),
-                        COLORS.color_visiting,
-                        &mut traversed,
-                    );
-                    next_frame().await
+    let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
+
+    let mut trace_complete = false;
+    let mut simulating = false;
+
+    loop {
+        if is_key_pressed(KeyCode::S) && !simulating {
+            println!("Starting Simulation");
+            simulating = true;
+            current_path = trace.remove(0);
+            last_millis = current_millis();
+            if trace.len() == 0 {
+                trace_complete = true;
+            }
+        }
+        if simulating {
+            if !trace_complete && last_millis + update_interval <= current_millis() {
+                current_path = trace.remove(0);
+                last_millis = current_millis();
+                if trace.len() == 0 {
+                    trace_complete = true;
                 }
             }
+
+            let color = if trace_complete {
+                COLORS.color_path
+            } else {
+                COLORS.color_visiting
+            };
+
+            draw_simulation(
+                &maze,
+                margin,
+                padding,
+                cell_width,
+                cell_height,
+                current_path.clone(),
+                color,
+                &mut traversed,
+            );
+            next_frame().await
         } else {
             draw_maze(&maze, margin, padding, cell_width, cell_height);
             next_frame().await

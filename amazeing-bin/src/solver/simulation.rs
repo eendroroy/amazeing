@@ -24,7 +24,7 @@ pub async fn main() {
         padding,
         cell_width,
         cell_height,
-        SOLVER_CONTEXT.read().unwrap().tracer.clone(),
+        &mut SOLVER_CONTEXT.read().unwrap().tracer.clone(),
     )
     .await
 }
