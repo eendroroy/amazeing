@@ -49,6 +49,7 @@ Options:
 | Algorithm |                                                                                                           |
 |-----------|-----------------------------------------------------------------------------------------------------------|
 | DFS       | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU) |
+| BFS       | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0) |
 
 ## License
 
