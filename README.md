@@ -42,7 +42,10 @@ Options:
         --cols usize Number of COLS in the maze
 ```
 
-Note: Press `q` to quit. Press `s` to start simulation in solver mode (`--solve`).
+Note:
+
+- Press `q` to quit. This will dump the displayed maze into file in generator mode (`--generate`)
+- Press `s` in solver mode (`--solve`) to start simulation.
 
 ## Demo
 
