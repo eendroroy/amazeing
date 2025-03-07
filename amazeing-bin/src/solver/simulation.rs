@@ -1,6 +1,5 @@
-use crate::solve::get_conf;
-use crate::solve::SOLVER_CONTEXT;
 use crate::solver::draw::looper;
+use crate::solver::solve::{get_conf, SOLVER_CONTEXT};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 

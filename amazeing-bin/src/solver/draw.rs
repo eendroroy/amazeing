@@ -1,4 +1,4 @@
-use crate::solve::{COLORS, SOLVER_CONTEXT};
+use crate::solver::solve::{COLORS, SOLVER_CONTEXT};
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::input::{is_key_pressed, KeyCode};

@@ -1,4 +1,4 @@
-use crate::generate::{COLS, PATH, ROWS};
+use crate::generator::generate::{COLS, PATH, ROWS};
 use crate::generator::manual::draw::looper;
 use crate::matrix::dumper::dump_maze_to_file;
 use crate::matrix::loader::loader_maze_from_file;
