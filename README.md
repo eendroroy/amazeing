@@ -42,6 +42,8 @@ Options:
         --cols usize Number of COLS in the maze
 ```
 
+Note: Press `q` to quit. Press `s` to start simulation in solver mode (`--solve`).
+
 ## Demo
 
 ## Demo
