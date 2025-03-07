@@ -12,18 +12,12 @@ pub async fn main() {
     let (cell_width, cell_height) = (15., 15.);
     let (screen_width, screen_height) = (
         margin + maze_width as f32 * (cell_width + padding) + margin,
-        margin + maze_height as f32 * (cell_width + padding) + margin,
+        margin + maze_height as f32 * (cell_height + padding) + margin,
     );
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
-    looper(
-        maze,
-        margin,
-        padding,
-        cell_width,
-        cell_height,
-        &mut SOLVER_CONTEXT.read().unwrap().tracer.clone(),
-    )
-    .await
+    let mut trace = SOLVER_CONTEXT.read().unwrap().tracer.clone();
+
+    looper(maze, margin, padding, cell_width, cell_height, &mut trace).await
 }
