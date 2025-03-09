@@ -1,5 +1,6 @@
 mod traverse;
 mod weighted_traverse;
+mod common;
 
 pub use traverse::bfs;
 pub use traverse::dfs;

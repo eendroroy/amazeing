@@ -1,9 +1,11 @@
-use crate::maze::matrix::{neighbours, reconstruct_path, validate, Maze, D, L, R, U};
+use crate::maze::matrix::{neighbours, Maze, D, L, R, U};
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;
 use crate::structure::DNode;
 use std::collections::{BTreeMap, HashMap};
+use crate::helper::reconstruct_path;
+use crate::solver::matrix::common::validate;
 
 fn traverse(
     maze: &Maze,
