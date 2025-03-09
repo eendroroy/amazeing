@@ -1,5 +1,4 @@
-use crate::maze::matrix::{neighbours, Maze, D, L, R, U};
-use crate::solver::matrix::common::{reconstruct_path, validate};
+use crate::maze::matrix::{neighbours, reconstruct_path, validate, Maze, D, L, R, U};
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;
