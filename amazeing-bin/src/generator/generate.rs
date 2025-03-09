@@ -17,5 +17,5 @@ pub(crate) fn generate(maze_file_path: String, rows: String, cols: String) {
         GENERATOR_CONTEXT.write().unwrap().cols = usize::from_str_radix(cols.as_str(), 10).unwrap();
     }
 
-    generator::manual::manual::main()
+    generator::manual::main()
 }

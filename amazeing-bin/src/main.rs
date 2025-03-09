@@ -1,10 +1,9 @@
-use crate::params::parse_params;
+use crate::command::parse_params;
 
+mod command;
 pub(crate) mod context;
 pub(crate) mod generator;
-pub(crate) mod help;
 pub(crate) mod matrix;
-pub(crate) mod params;
 pub(crate) mod solver;
 
 fn main() {

@@ -1,4 +1,4 @@
-use crate::help;
+use crate::command::help;
 use std::env::Args;
 use std::iter::Skip;
 use std::{env, vec};
