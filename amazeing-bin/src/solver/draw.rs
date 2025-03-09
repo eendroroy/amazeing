@@ -1,10 +1,10 @@
-use crate::solver::solve::{COLORS, SOLVER_CONTEXT};
+use crate::context::{COLORS, SOLVER_CONTEXT};
 use amazeing::maze::matrix::Maze;
+use amazeing::DNode;
 use macroquad::color::Color;
 use macroquad::input::{is_key_pressed, KeyCode};
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
 use std::time::{SystemTime, UNIX_EPOCH};
-use amazeing::DNode;
 
 fn current_millis() -> u128 {
     SystemTime::now()

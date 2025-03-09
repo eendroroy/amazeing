@@ -1,5 +1,5 @@
+use crate::context::GENERATOR_CONTEXT;
 use crate::generator::draw::draw_maze;
-use crate::generator::generate::GENERATOR_CONTEXT;
 use crate::matrix::dumper::dump_maze_to_file;
 use crate::matrix::loader::loader_maze_from_file;
 use amazeing::maze::matrix::Maze;

@@ -1,9 +1,9 @@
 use crate::generator::draw::draw_maze;
-use crate::generator::generate::GENERATOR_CONTEXT;
 use crate::matrix::loader::loader_maze_from_file;
 use amazeing::maze::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
+use crate::context::GENERATOR_CONTEXT;
 
 async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cell_height: f32) {
     loop {

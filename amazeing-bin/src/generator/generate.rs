@@ -1,14 +1,9 @@
-use crate::context::{Colors, GeneratorContext};
 use crate::generator;
 use crate::matrix::dumper::dump_maze_to_file;
 use amazeing::generator::matrix::{bfs, dfs};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
-use std::sync::{LazyLock, RwLock};
-
-pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
-pub static GENERATOR_CONTEXT: LazyLock<RwLock<GeneratorContext>> =
-    LazyLock::new(|| RwLock::new(GeneratorContext::new()));
+use crate::context::GENERATOR_CONTEXT;
 
 pub(crate) fn generate(
     maze_file_path: String,

@@ -1,4 +1,4 @@
-use crate::generator::generate::COLORS;
+use crate::context::COLORS;
 use amazeing::maze::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::{clear_background, draw_rectangle};

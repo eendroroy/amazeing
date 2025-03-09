@@ -1,4 +1,4 @@
-use crate::context::{Colors, SolverContext};
+use crate::context::SOLVER_CONTEXT;
 use crate::matrix::loader::{loader_maze_from_file, parse_node};
 use crate::solver;
 use amazeing::maze::matrix::{
@@ -8,11 +8,6 @@ use amazeing::maze::matrix::{
 use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
 use macroquad::prelude::Conf;
-use std::sync::{LazyLock, RwLock};
-
-pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
-pub static SOLVER_CONTEXT: LazyLock<RwLock<SolverContext>> =
-    LazyLock::new(|| RwLock::new(SolverContext::new()));
 
 pub fn get_conf() -> Conf {
     Conf {
