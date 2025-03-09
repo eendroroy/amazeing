@@ -58,7 +58,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, &vec![R, D, L, U]) {
+        for next in neighbours_open(maze, current) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {
