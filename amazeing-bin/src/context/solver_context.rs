@@ -1,13 +1,14 @@
 use amazeing::maze::matrix::Maze;
+use amazeing::DNode;
 
 #[derive(Debug, Clone)]
 pub struct SolverContext {
-    pub(crate) source: (usize, usize),
-    pub(crate) destination: (usize, usize),
+    pub(crate) source: DNode,
+    pub(crate) destination: DNode,
     pub(crate) title: String,
     pub(crate) maze: Maze,
     pub(crate) fps: u8,
-    pub(crate) tracer: Vec<Vec<(usize, usize)>>,
+    pub(crate) tracer: Vec<Vec<DNode>>,
 }
 
 impl SolverContext {

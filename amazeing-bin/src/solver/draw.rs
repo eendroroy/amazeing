@@ -4,6 +4,7 @@ use macroquad::color::Color;
 use macroquad::input::{is_key_pressed, KeyCode};
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
 use std::time::{SystemTime, UNIX_EPOCH};
+use amazeing::DNode;
 
 fn current_millis() -> u128 {
     SystemTime::now()
@@ -18,7 +19,7 @@ pub(crate) fn draw_simulation(
     padding: f32,
     cell_width: f32,
     cell_height: f32,
-    path: Vec<(usize, usize)>,
+    path: Vec<DNode>,
     path_color: Color,
     traversed: &mut Maze,
 ) {
@@ -84,9 +85,9 @@ pub(crate) async fn looper(
     padding: f32,
     cell_width: f32,
     cell_height: f32,
-    trace: &mut Vec<Vec<(usize, usize)>>,
+    trace: &mut Vec<Vec<DNode>>,
 ) {
-    let mut current_path: Vec<(usize, usize)> = vec![];
+    let mut current_path: Vec<DNode> = vec![];
     let mut last_millis = current_millis();
     let update_interval = 1000 / SOLVER_CONTEXT.read().unwrap().fps as u128;
 

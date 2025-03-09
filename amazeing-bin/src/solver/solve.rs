@@ -1,10 +1,12 @@
 use crate::context::{Colors, SolverContext};
 use crate::matrix::loader::{loader_maze_from_file, parse_node};
 use crate::solver;
-use amazeing::solver::matrix::{
-    a_star, bfs, chebyshev_heuristic, dfs, dijkstra, dijkstra_heuristic, euclidean_heuristic,
-    manhattan_heuristic, octile_heuristic,
+use amazeing::maze::matrix::{
+    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
+    octile_heuristic,
 };
+use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
+use amazeing::DNode;
 use macroquad::prelude::Conf;
 use std::sync::{LazyLock, RwLock};
 
@@ -19,7 +21,7 @@ pub fn get_conf() -> Conf {
     }
 }
 
-fn get_heu(heu: &str) -> fn((usize, usize), (usize, usize)) -> u32 {
+fn get_heu(heu: &str) -> fn(DNode, DNode) -> u32 {
     match heu {
         "manhattan" => manhattan_heuristic,
         "euclidean" => euclidean_heuristic,
@@ -47,7 +49,7 @@ pub(crate) fn solve(
     let maze = loader_maze_from_file(&*maze_file_path);
     SOLVER_CONTEXT.write().unwrap().maze = maze.clone();
 
-    let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);
+    let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
     let (source, destination) = (parse_node(&from), parse_node(&to));
 
     SOLVER_CONTEXT.write().unwrap().source = source;

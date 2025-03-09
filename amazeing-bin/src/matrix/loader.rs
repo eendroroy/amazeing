@@ -1,4 +1,5 @@
 use amazeing::maze::matrix::Maze;
+use amazeing::DNode;
 use std::fs;
 use std::path::Path;
 
@@ -19,7 +20,7 @@ pub(crate) fn loader_maze_from_file(path: &str) -> Maze {
     )
 }
 
-pub(crate) fn parse_node(node: &str) -> (usize, usize) {
+pub(crate) fn parse_node(node: &str) -> DNode {
     let node_data = node.split(",").collect::<Vec<&str>>();
     (
         u32::from_str_radix(node_data.get(0).unwrap(), 10).unwrap() as usize,
