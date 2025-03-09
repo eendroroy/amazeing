@@ -17,9 +17,16 @@ fn main() {
             p.remove(0),
             p.remove(0),
             p.remove(0),
+            p.remove(0),
         ),
-        "generate" => generator::generate(p.remove(0), p.remove(0), p.remove(0), p.remove(0)),
-        "view" => generator::visualize(p.remove(0)),
+        "generate" => generator::generate(
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+        ),
+        "view" => generator::visualize(p.remove(0), p.remove(0)),
         &_ => todo!(),
     }
 }

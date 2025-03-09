@@ -23,6 +23,8 @@ Options:
     -s, --solve                 Solve Maze
     -g, --generate              Generate Maze
     -v, --view                  View Maze
+        --display               Set display size
+                                Choose from: x-small (xs), small (s), medium (m), large (l), x-large (xl)
 
 Usage: amazeing --solve
 

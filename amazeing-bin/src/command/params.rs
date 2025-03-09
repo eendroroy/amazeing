@@ -51,6 +51,7 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
     let mut from = String::from("");
     let mut to = String::from("");
     let mut fps = String::from("");
+    let mut display_size = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
@@ -60,6 +61,7 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
             "--from" => from = args.next().unwrap(),
             "--to" => to = args.next().unwrap(),
             "--fps" => fps = args.next().unwrap(),
+            "--display" => display_size = args.next().unwrap(),
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -70,7 +72,15 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![String::from(algorithm), heu, maze_file_path, from, to, fps]
+    vec![
+        String::from(algorithm),
+        heu,
+        maze_file_path,
+        from,
+        to,
+        fps,
+        display_size,
+    ]
 }
 
 fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
@@ -78,6 +88,7 @@ fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
     let mut rows = String::from("");
     let mut cols = String::from("");
     let mut proc = String::from("");
+    let mut display_size = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
@@ -85,6 +96,7 @@ fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
             "--rows" => rows = args.next().unwrap(),
             "--cols" => cols = args.next().unwrap(),
             "--proc" => proc = args.next().unwrap(),
+            "--display" => display_size = args.next().unwrap(),
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -95,15 +107,17 @@ fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![maze_file_path, rows, cols, proc]
+    vec![maze_file_path, rows, cols, proc, display_size]
 }
 
 fn parse_view_params(mut args: Skip<Args>) -> Vec<String> {
     let mut maze_file_path = String::from("");
+    let mut display_size = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
             "--maze" => maze_file_path = args.next().unwrap(),
+            "--display" => display_size = args.next().unwrap(),
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -114,5 +128,5 @@ fn parse_view_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![maze_file_path]
+    vec![maze_file_path, display_size]
 }

@@ -39,8 +39,10 @@ pub(crate) fn solve(
     from: String,
     to: String,
     fps: String,
+    display_size: String,
 ) {
     SOLVER_CONTEXT.write().unwrap().title = String::from(format!("Maze Solver ({})", algorithm));
+    SOLVER_CONTEXT.write().unwrap().display_size = display_size;
 
     if fps != String::from("") {
         SOLVER_CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();

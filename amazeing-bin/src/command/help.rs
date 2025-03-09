@@ -46,6 +46,13 @@ pub(crate) fn help() {
         command("    -v, --view"),
         description("                 View Maze")
     );
+    println!(
+        "{} {} {} {}",
+        command("        --display"),
+        description("              Set display size"),
+        description("\n                                Choose from:"),
+        description("x-small (xs), small (s), medium (m), large (l), x-large (xl)"),
+    );
 
     println!();
     println!(
