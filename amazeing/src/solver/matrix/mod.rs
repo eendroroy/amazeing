@@ -1,6 +1,5 @@
 mod common;
 mod heuristics;
-mod neighbour;
 mod traverse;
 mod weighted_traverse;
 
