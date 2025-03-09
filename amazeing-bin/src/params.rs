@@ -42,7 +42,7 @@ pub(crate) fn parse_params() -> Vec<String> {
 fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
     let mut algorithm = String::from("");
     let mut heu = String::from("");
-    let mut path = String::from("");
+    let mut maze_file_path = String::from("");
     let mut from = String::from("");
     let mut to = String::from("");
     let mut fps = String::from("");
@@ -51,7 +51,7 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
         match &arg[..] {
             "--algorithm" => algorithm = args.next().unwrap(),
             "--heu" => heu = args.next().unwrap(),
-            "--path" => path = args.next().unwrap(),
+            "--maze" => maze_file_path = args.next().unwrap(),
             "--from" => from = args.next().unwrap(),
             "--to" => to = args.next().unwrap(),
             "--fps" => fps = args.next().unwrap(),
@@ -65,17 +65,17 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![String::from(algorithm), heu, path, from, to, fps]
+    vec![String::from(algorithm), heu, maze_file_path, from, to, fps]
 }
 
 fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
-    let mut path = String::from("");
+    let mut maze_file_path = String::from("");
     let mut rows = String::from("");
     let mut cols = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
-            "--path" => path = args.next().unwrap(),
+            "--maze" => maze_file_path = args.next().unwrap(),
             "--rows" => rows = args.next().unwrap(),
             "--cols" => cols = args.next().unwrap(),
             _ => {
@@ -88,5 +88,5 @@ fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![path, rows, cols]
+    vec![maze_file_path, rows, cols]
 }

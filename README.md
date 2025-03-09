@@ -24,7 +24,7 @@ Options:
 Usage: amazeing --solve
 
 Options:
-        --path      str         Path to the maze file
+        --maze      str         Path to the maze file
         --from      usize,usize Start point
         --to        usize,usize End point
         --algorithm             Algorithm name for simulation
@@ -37,7 +37,7 @@ Options:
 Usage: amazeing --generate
 
 Options:
-        --path str   Path to the file to dump the maze (existing file will preload the data)
+        --maze str   Path to the file to dump the maze (existing file will preload the data)
         --rows usize Number of ROWS in the maze
         --cols usize Number of COLS in the maze
 ```

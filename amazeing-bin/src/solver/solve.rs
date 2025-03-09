@@ -33,7 +33,7 @@ fn get_heu(heu: &str) -> fn((usize, usize), (usize, usize)) -> u32 {
 pub(crate) fn solve(
     algorithm: String,
     heu: String,
-    path: String,
+    maze_file_path: String,
     from: String,
     to: String,
     fps: String,
@@ -44,7 +44,7 @@ pub(crate) fn solve(
         SOLVER_CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();
     }
 
-    let maze = loader_maze_from_file(&*path);
+    let maze = loader_maze_from_file(&*maze_file_path);
     SOLVER_CONTEXT.write().unwrap().maze = maze.clone();
 
     let mut tracer: Option<Vec<Vec<(usize, usize)>>> = Some(vec![]);

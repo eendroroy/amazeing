@@ -43,7 +43,7 @@ pub(crate) fn help() {
     println!("{}", header("Options:"));
     println!(
         "{} {} {}",
-        command("        --path"),
+        command("        --maze"),
         value("     str"),
         description("        Path to the maze file"),
     );
@@ -93,7 +93,7 @@ pub(crate) fn help() {
     println!("{}", header("Options:"));
     println!(
         "{} {} {}",
-        command("        --path"),
+        command("        --maze"),
         value("str"),
         description("  Path to the file to dump the maze (existing file will preload the data)"),
     );
