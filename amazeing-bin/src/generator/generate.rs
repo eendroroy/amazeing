@@ -40,7 +40,7 @@ pub(crate) fn generate(maze_file_path: String, rows: String, cols: String, proc:
                 _ => panic!("Unknown procedure: {}", proc),
             };
             dump_maze_to_file(&*maze_file_path.clone(), maze);
-            generator::manual::main()
+            generator::visualize::main()
         }
     }
 }
