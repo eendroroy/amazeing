@@ -1,5 +1,5 @@
 use crate::helper::reconstruct_path;
-use crate::maze::matrix::{neighbours_open, Maze, D, L, R, U};
+use crate::maze::matrix::{neighbours_open, Maze};
 use crate::solver::matrix::common::validate;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
@@ -33,7 +33,7 @@ fn traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current) {
+        for next in neighbours_open(maze, current, None) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
                 storage.push(next);

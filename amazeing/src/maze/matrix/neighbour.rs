@@ -19,8 +19,12 @@ pub(crate) const U: FnNeighbour = |of| -> Option<DNode> {
     }
 };
 
-pub(crate) fn neighbours(maze: &Maze, pos: DNode) -> Vec<DNode> {
-    vec![R, D, L, U]
+type Traversal = Option<Vec<FnNeighbour>>;
+
+pub(crate) fn neighbours(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+    let direction_list = directions.unwrap_or_else(|| vec![R, D, L, U]);
+
+    direction_list
         .iter()
         .map(|i| i(pos))
         .filter(|p| p.is_some())
@@ -30,15 +34,15 @@ pub(crate) fn neighbours(maze: &Maze, pos: DNode) -> Vec<DNode> {
         .collect()
 }
 
-pub(crate) fn neighbours_open(maze: &Maze, pos: DNode) -> Vec<DNode> {
-    neighbours(maze, pos)
+pub(crate) fn neighbours_open(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+    neighbours(maze, pos, directions)
         .into_iter()
         .filter(|p| maze[*p] > 0)
         .collect()
 }
 
-pub(crate) fn neighbours_block(maze: &Maze, pos: DNode) -> Vec<DNode> {
-    neighbours(maze, pos)
+pub(crate) fn neighbours_block(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+    neighbours(maze, pos, directions)
         .into_iter()
         .filter(|p| maze[*p] < 1)
         .collect()

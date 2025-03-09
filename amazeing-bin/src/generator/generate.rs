@@ -1,5 +1,9 @@
 use crate::context::{Colors, GeneratorContext};
 use crate::generator;
+use crate::matrix::dumper::dump_maze_to_file;
+use amazeing::generator::matrix::{bfs, dfs};
+use amazeing::maze::matrix::Maze;
+use rand::random_range;
 use std::sync::{LazyLock, RwLock};
 
 pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
@@ -19,6 +23,24 @@ pub(crate) fn generate(maze_file_path: String, rows: String, cols: String, proc:
 
     match proc.as_str() {
         "manual" => generator::manual::main(),
-        _ => panic!("Unknown procedure: {}", proc),
+        name => {
+            let (rows, cols) = (
+                GENERATOR_CONTEXT.read().unwrap().rows,
+                GENERATOR_CONTEXT.read().unwrap().cols,
+            );
+
+            let start = (random_range(0..rows), random_range(0..cols));
+
+            println!("Starting at {:?}", start);
+
+            let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
+            match name {
+                "bfs" => bfs(&mut maze, start, &mut None),
+                "dfs" => dfs(&mut maze, start, &mut None),
+                _ => panic!("Unknown procedure: {}", proc),
+            };
+            dump_maze_to_file(&*maze_file_path.clone(), maze);
+            generator::manual::main()
+        }
     }
 }
