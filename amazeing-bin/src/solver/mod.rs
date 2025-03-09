@@ -1,3 +1,6 @@
+mod solve;
+
 pub(crate) mod draw;
 pub(crate) mod simulation;
-pub(crate) mod solve;
+
+pub(crate) use solve::solve;

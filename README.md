@@ -19,7 +19,9 @@ cargo install --path amazeing-bin
 Usage: amazeing --solve | --generate
 
 Options:
-    -h, --help Print the help menu
+    -h, --help     Print the help menu
+    -s, --solve    Solve Maze
+    -g, --generate Generate Maze
 
 Usage: amazeing --solve
 
@@ -32,7 +34,7 @@ Options:
         --heu       str         Heuristic function to use with a-star
                                 Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
                                 Default dijkstra if none provided
-        --fps       u8          Gui FPS
+        --fps       u8          Frame per second
 
 Usage: amazeing --generate
 
@@ -40,6 +42,7 @@ Options:
         --maze str   Path to the file to dump the maze (existing file will preload the data)
         --rows usize Number of ROWS in the maze
         --cols usize Number of COLS in the maze
+        --proc str   Procedure to generate MAZE
 ```
 
 Note:

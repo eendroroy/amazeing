@@ -72,12 +72,14 @@ fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
     let mut maze_file_path = String::from("");
     let mut rows = String::from("");
     let mut cols = String::from("");
+    let mut proc = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
             "--maze" => maze_file_path = args.next().unwrap(),
             "--rows" => rows = args.next().unwrap(),
             "--cols" => cols = args.next().unwrap(),
+            "--proc" => proc = args.next().unwrap(),
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -88,5 +90,5 @@ fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
         }
     }
 
-    vec![maze_file_path, rows, cols]
+    vec![maze_file_path, rows, cols, proc]
 }

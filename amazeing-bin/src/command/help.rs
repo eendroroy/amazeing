@@ -29,7 +29,17 @@ pub(crate) fn help() {
     println!(
         "{} {}",
         command("    -h, --help"),
-        description("Print the help menu")
+        description("    Print the help menu")
+    );
+    println!(
+        "{} {}",
+        command("    -s, --solve"),
+        description("   Solve Maze")
+    );
+    println!(
+        "{} {}",
+        command("    -g, --generate"),
+        description("Generate Maze")
     );
 
     println!();
@@ -79,7 +89,7 @@ pub(crate) fn help() {
         "{} {} {}",
         command("        --fps"),
         value("      u8"),
-        description("         Gui FPS"),
+        description("         Frame per second"),
     );
 
     println!();
@@ -108,6 +118,12 @@ pub(crate) fn help() {
         command("        --cols"),
         value("usize"),
         description("Number of COLS in the maze"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --proc"),
+        value("str"),
+        description("  Procedure to generate MAZE"),
     );
 
     println!();
