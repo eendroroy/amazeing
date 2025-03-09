@@ -1,24 +1,20 @@
+use crate::context::{Colors, GeneratorContext};
 use crate::generator;
-use macroquad::color::{Color, BLACK, DARKGRAY, LIGHTGRAY};
-use std::sync::Mutex;
+use std::sync::{LazyLock, RwLock};
 
-pub static BG: Color = BLACK;
-pub static BLOCK: Color = DARKGRAY;
-pub static OPEN: Color = LIGHTGRAY;
+pub static COLORS: LazyLock<Colors> = LazyLock::new(|| Colors::new());
+pub static GENERATOR_CONTEXT: LazyLock<RwLock<GeneratorContext>> =
+    LazyLock::new(|| RwLock::new(GeneratorContext::new()));
 
-pub static PATH: Mutex<String> = Mutex::new(String::new());
-pub static ROWS: Mutex<usize> = Mutex::new(10usize);
-pub static COLS: Mutex<usize> = Mutex::new(10usize);
-
-pub(crate) fn generate(path: String, rows: String, cols: String) {
-    *PATH.lock().unwrap() = path.clone();
+pub(crate) fn generate(maze_file_path: String, rows: String, cols: String) {
+    GENERATOR_CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
 
     if rows != String::new() {
-        *ROWS.lock().unwrap() = usize::from_str_radix(rows.as_str(), 10).unwrap();
+        GENERATOR_CONTEXT.write().unwrap().rows = usize::from_str_radix(rows.as_str(), 10).unwrap();
     }
 
     if cols != String::new() {
-        *COLS.lock().unwrap() = usize::from_str_radix(cols.as_str(), 10).unwrap();
+        GENERATOR_CONTEXT.write().unwrap().cols = usize::from_str_radix(cols.as_str(), 10).unwrap();
     }
 
     generator::manual::manual::main()

@@ -1,4 +1,4 @@
-use crate::generator::generate::{BG, BLOCK, OPEN};
+use crate::generator::generate::COLORS;
 use amazeing::solver::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::input::{is_key_down, is_key_pressed, KeyCode};
@@ -8,11 +8,15 @@ use macroquad::prelude::{
 };
 
 pub(crate) fn draw(maze: &Maze, margin: f32, padding: f32, cell_width: f32, cell_height: f32) {
-    clear_background(BG);
+    clear_background(COLORS.color_bg);
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            let color: Color = if maze[(r, c)] > 0 { OPEN } else { BLOCK };
+            let color: Color = if maze[(r, c)] > 0 {
+                COLORS.color_open
+            } else {
+                COLORS.color_block
+            };
 
             draw_rectangle(
                 margin + c as f32 * (cell_width + padding),
