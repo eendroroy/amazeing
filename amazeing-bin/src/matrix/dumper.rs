@@ -1,6 +1,6 @@
-use amazeing::solver::matrix::Maze;
 use std::fs::OpenOptions;
 use std::io::Write;
+use amazeing::maze::matrix::Maze;
 
 pub(crate) fn dump_maze_to_file(path: &str, maze: Maze) {
     let mut file = OpenOptions::new()

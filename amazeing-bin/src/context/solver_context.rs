@@ -1,4 +1,4 @@
-use amazeing::solver::matrix::Maze;
+use amazeing::maze::matrix::Maze;
 
 #[derive(Debug, Clone)]
 pub struct SolverContext {

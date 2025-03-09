@@ -1,5 +1,5 @@
-use crate::solver::matrix::neighbour::DNode;
-use crate::solver::matrix::Maze;
+use crate::maze::matrix::Maze;
+use crate::structure::DNode;
 use std::ops::{Index, IndexMut};
 
 impl Index<DNode> for Maze {

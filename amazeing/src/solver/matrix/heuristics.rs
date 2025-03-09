@@ -1,4 +1,4 @@
-use crate::solver::matrix::neighbour::DNode;
+use crate::structure::DNode;
 
 /// Manhattan distance heuristic for A*
 pub fn manhattan_heuristic(node: DNode, goal: DNode) -> u32 {

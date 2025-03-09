@@ -1,6 +1,8 @@
+use crate::maze::matrix::Maze;
 use crate::solver::matrix::common::{reconstruct_path, validate};
-use crate::solver::matrix::neighbour::{neighbours, DNode, D, L, R, U};
-use crate::solver::matrix::{dijkstra_heuristic, Maze};
+use crate::solver::matrix::dijkstra_heuristic;
+use crate::solver::matrix::neighbour::{neighbours, D, L, R, U};
+use crate::structure::DNode;
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap};
 

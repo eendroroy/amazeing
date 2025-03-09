@@ -1,7 +1,7 @@
 use crate::generator::generate::{COLORS, GENERATOR_CONTEXT};
 use crate::matrix::dumper::dump_maze_to_file;
 use crate::matrix::loader::loader_maze_from_file;
-use amazeing::solver::matrix::Maze;
+use amazeing::maze::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::fs;

@@ -1,4 +1,4 @@
-use amazeing::solver::matrix::Maze;
+use amazeing::maze::matrix::Maze;
 use std::fs;
 use std::path::Path;
 

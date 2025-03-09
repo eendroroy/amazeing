@@ -1,6 +1,6 @@
-use crate::solver::matrix::neighbour::DNode;
-use crate::solver::matrix::Maze;
+use crate::maze::matrix::Maze;
 use std::collections::BTreeMap;
+use crate::structure::DNode;
 
 pub(crate) fn validate(maze: &Maze, source: DNode, destination: DNode) {
     if source.0 >= maze.rows()
