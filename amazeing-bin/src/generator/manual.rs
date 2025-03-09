@@ -1,4 +1,5 @@
-use crate::generator::generate::{COLORS, GENERATOR_CONTEXT};
+use crate::generator::draw::draw_maze;
+use crate::generator::generate::GENERATOR_CONTEXT;
 use crate::matrix::dumper::dump_maze_to_file;
 use crate::matrix::loader::loader_maze_from_file;
 use amazeing::maze::matrix::Maze;
@@ -6,28 +7,6 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::fs;
 use std::path::Path;
-
-fn draw(maze: &Maze, margin: f32, padding: f32, cell_width: f32, cell_height: f32) {
-    clear_background(COLORS.color_bg);
-
-    for r in 0..maze.rows() {
-        for c in 0..maze.cols() {
-            let color: Color = if maze[(r, c)] > 0 {
-                COLORS.color_open
-            } else {
-                COLORS.color_block
-            };
-
-            draw_rectangle(
-                margin + c as f32 * (cell_width + padding),
-                margin + r as f32 * (cell_height + padding),
-                cell_width,
-                cell_height,
-                color,
-            );
-        }
-    }
-}
 
 async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cell_height: f32) {
     loop {
@@ -49,7 +28,7 @@ async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cel
             maze[(r as usize, c as usize)] = value;
         }
 
-        draw(maze, margin, padding, cell_width, cell_height);
+        draw_maze(maze, margin, padding, cell_width, cell_height);
         next_frame().await
     }
 }

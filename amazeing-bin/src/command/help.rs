@@ -22,24 +22,29 @@ pub(crate) fn help() {
         "{} {} {}",
         header("Usage:"),
         command("amazeing"),
-        value("--solve | --generate")
+        value("--solve | --generate | --view")
     );
     println!();
     println!("{}", header("Options:"));
     println!(
         "{} {}",
         command("    -h, --help"),
-        description("    Print the help menu")
+        description("                 Print the help menu")
     );
     println!(
         "{} {}",
         command("    -s, --solve"),
-        description("   Solve Maze")
+        description("                Solve Maze")
     );
     println!(
         "{} {}",
         command("    -g, --generate"),
-        description("Generate Maze")
+        description("             Generate Maze")
+    );
+    println!(
+        "{} {}",
+        command("    -v, --view"),
+        description("                 View Maze")
     );
 
     println!();
@@ -102,28 +107,45 @@ pub(crate) fn help() {
     println!();
     println!("{}", header("Options:"));
     println!(
-        "{} {} {}",
+        "{} {} {} {}",
         command("        --maze"),
-        value("str"),
-        description("  Path to the file to dump the maze (existing file will preload the data)"),
+        value("     str"),
+        description("        Path to the file to dump the maze"),
+        description("(existing file will preload the data)"),
     );
     println!(
         "{} {} {}",
         command("        --rows"),
-        value("usize"),
-        description("Number of ROWS in the maze"),
+        value("     usize"),
+        description("      Number of ROWS in the maze"),
     );
     println!(
         "{} {} {}",
         command("        --cols"),
-        value("usize"),
-        description("Number of COLS in the maze"),
+        value("     usize"),
+        description("      Number of COLS in the maze"),
     );
     println!(
         "{} {} {}",
         command("        --proc"),
-        value("str"),
-        description("  Procedure to generate MAZE"),
+        value("     str"),
+        description("        Procedure to generate MAZE"),
+    );
+
+    println!();
+    println!(
+        "{} {} {}",
+        header("Usage:"),
+        command("amazeing"),
+        value("--view")
+    );
+    println!();
+    println!("{}", header("Options:"));
+    println!(
+        "{} {} {}",
+        command("        --maze"),
+        value("     str"),
+        description("        Path to the maze file"),
     );
 
     println!();

@@ -44,3 +44,8 @@ pub(crate) fn generate(maze_file_path: String, rows: String, cols: String, proc:
         }
     }
 }
+
+pub(crate) fn visualize(maze_file_path: String) {
+    GENERATOR_CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
+    generator::visualize::main()
+}

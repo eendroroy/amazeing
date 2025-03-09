@@ -19,6 +19,10 @@ pub(crate) fn parse_params() -> Vec<String> {
                 mode = String::from("generate");
                 break;
             }
+            "-v" | "--view" => {
+                mode = String::from("view");
+                break;
+            }
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -31,7 +35,8 @@ pub(crate) fn parse_params() -> Vec<String> {
 
     let mut mode_args = match &mode[..] {
         "solve" => parse_solve_params(args),
-        "generate" => parse_gen_params(args),
+        "generate" => parse_generate_params(args),
+        "view" => parse_view_params(args),
         _ => vec![],
     };
 
@@ -68,7 +73,7 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
     vec![String::from(algorithm), heu, maze_file_path, from, to, fps]
 }
 
-fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
+fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
     let mut maze_file_path = String::from("");
     let mut rows = String::from("");
     let mut cols = String::from("");
@@ -91,4 +96,23 @@ fn parse_gen_params(mut args: Skip<Args>) -> Vec<String> {
     }
 
     vec![maze_file_path, rows, cols, proc]
+}
+
+fn parse_view_params(mut args: Skip<Args>) -> Vec<String> {
+    let mut maze_file_path = String::from("");
+
+    while let Some(arg) = args.next() {
+        match &arg[..] {
+            "--maze" => maze_file_path = args.next().unwrap(),
+            _ => {
+                if arg.starts_with('-') {
+                    println!("Unknown argument {}", arg);
+                } else {
+                    println!("Unknown positional argument {}", arg);
+                }
+            }
+        }
+    }
+
+    vec![maze_file_path]
 }

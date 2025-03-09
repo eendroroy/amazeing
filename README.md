@@ -16,12 +16,13 @@ cargo install --path amazeing-bin
 ## Usage
 
 ```txt
-Usage: amazeing --solve | --generate
+Usage: amazeing --solve | --generate | --view
 
 Options:
-    -h, --help     Print the help menu
-    -s, --solve    Solve Maze
-    -g, --generate Generate Maze
+    -h, --help                  Print the help menu
+    -s, --solve                 Solve Maze
+    -g, --generate              Generate Maze
+    -v, --view                  View Maze
 
 Usage: amazeing --solve
 
@@ -39,10 +40,15 @@ Options:
 Usage: amazeing --generate
 
 Options:
-        --maze str   Path to the file to dump the maze (existing file will preload the data)
-        --rows usize Number of ROWS in the maze
-        --cols usize Number of COLS in the maze
-        --proc str   Procedure to generate MAZE
+        --maze      str         Path to the file to dump the maze (existing file will preload the data)
+        --rows      usize       Number of ROWS in the maze
+        --cols      usize       Number of COLS in the maze
+        --proc      str         Procedure to generate MAZE
+
+Usage: amazeing --view
+
+Options:
+        --maze      str         Path to the maze file
 ```
 
 Note:
