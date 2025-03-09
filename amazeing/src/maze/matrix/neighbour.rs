@@ -26,7 +26,13 @@ pub(crate) fn neighbours(maze: &Maze, pos: DNode, direction: &Vec<FnNeighbour>) 
         .filter(|p| p.is_some())
         .map(|p| p.unwrap())
         .filter(|p| p.0 < maze.rows() && p.1 < maze.cols())
-        .filter(|p| maze[*p] > 0)
         .map(|p| p.clone())
+        .collect()
+}
+
+pub(crate) fn neighbours_open(maze: &Maze, pos: DNode, direction: &Vec<FnNeighbour>) -> Vec<DNode> {
+    neighbours(maze, pos, direction)
+        .into_iter()
+        .filter(|p| maze[*p] > 0)
         .collect()
 }

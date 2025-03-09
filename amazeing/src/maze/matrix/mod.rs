@@ -4,6 +4,7 @@ mod maze_index;
 mod neighbour;
 
 pub(crate) use neighbour::neighbours;
+pub(crate) use neighbour::neighbours_open;
 pub(crate) use neighbour::D;
 pub(crate) use neighbour::L;
 pub(crate) use neighbour::R;

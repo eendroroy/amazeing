@@ -1,9 +1,9 @@
-use crate::maze::matrix::{dijkstra_heuristic, neighbours, Maze, D, L, R, U};
+use crate::helper::reconstruct_path;
+use crate::maze::matrix::{dijkstra_heuristic, neighbours_open, Maze, D, L, R, U};
 use crate::solver::matrix::common::validate;
 use crate::structure::DNode;
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap};
-use crate::helper::reconstruct_path;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 struct DNodeWeighted {
@@ -58,7 +58,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in neighbours(maze, current, &vec![R, D, L, U]) {
+        for next in neighbours_open(maze, current, &vec![R, D, L, U]) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {
