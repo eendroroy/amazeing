@@ -1,7 +1,7 @@
-use crate::command::loader::loader_maze_from_file;
 use crate::context::{DrawContext, GENERATOR_CONTEXT};
 use crate::display::action::quit_requested;
 use crate::display::drawer::draw_maze;
+use crate::helper::loader::loader_maze_from_file;
 use amazeing::maze::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;

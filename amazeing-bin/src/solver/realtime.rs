@@ -1,9 +1,9 @@
-use crate::command::loader::loader_maze_from_file;
 use crate::context::SOLVER_CONTEXT;
+use crate::display::drawer::get_conf;
 use crate::solver::display_loops::realtime_loop;
-use crate::solver::solve::get_conf;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
+use crate::helper::loader::loader_maze_from_file;
 
 #[macroquad::main(get_conf())]
 pub async fn main() {

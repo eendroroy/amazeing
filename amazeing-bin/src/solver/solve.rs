@@ -1,32 +1,10 @@
-use crate::command::loader::loader_maze_from_file;
 use crate::command::parse_node::parse_node;
 use crate::context::SOLVER_CONTEXT;
+use crate::helper::get_heu;
+use crate::helper::loader::loader_maze_from_file;
 use crate::solver;
-use amazeing::maze::matrix::{
-    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
-    octile_heuristic,
-};
 use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
-use macroquad::prelude::Conf;
-
-pub fn get_conf() -> Conf {
-    Conf {
-        window_title: SOLVER_CONTEXT.read().unwrap().title.clone(),
-        ..Default::default()
-    }
-}
-
-pub(crate) fn get_heu(heu: &str) -> fn(DNode, DNode) -> u32 {
-    match heu {
-        "manhattan" => manhattan_heuristic,
-        "euclidean" => euclidean_heuristic,
-        "chebyshev" => chebyshev_heuristic,
-        "octile" => octile_heuristic,
-        "dijkstra" => dijkstra_heuristic,
-        _ => dijkstra_heuristic,
-    }
-}
 
 pub(crate) fn solve(
     algorithm: String,

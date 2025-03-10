@@ -1,11 +1,11 @@
 use crate::context::{DrawContext, COLORS, SOLVER_CONTEXT};
-use crate::display::action::{quit_requested, read_source_destination};
+use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{
     draw_current_path, draw_destination, draw_maze, draw_path, draw_source,
     draw_source_destination, draw_traversed,
 };
+use crate::helper::run_algorithm;
 use amazeing::maze::matrix::Maze;
-use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
 use macroquad::input::{is_key_pressed, is_mouse_button_pressed, KeyCode, MouseButton};
 use macroquad::prelude::{clear_background, next_frame};
@@ -104,22 +104,10 @@ pub(crate) async fn realtime_loop(
     loop {
         clear_background(COLORS.color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
-            (from, to) = read_source_destination(ctx);
+            populate_source_destination(ctx, &mut from, &mut to);
 
             if from.is_some() && to.is_some() {
-                current_path = match &*SOLVER_CONTEXT.read().unwrap().algorithm {
-                    "bfs" => bfs(&maze, from.unwrap(), to.unwrap(), &mut None),
-                    "dfs" => dfs(&maze, from.unwrap(), to.unwrap(), &mut None),
-                    "dijkstra" => dijkstra(&maze, from.unwrap(), to.unwrap(), &mut None),
-                    "a-star" => a_star(
-                        &maze,
-                        from.unwrap(),
-                        to.unwrap(),
-                        crate::solver::solve::get_heu(&*SOLVER_CONTEXT.read().unwrap().heu),
-                        &mut None,
-                    ),
-                    name => panic!("Unknown algorithm name {}", name),
-                };
+                current_path = run_algorithm(&maze, from.unwrap(), to.unwrap());
             }
         }
 

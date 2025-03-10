@@ -1,6 +1,6 @@
-use crate::command::dumper::dump_maze_to_file;
 use crate::context::GENERATOR_CONTEXT;
 use crate::generator;
+use crate::helper::dumper::dump_maze_to_file;
 use amazeing::generator::matrix::{bfs, dfs};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
@@ -25,7 +25,7 @@ pub(crate) fn generate(
 
     match proc.as_str() {
         "manual" => generator::manual::main(),
-        name => {
+        algorithm => {
             let (rows, cols) = (
                 GENERATOR_CONTEXT.read().unwrap().rows,
                 GENERATOR_CONTEXT.read().unwrap().cols,
@@ -36,7 +36,7 @@ pub(crate) fn generate(
             println!("Starting at {:?}", start);
 
             let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
-            match name {
+            match algorithm {
                 "bfs" => bfs(&mut maze, start, &mut None),
                 "dfs" => dfs(&mut maze, start, &mut None),
                 _ => panic!("Unknown procedure: {}", proc),
