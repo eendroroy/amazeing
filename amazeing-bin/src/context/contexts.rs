@@ -19,7 +19,6 @@ pub struct AmazeingContext {
     pub(crate) fps: u8,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
-    pub(crate) title: String,
     pub(crate) display_size: String,
 }
 
@@ -37,7 +36,6 @@ impl AmazeingContext {
             fps: 5,
             rows: 10,
             cols: 10,
-            title: String::new(),
             display_size: String::new(),
         }
     }

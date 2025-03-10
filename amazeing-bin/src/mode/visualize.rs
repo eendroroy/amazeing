@@ -18,7 +18,7 @@ async fn looper(maze: &mut Maze) {
     }
 }
 
-#[macroquad::main("Maze View")]
+#[macroquad::main("Maze Viewer")]
 async fn main() {
     let mut maze = loader_maze_from_file(&*CONTEXT.read().unwrap().maze_file_path);
 

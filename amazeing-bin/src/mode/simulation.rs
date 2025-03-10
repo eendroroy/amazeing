@@ -1,7 +1,7 @@
 use crate::context::CONTEXT;
 use crate::display::action::quit_requested;
 use crate::display::drawer::{
-    draw_current_path, draw_maze, draw_path, draw_source_destination, draw_traversed, get_conf,
+    draw_current_path, draw_maze, draw_path, draw_source_destination, draw_traversed,
 };
 use crate::helper::{current_millis, run_algorithm};
 use amazeing::maze::matrix::Maze;
@@ -65,7 +65,7 @@ async fn display_loop() {
     }
 }
 
-#[macroquad::main(get_conf())]
+#[macroquad::main("Maze Simulation")]
 async fn main() {
     let (screen_width, screen_height) = CONTEXT.read().unwrap().screen_size();
 

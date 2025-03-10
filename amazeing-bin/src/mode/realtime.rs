@@ -1,6 +1,6 @@
 use crate::context::CONTEXT;
 use crate::display::action::{populate_source_destination, quit_requested};
-use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source, get_conf};
+use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source};
 use crate::helper::loader::loader_maze_from_file;
 use crate::helper::run_algorithm;
 use amazeing::DNode;
@@ -41,7 +41,7 @@ async fn display_loop() {
 }
 
 
-#[macroquad::main(get_conf())]
+#[macroquad::main("Realtime Path Finder")]
 async fn main() {
     let (screen_width, screen_height) = CONTEXT.read().unwrap().screen_size();
     set_window_size(screen_width as u32, screen_height as u32 + 30);
