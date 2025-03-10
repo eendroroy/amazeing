@@ -14,24 +14,24 @@ pub(crate) fn parse_params() -> Mode {
 
     while let Some(arg) = args.next() {
         match &arg[..] {
-            "-h" | "--help" => help::help(),
-            "-g" | "--generate" => {
+            "--help" => help::help(),
+            "--generate" => {
                 mode = Mode::Generate;
                 break;
             }
-            "-v" | "--view" => {
+            "--view" => {
                 mode = Mode::Visualize;
                 break;
             }
-            "-m" | "--modify" => {
+            "--modify" => {
                 mode = Mode::Modify;
                 break;
             }
-            "-s" | "--simulate" => {
+            "--simulate" => {
                 mode = Mode::Simulate;
                 break;
             }
-            "-r" | "--realtime" => {
+            "--realtime" => {
                 mode = Mode::Realtime;
                 break;
             }

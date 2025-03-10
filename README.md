@@ -16,28 +16,17 @@ cargo install --path amazeing-bin
 ## Usage
 
 ```txt
-Usage: amazeing --simulate | --generate | --view
+Usage: amazeing --generate | --view | --modify | --simulate | --realtime
 
 Options:
-    -h, --help                  Print the help menu
-    -s, --simulate                 Solve Maze
-    -g, --generate              Generate Maze
-    -v, --view                  View Maze
+        --help                  Print the help menu
+        --generate              Generate Maze
+        --view                  View Maze
+        --modify                Edit Maze
+        --simulate              Simulate Maze solution
+        --realtime              Solve Maze on the fly
         --display               Set display size
                                 Choose from: x-small (xs), small (s), medium (m), large (l), x-large (xl)
-
-Usage: amazeing --simulate
-
-Options:
-        --maze      str         Path to the maze file
-        --from      usize,usize Start point
-        --to        usize,usize End point
-        --algorithm             Algorithm name for simulation
-                                Choose from: bfs, dfs, dijkstra, a-star
-        --heu       str         Heuristic function to use with a-star
-                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
-                                Default dijkstra if none provided
-        --fps       u8          Frame per second
 
 Usage: amazeing --generate
 
@@ -47,16 +36,39 @@ Options:
         --cols      usize       Number of COLS in the maze
         --proc      str         Procedure to generate MAZE
 
-Usage: amazeing --view
+Usage: amazeing --view | --modify
 
 Options:
         --maze      str         Path to the maze file
+
+Usage: amazeing --simulate
+
+Options:
+        --maze      str         Path to the maze file
+        --from      usize,usize Start point
+        --to        usize,usize End point
+        --proc                  Procedure name for simulation
+                                Choose from: bfs, dfs, dijkstra, a-star
+        --heu       str         Heuristic function to use with a-star
+                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                                Default dijkstra if none provided
+        --fps       u8          Frame per second
+
+Usage: amazeing --realtime
+
+Options:
+        --maze      str         Path to the maze file
+        --proc                  Procedure name for simulation
+                                Choose from: bfs, dfs
+        --heu       str         Heuristic function to use with a-star
+                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                                Default dijkstra if none provided
 ```
 
 Note:
 
 - Press `q` to quit. This will dump the displayed maze into file in generator mode (`--generate`)
-- Press `s` in solver mode (`--simulate`) to start simulation.
+- Press `s` in Simulation mode (`--simulate`) to start simulation.
 
 ## Demo
 

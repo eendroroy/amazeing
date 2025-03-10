@@ -22,29 +22,39 @@ pub(crate) fn help() {
         "{} {} {}",
         header("Usage:"),
         command("amazeing"),
-        value("--simulate | --generate | --view")
+        value("--generate | --view | --modify | --simulate | --realtime")
     );
     println!();
     println!("{}", header("Options:"));
     println!(
         "{} {}",
-        command("    -h, --help"),
+        command("        --help"),
         description("                 Print the help menu")
     );
     println!(
         "{} {}",
-        command("    -s, --simulate"),
-        description("                Solve Maze")
-    );
-    println!(
-        "{} {}",
-        command("    -g, --generate"),
+        command("        --generate"),
         description("             Generate Maze")
     );
     println!(
         "{} {}",
-        command("    -v, --view"),
+        command("        --view"),
         description("                 View Maze")
+    );
+    println!(
+        "{} {}",
+        command("        --modify"),
+        description("               Edit Maze")
+    );
+    println!(
+        "{} {}",
+        command("        --simulate"),
+        description("             Simulate Maze solution")
+    );
+    println!(
+        "{} {}",
+        command("        --realtime"),
+        description("             Solve Maze on the fly")
     );
     println!(
         "{} {} {} {}",
@@ -52,56 +62,6 @@ pub(crate) fn help() {
         description("              Set display size"),
         description("\n                                Choose from:"),
         description("x-small (xs), small (s), medium (m), large (l), x-large (xl)"),
-    );
-
-    println!();
-    println!(
-        "{} {} {}",
-        header("Usage:"),
-        command("amazeing"),
-        value("--simulate")
-    );
-    println!();
-    println!("{}", header("Options:"));
-    println!(
-        "{} {} {}",
-        command("        --maze"),
-        value("     str"),
-        description("        Path to the maze file"),
-    );
-    println!(
-        "{} {} {}",
-        command("        --from"),
-        value("     usize,usize"),
-        description("Start point"),
-    );
-    println!(
-        "{} {} {}",
-        command("        --to"),
-        value("       usize,usize"),
-        description("End point"),
-    );
-    println!(
-        "{} {} {} {}",
-        command("        --algorithm"),
-        description("            Algorithm name for simulation"),
-        description("\n                                Choose from:"),
-        description("bfs, dfs, dijkstra, a-star"),
-    );
-    println!(
-        "{} {} {} {} {} {}",
-        command("        --heu"),
-        value("      str"),
-        description("        Heuristic function to use with a-star"),
-        description("\n                                Choose from:"),
-        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
-        description("\n                                Default dijkstra if none provided"),
-    );
-    println!(
-        "{} {} {}",
-        command("        --fps"),
-        value("      u8"),
-        description("         Frame per second"),
     );
 
     println!();
@@ -144,7 +104,7 @@ pub(crate) fn help() {
         "{} {} {}",
         header("Usage:"),
         command("amazeing"),
-        value("--view")
+        value("--view | --modify")
     );
     println!();
     println!("{}", header("Options:"));
@@ -153,6 +113,88 @@ pub(crate) fn help() {
         command("        --maze"),
         value("     str"),
         description("        Path to the maze file"),
+    );
+
+    println!();
+    println!(
+        "{} {} {}",
+        header("Usage:"),
+        command("amazeing"),
+        value("--simulate")
+    );
+    println!();
+    println!("{}", header("Options:"));
+    println!(
+        "{} {} {}",
+        command("        --maze"),
+        value("     str"),
+        description("        Path to the maze file"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --from"),
+        value("     usize,usize"),
+        description("Start point"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --to"),
+        value("       usize,usize"),
+        description("End point"),
+    );
+    println!(
+        "{} {} {} {}",
+        command("        --proc"),
+        description("                 Procedure name for simulation"),
+        description("\n                                Choose from:"),
+        description("bfs, dfs, dijkstra, a-star"),
+    );
+    println!(
+        "{} {} {} {} {} {}",
+        command("        --heu"),
+        value("      str"),
+        description("        Heuristic function to use with a-star"),
+        description("\n                                Choose from:"),
+        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
+        description("\n                                Default dijkstra if none provided"),
+    );
+    println!(
+        "{} {} {}",
+        command("        --fps"),
+        value("      u8"),
+        description("         Frame per second"),
+    );
+
+    println!();
+    println!(
+        "{} {} {}",
+        header("Usage:"),
+        command("amazeing"),
+        value("--realtime")
+    );
+    println!();
+    println!("{}", header("Options:"));
+    println!(
+        "{} {} {}",
+        command("        --maze"),
+        value("     str"),
+        description("        Path to the maze file"),
+    );
+    println!(
+        "{} {} {} {}",
+        command("        --proc"),
+        description("                 Procedure name for simulation"),
+        description("\n                                Choose from:"),
+        description("bfs, dfs"),
+    );
+    println!(
+        "{} {} {} {} {} {}",
+        command("        --heu"),
+        value("      str"),
+        description("        Heuristic function to use with a-star"),
+        description("\n                                Choose from:"),
+        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
+        description("\n                                Default dijkstra if none provided"),
     );
 
     println!();
