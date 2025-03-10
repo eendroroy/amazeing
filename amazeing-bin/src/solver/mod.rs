@@ -1,6 +1,6 @@
 mod solve;
 
-pub(crate) mod draw;
+pub(crate) mod display_loops;
 pub(crate) mod realtime;
 pub(crate) mod simulation;
 

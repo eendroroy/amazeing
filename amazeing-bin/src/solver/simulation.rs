@@ -1,5 +1,5 @@
 use crate::context::SOLVER_CONTEXT;
-use crate::solver::draw::looper;
+use crate::solver::display_loops::simulation_loop;
 use crate::solver::solve::get_conf;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -19,5 +19,5 @@ pub async fn main() {
 
     let mut trace = SOLVER_CONTEXT.read().unwrap().tracer.clone();
 
-    looper(maze, margin, padding, cell_width, cell_height, &mut trace).await
+    simulation_loop(maze, margin, padding, cell_width, cell_height, &mut trace).await
 }

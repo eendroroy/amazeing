@@ -1,6 +1,6 @@
 use crate::command::loader::loader_maze_from_file;
 use crate::context::SOLVER_CONTEXT;
-use crate::solver::draw::looper_realtime;
+use crate::solver::display_loops::realtime_loop;
 use crate::solver::solve::get_conf;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -18,7 +18,7 @@ pub async fn main() {
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
-    looper_realtime(maze, margin, padding, cell_width, cell_height).await
+    realtime_loop(maze, margin, padding, cell_width, cell_height).await
 }
 
 pub(crate) fn realtime(

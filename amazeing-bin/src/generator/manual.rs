@@ -1,7 +1,7 @@
 use crate::command::dumper::dump_maze_to_file;
 use crate::command::loader::loader_maze_from_file;
-use crate::context::GENERATOR_CONTEXT;
-use crate::generator::draw::draw_maze;
+use crate::context::{DrawContext, GENERATOR_CONTEXT};
+use crate::display::drawer::draw_maze;
 use amazeing::maze::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -28,7 +28,15 @@ async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cel
             maze[(r as usize, c as usize)] = value;
         }
 
-        draw_maze(maze, margin, padding, cell_width, cell_height);
+        draw_maze(
+            maze,
+            &DrawContext {
+                margin,
+                padding,
+                cell_width,
+                cell_height,
+            },
+        );
         next_frame().await
     }
 }

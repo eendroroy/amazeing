@@ -4,6 +4,7 @@ mod command;
 mod context;
 mod generator;
 mod solver;
+mod display;
 
 fn main() {
     let mut p = parse_params();
