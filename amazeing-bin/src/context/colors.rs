@@ -1,4 +1,4 @@
-use macroquad::color::{Color, BEIGE, BLACK, GOLD, GREEN, LIGHTGRAY, RED};
+use macroquad::color::{Color, BEIGE, BLACK, GREEN, LIGHTGRAY, ORANGE, RED};
 
 #[derive(Debug, Clone)]
 pub struct Colors {
@@ -19,7 +19,7 @@ impl Colors {
             color_block: BLACK,
             color_open: LIGHTGRAY,
             color_visiting: RED,
-            color_path: GOLD,
+            color_path: ORANGE,
             color_source: GREEN,
             color_destination: GREEN,
             color_traversed: BEIGE,
