@@ -1,30 +1,38 @@
 use crate::command::help;
+use crate::command::mode::Mode;
+use crate::command::parse_node::parse_node;
+use crate::context::CONTEXT;
+use crate::helper::loader::loader_maze_from_file;
+use std::env;
 use std::env::Args;
 use std::iter::Skip;
-use std::{env, vec};
 
-pub(crate) fn parse_params() -> Vec<String> {
+pub(crate) fn parse_params() -> Mode {
     let mut args = env::args().skip(1);
 
-    let mut mode = String::from("");
+    let mut mode = Mode::None;
 
     while let Some(arg) = args.next() {
         match &arg[..] {
             "-h" | "--help" => help::help(),
-            "-s" | "--simulate" => {
-                mode = String::from("simulate");
-                break;
-            }
             "-g" | "--generate" => {
-                mode = String::from("generate");
+                mode = Mode::Generate;
                 break;
             }
             "-v" | "--view" => {
-                mode = String::from("view");
+                mode = Mode::Visualize;
+                break;
+            }
+            "-m" | "--modify" => {
+                mode = Mode::Modify;
+                break;
+            }
+            "-s" | "--simulate" => {
+                mode = Mode::Simulate;
                 break;
             }
             "-r" | "--realtime" => {
-                mode = String::from("realtime");
+                mode = Mode::Realtime;
                 break;
             }
             _ => {
@@ -37,20 +45,19 @@ pub(crate) fn parse_params() -> Vec<String> {
         }
     }
 
-    let mut mode_args = match &mode[..] {
-        "simulate" => parse_solve_params(args),
-        "generate" => parse_generate_params(args),
-        "view" => parse_view_params(args),
-        "realtime" => parse_realtime_params(args),
-        _ => vec![],
+    match mode {
+        Mode::Generate => parse_generate_params(args),
+        Mode::Simulate => parse_solve_params(args),
+        Mode::Realtime => parse_realtime_params(args),
+        Mode::Modify | Mode::Visualize => parse_view_edit_params(args),
+        Mode::None => panic!("Invalid usage [mode = None]"),
     };
 
-    mode_args.insert(0, mode);
-    mode_args
+    mode
 }
 
-fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
-    let mut algorithm = String::from("");
+fn parse_solve_params(mut args: Skip<Args>) {
+    let mut proc = String::from("");
     let mut heu = String::from("");
     let mut maze_file_path = String::from("");
     let mut from = String::from("");
@@ -60,68 +67,53 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
 
     while let Some(arg) = args.next() {
         match &arg[..] {
-            "--algorithm" => algorithm = args.next().unwrap(),
+            "--proc" => proc = args.next().unwrap(),
             "--heu" => heu = args.next().unwrap(),
             "--maze" => maze_file_path = args.next().unwrap(),
             "--from" => from = args.next().unwrap(),
             "--to" => to = args.next().unwrap(),
             "--fps" => fps = args.next().unwrap(),
             "--display" => display_size = args.next().unwrap(),
-            _ => {
-                if arg.starts_with('-') {
-                    println!("Unknown argument {}", arg);
-                } else {
-                    println!("Unknown positional argument {}", arg);
-                }
-            }
+            _ => println!("Unknown argument {}", arg),
         }
     }
 
-    vec![
-        String::from(algorithm),
-        heu,
-        maze_file_path,
-        from,
-        to,
-        fps,
-        display_size,
-    ]
+    CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
+    CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
+
+    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().heu = heu;
+    CONTEXT.write().unwrap().source = parse_node(&from);
+    CONTEXT.write().unwrap().destination = parse_node(&to);
+    CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();
+    CONTEXT.write().unwrap().display_size = display_size;
 }
 
-fn parse_realtime_params(mut args: Skip<Args>) -> Vec<String> {
-    let mut algorithm = String::from("");
+fn parse_realtime_params(mut args: Skip<Args>) {
+    let mut proc = String::from("");
     let mut heu = String::from("");
     let mut maze_file_path = String::from("");
-    let mut fps = String::from("");
     let mut display_size = String::from("");
 
     while let Some(arg) = args.next() {
         match &arg[..] {
-            "--algorithm" => algorithm = args.next().unwrap(),
+            "--proc" => proc = args.next().unwrap(),
             "--heu" => heu = args.next().unwrap(),
             "--maze" => maze_file_path = args.next().unwrap(),
-            "--fps" => fps = args.next().unwrap(),
             "--display" => display_size = args.next().unwrap(),
-            _ => {
-                if arg.starts_with('-') {
-                    println!("Unknown argument {}", arg);
-                } else {
-                    println!("Unknown positional argument {}", arg);
-                }
-            }
+            _ => println!("Unknown argument {}", arg),
         }
-    }
+    };
 
-    vec![
-        String::from(algorithm),
-        heu,
-        maze_file_path,
-        fps,
-        display_size,
-    ]
+    CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
+    CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
+
+    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().heu = heu;
+    CONTEXT.write().unwrap().display_size = display_size;
 }
 
-fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
+fn parse_generate_params(mut args: Skip<Args>) {
     let mut maze_file_path = String::from("");
     let mut rows = String::from("");
     let mut cols = String::from("");
@@ -135,20 +127,18 @@ fn parse_generate_params(mut args: Skip<Args>) -> Vec<String> {
             "--cols" => cols = args.next().unwrap(),
             "--proc" => proc = args.next().unwrap(),
             "--display" => display_size = args.next().unwrap(),
-            _ => {
-                if arg.starts_with('-') {
-                    println!("Unknown argument {}", arg);
-                } else {
-                    println!("Unknown positional argument {}", arg);
-                }
-            }
+            _ => println!("Unknown argument {}", arg),
         }
     }
 
-    vec![maze_file_path, rows, cols, proc, display_size]
+    CONTEXT.write().unwrap().maze_file_path = maze_file_path;
+    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().rows = usize::from_str_radix(&rows, 10).unwrap();
+    CONTEXT.write().unwrap().cols = usize::from_str_radix(&cols, 10).unwrap();
+    CONTEXT.write().unwrap().display_size = display_size;
 }
 
-fn parse_view_params(mut args: Skip<Args>) -> Vec<String> {
+fn parse_view_edit_params(mut args: Skip<Args>) {
     let mut maze_file_path = String::from("");
     let mut display_size = String::from("");
 
@@ -156,15 +146,11 @@ fn parse_view_params(mut args: Skip<Args>) -> Vec<String> {
         match &arg[..] {
             "--maze" => maze_file_path = args.next().unwrap(),
             "--display" => display_size = args.next().unwrap(),
-            _ => {
-                if arg.starts_with('-') {
-                    println!("Unknown argument {}", arg);
-                } else {
-                    println!("Unknown positional argument {}", arg);
-                }
-            }
+            _ => println!("Unknown argument {}", arg),
         }
     }
 
-    vec![maze_file_path, display_size]
+    CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
+    CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
+    CONTEXT.write().unwrap().display_size = display_size;
 }

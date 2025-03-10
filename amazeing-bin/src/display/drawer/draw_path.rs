@@ -1,4 +1,4 @@
-use crate::context::{DrawContext, COLORS};
+use crate::context::{DrawContext, CONTEXT};
 use amazeing::maze::matrix::Maze;
 use amazeing::DNode;
 use macroquad::prelude::draw_rectangle;
@@ -10,7 +10,7 @@ pub(crate) fn draw_path(path: Vec<DNode>, ctx: &DrawContext) {
             ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),
             ctx.cell_width,
             ctx.cell_height,
-            COLORS.color_path,
+            CONTEXT.read().unwrap().colors.color_path,
         );
     }
 }
@@ -23,7 +23,7 @@ pub(crate) fn draw_current_path(path: Vec<DNode>, ctx: &DrawContext, traversed: 
             ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),
             ctx.cell_width,
             ctx.cell_height,
-            COLORS.color_visiting,
+            CONTEXT.read().unwrap().colors.color_visiting,
         );
     }
 }

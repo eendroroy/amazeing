@@ -1,4 +1,4 @@
-use crate::context::{DrawContext, COLORS};
+use crate::context::{DrawContext, CONTEXT};
 use amazeing::maze::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
@@ -7,9 +7,9 @@ pub(crate) fn draw_maze(maze: &Maze, ctx: &DrawContext) {
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let color: Color = if maze[(r, c)] > 0 {
-                COLORS.color_open
+                CONTEXT.read().unwrap().colors.color_open
             } else {
-                COLORS.color_block
+                CONTEXT.read().unwrap().colors.color_block
             };
 
             draw_rectangle(

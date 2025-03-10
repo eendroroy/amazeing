@@ -1,6 +1,7 @@
-use crate::context::{DrawContext, GENERATOR_CONTEXT};
+use crate::context::{DrawContext, CONTEXT};
 use crate::display::action::quit_requested;
 use crate::display::drawer::draw_maze;
+use crate::helper::get_node_from_mouse_pos;
 use crate::helper::loader::loader_maze_from_file;
 use amazeing::maze::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
@@ -13,9 +14,7 @@ async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cel
         }
 
         if is_mouse_button_pressed(MouseButton::Left) {
-            let (mx, my) = mouse_position();
-            let r = ((my - margin) / (cell_height + padding)).floor();
-            let c = ((mx - margin) / (cell_width + padding)).floor();
+            let (r, c) = get_node_from_mouse_pos(&CONTEXT.read().unwrap().draw_context());
 
             println!("{},{}", r, c);
         }
@@ -34,11 +33,10 @@ async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cel
 }
 
 #[macroquad::main("Maze View")]
-pub async fn main() {
-    let mut maze = loader_maze_from_file(&*GENERATOR_CONTEXT.read().unwrap().maze_file_path);
+async fn main() {
+    let mut maze = loader_maze_from_file(&*CONTEXT.read().unwrap().maze_file_path);
 
-    let (margin, padding, cell_width, cell_height) =
-        GENERATOR_CONTEXT.read().unwrap().display_size();
+    let (margin, padding, cell_width, cell_height) = CONTEXT.read().unwrap().display_size();
 
     let (maze_width, maze_height) = (maze.cols(), maze.rows());
     let (screen_width, screen_height) = (
@@ -49,4 +47,8 @@ pub async fn main() {
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
     looper(&mut maze, margin, padding, cell_width, cell_height).await
+}
+
+pub(crate) fn visualize() {
+    main()
 }

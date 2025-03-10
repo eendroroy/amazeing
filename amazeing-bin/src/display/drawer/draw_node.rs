@@ -1,4 +1,4 @@
-use crate::context::{DrawContext, COLORS};
+use crate::context::{DrawContext, CONTEXT};
 use amazeing::DNode;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
@@ -14,11 +14,11 @@ pub(crate) fn draw_node(node: DNode, ctx: &DrawContext, color: Color) {
 }
 
 pub(crate) fn draw_source(node: DNode, ctx: &DrawContext) {
-    draw_node(node, ctx, COLORS.color_source);
+    draw_node(node, ctx, CONTEXT.read().unwrap().colors.color_source);
 }
 
 pub(crate) fn draw_destination(node: DNode, ctx: &DrawContext) {
-    draw_node(node, ctx, COLORS.color_destination);
+    draw_node(node, ctx, CONTEXT.read().unwrap().colors.color_destination);
 }
 
 pub(crate) fn draw_source_destination(source: DNode, destination: DNode, ctx: &DrawContext) {
