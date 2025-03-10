@@ -1,3 +1,4 @@
+use crate::command::Proc;
 use crate::context::CONTEXT;
 use crate::helper::get_heu;
 use amazeing::maze::matrix::Maze;
@@ -11,15 +12,15 @@ pub(crate) fn run_algorithm(
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     let (algorithm, heu) = (
-        &*CONTEXT.read().unwrap().proc,
+        CONTEXT.read().unwrap().proc,
         get_heu(&*CONTEXT.read().unwrap().heu),
     );
-    println!("{} -- {:?} ==> {:?}", algorithm, from, to);
+    println!("{:?} ==> {:?}", from, to);
     match algorithm {
-        "bfs" => bfs(maze, from, to, tracer),
-        "dfs" => dfs(maze, from, to, tracer),
-        "dijkstra" => dijkstra(maze, from, to, tracer),
-        "a-star" => a_star(maze, from, to, heu, tracer),
-        name => panic!("Unknown algorithm name {}", name),
+        Proc::Bfs => bfs(maze, from, to, tracer),
+        Proc::Dfs => dfs(maze, from, to, tracer),
+        Proc::Dijkstra => dijkstra(maze, from, to, tracer),
+        Proc::AStar => a_star(maze, from, to, heu, tracer),
+        _ => panic!("No algorithm provided"),
     }
 }

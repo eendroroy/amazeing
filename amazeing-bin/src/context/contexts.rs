@@ -1,3 +1,4 @@
+use crate::command::Proc;
 use crate::context::common::display_size;
 use crate::context::{Colors, DrawContext};
 use amazeing::maze::matrix::Maze;
@@ -12,7 +13,7 @@ pub struct AmazeingContext {
     pub(crate) maze: Maze,
     pub(crate) source: DNode,
     pub(crate) destination: DNode,
-    pub(crate) proc: String,
+    pub(crate) proc: Proc,
     pub(crate) heu: String,
     pub(crate) tracer: Vec<Vec<DNode>>,
     pub(crate) fps: u8,
@@ -30,7 +31,7 @@ impl AmazeingContext {
             maze: Maze::new(),
             source: (usize::MIN, usize::MIN),
             destination: (usize::MIN, usize::MIN),
-            proc: String::new(),
+            proc: Proc::None,
             heu: String::new(),
             tracer: vec![],
             fps: 5,

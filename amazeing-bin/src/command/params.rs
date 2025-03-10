@@ -1,6 +1,6 @@
-use crate::command::help;
 use crate::command::mode::Mode;
 use crate::command::parse_node::parse_node;
+use crate::command::{get_proc, help};
 use crate::context::CONTEXT;
 use crate::helper::loader::loader_maze_from_file;
 use std::env;
@@ -81,7 +81,7 @@ fn parse_solve_params(mut args: Skip<Args>) {
     CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
     CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
 
-    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().proc = get_proc(&*proc);
     CONTEXT.write().unwrap().heu = heu;
     CONTEXT.write().unwrap().source = parse_node(&from);
     CONTEXT.write().unwrap().destination = parse_node(&to);
@@ -108,7 +108,7 @@ fn parse_realtime_params(mut args: Skip<Args>) {
     CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
     CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
 
-    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().proc = get_proc(&*proc);
     CONTEXT.write().unwrap().heu = heu;
     CONTEXT.write().unwrap().display_size = display_size;
 }
@@ -132,7 +132,7 @@ fn parse_generate_params(mut args: Skip<Args>) {
     }
 
     CONTEXT.write().unwrap().maze_file_path = maze_file_path;
-    CONTEXT.write().unwrap().proc = proc;
+    CONTEXT.write().unwrap().proc = get_proc(&*proc);
     CONTEXT.write().unwrap().rows = usize::from_str_radix(&rows, 10).unwrap();
     CONTEXT.write().unwrap().cols = usize::from_str_radix(&cols, 10).unwrap();
     CONTEXT.write().unwrap().display_size = display_size;

@@ -1,3 +1,4 @@
+use crate::command::Proc;
 use crate::context::CONTEXT;
 use crate::helper::dumper::dump_maze_to_file;
 use crate::mode;
@@ -13,11 +14,12 @@ pub(crate) fn generate() {
     println!("Starting at {:?}", start);
 
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
-    match &*CONTEXT.read().unwrap().proc {
-        "bfs" => bfs(&mut maze, start, &mut None),
-        "dfs" => dfs(&mut maze, start, &mut None),
-        _ => panic!("Unknown procedure"),
+    match CONTEXT.read().unwrap().proc {
+        Proc::Bfs => bfs(&mut maze, start, &mut None),
+        Proc::Dfs => dfs(&mut maze, start, &mut None),
+        _ => panic!("No algorithm provided"),
     };
     dump_maze_to_file(&*CONTEXT.read().unwrap().maze_file_path, &maze);
+    CONTEXT.write().unwrap().maze = maze;
     mode::visualize::visualize()
 }
