@@ -6,7 +6,7 @@ use crate::helper::get_node_from_mouse_pos;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-async fn looper() {
+async fn display_loop() {
     let maze = &mut CONTEXT.read().unwrap().maze.clone();
     loop {
         if quit_requested() {
@@ -36,7 +36,7 @@ async fn main() {
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
-    looper().await;
+    display_loop().await;
 
     dump_maze_to_file(
         &*CONTEXT.read().unwrap().maze_file_path,

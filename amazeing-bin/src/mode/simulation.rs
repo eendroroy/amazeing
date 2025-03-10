@@ -9,7 +9,7 @@ use amazeing::DNode;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-pub(crate) async fn simulation_loop() {
+async fn display_loop() {
     let dc = &CONTEXT.read().unwrap().draw_context();
     let maze = &CONTEXT.read().unwrap().maze;
     let trace = &mut CONTEXT.read().unwrap().tracer.clone();
@@ -66,12 +66,12 @@ pub(crate) async fn simulation_loop() {
 }
 
 #[macroquad::main(get_conf())]
-pub async fn main() {
+async fn main() {
     let (screen_width, screen_height) = CONTEXT.read().unwrap().screen_size();
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
-    simulation_loop().await
+    display_loop().await
 }
 
 pub(crate) fn simulate() {
