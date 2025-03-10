@@ -28,7 +28,7 @@ pub(crate) async fn realtime_loop(
     loop {
         clear_background(COLORS.color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
-            populate_source_destination(ctx, &mut from, &mut to);
+            populate_source_destination(&maze, ctx, &mut from, &mut to);
 
             if from.is_some() && to.is_some() {
                 current_path = run_algorithm(&maze, from.unwrap(), to.unwrap());
