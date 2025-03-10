@@ -1,13 +1,15 @@
 use crate::context::{DrawContext, COLORS, SOLVER_CONTEXT};
+use crate::display::action::{quit_requested, read_source_destination};
+use crate::display::drawer::{
+    draw_current_path, draw_destination, draw_maze, draw_path, draw_source,
+    draw_source_destination, draw_traversed,
+};
 use amazeing::maze::matrix::Maze;
 use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
-use macroquad::input::{
-    is_key_down, is_key_pressed, is_mouse_button_pressed, mouse_position, KeyCode, MouseButton,
-};
+use macroquad::input::{is_key_pressed, is_mouse_button_pressed, KeyCode, MouseButton};
 use macroquad::prelude::{clear_background, next_frame};
 use std::time::{SystemTime, UNIX_EPOCH};
-use crate::display::drawer::{draw_current_path, draw_maze, draw_path, draw_source_destination, draw_traversed};
 
 fn current_millis() -> u128 {
     SystemTime::now()
@@ -50,8 +52,7 @@ pub(crate) async fn simulation_loop(
             }
         }
 
-        if is_key_pressed(KeyCode::Q) {
-            println!("Quitting");
+        if quit_requested() {
             break;
         }
 
@@ -103,17 +104,7 @@ pub(crate) async fn realtime_loop(
     loop {
         clear_background(COLORS.color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
-            let (mx, my) = mouse_position();
-            let r = ((my - margin) / (cell_height + padding)).floor();
-            let c = ((mx - margin) / (cell_width + padding)).floor();
-
-            if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                to = Some((r as usize, c as usize));
-                SOLVER_CONTEXT.write().unwrap().destination = to.unwrap();
-            } else {
-                from = Some((r as usize, c as usize));
-                SOLVER_CONTEXT.write().unwrap().source = from.unwrap();
-            };
+            (from, to) = read_source_destination(ctx);
 
             if from.is_some() && to.is_some() {
                 current_path = match &*SOLVER_CONTEXT.read().unwrap().algorithm {
@@ -132,18 +123,18 @@ pub(crate) async fn realtime_loop(
             }
         }
 
-        if is_key_pressed(KeyCode::Q) {
-            println!("Quitting");
+        if quit_requested() {
             break;
         }
 
         draw_maze(&maze, ctx);
         draw_path(current_path.clone(), ctx);
-        draw_source_destination(
-            SOLVER_CONTEXT.read().unwrap().source,
-            SOLVER_CONTEXT.read().unwrap().destination,
-            ctx,
-        );
+        if from.is_some() {
+            draw_source(from.unwrap(), ctx);
+        }
+        if to.is_some() {
+            draw_destination(to.unwrap(), ctx);
+        }
         next_frame().await
     }
 }

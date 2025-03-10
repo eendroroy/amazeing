@@ -7,10 +7,11 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 use std::fs;
 use std::path::Path;
+use crate::display::action::quit_requested;
 
 async fn looper(maze: &mut Maze, margin: f32, padding: f32, cell_width: f32, cell_height: f32) {
     loop {
-        if is_key_pressed(KeyCode::Q) {
+        if quit_requested() {
             break;
         }
 
