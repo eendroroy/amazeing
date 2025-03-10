@@ -1,8 +1,13 @@
 use amazeing::maze::matrix::Maze;
+use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
 
 pub(crate) fn dump_maze_to_file(path: &str, maze: &Maze) {
+    if fs::exists(path).unwrap_or(false) {
+        fs::remove_file(path).unwrap();
+    }
+
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
