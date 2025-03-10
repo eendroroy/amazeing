@@ -16,17 +16,17 @@ cargo install --path amazeing-bin
 ## Usage
 
 ```txt
-Usage: amazeing --solve | --generate | --view
+Usage: amazeing --simulate | --generate | --view
 
 Options:
     -h, --help                  Print the help menu
-    -s, --solve                 Solve Maze
+    -s, --simulate                 Solve Maze
     -g, --generate              Generate Maze
     -v, --view                  View Maze
         --display               Set display size
                                 Choose from: x-small (xs), small (s), medium (m), large (l), x-large (xl)
 
-Usage: amazeing --solve
+Usage: amazeing --simulate
 
 Options:
         --maze      str         Path to the maze file
@@ -56,7 +56,7 @@ Options:
 Note:
 
 - Press `q` to quit. This will dump the displayed maze into file in generator mode (`--generate`)
-- Press `s` in solver mode (`--solve`) to start simulation.
+- Press `s` in solver mode (`--simulate`) to start simulation.
 
 ## Demo
 

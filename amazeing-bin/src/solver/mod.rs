@@ -1,7 +1,5 @@
-mod solve;
+mod realtime;
+mod simulation;
 
-pub(crate) mod display_loops;
-pub(crate) mod realtime;
-pub(crate) mod simulation;
-
-pub(crate) use solve::solve;
+pub(crate) use simulation::simulate;
+pub(crate) use realtime::realtime;

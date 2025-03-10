@@ -2,16 +2,16 @@ use crate::command::parse_params;
 
 mod command;
 mod context;
-mod generator;
-mod solver;
 mod display;
+mod generator;
 mod helper;
+mod solver;
 
 fn main() {
     let mut p = parse_params();
 
     match &*p.remove(0) {
-        "solve" => solver::solve(
+        "simulate" => solver::simulate(
             p.remove(0),
             p.remove(0),
             p.remove(0),
@@ -20,7 +20,7 @@ fn main() {
             p.remove(0),
             p.remove(0),
         ),
-        "realtime" => solver::realtime::realtime(
+        "realtime" => solver::realtime(
             p.remove(0),
             p.remove(0),
             p.remove(0),
@@ -34,7 +34,7 @@ fn main() {
             p.remove(0),
             p.remove(0),
         ),
-        "view" => generator::visualize(p.remove(0), p.remove(0)),
+        "view" => generator::view(p.remove(0), p.remove(0)),
         &_ => todo!(),
     }
 }

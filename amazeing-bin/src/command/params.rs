@@ -11,8 +11,8 @@ pub(crate) fn parse_params() -> Vec<String> {
     while let Some(arg) = args.next() {
         match &arg[..] {
             "-h" | "--help" => help::help(),
-            "-s" | "--solve" => {
-                mode = String::from("solve");
+            "-s" | "--simulate" => {
+                mode = String::from("simulate");
                 break;
             }
             "-g" | "--generate" => {
@@ -38,7 +38,7 @@ pub(crate) fn parse_params() -> Vec<String> {
     }
 
     let mut mode_args = match &mode[..] {
-        "solve" => parse_solve_params(args),
+        "simulate" => parse_solve_params(args),
         "generate" => parse_generate_params(args),
         "view" => parse_view_params(args),
         "realtime" => parse_realtime_params(args),

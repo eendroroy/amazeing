@@ -22,7 +22,7 @@ pub(crate) fn help() {
         "{} {} {}",
         header("Usage:"),
         command("amazeing"),
-        value("--solve | --generate | --view")
+        value("--simulate | --generate | --view")
     );
     println!();
     println!("{}", header("Options:"));
@@ -33,7 +33,7 @@ pub(crate) fn help() {
     );
     println!(
         "{} {}",
-        command("    -s, --solve"),
+        command("    -s, --simulate"),
         description("                Solve Maze")
     );
     println!(
@@ -59,7 +59,7 @@ pub(crate) fn help() {
         "{} {} {}",
         header("Usage:"),
         command("amazeing"),
-        value("--solve")
+        value("--simulate")
     );
     println!();
     println!("{}", header("Options:"));

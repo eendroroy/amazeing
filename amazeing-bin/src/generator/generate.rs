@@ -47,7 +47,7 @@ pub(crate) fn generate(
     }
 }
 
-pub(crate) fn visualize(maze_file_path: String, display_size: String) {
+pub(crate) fn view(maze_file_path: String, display_size: String) {
     GENERATOR_CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
     GENERATOR_CONTEXT.write().unwrap().display_size = display_size;
     generator::visualize::main()
