@@ -1,4 +1,5 @@
 pub(crate) fn display_size(display_size: &str) -> (f32, f32, f32, f32) {
+    // margin, padding, cell_width, cell_height
     match display_size {
         "xs" | "x-small" => (5., 1., 5., 5.),
         "s" | "small" => (10., 1., 10., 10.),
