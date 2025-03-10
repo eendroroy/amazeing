@@ -12,12 +12,9 @@ pub(crate) fn populate_source_destination(
 ) {
     let (r, c) = get_node_from_mouse_pos(ctx);
     if maze[(r, c)] > 0 {
-        println!("{}", maze[(r, c)]);
         if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-            println!("S - {}, {}", r, c);
             *to = Some((r, c));
         } else {
-            println!("D - {}, {}", r, c);
             *from = Some((r, c));
         }
     }

@@ -9,6 +9,10 @@ pub(crate) fn run_algorithm(maze: &Maze, from: DNode, to: DNode) -> Vec<DNode> {
         &*SOLVER_CONTEXT.read().unwrap().algorithm,
         get_heu(&*SOLVER_CONTEXT.read().unwrap().heu),
     );
+    println!(
+        "Finding path form {:?} to {:?} using {} algorithm",
+        from, to, algorithm
+    );
     match algorithm {
         "bfs" => bfs(maze, from, to, &mut None),
         "dfs" => dfs(maze, from, to, &mut None),
