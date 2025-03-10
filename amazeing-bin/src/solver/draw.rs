@@ -1,8 +1,11 @@
 use crate::context::{COLORS, SOLVER_CONTEXT};
 use amazeing::maze::matrix::Maze;
+use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
 use macroquad::color::Color;
-use macroquad::input::{is_key_pressed, KeyCode};
+use macroquad::input::{
+    is_key_down, is_key_pressed, is_mouse_button_pressed, mouse_position, KeyCode, MouseButton,
+};
 use macroquad::prelude::{clear_background, draw_rectangle, next_frame};
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -36,6 +39,42 @@ pub(crate) fn draw_simulation(
                 path_color
             } else if traversed[(r, c)] == 1 {
                 COLORS.color_traversed
+            } else if maze[(r, c)] > 0 {
+                COLORS.color_open
+            } else {
+                COLORS.color_block
+            };
+
+            draw_rectangle(
+                margin + c as f32 * (cell_width + padding),
+                margin + r as f32 * (cell_height + padding),
+                cell_width,
+                cell_height,
+                color,
+            );
+        }
+    }
+}
+
+pub(crate) fn draw_path(
+    maze: &Maze,
+    margin: f32,
+    padding: f32,
+    cell_width: f32,
+    cell_height: f32,
+    path: Vec<DNode>,
+    path_color: Color,
+) {
+    clear_background(COLORS.color_bg);
+
+    for r in 0..maze.rows() {
+        for c in 0..maze.cols() {
+            let color: Color = if SOLVER_CONTEXT.read().unwrap().source == (r, c) {
+                COLORS.color_source
+            } else if SOLVER_CONTEXT.read().unwrap().destination == (r, c) {
+                COLORS.color_destination
+            } else if path.contains(&(r, c)) {
+                path_color
             } else if maze[(r, c)] > 0 {
                 COLORS.color_open
             } else {
@@ -140,6 +179,65 @@ pub(crate) async fn looper(
         } else {
             draw_maze(&maze, margin, padding, cell_width, cell_height);
         }
+        next_frame().await
+    }
+}
+
+pub(crate) async fn looper_realtime(
+    maze: Maze,
+    margin: f32,
+    padding: f32,
+    cell_width: f32,
+    cell_height: f32,
+) {
+    let mut current_path: Vec<DNode> = vec![];
+    let mut from: Option<DNode> = None;
+    let mut to: Option<DNode> = None;
+
+    loop {
+        if is_mouse_button_pressed(MouseButton::Left) {
+            let (mx, my) = mouse_position();
+            let r = ((my - margin) / (cell_height + padding)).floor();
+            let c = ((mx - margin) / (cell_width + padding)).floor();
+
+            if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                to = Some((r as usize, c as usize));
+                SOLVER_CONTEXT.write().unwrap().destination = to.unwrap();
+            } else {
+                from = Some((r as usize, c as usize));
+                SOLVER_CONTEXT.write().unwrap().source = from.unwrap();
+            };
+
+            if from.is_some() && to.is_some() {
+                current_path = match &*SOLVER_CONTEXT.read().unwrap().algorithm {
+                    "bfs" => bfs(&maze, from.unwrap(), to.unwrap(), &mut None),
+                    "dfs" => dfs(&maze, from.unwrap(), to.unwrap(), &mut None),
+                    "dijkstra" => dijkstra(&maze, from.unwrap(), to.unwrap(), &mut None),
+                    "a-star" => a_star(
+                        &maze,
+                        from.unwrap(),
+                        to.unwrap(),
+                        crate::solver::solve::get_heu(&*SOLVER_CONTEXT.read().unwrap().heu),
+                        &mut None,
+                    ),
+                    name => panic!("Unknown algorithm name {}", name),
+                };
+            }
+        }
+
+        if is_key_pressed(KeyCode::Q) {
+            println!("Quitting");
+            break;
+        }
+        draw_path(
+            &maze,
+            margin,
+            padding,
+            cell_width,
+            cell_height,
+            current_path.clone(),
+            COLORS.color_path,
+        );
         next_frame().await
     }
 }

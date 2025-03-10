@@ -23,6 +23,10 @@ pub(crate) fn parse_params() -> Vec<String> {
                 mode = String::from("view");
                 break;
             }
+            "-r" | "--realtime" => {
+                mode = String::from("realtime");
+                break;
+            }
             _ => {
                 if arg.starts_with('-') {
                     println!("Unknown argument {}", arg);
@@ -37,6 +41,7 @@ pub(crate) fn parse_params() -> Vec<String> {
         "solve" => parse_solve_params(args),
         "generate" => parse_generate_params(args),
         "view" => parse_view_params(args),
+        "realtime" => parse_realtime_params(args),
         _ => vec![],
     };
 
@@ -78,6 +83,39 @@ fn parse_solve_params(mut args: Skip<Args>) -> Vec<String> {
         maze_file_path,
         from,
         to,
+        fps,
+        display_size,
+    ]
+}
+
+fn parse_realtime_params(mut args: Skip<Args>) -> Vec<String> {
+    let mut algorithm = String::from("");
+    let mut heu = String::from("");
+    let mut maze_file_path = String::from("");
+    let mut fps = String::from("");
+    let mut display_size = String::from("");
+
+    while let Some(arg) = args.next() {
+        match &arg[..] {
+            "--algorithm" => algorithm = args.next().unwrap(),
+            "--heu" => heu = args.next().unwrap(),
+            "--maze" => maze_file_path = args.next().unwrap(),
+            "--fps" => fps = args.next().unwrap(),
+            "--display" => display_size = args.next().unwrap(),
+            _ => {
+                if arg.starts_with('-') {
+                    println!("Unknown argument {}", arg);
+                } else {
+                    println!("Unknown positional argument {}", arg);
+                }
+            }
+        }
+    }
+
+    vec![
+        String::from(algorithm),
+        heu,
+        maze_file_path,
         fps,
         display_size,
     ]

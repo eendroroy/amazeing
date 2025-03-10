@@ -16,7 +16,7 @@ pub fn get_conf() -> Conf {
     }
 }
 
-fn get_heu(heu: &str) -> fn(DNode, DNode) -> u32 {
+pub(crate) fn get_heu(heu: &str) -> fn(DNode, DNode) -> u32 {
     match heu {
         "manhattan" => manhattan_heuristic,
         "euclidean" => euclidean_heuristic,

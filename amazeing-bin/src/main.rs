@@ -19,6 +19,13 @@ fn main() {
             p.remove(0),
             p.remove(0),
         ),
+        "realtime" => solver::realtime::realtime(
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+            p.remove(0),
+        ),
         "generate" => generator::generate(
             p.remove(0),
             p.remove(0),
