@@ -1,9 +1,9 @@
+use crate::command::dumper::dump_maze_to_file;
+use crate::context::GENERATOR_CONTEXT;
 use crate::generator;
-use crate::matrix::dumper::dump_maze_to_file;
 use amazeing::generator::matrix::{bfs, dfs};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
-use crate::context::GENERATOR_CONTEXT;
 
 pub(crate) fn generate(
     maze_file_path: String,

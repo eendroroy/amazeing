@@ -3,7 +3,6 @@ use crate::command::parse_params;
 mod command;
 mod context;
 mod generator;
-mod matrix;
 mod solver;
 
 fn main() {

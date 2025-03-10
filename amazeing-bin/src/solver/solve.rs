@@ -1,5 +1,6 @@
+use crate::command::loader::loader_maze_from_file;
+use crate::command::parse_node::parse_node;
 use crate::context::SOLVER_CONTEXT;
-use crate::matrix::loader::{loader_maze_from_file, parse_node};
 use crate::solver;
 use amazeing::maze::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
