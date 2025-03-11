@@ -1,6 +1,5 @@
-use crate::command::Proc;
+use crate::command::{get_heuristic_fn, Proc};
 use crate::context::CONTEXT;
-use crate::helper::get_heu;
 use amazeing::maze::matrix::Maze;
 use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::DNode;
@@ -13,7 +12,7 @@ pub(crate) fn run_algorithm(
 ) -> Vec<DNode> {
     let (algorithm, heu) = (
         CONTEXT.read().unwrap().proc,
-        get_heu(&*CONTEXT.read().unwrap().heu),
+        get_heuristic_fn(CONTEXT.read().unwrap().heuristic),
     );
     println!("{:?} ==> {:?}", from, to);
     match algorithm {

@@ -1,5 +1,6 @@
 use crate::maze::matrix::Maze;
-use crate::structure::{DNode, FnNeighbour};
+use crate::structure::FnNeighbour;
+use crate::DNode;
 use std::iter::Iterator;
 
 pub(crate) const D: FnNeighbour = |of| -> Option<DNode> { Some((of.0 + 1, of.1)) };

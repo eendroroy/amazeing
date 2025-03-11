@@ -155,7 +155,7 @@ pub(crate) fn help() {
         value("      str"),
         description("        Heuristic function to use with a-star"),
         description("\n                                Choose from:"),
-        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
+        description("Manhattan, Euclidean, chebyshev, octile, dijkstra"),
         description("\n                                Default dijkstra if none provided"),
     );
     println!(
@@ -193,7 +193,7 @@ pub(crate) fn help() {
         value("      str"),
         description("        Heuristic function to use with a-star"),
         description("\n                                Choose from:"),
-        description("manhattan, euclidean, chebyshev, octile, dijkstra"),
+        description("Manhattan, Euclidean, chebyshev, octile, dijkstra"),
         description("\n                                Default dijkstra if none provided"),
     );
 

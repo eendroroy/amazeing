@@ -1,6 +1,6 @@
 use crate::command::mode::Mode;
 use crate::command::parse_node::parse_node;
-use crate::command::{get_proc, help};
+use crate::command::{get_heuristic, get_proc, help};
 use crate::context::CONTEXT;
 use crate::helper::loader::loader_maze_from_file;
 use std::env;
@@ -82,7 +82,7 @@ fn parse_solve_params(mut args: Skip<Args>) {
     CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
 
     CONTEXT.write().unwrap().proc = get_proc(&*proc);
-    CONTEXT.write().unwrap().heu = heu;
+    CONTEXT.write().unwrap().heuristic = get_heuristic(&*heu);
     CONTEXT.write().unwrap().source = parse_node(&from);
     CONTEXT.write().unwrap().destination = parse_node(&to);
     CONTEXT.write().unwrap().fps = u8::from_str_radix(&fps, 10).unwrap();
@@ -103,13 +103,12 @@ fn parse_realtime_params(mut args: Skip<Args>) {
             "--display" => display_size = args.next().unwrap(),
             _ => println!("Unknown argument {}", arg),
         }
-    };
+    }
 
     CONTEXT.write().unwrap().maze_file_path = maze_file_path.clone();
     CONTEXT.write().unwrap().maze = loader_maze_from_file(&maze_file_path).clone();
-
     CONTEXT.write().unwrap().proc = get_proc(&*proc);
-    CONTEXT.write().unwrap().heu = heu;
+    CONTEXT.write().unwrap().heuristic = get_heuristic(&*heu);
     CONTEXT.write().unwrap().display_size = display_size;
 }
 

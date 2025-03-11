@@ -1,6 +1,6 @@
 use crate::helper::{validate_node, validate_node_open};
 use crate::maze::matrix::Maze;
-use crate::structure::DNode;
+use crate::DNode;
 
 pub(crate) fn validate(maze: &Maze, source: DNode, destination: DNode) {
     validate_node(maze, source);

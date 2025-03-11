@@ -1,4 +1,4 @@
-use crate::structure::DNode;
+use crate::DNode;
 
 /// Manhattan distance heuristic for A*
 pub fn manhattan_heuristic(node: DNode, goal: DNode) -> u32 {
