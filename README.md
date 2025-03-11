@@ -45,8 +45,8 @@ Usage: amazeing --simulate
 
 Options:
         --maze      str         Path to the maze file
-        --from      usize,usize Start point
-        --to        usize,usize End point
+        --source    usize,usize Start point
+        --target    usize,usize End point
         --proc                  Procedure name for simulation
                                 Choose from: bfs, dfs, dijkstra, a-star
         --heu       str         Heuristic function to use with a-star
