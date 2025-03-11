@@ -1,8 +1,10 @@
 pub(crate) mod structure;
 
+mod helper;
+
 pub mod generator;
 pub mod maze;
 pub mod solver;
-mod helper;
 
-pub use structure::DNode;
+pub use structure::types::DNode;
+pub use structure::types::Heu;

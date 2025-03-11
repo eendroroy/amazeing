@@ -1,13 +1,13 @@
 use crate::helper::validate_node;
+use crate::maze::matrix::neighbour::{neighbours_block, D, L, R, U};
+use crate::maze::matrix::Maze;
 use crate::structure::queue::Queue;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;
-use crate::structure::DNode;
+use crate::DNode;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::BTreeMap;
-use crate::maze::matrix::Maze;
-use crate::maze::matrix::neighbour::{neighbours_block, D, L, R, U};
 
 fn traverse(
     maze: &mut Maze,

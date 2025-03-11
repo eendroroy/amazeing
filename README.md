@@ -50,7 +50,7 @@ Options:
         --proc                  Procedure name for simulation
                                 Choose from: bfs, dfs, dijkstra, a-star
         --heu       str         Heuristic function to use with a-star
-                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                                Choose from: Manhattan, Euclidean, chebyshev, octile, dijkstra
                                 Default dijkstra if none provided
         --fps       u8          Frame per second
 
@@ -61,7 +61,7 @@ Options:
         --proc                  Procedure name for simulation
                                 Choose from: bfs, dfs
         --heu       str         Heuristic function to use with a-star
-                                Choose from: manhattan, euclidean, chebyshev, octile, dijkstra
+                                Choose from: Manhattan, Euclidean, chebyshev, octile, dijkstra
                                 Default dijkstra if none provided
 ```
 
