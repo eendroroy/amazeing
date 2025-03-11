@@ -3,8 +3,11 @@ mod heuristic;
 mod mode;
 mod params;
 mod proc;
+mod parse_colorscheme;
 
 pub(crate) mod parse_node;
+pub(crate) mod color_scheme;
+mod args;
 
 pub(crate) use help::help;
 pub(crate) use heuristic::get_heuristic;

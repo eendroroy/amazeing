@@ -1,3 +1,4 @@
+use crate::command::color_scheme::ColorScheme;
 use macroquad::color::Color;
 
 #[derive(Debug, Clone)]
@@ -23,6 +24,19 @@ impl Colors {
             color_source: Color::from_hex(0xffa600),
             color_destination: Color::from_hex(0xffa600),
             color_traversed: Color::from_hex(0xcfa093),
+        }
+    }
+
+    pub fn from(scheme: ColorScheme) -> Self {
+        Self {
+            color_bg: Color::from_hex(scheme.color_bg),
+            color_block: Color::from_hex(scheme.color_block),
+            color_open: Color::from_hex(scheme.color_open),
+            color_visiting: Color::from_hex(scheme.color_visiting),
+            color_path: Color::from_hex(scheme.color_path),
+            color_source: Color::from_hex(scheme.color_source),
+            color_destination: Color::from_hex(scheme.color_destination),
+            color_traversed: Color::from_hex(scheme.color_traversed),
         }
     }
 }
