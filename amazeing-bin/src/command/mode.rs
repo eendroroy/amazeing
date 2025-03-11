@@ -1,6 +1,6 @@
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Mode {
-    None,
+    None { name: String },
     Generate,
     Visualize,
     Modify,

@@ -132,14 +132,14 @@ pub(crate) fn help() {
     );
     println!(
         "{} {} {}",
-        command("        --from"),
-        value("     usize,usize"),
+        command("        --source"),
+        value("   usize,usize"),
         description("Start point"),
     );
     println!(
         "{} {} {}",
-        command("        --to"),
-        value("       usize,usize"),
+        command("        --target"),
+        value("   usize,usize"),
         description("End point"),
     );
     println!(
