@@ -2,7 +2,7 @@ use crate::cli::ArgGenProcedure;
 use crate::context::{GEN_CTX, VIS_CTX};
 use crate::helper::dumper::dump_maze_to_file;
 use crate::mode;
-use amazeing::generator::matrix::{bfs, dfs};
+use amazeing::generator::matrix::{dfs, random};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
 
@@ -15,7 +15,7 @@ pub(crate) fn generate() {
 
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
     match GEN_CTX.read().unwrap().procedure {
-        ArgGenProcedure::Bfs => bfs(&mut maze, start, &mut None),
+        ArgGenProcedure::Random => random(&mut maze, start, &mut None),
         ArgGenProcedure::Dfs => dfs(&mut maze, start, &mut None),
     };
     dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
