@@ -15,54 +15,94 @@ cargo install --path amazeing-bin
 
 ## Usage
 
+#### amazeing
+
 ```txt
-Usage: amazeing --generate | --view | --modify | --simulate | --realtime
+Usage: amazeing [OPTIONS] <COMMAND>
+
+Commands:
+  generate   Generate a Maze
+  visualize  Visualize a Maze
+  modify     Modify a Maze
+  simulate   Simulation of Maze solver
+  realtime   Realtime path find in a Maze
+  help       Print this message or the help of the given subcommand(s)
 
 Options:
-        --help                  Print the help menu
-        --generate              Generate Maze
-        --view                  View Maze
-        --modify                Edit Maze
-        --simulate              Simulate Maze solution
-        --realtime              Solve Maze on the fly
-        --display               Set display size
-                                Choose from: x-small (xs), small (s), medium (m), large (l), x-large (xl)
+      --display-size <DISPLAY_SIZE>  [possible values: xxs, xs, s, m, l, xl, xxl]
+      --color-scheme <COLOR_SCHEME>
+  -h, --help                         Print help
+  -V, --version                      Print version
+```
 
-Usage: amazeing --generate
+#### generate
 
-Options:
-        --maze      str         Path to the file to dump the maze (existing file will preload the data)
-        --rows      usize       Number of ROWS in the maze
-        --cols      usize       Number of COLS in the maze
-        --proc      str         Procedure to generate MAZE
+```txt
+Generate a Maze
 
-Usage: amazeing --view | --modify
+Usage: amazeing generate --maze <MAZE> --procedure <PROCEDURE> --rows <ROWS> --cols <COLS>
 
 Options:
-        --maze      str         Path to the maze file
+      --maze <MAZE>            File path to dump Maze data
+      --procedure <PROCEDURE>  Maze Generation Procedure [possible values: bfs, dfs]
+      --rows <ROWS>            Number of rows
+      --cols <COLS>            Number of cols
+  -h, --help                   Print help
+```
 
-Usage: amazeing --simulate
+#### visualize
 
-Options:
-        --maze      str         Path to the maze file
-        --source    usize,usize Start point
-        --target    usize,usize End point
-        --proc                  Procedure name for simulation
-                                Choose from: bfs, dfs, dijkstra, a-star
-        --heu       str         Heuristic function to use with a-star
-                                Choose from: Manhattan, Euclidean, chebyshev, octile, dijkstra
-                                Default dijkstra if none provided
-        --fps       u8          Frame per second
+```txt
+Visualize a Maze
 
-Usage: amazeing --realtime
+Usage: amazeing visualize --maze <MAZE>
 
 Options:
-        --maze      str         Path to the maze file
-        --proc                  Procedure name for simulation
-                                Choose from: bfs, dfs
-        --heu       str         Heuristic function to use with a-star
-                                Choose from: Manhattan, Euclidean, chebyshev, octile, dijkstra
-                                Default dijkstra if none provided
+      --maze <MAZE>  Maze file path
+  -h, --help         Print help
+```
+
+#### modify
+
+```txt
+Modify a Maze
+
+Usage: amazeing modify --maze <MAZE>
+
+Options:
+      --maze <MAZE>  Maze file path
+  -h, --help         Print help
+```
+
+#### simulate
+
+```txt
+Simulation of Maze solver
+
+Usage: amazeing simulate [OPTIONS] --maze <MAZE> --source <SOURCE> --destination <DESTINATION> --procedure <PROCEDURE>
+
+Options:
+      --maze <MAZE>                Maze file path
+      --source <SOURCE>            Source node (`"usize,usize"`) to start simulation
+      --destination <DESTINATION>  Destination node (`"usize,usize"`) to stop simulation
+      --procedure <PROCEDURE>      Maze Solving Procedure [possible values: bfs, dfs, dijkstra, a-star]
+      --heuristic <HEURISTIC>      Heuristic function (to use with AStar) [possible values: manhattan, euclidean, chebyshev, octile, dijkstra]
+      --fps <FPS>                  Frame update rate
+  -h, --help                       Print help
+```
+
+#### realtime
+
+```txt
+Realtime path find in a Maze
+
+Usage: amazeing realtime [OPTIONS] --maze <MAZE> --procedure <PROCEDURE>
+
+Options:
+      --maze <MAZE>            Maze file path
+      --procedure <PROCEDURE>  Maze Solving Procedure [possible values: bfs, dfs, dijkstra, a-star]
+      --heuristic <HEURISTIC>  Heuristic function (to use with AStar) [possible values: manhattan, euclidean, chebyshev, octile, dijkstra]
+  -h, --help                   Print help
 ```
 
 Note:
