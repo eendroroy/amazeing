@@ -1,4 +1,4 @@
-use crate::context::CONTEXT;
+use crate::context::{DRAW_CTX, MOD_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::draw_maze;
 use crate::helper::dumper::dump_maze_to_file;
@@ -7,7 +7,7 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop() {
-    let maze = &mut CONTEXT.read().unwrap().maze.clone();
+    let maze = &mut MOD_CTX.read().unwrap().maze.clone();
     loop {
         if quit_requested() {
             break;
@@ -20,27 +20,27 @@ async fn display_loop() {
                 1
             };
 
-            let node = get_node_from_mouse_pos(&CONTEXT.read().unwrap().draw_context());
+            let node = get_node_from_mouse_pos();
 
             maze[node] = value;
         }
 
-        draw_maze(maze, &CONTEXT.read().unwrap().draw_context());
+        draw_maze(maze);
         next_frame().await
     }
 }
 
 #[macroquad::main("Maze Editor")]
 async fn main() {
-    let (screen_width, screen_height) = CONTEXT.read().unwrap().screen_size();
+    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
     display_loop().await;
 
     dump_maze_to_file(
-        &*CONTEXT.read().unwrap().maze_file_path,
-        &CONTEXT.read().unwrap().maze,
+        &*MOD_CTX.read().unwrap().maze_file_path,
+        &MOD_CTX.read().unwrap().maze,
     );
 }
 

@@ -1,20 +1,21 @@
-use crate::command::{parse_params, Mode};
+use crate::cli::{update_context, ArgMode};
+use clap::Parser;
 
-mod command;
+mod cli;
 mod context;
 mod display;
 mod helper;
 mod mode;
 
 fn main() {
-    let mode = parse_params();
+    let args = cli::Arg::parse();
+    update_context(args.clone());
 
-    match mode {
-        Mode::Simulate => mode::simulate(),
-        Mode::Realtime => mode::realtime(),
-        Mode::Generate => mode::generate(),
-        Mode::Visualize => mode::visualize(),
-        Mode::Modify => mode::modify(),
-        _ => todo!(),
+    match args.mode.clone() {
+        ArgMode::Simulate { .. } => mode::simulate(),
+        ArgMode::Realtime { .. } => mode::realtime(),
+        ArgMode::Generate { .. } => mode::generate(),
+        ArgMode::Visualize { .. } => mode::visualize(),
+        ArgMode::Modify { .. } => mode::modify(),
     }
 }

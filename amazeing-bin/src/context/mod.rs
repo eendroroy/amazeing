@@ -1,8 +1,18 @@
-mod colors;
-mod common;
-mod contexts;
+mod color_context;
+mod color_scheme;
 mod draw_context;
+mod generation_context;
+mod modify_context;
+mod realtime_context;
+mod simulation_context;
+mod visualize_context;
 
-pub(crate) use colors::Colors;
-pub(crate) use contexts::CONTEXT;
-pub(crate) use draw_context::DrawContext;
+pub(crate) use color_context::ColorContext;
+pub(crate) use color_context::COL_CTX;
+pub(crate) use color_scheme::ColorScheme;
+pub(crate) use draw_context::DRAW_CTX;
+pub(crate) use generation_context::GEN_CTX;
+pub(crate) use modify_context::MOD_CTX;
+pub(crate) use realtime_context::REL_CTX;
+pub(crate) use simulation_context::SIM_CTX;
+pub(crate) use visualize_context::VIS_CTX;

@@ -1,9 +1,10 @@
-use crate::context::{DrawContext, CONTEXT};
+use crate::context::{COL_CTX, DRAW_CTX};
 use amazeing::DNode;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
 
-pub(crate) fn draw_node(node: DNode, ctx: &DrawContext, color: Color) {
+pub(crate) fn draw_node(node: DNode, color: Color) {
+    let ctx = DRAW_CTX.read().unwrap();
     draw_rectangle(
         ctx.margin + node.1 as f32 * (ctx.cell_width + ctx.padding),
         ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),
@@ -13,15 +14,15 @@ pub(crate) fn draw_node(node: DNode, ctx: &DrawContext, color: Color) {
     );
 }
 
-pub(crate) fn draw_source(node: DNode, ctx: &DrawContext) {
-    draw_node(node, ctx, CONTEXT.read().unwrap().colors.color_source);
+pub(crate) fn draw_source(node: DNode) {
+    draw_node(node, COL_CTX.read().unwrap().color_source);
 }
 
-pub(crate) fn draw_destination(node: DNode, ctx: &DrawContext) {
-    draw_node(node, ctx, CONTEXT.read().unwrap().colors.color_destination);
+pub(crate) fn draw_destination(node: DNode) {
+    draw_node(node, COL_CTX.read().unwrap().color_destination);
 }
 
-pub(crate) fn draw_source_destination(source: DNode, destination: DNode, ctx: &DrawContext) {
-    draw_source(source, ctx);
-    draw_destination(destination, ctx);
+pub(crate) fn draw_source_destination(source: DNode, destination: DNode) {
+    draw_source(source);
+    draw_destination(destination);
 }

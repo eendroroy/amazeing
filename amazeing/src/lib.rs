@@ -7,4 +7,4 @@ pub mod maze;
 pub mod solver;
 
 pub use structure::types::DNode;
-pub use structure::types::Heu;
+pub use structure::types::HeuFn;

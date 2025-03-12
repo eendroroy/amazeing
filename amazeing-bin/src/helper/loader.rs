@@ -2,12 +2,12 @@ use amazeing::maze::matrix::Maze;
 use std::fs;
 use std::path::Path;
 
-pub(crate) fn loader_maze_from_file(path: &str) -> Maze {
-    if !fs::exists(Path::new(&path)).unwrap() {
-        panic!("Maze file {} does not exists", path)
+pub(crate) fn loader_maze_from_file(path: &Path) -> Maze {
+    if !fs::exists(&path).unwrap() {
+        panic!("Maze file {} does not exists", path.display());
     }
     Maze::from(
-        fs::read_to_string(Path::new(path))
+        fs::read_to_string(path)
             .expect("Should have been able to read the file")
             .split("\n")
             .map(|line| {
