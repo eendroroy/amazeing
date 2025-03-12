@@ -47,7 +47,7 @@ Usage: amazeing generate --maze <MAZE> --procedure <PROCEDURE> --rows <ROWS> --c
 
 Options:
       --maze <MAZE>            File path to dump Maze data
-      --procedure <PROCEDURE>  Maze Generation Procedure [possible values: bfs, dfs]
+      --procedure <PROCEDURE>  Maze Generation Procedure [possible values: random, dfs]
       --rows <ROWS>            Number of rows
       --cols <COLS>            Number of cols
   -h, --help                   Print help

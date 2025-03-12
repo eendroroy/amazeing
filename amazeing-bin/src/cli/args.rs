@@ -118,7 +118,7 @@ pub enum ArgSolveProcedure {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgGenProcedure {
-    Bfs,
+    Random,
     Dfs,
 }
 

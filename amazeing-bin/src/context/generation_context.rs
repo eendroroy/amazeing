@@ -15,7 +15,7 @@ impl GenerationContext {
     pub fn new() -> Self {
         Self {
             maze_file_path: PathBuf::new(),
-            procedure: ArgGenProcedure::Bfs,
+            procedure: ArgGenProcedure::Random,
             rows: 10,
             cols: 10,
         }
