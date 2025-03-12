@@ -18,6 +18,8 @@ cargo install --path amazeing-bin
 #### amazeing
 
 ```txt
+A maze generator/solver application with simulation/visualization
+
 Usage: amazeing [OPTIONS] <COMMAND>
 
 Commands:
