@@ -8,9 +8,15 @@ pub struct Arg {
     #[clap(subcommand)]
     pub mode: ArgMode,
 
+    /// Display size
     #[clap(long)]
     pub display_size: Option<ArgDisplay>,
 
+    /// Display size multiplier
+    #[clap(long)]
+    pub display_scale: Option<f32>,
+
+    /// Color scheme file path
     #[clap(long)]
     pub color_scheme: Option<PathBuf>,
 }

@@ -9,8 +9,8 @@ use amazeing::maze::matrix::{
 };
 use amazeing::{DNode, HeuFn};
 
-pub(crate) fn update_context(cli: Arg) {
-    match cli.mode {
+pub(crate) fn update_context(args: Arg) {
+    match args.mode {
         ArgMode::Generate {
             maze,
             procedure,
@@ -80,7 +80,8 @@ pub(crate) fn update_context(cli: Arg) {
     }
 
     let mut ctx = DRAW_CTX.write().unwrap();
-    match cli.display_size {
+
+    match args.display_size {
         Some(ArgDisplay::XXS) => ctx.set((3., 1., 3., 3.)),
         Some(ArgDisplay::XS) => ctx.set((5., 1., 5., 5.)),
         Some(ArgDisplay::S) => ctx.set((10., 1., 10., 10.)),
@@ -91,7 +92,11 @@ pub(crate) fn update_context(cli: Arg) {
         None => {}
     }
 
-    if let Some(path) = cli.color_scheme {
+    if let Some(scale) = args.display_scale {
+        ctx.scale(scale);
+    }
+
+    if let Some(path) = args.color_scheme {
         let colors = ColorContext::from(ColorScheme::from(path.as_path()));
         *COL_CTX.write().unwrap() = colors;
     }

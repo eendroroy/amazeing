@@ -31,10 +31,11 @@ Commands:
   help       Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <DISPLAY_SIZE>  [possible values: xxs, xs, s, m, l, xl, xxl]
-      --color-scheme <COLOR_SCHEME>
-  -h, --help                         Print help
-  -V, --version                      Print version
+      --display-size <DISPLAY_SIZE>    Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+      --display-scale <DISPLAY_SCALE>  Display size multiplier
+      --color-scheme <COLOR_SCHEME>    Color scheme file path
+  -h, --help                           Print help
+  -V, --version                        Print version
 ```
 
 #### generate
