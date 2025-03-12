@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
 
+/// A maze generator/solver application with simulation/visualization.
 #[derive(Debug, Clone, Parser)]
 #[command(version, about)]
 pub struct Arg {
