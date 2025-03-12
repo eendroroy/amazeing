@@ -81,13 +81,13 @@ pub(crate) fn update_context(cli: Arg) {
 
     let mut ctx = DRAW_CTX.write().unwrap();
     match cli.display_size {
-        Some(ArgDisplay::XXS) => ctx.set((5., 1., 5., 5.)),
+        Some(ArgDisplay::XXS) => ctx.set((3., 1., 3., 3.)),
         Some(ArgDisplay::XS) => ctx.set((5., 1., 5., 5.)),
         Some(ArgDisplay::S) => ctx.set((10., 1., 10., 10.)),
         Some(ArgDisplay::M) => ctx.set((15., 2., 15., 15.)),
         Some(ArgDisplay::L) => ctx.set((25., 3., 20., 20.)),
         Some(ArgDisplay::XL) => ctx.set((30., 4., 30., 30.)),
-        Some(ArgDisplay::XXL) => ctx.set((30., 4., 30., 30.)),
+        Some(ArgDisplay::XXL) => ctx.set((40., 6., 40., 40.)),
         None => {}
     }
 
