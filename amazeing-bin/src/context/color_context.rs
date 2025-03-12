@@ -1,8 +1,11 @@
-use crate::command::color_scheme::ColorScheme;
+use crate::context::ColorScheme;
 use macroquad::color::Color;
+use std::sync::{LazyLock, RwLock};
+
+type Ctx = LazyLock<RwLock<ColorContext>>;
 
 #[derive(Debug, Clone)]
-pub struct Colors {
+pub struct ColorContext {
     pub(crate) color_bg: Color,
     pub(crate) color_block: Color,
     pub(crate) color_open: Color,
@@ -13,7 +16,7 @@ pub struct Colors {
     pub(crate) color_traversed: Color,
 }
 
-impl Colors {
+impl ColorContext {
     pub fn new() -> Self {
         Self {
             color_bg: Color::from_hex(0x00202e),
@@ -40,3 +43,5 @@ impl Colors {
         }
     }
 }
+
+pub static COL_CTX: Ctx = LazyLock::new(|| RwLock::new(ColorContext::new()));

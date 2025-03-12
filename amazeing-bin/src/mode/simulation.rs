@@ -1,4 +1,4 @@
-use crate::context::CONTEXT;
+use crate::context::{DRAW_CTX, SIM_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::{
     draw_current_path, draw_maze, draw_path, draw_source_destination, draw_traversed,
@@ -10,12 +10,11 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop() {
-    let dc = &CONTEXT.read().unwrap().draw_context();
-    let maze = &CONTEXT.read().unwrap().maze;
-    let trace = &mut CONTEXT.read().unwrap().tracer.clone();
+    let maze = &SIM_CTX.read().unwrap().maze;
+    let trace = &mut SIM_CTX.read().unwrap().tracer.clone();
     let mut current_path: Vec<DNode> = vec![];
     let mut last_millis = current_millis();
-    let update_interval = 1000 / CONTEXT.read().unwrap().fps as u128;
+    let update_interval = 1000 / SIM_CTX.read().unwrap().fps as u128;
 
     let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
 
@@ -46,20 +45,19 @@ async fn display_loop() {
                 }
             }
 
-            draw_maze(&maze, dc);
-            draw_traversed(&traversed, dc);
+            draw_maze(&maze);
+            draw_traversed(&traversed);
             if trace_complete {
-                draw_path(current_path.clone(), dc);
+                draw_path(current_path.clone());
             } else {
-                draw_current_path(current_path.clone(), dc, &mut traversed);
+                draw_current_path(current_path.clone(), &mut traversed);
             };
         } else {
-            draw_maze(&maze, dc);
+            draw_maze(&maze);
         }
         draw_source_destination(
-            CONTEXT.read().unwrap().source,
-            CONTEXT.read().unwrap().destination,
-            dc,
+            SIM_CTX.read().unwrap().source,
+            SIM_CTX.read().unwrap().destination,
         );
         next_frame().await
     }
@@ -67,7 +65,7 @@ async fn display_loop() {
 
 #[macroquad::main("Maze Simulation")]
 async fn main() {
-    let (screen_width, screen_height) = CONTEXT.read().unwrap().screen_size();
+    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
     set_window_size(screen_width as u32, screen_height as u32 + 30);
 
@@ -78,13 +76,15 @@ pub(crate) fn simulate() {
     let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
 
     run_algorithm(
-        &CONTEXT.read().unwrap().maze,
-        CONTEXT.read().unwrap().source,
-        CONTEXT.read().unwrap().destination,
+        &SIM_CTX.read().unwrap().maze,
+        SIM_CTX.read().unwrap().source,
+        SIM_CTX.read().unwrap().destination,
+        SIM_CTX.read().unwrap().proc.clone(),
+        Some(SIM_CTX.read().unwrap().heuristic.clone()),
         &mut tracer,
     );
 
-    CONTEXT.write().unwrap().tracer = tracer.unwrap();
+    SIM_CTX.write().unwrap().tracer = tracer.unwrap();
 
     main();
 }

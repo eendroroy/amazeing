@@ -2,8 +2,9 @@ use amazeing::maze::matrix::Maze;
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::path::Path;
 
-pub(crate) fn dump_maze_to_file(path: &str, maze: &Maze) {
+pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     if fs::exists(path).unwrap_or(false) {
         fs::remove_file(path).unwrap();
     }
