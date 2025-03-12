@@ -28,6 +28,13 @@ impl DrawContext {
         (self.margin, self.padding, self.cell_width, self.cell_height) = data
     }
 
+    pub fn scale(&mut self, scale: f32) {
+        self.margin = self.margin * scale;
+        self.padding = self.padding * scale;
+        self.cell_width = self.cell_width * scale;
+        self.cell_height = self.cell_height * scale;
+    }
+
     pub fn screen_size(&self) -> (f32, f32) {
         (
             self.margin * 2. + self.maze_cols as f32 * (self.cell_width + self.padding),
