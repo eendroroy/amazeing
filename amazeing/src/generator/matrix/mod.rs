@@ -1,4 +1,4 @@
 mod traverse;
 
-pub use traverse::bfs;
+pub use traverse::random;
 pub use traverse::dfs;
