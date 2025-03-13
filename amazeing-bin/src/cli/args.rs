@@ -2,6 +2,8 @@ use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
 
 /// A maze generator/solver application with simulation/visualization.
+///
+/// amazeing (generate | visualize | modify | simulate | realtime)
 #[derive(Debug, Clone, Parser)]
 #[command(version, about)]
 pub struct AmazeingArgs {
@@ -9,15 +11,15 @@ pub struct AmazeingArgs {
     pub mode: ArgMode,
 
     /// Display size
-    #[clap(long, value_name = "SIZE")]
+    #[clap(global = true, long, value_name = "SIZE")]
     pub display_size: Option<ArgDisplay>,
 
     /// Display scale (display size multiplier)
-    #[clap(long, value_name = "SCALE")]
+    #[clap(global = true, long, value_name = "SCALE")]
     pub display_scale: Option<f32>,
 
     /// Color scheme file (.toml) path
-    #[clap(long, value_name = "SCHEME.TOML")]
+    #[clap(global = true, long, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 }
 
@@ -26,78 +28,79 @@ pub enum ArgMode {
     /// Generate a Maze
     Generate {
         /// File path to dump Maze data
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
 
         /// Maze Generation Procedure
-        #[clap(long)]
+        #[clap(long, short)]
         procedure: ArgGenProcedure,
 
         /// Number of rows
-        #[clap(long)]
+        #[clap(long, short)]
         rows: usize,
 
         /// Number of cols
-        #[clap(long)]
+        #[clap(long, short)]
         cols: usize,
     },
     /// Visualize a Maze
     Visualize {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
     },
     /// Modify a Maze
     /// ( Click MouseLeft a cell to open path and
+    ///
     /// Click Shift+MouseLeft a cell to block path )
     Modify {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
     },
     /// Simulation of Maze solver
     Simulate {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
 
         /// Source node to start simulation
-        #[clap(long, value_name = "USIZE,USIZE")]
+        #[clap(long, short, value_name = "USIZE,USIZE")]
         source: String,
 
         /// Destination node to stop simulation
-        #[clap(long, value_name = "USIZE,USIZE")]
+        #[clap(long, short, value_name = "USIZE,USIZE")]
         destination: String,
 
         /// Maze Solving Procedure
-        #[clap(long)]
+        #[clap(long, short)]
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
-        #[clap(long)]
-        #[arg(required_if_eq("procedure", "a-star"))]
-        heuristic: Option<ArgHeuristic>,
+        #[clap(long, short = 'f', required_if_eq("procedure", "a-star"))]
+        heuristic_function: Option<ArgHeuristic>,
 
         /// Frame update rate
         #[clap(long)]
         fps: Option<u8>,
     },
     /// Realtime path finding in a Maze
-    /// ( Click "MouseLeft" on a cell select source and
-    /// Click "Shift+MouseLeft" on a cell select destination )
+    ///
+    /// Click "MouseLeft" on a cell select source and
+    ///
+    /// Click "Shift+MouseLeft" on a cell select destination
     Realtime {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
 
         /// Maze Solving Procedure
-        #[clap(long)]
+        #[clap(long, short)]
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
-        #[clap(long)]
-        #[arg(required_if_eq("procedure", "a-star"))]
-        heuristic: Option<ArgHeuristic>,
+        #[clap(long, short = 'f', required_if_eq("procedure", "a-star"))]
+        heuristic_function: Option<ArgHeuristic>,
     },
 }
 
