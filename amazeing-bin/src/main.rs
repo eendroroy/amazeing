@@ -12,8 +12,8 @@ fn main() {
     update_context(args.clone());
 
     match args.mode.clone() {
-        ArgMode::Simulate { .. } => mode::simulate(),
-        ArgMode::Realtime { .. } => mode::realtime(),
+        ArgMode::Solve { simulate: true, .. } => mode::simulate(),
+        ArgMode::Solve { simulate: false, .. } => mode::realtime(),
         ArgMode::Generate { .. } => mode::generate(),
         ArgMode::Visualize { .. } => mode::visualize(),
         ArgMode::Modify { .. } => mode::modify(),
