@@ -1,7 +1,7 @@
 mod args;
 mod update_context;
 
-pub(crate) use args::Arg;
+pub(crate) use args::AmazeingArgs;
 pub(crate) use args::ArgDisplay;
 pub(crate) use args::ArgGenProcedure;
 pub(crate) use args::ArgHeuristic;

@@ -8,7 +8,7 @@ mod helper;
 mod mode;
 
 fn main() {
-    let args = cli::Arg::parse();
+    let args = cli::AmazeingArgs::parse();
     update_context(args.clone());
 
     match args.mode.clone() {
