@@ -39,7 +39,8 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();
             DRAW_CTX.write().unwrap().maze_cols = context.maze.cols();
         }
-        ArgMode::Simulate {
+        ArgMode::Solve {
+            simulate: true,
             maze,
             source,
             destination,
@@ -51,8 +52,12 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             context.maze_file_path = maze.clone();
             context.maze = loader_maze_from_file(maze.as_path());
             context.proc = procedure;
-            context.source = parse_node(&source);
-            context.destination = parse_node(&destination);
+            if let Some(value) = source {
+                context.source = parse_node(&value);
+            }
+            if let Some(value) = destination {
+                context.destination = parse_node(&value);
+            }
             if let Some(value) = heuristic_function {
                 context.heuristic = get_heu_fn(value)
             }
@@ -62,10 +67,14 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();
             DRAW_CTX.write().unwrap().maze_cols = context.maze.cols();
         }
-        ArgMode::Realtime {
+        ArgMode::Solve {
+            simulate: false,
             maze,
+            source: _,
+            destination: _,
             procedure,
             heuristic_function,
+            fps: _,
         } => {
             let mut context = REL_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
