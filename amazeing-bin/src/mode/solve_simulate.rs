@@ -67,7 +67,7 @@ async fn display_loop() {
 async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
-    set_window_size(screen_width as u32, screen_height as u32 + 30);
+    set_window_size(screen_width, screen_height + 30);
 
     display_loop().await
 }

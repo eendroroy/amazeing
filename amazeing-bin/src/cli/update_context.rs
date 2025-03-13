@@ -16,6 +16,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             procedure,
             rows,
             cols,
+            visualize: _
         } => {
             let mut context = GEN_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
