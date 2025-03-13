@@ -1,4 +1,4 @@
-use crate::helper::validate_node;
+use crate::helper::{reconstruct_path, validate_node};
 use crate::maze::matrix::neighbour::{neighbours_block, D, L, R, U};
 use crate::maze::matrix::Maze;
 use crate::structure::stack::Stack;
@@ -8,7 +8,7 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::BTreeMap;
 
-pub fn random(maze: &mut Maze, source: DNode, _tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
+pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
     validate_node(maze, source);
 
     let mut storage = Vec::<DNode>::new();
@@ -17,6 +17,10 @@ pub fn random(maze: &mut Maze, source: DNode, _tracer: &mut Option<Vec<Vec<DNode
     storage.push(source);
 
     while let Some(current) = storage.pop() {
+        if let Some(trace) = tracer {
+            trace.push(reconstruct_path(current, &parent));
+        }
+
         let neighbours = neighbours_block(maze, current, Some(vec![L, R, U, D]));
 
         if neighbours.len() > 2 {
@@ -33,7 +37,7 @@ pub fn random(maze: &mut Maze, source: DNode, _tracer: &mut Option<Vec<Vec<DNode
     Vec::new()
 }
 
-pub fn dfs(maze: &mut Maze, source: DNode, _tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
+pub fn dfs(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
     validate_node(maze, source);
 
     let mut storage = Stack::<DNode>::new();
@@ -42,6 +46,10 @@ pub fn dfs(maze: &mut Maze, source: DNode, _tracer: &mut Option<Vec<Vec<DNode>>>
     storage.push(source);
 
     while let Some(current) = storage.pop() {
+        if let Some(trace) = tracer {
+            trace.push(reconstruct_path(current, &parent));
+        }
+
         let mut neighbours = neighbours_block(maze, current, Some(vec![L, R, U, D]));
 
         if neighbours.len() > 2 {

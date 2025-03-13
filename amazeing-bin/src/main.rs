@@ -12,10 +12,10 @@ fn main() {
     update_context(args.clone());
 
     match args.mode.clone() {
-        ArgMode::Solve { simulate: true, .. } => mode::simulate(),
-        ArgMode::Solve { simulate: false, .. } => mode::realtime(),
         ArgMode::Generate { .. } => mode::generate(),
         ArgMode::Visualize { .. } => mode::visualize(),
         ArgMode::Modify { .. } => mode::modify(),
+        ArgMode::Solve { simulate: false, .. } => mode::solve(),
+        ArgMode::Solve { simulate: true, .. } => mode::solve_simulate(),
     }
 }
