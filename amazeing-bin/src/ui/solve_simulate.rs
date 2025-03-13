@@ -80,7 +80,7 @@ async fn display_loop(maze: &Maze) {
     }
 }
 
-#[macroquad::main("Maze Simulation")]
+#[macroquad::main("Maze Solving Simulation")]
 pub async fn main() {
     let maze = &SOLVE_CTX.read().unwrap().maze;
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();

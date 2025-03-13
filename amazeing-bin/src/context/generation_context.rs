@@ -9,6 +9,7 @@ pub struct GenerationContext {
     pub(crate) procedure: ArgGenProcedure,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+    pub(crate) fps: u8,
 }
 
 impl GenerationContext {
@@ -18,6 +19,7 @@ impl GenerationContext {
             procedure: ArgGenProcedure::Random,
             rows: 10,
             cols: 10,
+            fps: 10,
         }
     }
 }

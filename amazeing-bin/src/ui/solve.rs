@@ -45,7 +45,7 @@ async fn display_loop() {
     }
 }
 
-#[macroquad::main("Realtime Path Finder")]
+#[macroquad::main("Maze solve")]
 pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
     set_window_size(screen_width, screen_height + 30);

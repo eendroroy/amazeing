@@ -14,6 +14,8 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             procedure,
             rows,
             cols,
+            simulate: _,
+            fps,
             visualize: _,
         } => {
             let mut context = GEN_CTX.write().unwrap();
@@ -21,6 +23,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             context.procedure = procedure;
             context.rows = rows;
             context.cols = cols;
+            context.fps = fps;
             DRAW_CTX.write().unwrap().maze_rows = rows;
             DRAW_CTX.write().unwrap().maze_cols = cols;
         }

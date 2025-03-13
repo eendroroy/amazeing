@@ -1,26 +1,33 @@
-use crate::command::ArgGenProcedure;
 use crate::context::{GEN_CTX, VIS_CTX};
 use crate::helper::dumper::dump_maze_to_file;
+use crate::helper::{generate_maze, random_node};
 use crate::ui;
-use amazeing::generator::matrix::{dfs, random};
 use amazeing::maze::matrix::Maze;
-use rand::random_range;
 
-pub(crate) fn generate(visualize: bool) {
-    let (rows, cols) = (GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols);
+pub(crate) fn generate(simulate: bool, visualize: bool) {
+    if simulate {
+        ui::generate_simulate::main()
+    } else {
+        let (rows, cols) = (GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols);
 
-    let start = (random_range(0..rows), random_range(0..cols));
+        let source = random_node((GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols));
 
-    println!("Starting at {:?}", start);
+        println!("Starting at {:?}", source);
 
-    let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
-    match GEN_CTX.read().unwrap().procedure {
-        ArgGenProcedure::Random => random(&mut maze, start, &mut None),
-        ArgGenProcedure::Dfs => dfs(&mut maze, start, &mut None),
-    };
-    dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
-    if visualize {
-        VIS_CTX.write().unwrap().maze = maze;
-        ui::visualize::main()
+        let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
+
+        generate_maze(
+            &mut maze,
+            source,
+            &GEN_CTX.read().unwrap().procedure,
+            &mut None,
+        );
+
+        dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
+
+        if visualize {
+            VIS_CTX.write().unwrap().maze = maze;
+            ui::visualize::main()
+        }
     }
 }
