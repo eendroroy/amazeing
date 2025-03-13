@@ -15,7 +15,7 @@ async fn looper() {
     }
 }
 
-#[macroquad::main("Maze View")]
+#[macroquad::main("View Maze")]
 pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
