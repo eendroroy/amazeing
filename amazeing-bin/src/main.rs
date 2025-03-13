@@ -2,20 +2,19 @@ use crate::cli::{update_context, ArgMode};
 use clap::Parser;
 
 mod cli;
+mod command;
 mod context;
 mod display;
 mod helper;
-mod mode;
+mod ui;
 
 fn main() {
     let args = cli::AmazeingArgs::parse();
     update_context(args.clone());
 
     match args.mode.clone() {
-        ArgMode::Generate { visualize, .. } => mode::generate(visualize),
-        ArgMode::Visualize { .. } => mode::visualize(),
-        ArgMode::Modify { .. } => mode::modify(),
-        ArgMode::Solve { simulate: false, .. } => mode::solve(),
-        ArgMode::Solve { simulate: true, .. } => mode::solve_simulate(),
+        ArgMode::Generate { visualize, .. } => command::generate(visualize),
+        ArgMode::Visualize { modify, .. } => command::visualize(modify),
+        ArgMode::Solve { simulate, .. } => command::solve(simulate),
     }
 }

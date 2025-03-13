@@ -46,13 +46,9 @@ async fn display_loop() {
 }
 
 #[macroquad::main("Realtime Path Finder")]
-async fn main() {
+pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
     set_window_size(screen_width, screen_height + 30);
 
     display_loop().await
-}
-
-pub(crate) fn solve() {
-    main();
 }

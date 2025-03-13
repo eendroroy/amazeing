@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 /// A maze generator/solver application with simulation/visualization.
 ///
-/// amazeing (generate | visualize | modify | solve)
+/// amazeing (generate | visualize | solve)
 #[derive(Debug, Clone, Parser)]
 #[command(version, about)]
 pub struct AmazeingArgs {
@@ -48,23 +48,21 @@ pub enum ArgMode {
         visualize: bool,
     },
     /// Visualize a Maze
+    ///
+    /// In modify ui Click MouseLeft a cell to open path and
+    /// Shift+MouseLeft a cell to block path
     Visualize {
         /// Maze file path
         #[clap(long)]
         maze: PathBuf,
-    },
-    /// Modify a Maze
-    ///
-    /// Click MouseLeft a cell to open path and
-    /// Shift+MouseLeft a cell to block path
-    Modify {
-        /// Maze file path
-        #[clap(long)]
-        maze: PathBuf,
+
+        /// Visualize after generation
+        #[clap(long, default_value_t = false)]
+        modify: bool,
     },
     /// Solve a Maze
     ///
-    /// In simulation mode click "MouseLeft" on a cell select source
+    /// In simulation ui click "MouseLeft" on a cell select source
     /// and "Shift+MouseLeft" on a cell select destination
     Solve {
         // Show a simulation of the solving process

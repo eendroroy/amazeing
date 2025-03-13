@@ -1,7 +1,7 @@
 use crate::cli::ArgGenProcedure;
 use crate::context::{GEN_CTX, VIS_CTX};
 use crate::helper::dumper::dump_maze_to_file;
-use crate::mode;
+use crate::ui;
 use amazeing::generator::matrix::{dfs, random};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
@@ -21,6 +21,6 @@ pub(crate) fn generate(visualize: bool) {
     dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
     if visualize {
         VIS_CTX.write().unwrap().maze = maze;
-        mode::visualize::visualize()
+        ui::visualize::main()
     }
 }

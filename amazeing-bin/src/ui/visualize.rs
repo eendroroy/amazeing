@@ -16,14 +16,10 @@ async fn looper() {
 }
 
 #[macroquad::main("Maze Viewer")]
-async fn main() {
+pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
     set_window_size(screen_width, screen_height + 30);
 
     looper().await
-}
-
-pub(crate) fn visualize() {
-    main()
 }
