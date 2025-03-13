@@ -72,7 +72,7 @@ async fn main() {
     display_loop().await
 }
 
-pub(crate) fn simulate() {
+pub(crate) fn solve_simulate() {
     let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
 
     run_algorithm(

@@ -53,6 +53,6 @@ async fn main() {
     display_loop().await
 }
 
-pub(crate) fn realtime() {
+pub(crate) fn solve() {
     main();
 }
