@@ -43,6 +43,14 @@ pub enum ArgMode {
         #[clap(long)]
         cols: usize,
 
+        /// Show a simulation of the generation process
+        #[clap(long, default_value_t = false)]
+        simulate: bool,
+
+        /// Frame update rate
+        #[clap(long, default_value_t = 5)]
+        fps: u8,
+
         /// Visualize after generation
         #[clap(long, default_value_t = false)]
         visualize: bool,

@@ -8,7 +8,7 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::BTreeMap;
 
-pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
+pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) {
     validate_node(maze, source);
 
     let mut storage = Vec::<DNode>::new();
@@ -17,14 +17,13 @@ pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>
     storage.push(source);
 
     while let Some(current) = storage.pop() {
-        if let Some(trace) = tracer {
-            trace.push(reconstruct_path(current, &parent));
-        }
-
         let neighbours = neighbours_block(maze, current, Some(vec![L, R, U, D]));
 
         if neighbours.len() > 2 {
             maze[current] = 1;
+            if let Some(trace) = tracer {
+                trace.push(reconstruct_path(current, &parent));
+            }
             for next in neighbours {
                 parent.insert(next, current);
                 storage.push(next);
@@ -33,11 +32,9 @@ pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>
 
         storage.shuffle(&mut rng())
     }
-
-    Vec::new()
 }
 
-pub fn dfs(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) -> Vec<DNode> {
+pub fn dfs(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) {
     validate_node(maze, source);
 
     let mut storage = Stack::<DNode>::new();
@@ -46,21 +43,18 @@ pub fn dfs(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>)
     storage.push(source);
 
     while let Some(current) = storage.pop() {
-        if let Some(trace) = tracer {
-            trace.push(reconstruct_path(current, &parent));
-        }
-
         let mut neighbours = neighbours_block(maze, current, Some(vec![L, R, U, D]));
 
         if neighbours.len() > 2 {
             neighbours.shuffle(&mut rng());
             maze[current] = 1;
+            if let Some(trace) = tracer {
+                trace.push(reconstruct_path(current, &parent));
+            }
             for next in neighbours {
                 parent.insert(next, current);
                 storage.push(next);
             }
         }
     }
-
-    Vec::new()
 }
