@@ -44,7 +44,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             source,
             destination,
             procedure,
-            heuristic,
+            heuristic_function,
             fps,
         } => {
             let mut context = SIM_CTX.write().unwrap();
@@ -53,7 +53,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             context.proc = procedure;
             context.source = parse_node(&source);
             context.destination = parse_node(&destination);
-            if let Some(value) = heuristic {
+            if let Some(value) = heuristic_function {
                 context.heuristic = get_heu_fn(value)
             }
             if let Some(value) = fps {
@@ -65,13 +65,13 @@ pub(crate) fn update_context(args: AmazeingArgs) {
         ArgMode::Realtime {
             maze,
             procedure,
-            heuristic,
+            heuristic_function,
         } => {
             let mut context = REL_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
             context.maze = loader_maze_from_file(maze.as_path());
             context.proc = procedure;
-            if let Some(value) = heuristic {
+            if let Some(value) = heuristic_function {
                 context.heuristic = get_heu_fn(value)
             }
             DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();
