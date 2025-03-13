@@ -1,6 +1,6 @@
 use crate::cli::{AmazeingArgs, ArgDisplay, ArgHeuristic, ArgMode};
 use crate::context::{
-    ColorContext, ColorScheme, COL_CTX, DRAW_CTX, GEN_CTX, MOD_CTX, REL_CTX, SIM_CTX, VIS_CTX,
+    ColorContext, ColorScheme, COL_CTX, DRAW_CTX, GEN_CTX, REL_CTX, SIM_CTX, VIS_CTX,
 };
 use crate::helper::loader::loader_maze_from_file;
 use amazeing::maze::matrix::{
@@ -16,7 +16,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             procedure,
             rows,
             cols,
-            visualize: _
+            visualize: _,
         } => {
             let mut context = GEN_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
@@ -26,15 +26,8 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             DRAW_CTX.write().unwrap().maze_rows = rows;
             DRAW_CTX.write().unwrap().maze_cols = cols;
         }
-        ArgMode::Visualize { maze } => {
+        ArgMode::Visualize { maze, modify: _ } => {
             let mut context = VIS_CTX.write().unwrap();
-            context.maze_file_path = maze.clone();
-            context.maze = loader_maze_from_file(maze.as_path());
-            DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();
-            DRAW_CTX.write().unwrap().maze_cols = context.maze.cols();
-        }
-        ArgMode::Modify { maze } => {
-            let mut context = MOD_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
             context.maze = loader_maze_from_file(maze.as_path());
             DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();

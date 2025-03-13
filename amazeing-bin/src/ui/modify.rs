@@ -1,4 +1,4 @@
-use crate::context::{DRAW_CTX, MOD_CTX};
+use crate::context::{DRAW_CTX, VIS_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::draw_maze;
 use crate::helper::dumper::dump_maze_to_file;
@@ -7,7 +7,7 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop() {
-    let maze = &mut MOD_CTX.read().unwrap().maze.clone();
+    let maze = &mut VIS_CTX.read().unwrap().maze.clone();
     loop {
         if quit_requested() {
             break;
@@ -31,7 +31,7 @@ async fn display_loop() {
 }
 
 #[macroquad::main("Maze Editor")]
-async fn main() {
+pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
     set_window_size(screen_width, screen_height + 30);
@@ -39,11 +39,7 @@ async fn main() {
     display_loop().await;
 
     dump_maze_to_file(
-        &*MOD_CTX.read().unwrap().maze_file_path,
-        &MOD_CTX.read().unwrap().maze,
+        &*VIS_CTX.read().unwrap().maze_file_path,
+        &VIS_CTX.read().unwrap().maze,
     );
-}
-
-pub(crate) fn modify() {
-    main()
 }

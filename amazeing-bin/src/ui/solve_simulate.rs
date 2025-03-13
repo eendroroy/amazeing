@@ -3,7 +3,7 @@ use crate::display::action::quit_requested;
 use crate::display::drawer::{
     draw_current_path, draw_maze, draw_path, draw_source_destination, draw_traversed,
 };
-use crate::helper::{current_millis, run_algorithm};
+use crate::helper::current_millis;
 use amazeing::maze::matrix::Maze;
 use amazeing::DNode;
 use macroquad::miniquad::window::set_window_size;
@@ -64,27 +64,10 @@ async fn display_loop() {
 }
 
 #[macroquad::main("Maze Simulation")]
-async fn main() {
+pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
     set_window_size(screen_width, screen_height + 30);
 
     display_loop().await
-}
-
-pub(crate) fn solve_simulate() {
-    let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
-
-    run_algorithm(
-        &SIM_CTX.read().unwrap().maze,
-        SIM_CTX.read().unwrap().source,
-        SIM_CTX.read().unwrap().destination,
-        SIM_CTX.read().unwrap().proc.clone(),
-        Some(SIM_CTX.read().unwrap().heuristic.clone()),
-        &mut tracer,
-    );
-
-    SIM_CTX.write().unwrap().tracer = tracer.unwrap();
-
-    main();
 }
