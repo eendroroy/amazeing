@@ -1,7 +1,7 @@
 use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
 use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source};
-use crate::helper::run_algorithm;
+use crate::helper::solve_maze;
 use amazeing::DNode;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -18,11 +18,11 @@ async fn display_loop() {
             populate_source_destination(&maze, &mut from, &mut to);
 
             if from.is_some() && to.is_some() {
-                current_path = run_algorithm(
+                current_path = solve_maze(
                     &maze,
                     from.unwrap(),
                     to.unwrap(),
-                    SOLVE_CTX.read().unwrap().proc.clone(),
+                    &SOLVE_CTX.read().unwrap().proc,
                     Some(SOLVE_CTX.read().unwrap().heuristic.clone()),
                     &mut None,
                 );

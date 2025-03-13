@@ -1,22 +1,23 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
 use amazeing::maze::matrix::Maze;
-use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
-use amazeing::{generator, DNode, HeuFn};
+use amazeing::{generator, solver, DNode, HeuFn};
 
-pub(crate) fn run_algorithm(
+pub(crate) fn solve_maze(
     maze: &Maze,
     from: DNode,
     to: DNode,
-    procedure: ArgSolveProcedure,
+    procedure: &ArgSolveProcedure,
     heuristic: Option<HeuFn>,
     tracer: &mut Option<Vec<Vec<DNode>>>,
 ) -> Vec<DNode> {
     println!("{:?} ==> {:?}", from, to);
     match procedure {
-        ArgSolveProcedure::Bfs => bfs(maze, from, to, tracer),
-        ArgSolveProcedure::Dfs => dfs(maze, from, to, tracer),
-        ArgSolveProcedure::Dijkstra => dijkstra(maze, from, to, tracer),
-        ArgSolveProcedure::AStar => a_star(maze, from, to, heuristic.unwrap(), tracer),
+        ArgSolveProcedure::Bfs => solver::matrix::bfs(maze, from, to, tracer),
+        ArgSolveProcedure::Dfs => solver::matrix::dfs(maze, from, to, tracer),
+        ArgSolveProcedure::Dijkstra => solver::matrix::dijkstra(maze, from, to, tracer),
+        ArgSolveProcedure::AStar => {
+            solver::matrix::a_star(maze, from, to, heuristic.unwrap(), tracer)
+        }
     }
 }
 
