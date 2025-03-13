@@ -9,15 +9,15 @@ pub struct AmazeingArgs {
     pub mode: ArgMode,
 
     /// Display size
-    #[clap(long)]
+    #[clap(long, value_name = "SIZE")]
     pub display_size: Option<ArgDisplay>,
 
-    /// Display size multiplier
-    #[clap(long)]
+    /// Display scale (display size multiplier)
+    #[clap(long, value_name = "SCALE")]
     pub display_scale: Option<f32>,
 
-    /// Color scheme file path
-    #[clap(long)]
+    /// Color scheme file (.toml) path
+    #[clap(long, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 }
 
@@ -48,6 +48,8 @@ pub enum ArgMode {
         maze: PathBuf,
     },
     /// Modify a Maze
+    /// ( Click MouseLeft a cell to open path and
+    /// Click Shift+MouseLeft a cell to block path )
     Modify {
         /// Maze file path
         #[clap(long)]
@@ -59,12 +61,12 @@ pub enum ArgMode {
         #[clap(long)]
         maze: PathBuf,
 
-        /// Source node (`"usize,usize"`) to start simulation
-        #[clap(long)]
+        /// Source node to start simulation
+        #[clap(long, value_name = "USIZE,USIZE")]
         source: String,
 
-        /// Destination node (`"usize,usize"`) to stop simulation
-        #[clap(long)]
+        /// Destination node to stop simulation
+        #[clap(long, value_name = "USIZE,USIZE")]
         destination: String,
 
         /// Maze Solving Procedure
@@ -80,7 +82,9 @@ pub enum ArgMode {
         #[clap(long)]
         fps: Option<u8>,
     },
-    /// Realtime path find in a Maze
+    /// Realtime path finding in a Maze
+    /// ( Click "MouseLeft" on a cell select source and
+    /// Click "Shift+MouseLeft" on a cell select destination )
     Realtime {
         /// Maze file path
         #[clap(long)]

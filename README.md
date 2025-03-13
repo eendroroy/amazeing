@@ -31,11 +31,11 @@ Commands:
   help       Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <DISPLAY_SIZE>    Display size [possible values: xxs, xs, s, m, l, xl, xxl]
-      --display-scale <DISPLAY_SCALE>  Display size multiplier
-      --color-scheme <COLOR_SCHEME>    Color scheme file path
-  -h, --help                           Print help
-  -V, --version                        Print version
+      --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+      --display-scale <SCALE>       Display scale (display size multiplier)
+      --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
+  -h, --help                        Print help
+  -V, --version                     Print version
 ```
 
 #### generate
@@ -68,7 +68,7 @@ Options:
 #### modify
 
 ```txt
-Modify a Maze
+Modify a Maze ( Click MouseLeft a cell to open path and Click Shift+MouseLeft a cell to block path )
 
 Usage: amazeing modify --maze <MAZE>
 
@@ -82,12 +82,12 @@ Options:
 ```txt
 Simulation of Maze solver
 
-Usage: amazeing simulate [OPTIONS] --maze <MAZE> --source <SOURCE> --destination <DESTINATION> --procedure <PROCEDURE>
+Usage: amazeing simulate [OPTIONS] --maze <MAZE> --source <USIZE,USIZE> --destination <USIZE,USIZE> --procedure <PROCEDURE>
 
 Options:
       --maze <MAZE>                Maze file path
-      --source <SOURCE>            Source node (`"usize,usize"`) to start simulation
-      --destination <DESTINATION>  Destination node (`"usize,usize"`) to stop simulation
+      --source <USIZE,USIZE>       Source node to start simulation
+      --destination <USIZE,USIZE>  Destination node to stop simulation
       --procedure <PROCEDURE>      Maze Solving Procedure [possible values: bfs, dfs, dijkstra, a-star]
       --heuristic <HEURISTIC>      Heuristic function (to use with AStar) [possible values: manhattan, euclidean, chebyshev, octile, dijkstra]
       --fps <FPS>                  Frame update rate
@@ -97,7 +97,7 @@ Options:
 #### realtime
 
 ```txt
-Realtime path find in a Maze
+Realtime path finding in a Maze ( Click "MouseLeft" on a cell select source and Click "Shift+MouseLeft" on a cell select destination )
 
 Usage: amazeing realtime [OPTIONS] --maze <MAZE> --procedure <PROCEDURE>
 
