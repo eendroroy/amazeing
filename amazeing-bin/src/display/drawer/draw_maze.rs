@@ -1,4 +1,4 @@
-use crate::context::{COL_CTX, DRAW_CTX};
+use crate::context::{COLOR_CTX, DRAW_CTX};
 use amazeing::maze::matrix::Maze;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
@@ -8,9 +8,9 @@ pub(crate) fn draw_maze(maze: &Maze) {
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let color: Color = if maze[(r, c)] > 0 {
-                COL_CTX.read().unwrap().color_open
+                COLOR_CTX.read().unwrap().color_open
             } else {
-                COL_CTX.read().unwrap().color_block
+                COLOR_CTX.read().unwrap().color_block
             };
 
             draw_rectangle(

@@ -62,24 +62,12 @@ pub enum ArgMode {
     },
     /// Solve a Maze
     ///
-    /// In simulation ui click "MouseLeft" on a cell select source
-    /// and "Shift+MouseLeft" on a cell select destination
+    /// In simulation ui click "MouseLeft" on a cell to select source
+    /// and "Shift+MouseLeft" on a cell to select destination
     Solve {
-        // Show a simulation of the solving process
-        #[clap(long, default_value_t = false)]
-        simulate: bool,
-
         /// Maze file path
         #[clap(long)]
         maze: PathBuf,
-
-        /// Source node to start simulation
-        #[clap(long, value_name = "USIZE,USIZE", required_if_eq("simulate", "true"))]
-        source: Option<String>,
-
-        /// Destination node to stop simulation
-        #[clap(long, value_name = "USIZE,USIZE", required_if_eq("simulate", "true"))]
-        destination: Option<String>,
 
         /// Maze Solving Procedure
         #[clap(long)]
@@ -89,9 +77,13 @@ pub enum ArgMode {
         #[clap(long, required_if_eq("procedure", "a-star"))]
         heuristic_function: Option<ArgHeuristic>,
 
+        /// Show a simulation of the solving process
+        #[clap(long, default_value_t = false)]
+        simulate: bool,
+
         /// Frame update rate
-        #[clap(long)]
-        fps: Option<u8>,
+        #[clap(long, default_value_t = 5)]
+        fps: u8,
     },
 }
 

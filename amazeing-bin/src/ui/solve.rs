@@ -1,4 +1,4 @@
-use crate::context::{COL_CTX, DRAW_CTX, REL_CTX};
+use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
 use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source};
 use crate::helper::run_algorithm;
@@ -7,13 +7,13 @@ use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop() {
-    let maze = &REL_CTX.read().unwrap().maze;
+    let maze = &SOLVE_CTX.read().unwrap().maze;
     let mut current_path: Vec<DNode> = vec![];
     let mut from: Option<DNode> = None;
     let mut to: Option<DNode> = None;
 
     loop {
-        clear_background(COL_CTX.read().unwrap().color_bg);
+        clear_background(COLOR_CTX.read().unwrap().color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
             populate_source_destination(&maze, &mut from, &mut to);
 
@@ -22,8 +22,8 @@ async fn display_loop() {
                     &maze,
                     from.unwrap(),
                     to.unwrap(),
-                    REL_CTX.read().unwrap().proc.clone(),
-                    Some(REL_CTX.read().unwrap().heuristic.clone()),
+                    SOLVE_CTX.read().unwrap().proc.clone(),
+                    Some(SOLVE_CTX.read().unwrap().heuristic.clone()),
                     &mut None,
                 );
             }

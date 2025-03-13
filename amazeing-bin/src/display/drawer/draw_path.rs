@@ -1,4 +1,4 @@
-use crate::context::{COL_CTX, DRAW_CTX};
+use crate::context::{COLOR_CTX, DRAW_CTX};
 use amazeing::maze::matrix::Maze;
 use amazeing::DNode;
 use macroquad::prelude::draw_rectangle;
@@ -11,7 +11,7 @@ pub(crate) fn draw_path(path: Vec<DNode>) {
             ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),
             ctx.cell_width,
             ctx.cell_height,
-            COL_CTX.read().unwrap().color_path,
+            COLOR_CTX.read().unwrap().color_path,
         );
     }
 }
@@ -25,7 +25,7 @@ pub(crate) fn draw_current_path(path: Vec<DNode>, traversed: &mut Maze) {
             ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),
             ctx.cell_width,
             ctx.cell_height,
-            COL_CTX.read().unwrap().color_visiting,
+            COLOR_CTX.read().unwrap().color_visiting,
         );
     }
 }

@@ -1,4 +1,4 @@
-use crate::cli::ArgGenProcedure;
+use crate::command::ArgGenProcedure;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 
