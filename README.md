@@ -47,13 +47,6 @@ Options:
           Print version
 ```
 
-Note:
-
-- Press `q` to quit. This will dump the displayed maze into file in generator mode (`--generate`)
-- Press `s` in Simulation mode (`--simulate`) to start simulation.
-
-## Demo
-
 ## Demo
 
 | Algorithm      |                                                                                                            |
