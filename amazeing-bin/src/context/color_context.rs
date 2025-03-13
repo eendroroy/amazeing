@@ -44,4 +44,4 @@ impl ColorContext {
     }
 }
 
-pub static COL_CTX: Ctx = LazyLock::new(|| RwLock::new(ColorContext::new()));
+pub static COLOR_CTX: Ctx = LazyLock::new(|| RwLock::new(ColorContext::new()));

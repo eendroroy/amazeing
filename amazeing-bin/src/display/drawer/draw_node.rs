@@ -1,4 +1,4 @@
-use crate::context::{COL_CTX, DRAW_CTX};
+use crate::context::{COLOR_CTX, DRAW_CTX};
 use amazeing::DNode;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
@@ -15,14 +15,9 @@ pub(crate) fn draw_node(node: DNode, color: Color) {
 }
 
 pub(crate) fn draw_source(node: DNode) {
-    draw_node(node, COL_CTX.read().unwrap().color_source);
+    draw_node(node, COLOR_CTX.read().unwrap().color_source);
 }
 
 pub(crate) fn draw_destination(node: DNode) {
-    draw_node(node, COL_CTX.read().unwrap().color_destination);
-}
-
-pub(crate) fn draw_source_destination(source: DNode, destination: DNode) {
-    draw_source(source);
-    draw_destination(destination);
+    draw_node(node, COLOR_CTX.read().unwrap().color_destination);
 }

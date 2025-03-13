@@ -1,7 +1,6 @@
-use crate::cli::{update_context, ArgMode};
+use crate::command::{update_context, AmazeingArgs, ArgMode};
 use clap::Parser;
 
-mod cli;
 mod command;
 mod context;
 mod display;
@@ -9,7 +8,7 @@ mod helper;
 mod ui;
 
 fn main() {
-    let args = cli::AmazeingArgs::parse();
+    let args = AmazeingArgs::parse();
     update_context(args.clone());
 
     match args.mode.clone() {

@@ -1,4 +1,4 @@
-use crate::cli::ArgSolveProcedure;
+use crate::command::ArgSolveProcedure;
 use amazeing::maze::matrix::Maze;
 use amazeing::solver::matrix::{a_star, bfs, dfs, dijkstra};
 use amazeing::{DNode, HeuFn};

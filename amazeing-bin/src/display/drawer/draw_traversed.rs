@@ -1,4 +1,4 @@
-use crate::context::{COL_CTX, DRAW_CTX};
+use crate::context::{COLOR_CTX, DRAW_CTX};
 use amazeing::maze::matrix::Maze;
 use macroquad::prelude::draw_rectangle;
 
@@ -12,7 +12,7 @@ pub(crate) fn draw_traversed(maze: &Maze) {
                     ctx.margin + r as f32 * (ctx.cell_height + ctx.padding),
                     ctx.cell_width,
                     ctx.cell_height,
-                    COL_CTX.read().unwrap().color_traversed,
+                    COLOR_CTX.read().unwrap().color_traversed,
                 );
             };
         }

@@ -1,4 +1,4 @@
-use crate::cli::ArgGenProcedure;
+use crate::command::ArgGenProcedure;
 use crate::context::{GEN_CTX, VIS_CTX};
 use crate::helper::dumper::dump_maze_to_file;
 use crate::ui;
