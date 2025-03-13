@@ -42,6 +42,10 @@ pub enum ArgMode {
         /// Number of cols
         #[clap(long)]
         cols: usize,
+
+        /// Visualize after generation
+        #[clap(long, default_value_t = false)]
+        visualize: bool,
     },
     /// Visualize a Maze
     Visualize {

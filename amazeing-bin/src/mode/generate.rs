@@ -6,7 +6,7 @@ use amazeing::generator::matrix::{dfs, random};
 use amazeing::maze::matrix::Maze;
 use rand::random_range;
 
-pub(crate) fn generate() {
+pub(crate) fn generate(visualize: bool) {
     let (rows, cols) = (GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols);
 
     let start = (random_range(0..rows), random_range(0..cols));
@@ -19,6 +19,8 @@ pub(crate) fn generate() {
         ArgGenProcedure::Dfs => dfs(&mut maze, start, &mut None),
     };
     dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
-    VIS_CTX.write().unwrap().maze = maze;
-    mode::visualize::visualize()
+    if visualize {
+        VIS_CTX.write().unwrap().maze = maze;
+        mode::visualize::visualize()
+    }
 }

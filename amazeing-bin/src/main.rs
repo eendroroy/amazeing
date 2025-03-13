@@ -12,7 +12,7 @@ fn main() {
     update_context(args.clone());
 
     match args.mode.clone() {
-        ArgMode::Generate { .. } => mode::generate(),
+        ArgMode::Generate { visualize, .. } => mode::generate(visualize),
         ArgMode::Visualize { .. } => mode::visualize(),
         ArgMode::Modify { .. } => mode::modify(),
         ArgMode::Solve { simulate: false, .. } => mode::solve(),
