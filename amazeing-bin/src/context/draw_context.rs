@@ -35,10 +35,10 @@ impl DrawContext {
         self.cell_height = self.cell_height * scale;
     }
 
-    pub fn screen_size(&self) -> (f32, f32) {
+    pub fn screen_size(&self) -> (u32, u32) {
         (
-            self.margin * 2. + self.maze_cols as f32 * (self.cell_width + self.padding),
-            self.margin * 2. + self.maze_rows as f32 * (self.cell_width + self.padding),
+            (self.margin * 2. + self.maze_cols as f32 * (self.cell_width + self.padding)) as u32,
+            (self.margin * 2. + self.maze_rows as f32 * (self.cell_width + self.padding)) as u32,
         )
     }
 }

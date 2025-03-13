@@ -1,4 +1,4 @@
-use crate::cli::{Arg, ArgDisplay, ArgHeuristic, ArgMode};
+use crate::cli::{AmazeingArgs, ArgDisplay, ArgHeuristic, ArgMode};
 use crate::context::{
     ColorContext, ColorScheme, COL_CTX, DRAW_CTX, GEN_CTX, MOD_CTX, REL_CTX, SIM_CTX, VIS_CTX,
 };
@@ -9,7 +9,7 @@ use amazeing::maze::matrix::{
 };
 use amazeing::{DNode, HeuFn};
 
-pub(crate) fn update_context(args: Arg) {
+pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {
         ArgMode::Generate {
             maze,
