@@ -21,18 +21,17 @@ A maze generator/solver application with simulation/visualization
 Usage: amazeing [OPTIONS] <COMMAND>
 
 Commands:
-  generate   Generate a Maze
-  visualize  Visualize a Maze
-  solve      Solve a Maze
-  help       Print this message or the help of the given subcommand(s)
+  create  Create a Maze
+  view    View a Maze
+  solve   Solve a Maze
+  help    Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <SIZE>         Display size
-                                    [possible values: xxs, xs, s, m, l, xl, xxl]
-      --display-density <DENSITY>   Display density (changes space between adjacent blocks)
+      --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+      --display-density <DENSITY>   Display density (changes space between adjacent blocks) 
                                     [possible values: connected, dense, standard, cozy, ample]
       --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
-  -h, --help                        Print help (see more with '--help')
+  -h, --help                        Print help
   -V, --version                     Print version
 ```
 

@@ -9,14 +9,14 @@ use amazeing::NodeHeuFn;
 
 pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {
-        ArgMode::Generate {
+        ArgMode::Create {
             maze,
             procedure,
             rows,
             cols,
             simulate: _,
             fps,
-            visualize: _,
+            view: _,
         } => {
             let mut context = GEN_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
@@ -27,7 +27,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             DRAW_CTX.write().unwrap().maze_rows = rows;
             DRAW_CTX.write().unwrap().maze_cols = cols;
         }
-        ArgMode::Visualize { maze, modify: _ } => {
+        ArgMode::View { maze, update: _ } => {
             let mut context = VIS_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
             context.maze = loader_maze_from_file(maze.as_path());
