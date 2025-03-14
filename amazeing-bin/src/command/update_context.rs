@@ -1,4 +1,4 @@
-use crate::command::{AmazeingArgs, ArgDisplay, ArgHeuristic, ArgMode};
+use crate::command::{AmazeingArgs, ArgDisplaySize, ArgHeuristic, ArgMode};
 use crate::context::{ColorContext, ColorScheme, COLOR_CTX, DRAW_CTX, GEN_CTX, SOLVE_CTX, VIS_CTX};
 use crate::helper::loader::loader_maze_from_file;
 use amazeing::maze::matrix::{
@@ -57,18 +57,18 @@ pub(crate) fn update_context(args: AmazeingArgs) {
     let mut ctx = DRAW_CTX.write().unwrap();
 
     match args.display_size {
-        Some(ArgDisplay::XXS) => ctx.set((3., 1., 3., 3.)),
-        Some(ArgDisplay::XS) => ctx.set((5., 1., 5., 5.)),
-        Some(ArgDisplay::S) => ctx.set((10., 1., 10., 10.)),
-        Some(ArgDisplay::M) => ctx.set((15., 2., 15., 15.)),
-        Some(ArgDisplay::L) => ctx.set((25., 3., 20., 20.)),
-        Some(ArgDisplay::XL) => ctx.set((30., 4., 30., 30.)),
-        Some(ArgDisplay::XXL) => ctx.set((40., 6., 40., 40.)),
+        Some(ArgDisplaySize::XXS) => ctx.size((3., 1., 3., 3.)),
+        Some(ArgDisplaySize::XS) => ctx.size((5., 1., 5., 5.)),
+        Some(ArgDisplaySize::S) => ctx.size((10., 2., 10., 10.)),
+        Some(ArgDisplaySize::M) => ctx.size((15., 3., 15., 15.)),
+        Some(ArgDisplaySize::L) => ctx.size((25., 4., 20., 20.)),
+        Some(ArgDisplaySize::XL) => ctx.size((30., 5., 30., 30.)),
+        Some(ArgDisplaySize::XXL) => ctx.size((40., 6., 40., 40.)),
         None => {}
     }
 
-    if let Some(scale) = args.display_scale {
-        ctx.scale(scale);
+    if let Some(density) = args.display_density {
+        ctx.density(density);
     }
 
     if let Some(path) = args.color_scheme {

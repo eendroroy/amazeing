@@ -12,11 +12,11 @@ pub struct AmazeingArgs {
 
     /// Display size
     #[clap(global = true, long, value_name = "SIZE")]
-    pub display_size: Option<ArgDisplay>,
+    pub display_size: Option<ArgDisplaySize>,
 
-    /// Display scale (display size multiplier)
-    #[clap(global = true, long, value_name = "SCALE")]
-    pub display_scale: Option<f32>,
+    /// Display density (changes space between adjacent blocks)
+    #[clap(global = true, long, value_name = "DENSITY")]
+    pub display_density: Option<ArgDisplayDensity>,
 
     /// Color scheme file (.toml) path
     #[clap(global = true, long, value_name = "SCHEME.TOML")]
@@ -100,7 +100,7 @@ pub enum ArgMode {
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ArgDisplay {
+pub enum ArgDisplaySize {
     XXS,
     XS,
     S,
@@ -108,6 +108,15 @@ pub enum ArgDisplay {
     L,
     XL,
     XXL,
+}
+
+#[derive(Debug, Clone, PartialEq, ValueEnum)]
+pub enum ArgDisplayDensity {
+    Stacked,
+    Compact,
+    Standard,
+    Cozy,
+    Spacious,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]

@@ -1,3 +1,4 @@
+use crate::command::ArgDisplayDensity;
 use std::sync::{LazyLock, RwLock};
 
 type Ctx = LazyLock<RwLock<DrawContext>>;
@@ -24,15 +25,18 @@ impl DrawContext {
         }
     }
 
-    pub fn set(&mut self, data: (f32, f32, f32, f32)) {
+    pub fn size(&mut self, data: (f32, f32, f32, f32)) {
         (self.margin, self.padding, self.cell_width, self.cell_height) = data
     }
 
-    pub fn scale(&mut self, scale: f32) {
-        self.margin = self.margin * scale;
-        self.padding = self.padding * scale;
-        self.cell_width = self.cell_width * scale;
-        self.cell_height = self.cell_height * scale;
+    pub fn density(&mut self, density: ArgDisplayDensity) {
+        match density {
+            ArgDisplayDensity::Stacked => self.padding = 0.,
+            ArgDisplayDensity::Compact => self.padding = (self.padding / 1.5).ceil(),
+            ArgDisplayDensity::Standard => {}
+            ArgDisplayDensity::Cozy => self.padding = (self.padding * 1.5).ceil(),
+            ArgDisplayDensity::Spacious => self.padding = (self.padding * 2.).ceil(),
+        }
     }
 
     pub fn screen_size(&self) -> (u32, u32) {
