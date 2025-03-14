@@ -23,7 +23,9 @@ pub(crate) fn generate(simulate: bool, visualize: bool) {
             &mut None,
         );
 
-        dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
+        if let Some(maze_file_path) = GEN_CTX.read().unwrap().maze_file_path.clone() {
+            dump_maze_to_file(&maze_file_path, &maze);
+        }
 
         if visualize {
             VIS_CTX.write().unwrap().maze = maze;

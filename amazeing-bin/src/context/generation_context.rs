@@ -5,7 +5,7 @@ use std::sync::{LazyLock, RwLock};
 type Ctx = LazyLock<RwLock<GenerationContext>>;
 
 pub struct GenerationContext {
-    pub(crate) maze_file_path: PathBuf,
+    pub(crate) maze_file_path: Option<PathBuf>,
     pub(crate) procedure: ArgGenProcedure,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
@@ -15,7 +15,7 @@ pub struct GenerationContext {
 impl GenerationContext {
     pub fn new() -> Self {
         Self {
-            maze_file_path: PathBuf::new(),
+            maze_file_path: None,
             procedure: ArgGenProcedure::Random,
             rows: 10,
             cols: 10,
