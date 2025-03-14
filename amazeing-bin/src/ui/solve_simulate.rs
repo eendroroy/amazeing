@@ -3,14 +3,14 @@ use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed};
 use crate::helper::{current_millis, solve_maze};
 use amazeing::maze::matrix::Maze;
-use amazeing::DNode;
+use amazeing::{Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop(maze: &Maze) {
-    let mut trace: Vec<Vec<DNode>> = vec![];
-    let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
-    let mut current_path: Vec<DNode> = vec![];
+    let mut trace: Tracer = vec![];
+    let mut tracer: Option<Tracer> = Some(vec![]);
+    let mut current_path: Vec<Node> = vec![];
     let mut last_millis = current_millis();
     let update_interval = 1000 / SOLVE_CTX.read().unwrap().fps as u128;
 
@@ -19,8 +19,8 @@ async fn display_loop(maze: &Maze) {
     let mut trace_complete = false;
     let mut simulating = false;
 
-    let mut source: Option<DNode> = None;
-    let mut destination: Option<DNode> = None;
+    let mut source: Option<Node> = None;
+    let mut destination: Option<Node> = None;
 
     loop {
         if is_mouse_button_pressed(MouseButton::Left) && !simulating {

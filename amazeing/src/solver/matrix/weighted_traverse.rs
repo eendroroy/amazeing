@@ -2,13 +2,13 @@ use crate::helper::reconstruct_path;
 use crate::maze::matrix::neighbour::neighbours_open;
 use crate::maze::matrix::{dijkstra_heuristic, Maze};
 use crate::solver::matrix::common::validate;
-use crate::DNode;
+use crate::{Node, NodeHeuFn, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap};
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 struct DNodeWeighted {
-    pub(crate) node: DNode,
+    pub(crate) node: Node,
     pub(crate) cost: u32,
     pub(crate) heu_cost: u32,
 }
@@ -27,18 +27,18 @@ impl Ord for DNodeWeighted {
 
 fn weighted_traverse(
     maze: &Maze,
-    source: DNode,
-    destination: DNode,
-    heu: fn(DNode, DNode) -> u32,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
-) -> Vec<DNode> {
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
     validate(maze, source, destination);
 
     let capacity = maze.rows() * maze.cols();
 
     let mut storage: BinaryHeap<DNodeWeighted> = BinaryHeap::with_capacity(capacity);
-    let mut visited: HashMap<DNode, bool> = HashMap::with_capacity(capacity);
-    let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(capacity);
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
     storage.push(DNodeWeighted {
         node: source,
@@ -78,21 +78,16 @@ fn weighted_traverse(
     Vec::new()
 }
 
-pub fn dijkstra(
-    maze: &Maze,
-    start: DNode,
-    end: DNode,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
-) -> Vec<DNode> {
+pub fn dijkstra(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, start, end, dijkstra_heuristic, tracer)
 }
 
 pub fn a_star(
     maze: &Maze,
-    start: DNode,
-    end: DNode,
-    heu: fn(DNode, DNode) -> u32,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
-) -> Vec<DNode> {
+    start: Node,
+    end: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
     weighted_traverse(maze, start, end, heu, tracer)
 }

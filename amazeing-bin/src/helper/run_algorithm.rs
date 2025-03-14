@@ -1,15 +1,15 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
 use amazeing::maze::matrix::Maze;
-use amazeing::{generator, solver, DNode, HeuFn};
+use amazeing::{generator, solver, Node, NodeHeuFn, Tracer};
 
 pub(crate) fn solve_maze(
     maze: &Maze,
-    from: DNode,
-    to: DNode,
+    from: Node,
+    to: Node,
     procedure: &ArgSolveProcedure,
-    heuristic: Option<HeuFn>,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
-) -> Vec<DNode> {
+    heuristic: Option<NodeHeuFn>,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
     println!("{:?} ==> {:?}", from, to);
     match procedure {
         ArgSolveProcedure::Bfs => solver::matrix::bfs(maze, from, to, tracer),
@@ -23,9 +23,9 @@ pub(crate) fn solve_maze(
 
 pub(crate) fn generate_maze(
     maze: &mut Maze,
-    from: DNode,
+    from: Node,
     procedure: &ArgGenProcedure,
-    tracer: &mut Option<Vec<Vec<DNode>>>,
+    tracer: &mut Option<Tracer>,
 ) {
     match procedure {
         ArgGenProcedure::Random => generator::matrix::random(maze, from, tracer),

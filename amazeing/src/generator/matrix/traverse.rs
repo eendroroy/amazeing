@@ -3,16 +3,16 @@ use crate::maze::matrix::neighbour::{neighbours_block, D, L, R, U};
 use crate::maze::matrix::Maze;
 use crate::structure::stack::Stack;
 use crate::structure::structure_traits::DataStorage;
-use crate::DNode;
+use crate::{Node, Tracer};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::BTreeMap;
 
-pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) {
+pub fn random(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);
 
-    let mut storage = Vec::<DNode>::new();
-    let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
+    let mut storage = Vec::<Node>::new();
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
     storage.push(source);
 
@@ -34,11 +34,11 @@ pub fn random(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>
     }
 }
 
-pub fn dfs(maze: &mut Maze, source: DNode, tracer: &mut Option<Vec<Vec<DNode>>>) {
+pub fn dfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);
 
-    let mut storage = Stack::<DNode>::new();
-    let mut parent: BTreeMap<DNode, DNode> = BTreeMap::new();
+    let mut storage = Stack::<Node>::new();
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
     storage.push(source);
 
