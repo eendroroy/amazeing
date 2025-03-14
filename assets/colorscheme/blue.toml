@@ -1,0 +1,8 @@
+color_bg = 0x040e1f
+color_block = 0x011124
+color_open = 0x9dabbd
+color_visiting = 0x3081f2
+color_path = 0x1566e8
+color_source = 0x055ef7
+color_destination = 0x055ef7
+color_traversed = 0x465e82
