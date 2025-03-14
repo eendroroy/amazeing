@@ -1,18 +1,18 @@
 use crate::maze::matrix::Maze;
-use crate::structure::FnNeighbour;
-use crate::DNode;
+use crate::structure::NeighbourFn;
+use crate::Node;
 use std::iter::Iterator;
 
-pub(crate) const D: FnNeighbour = |of| -> Option<DNode> { Some((of.0 + 1, of.1)) };
-pub(crate) const R: FnNeighbour = |of| -> Option<DNode> { Some((of.0, of.1 + 1)) };
-pub(crate) const L: FnNeighbour = |of| -> Option<DNode> {
+pub(crate) const D: NeighbourFn = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
+pub(crate) const R: NeighbourFn = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };
+pub(crate) const L: NeighbourFn = |of| -> Option<Node> {
     if of.1 > 0 {
         Some((of.0, of.1 - 1))
     } else {
         None
     }
 };
-pub(crate) const U: FnNeighbour = |of| -> Option<DNode> {
+pub(crate) const U: NeighbourFn = |of| -> Option<Node> {
     if of.0 > 0 {
         Some((of.0 - 1, of.1))
     } else {
@@ -20,9 +20,9 @@ pub(crate) const U: FnNeighbour = |of| -> Option<DNode> {
     }
 };
 
-type Traversal = Option<Vec<FnNeighbour>>;
+type Traversal = Option<Vec<NeighbourFn>>;
 
-pub(crate) fn neighbours(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+pub(crate) fn neighbours(maze: &Maze, pos: Node, directions: Traversal) -> Vec<Node> {
     let direction_list = directions.unwrap_or_else(|| vec![R, D, L, U]);
 
     direction_list
@@ -35,14 +35,14 @@ pub(crate) fn neighbours(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<
         .collect()
 }
 
-pub(crate) fn neighbours_open(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+pub(crate) fn neighbours_open(maze: &Maze, pos: Node, directions: Traversal) -> Vec<Node> {
     neighbours(maze, pos, directions)
         .into_iter()
         .filter(|p| maze[*p] > 0)
         .collect()
 }
 
-pub(crate) fn neighbours_block(maze: &Maze, pos: DNode, directions: Traversal) -> Vec<DNode> {
+pub(crate) fn neighbours_block(maze: &Maze, pos: Node, directions: Traversal) -> Vec<Node> {
     neighbours(maze, pos, directions)
         .into_iter()
         .filter(|p| maze[*p] < 1)

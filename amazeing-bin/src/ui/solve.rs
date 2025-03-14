@@ -2,15 +2,15 @@ use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
 use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source};
 use crate::helper::solve_maze;
-use amazeing::DNode;
+use amazeing::Node;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop() {
     let maze = &SOLVE_CTX.read().unwrap().maze;
-    let mut current_path: Vec<DNode> = vec![];
-    let mut from: Option<DNode> = None;
-    let mut to: Option<DNode> = None;
+    let mut current_path: Vec<Node> = vec![];
+    let mut from: Option<Node> = None;
+    let mut to: Option<Node> = None;
 
     loop {
         clear_background(COLOR_CTX.read().unwrap().color_bg);

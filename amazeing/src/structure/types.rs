@@ -1,4 +1,5 @@
-pub type DNode = (usize, usize);
-pub type HeuFn = fn(DNode, DNode) -> u32;
+pub type Node = (usize, usize);
+pub type NodeHeuFn = fn(Node, Node) -> u32;
+pub type Tracer = Vec<Vec<Node>>;
 
-pub(crate) type FnNeighbour = fn(DNode) -> Option<DNode>;
+pub(crate) type NeighbourFn = fn(Node) -> Option<Node>;

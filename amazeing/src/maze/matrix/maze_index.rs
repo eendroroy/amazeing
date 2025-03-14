@@ -1,17 +1,17 @@
 use crate::maze::matrix::Maze;
-use crate::DNode;
+use crate::Node;
 use std::ops::{Index, IndexMut};
 
-impl Index<DNode> for Maze {
+impl Index<Node> for Maze {
     type Output = u32;
 
-    fn index(&self, index: DNode) -> &Self::Output {
+    fn index(&self, index: Node) -> &Self::Output {
         &self.data[index.0][index.1]
     }
 }
 
-impl IndexMut<DNode> for Maze {
-    fn index_mut(&mut self, index: DNode) -> &mut Self::Output {
+impl IndexMut<Node> for Maze {
+    fn index_mut(&mut self, index: Node) -> &mut Self::Output {
         &mut self.data[index.0][index.1]
     }
 }

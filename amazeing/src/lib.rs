@@ -6,5 +6,6 @@ pub mod generator;
 pub mod maze;
 pub mod solver;
 
-pub use structure::types::DNode;
-pub use structure::types::HeuFn;
+pub use structure::types::Node;
+pub use structure::types::NodeHeuFn;
+pub use structure::types::Tracer;

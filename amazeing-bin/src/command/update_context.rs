@@ -5,7 +5,7 @@ use amazeing::maze::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
     octile_heuristic,
 };
-use amazeing::HeuFn;
+use amazeing::NodeHeuFn;
 
 pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {
@@ -77,7 +77,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
     }
 }
 
-fn get_heu_fn(value: ArgHeuristic) -> HeuFn {
+fn get_heu_fn(value: ArgHeuristic) -> NodeHeuFn {
     match value {
         ArgHeuristic::Manhattan => manhattan_heuristic,
         ArgHeuristic::Euclidean => euclidean_heuristic,

@@ -4,7 +4,7 @@ use crate::display::drawer::{draw_current_path, draw_maze, draw_path, draw_sourc
 use crate::helper::dumper::dump_maze_to_file;
 use crate::helper::{current_millis, generate_maze, random_node};
 use amazeing::maze::matrix::Maze;
-use amazeing::DNode;
+use amazeing::{Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
@@ -16,8 +16,8 @@ async fn display_loop(rows: usize, cols: usize) {
     let mut traversed = Maze::from(vec![vec![0u32; cols]; rows]);
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
 
-    let mut trace: Vec<Vec<DNode>> = vec![];
-    let mut tracer: Option<Vec<Vec<DNode>>> = Some(vec![]);
+    let mut trace: Tracer = vec![];
+    let mut tracer: Option<Tracer> = Some(vec![]);
 
     generate_maze(
         &mut maze,
@@ -27,7 +27,7 @@ async fn display_loop(rows: usize, cols: usize) {
     );
     dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
 
-    let mut current_path: Vec<DNode> = vec![];
+    let mut current_path: Vec<Node> = vec![];
     let mut last_millis = current_millis();
     let update_interval = 1000 / GEN_CTX.read().unwrap().fps as u128;
 

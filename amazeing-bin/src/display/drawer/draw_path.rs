@@ -1,9 +1,9 @@
 use crate::context::{COLOR_CTX, DRAW_CTX};
 use amazeing::maze::matrix::Maze;
-use amazeing::DNode;
+use amazeing::Node;
 use macroquad::prelude::draw_rectangle;
 
-pub(crate) fn draw_path(path: Vec<DNode>) {
+pub(crate) fn draw_path(path: Vec<Node>) {
     let ctx = DRAW_CTX.read().unwrap();
     for node in path {
         draw_rectangle(
@@ -16,7 +16,7 @@ pub(crate) fn draw_path(path: Vec<DNode>) {
     }
 }
 
-pub(crate) fn draw_current_path(path: Vec<DNode>, traversed: &mut Maze) {
+pub(crate) fn draw_current_path(path: Vec<Node>, traversed: &mut Maze) {
     let ctx = DRAW_CTX.read().unwrap();
     for node in path {
         traversed[node] = 1;

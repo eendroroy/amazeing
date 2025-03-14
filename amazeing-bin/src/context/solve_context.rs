@@ -1,5 +1,5 @@
 use amazeing::maze::matrix::{dijkstra_heuristic, Maze};
-use amazeing::HeuFn;
+use amazeing::NodeHeuFn;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 use crate::command::ArgSolveProcedure;
@@ -10,7 +10,7 @@ pub struct SolveContext {
     pub(crate) maze_file_path: PathBuf,
     pub(crate) maze: Maze,
     pub(crate) proc: ArgSolveProcedure,
-    pub(crate) heuristic: HeuFn,
+    pub(crate) heuristic: NodeHeuFn,
     pub(crate) fps: u8,
 }
 
