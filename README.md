@@ -27,7 +27,8 @@ Commands:
   help       Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+      --display-size <SIZE>         Display size
+                                    [possible values: xxs, xs, s, m, l, xl, xxl]
       --display-density <DENSITY>   Display density (changes space between adjacent blocks)
                                     [possible values: connected, dense, standard, cozy, ample]
       --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
