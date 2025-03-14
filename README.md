@@ -16,9 +16,7 @@ cargo install --path amazeing-bin
 ## Usage
 
 ```txt
-A maze generator/solver application with simulation/visualization.
-
-amazeing (generate | visualize | solve)
+A maze generator/solver application with simulation/visualization
 
 Usage: amazeing [OPTIONS] <COMMAND>
 
@@ -29,22 +27,12 @@ Commands:
   help       Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <SIZE>
-          Display size
-
-          [possible values: xxs, xs, s, m, l, xl, xxl]
-
-      --display-scale <SCALE>
-          Display scale (display size multiplier)
-
-      --color-scheme <SCHEME.TOML>
-          Color scheme file (.toml) path
-
-  -h, --help
-          Print help (see a summary with '-h')
-
-  -V, --version
-          Print version
+      --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+      --display-density <DENSITY>   Display density (changes space between adjacent blocks)
+                                    [possible values: connected, dense, standard, cozy, ample]
+      --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
+  -h, --help                        Print help (see more with '--help')
+  -V, --version                     Print version
 ```
 
 ## Generate Maze
