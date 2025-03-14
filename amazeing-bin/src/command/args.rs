@@ -12,7 +12,7 @@ pub struct AmazeingArgs {
     #[clap(global = true, long, value_name = "SIZE")]
     pub display_size: Option<ArgDisplaySize>,
 
-    /// Display density (changes space between adjacent blocks)
+    /// Display density
     #[clap(global = true, long, value_name = "DENSITY")]
     pub display_density: Option<ArgDisplayDensity>,
 
@@ -24,6 +24,7 @@ pub struct AmazeingArgs {
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgMode {
     /// Create a Maze
+    #[clap(visible_alias = "C")]
     Create {
         /// File path to dump Maze data
         ///
@@ -61,6 +62,7 @@ pub enum ArgMode {
     ///
     /// In modify ui Click MouseLeft a cell to open path and
     /// Shift+MouseLeft a cell to block path
+    #[clap(visible_alias = "V")]
     View {
         /// Maze file path
         #[clap(long)]
@@ -74,6 +76,7 @@ pub enum ArgMode {
     ///
     /// In simulation ui click "MouseLeft" on a cell to select source
     /// and "Shift+MouseLeft" on a cell to select destination
+    #[clap(visible_alias = "S")]
     Solve {
         /// Maze file path
         #[clap(long)]
