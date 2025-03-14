@@ -21,15 +21,14 @@ A maze generator/solver application with simulation/visualization
 Usage: amazeing [OPTIONS] <COMMAND>
 
 Commands:
-  create  Create a Maze
-  view    View a Maze
-  solve   Solve a Maze
+  create  Create a Maze [aliases: C]
+  view    View a Maze [aliases: V]
+  solve   Solve a Maze [aliases: S]
   help    Print this message or the help of the given subcommand(s)
 
 Options:
       --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
-      --display-density <DENSITY>   Display density (changes space between adjacent blocks) 
-                                    [possible values: connected, dense, standard, cozy, ample]
+      --display-density <DENSITY>   Display density [possible values: connected, dense, standard, cozy, ample]
       --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
   -h, --help                        Print help
   -V, --version                     Print version
