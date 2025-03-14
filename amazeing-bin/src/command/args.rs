@@ -112,11 +112,11 @@ pub enum ArgDisplaySize {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgDisplayDensity {
-    Stacked,
-    Compact,
+    Connected,
+    Dense,
     Standard,
     Cozy,
-    Spacious,
+    Ample,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]

@@ -31,11 +31,11 @@ impl DrawContext {
 
     pub fn density(&mut self, density: ArgDisplayDensity) {
         match density {
-            ArgDisplayDensity::Stacked => self.padding = 0.,
-            ArgDisplayDensity::Compact => self.padding = (self.padding / 1.5).ceil(),
+            ArgDisplayDensity::Connected => self.padding = 0.,
+            ArgDisplayDensity::Dense => self.padding = (self.padding / 1.5).ceil(),
             ArgDisplayDensity::Standard => {}
             ArgDisplayDensity::Cozy => self.padding = (self.padding * 1.5).ceil(),
-            ArgDisplayDensity::Spacious => self.padding = (self.padding * 2.).ceil(),
+            ArgDisplayDensity::Ample => self.padding = (self.padding * 2.).ceil(),
         }
     }
 
