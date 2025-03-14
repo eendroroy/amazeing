@@ -25,7 +25,9 @@ async fn display_loop(rows: usize, cols: usize) {
         &GEN_CTX.read().unwrap().procedure,
         &mut tracer,
     );
-    dump_maze_to_file(&GEN_CTX.read().unwrap().maze_file_path, &maze);
+    if let Some(maze_file_path) = GEN_CTX.read().unwrap().maze_file_path.clone() {
+        dump_maze_to_file(&maze_file_path, &maze);
+    }
 
     let mut current_path: Vec<Node> = vec![];
     let mut last_millis = current_millis();

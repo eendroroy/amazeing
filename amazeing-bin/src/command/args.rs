@@ -28,8 +28,12 @@ pub enum ArgMode {
     /// Generate a Maze
     Generate {
         /// File path to dump Maze data
-        #[clap(long)]
-        maze: PathBuf,
+        ///
+        /// optional if '--simulate' flag provided
+        ///
+        /// if provided, generated maze will be dumped at path
+        #[clap(long, required_unless_present = "simulate")]
+        maze: Option<PathBuf>,
 
         /// Maze Generation Procedure
         #[clap(long)]
