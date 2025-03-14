@@ -2,8 +2,6 @@ use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
 
 /// A maze generator/solver application with simulation/visualization.
-///
-/// amazeing (generate | visualize | solve)
 #[derive(Debug, Clone, Parser)]
 #[command(version, about)]
 pub struct AmazeingArgs {
@@ -25,8 +23,8 @@ pub struct AmazeingArgs {
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgMode {
-    /// Generate a Maze
-    Generate {
+    /// Create a Maze
+    Create {
         /// File path to dump Maze data
         ///
         /// optional if '--simulate' flag provided
@@ -55,22 +53,22 @@ pub enum ArgMode {
         #[clap(long, default_value_t = 5)]
         fps: u8,
 
-        /// Visualize after generation
+        /// View after generation
         #[clap(long, default_value_t = false)]
-        visualize: bool,
+        view: bool,
     },
-    /// Visualize a Maze
+    /// View a Maze
     ///
     /// In modify ui Click MouseLeft a cell to open path and
     /// Shift+MouseLeft a cell to block path
-    Visualize {
+    View {
         /// Maze file path
         #[clap(long)]
         maze: PathBuf,
 
-        /// Visualize after generation
+        /// View and update
         #[clap(long, default_value_t = false)]
-        modify: bool,
+        update: bool,
     },
     /// Solve a Maze
     ///
