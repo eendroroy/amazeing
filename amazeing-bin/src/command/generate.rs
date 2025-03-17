@@ -1,6 +1,5 @@
 use crate::context::{GEN_CTX, VIS_CTX};
-use crate::helper::dumper::dump_maze_to_file;
-use crate::helper::generate_maze;
+use crate::helper::{dump_maze_to_file, generate_maze};
 use crate::ui;
 use amazeing::maze::matrix::Maze;
 
