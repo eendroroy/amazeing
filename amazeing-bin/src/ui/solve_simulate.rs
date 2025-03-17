@@ -1,6 +1,8 @@
 use crate::context::{DRAW_CTX, SOLVE_CTX};
 use crate::display::action::{populate_source_destination, quit_requested};
-use crate::display::drawer::{draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed};
+use crate::display::drawer::{
+    draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed,
+};
 use crate::helper::{current_millis, solve_maze};
 use amazeing::maze::matrix::Maze;
 use amazeing::{Node, Tracer};
@@ -27,7 +29,7 @@ async fn display_loop(maze: &Maze) {
             populate_source_destination(&maze, &mut source, &mut destination);
         }
 
-        if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some(){
+        if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some() {
             println!("Starting Simulation");
             solve_maze(
                 &maze,

@@ -1,8 +1,7 @@
 use crate::context::{DRAW_CTX, VIS_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::draw_maze;
-use crate::helper::dumper::dump_maze_to_file;
-use crate::helper::get_node_from_mouse_pos;
+use crate::helper::{dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
