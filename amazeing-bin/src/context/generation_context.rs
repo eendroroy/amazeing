@@ -19,7 +19,7 @@ impl GenerationContext {
         Self {
             maze_file_path: None,
             source: Node::default(),
-            procedure: ArgGenProcedure::Random,
+            procedure: ArgGenProcedure::Bfs,
             rows: 10,
             cols: 10,
             fps: 10,

@@ -8,7 +8,7 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::BTreeMap;
 
-pub fn random(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
+pub fn bfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);
 
     let mut storage = Vec::<Node>::new();

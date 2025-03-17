@@ -28,7 +28,7 @@ pub(crate) fn generate_maze(
     tracer: &mut Option<Tracer>,
 ) {
     match procedure {
-        ArgGenProcedure::Random => generator::matrix::random(maze, from, tracer),
+        ArgGenProcedure::Bfs => generator::matrix::bfs(maze, from, tracer),
         ArgGenProcedure::Dfs => generator::matrix::dfs(maze, from, tracer),
     }
 }
