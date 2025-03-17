@@ -2,17 +2,13 @@ use crate::context::{DRAW_CTX, GEN_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::{draw_current_path, draw_maze, draw_path, draw_source};
 use crate::helper::dumper::dump_maze_to_file;
-use crate::helper::{current_millis, generate_maze, random_node};
+use crate::helper::{current_millis, generate_maze};
 use amazeing::maze::matrix::Maze;
 use amazeing::{Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop(rows: usize, cols: usize) {
-    let source = random_node((rows, cols));
-
-    println!("Starting at {:?}", source);
-
     let mut traversed = Maze::from(vec![vec![0u32; cols]; rows]);
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
 
@@ -21,7 +17,7 @@ async fn display_loop(rows: usize, cols: usize) {
 
     generate_maze(
         &mut maze,
-        source,
+        GEN_CTX.read().unwrap().source,
         &GEN_CTX.read().unwrap().procedure,
         &mut tracer,
     );
@@ -76,7 +72,7 @@ async fn display_loop(rows: usize, cols: usize) {
             }
         }
 
-        draw_source(source);
+        draw_source(GEN_CTX.read().unwrap().source);
         next_frame().await
     }
 }

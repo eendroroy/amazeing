@@ -34,6 +34,10 @@ pub enum ArgMode {
         #[clap(long, required_unless_present = "simulate")]
         maze: Option<PathBuf>,
 
+        /// Starting point of the generation
+        #[clap(long, value_name = "usize,usize")]
+        source: String,
+
         /// Maze Generation Procedure
         #[clap(long)]
         procedure: ArgGenProcedure,
@@ -141,10 +145,4 @@ pub enum ArgHeuristic {
     Chebyshev,
     Octile,
     Dijkstra,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-pub struct Node {
-    row: usize,
-    col: usize,
 }
