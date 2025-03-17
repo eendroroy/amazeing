@@ -1,4 +1,5 @@
 use crate::command::ArgGenProcedure;
+use amazeing::Node;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 
@@ -6,6 +7,7 @@ type Ctx = LazyLock<RwLock<GenerationContext>>;
 
 pub struct GenerationContext {
     pub(crate) maze_file_path: Option<PathBuf>,
+    pub(crate) source: Node,
     pub(crate) procedure: ArgGenProcedure,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
@@ -16,6 +18,7 @@ impl GenerationContext {
     pub fn new() -> Self {
         Self {
             maze_file_path: None,
+            source: Node::default(),
             procedure: ArgGenProcedure::Random,
             rows: 10,
             cols: 10,

@@ -5,12 +5,13 @@ use amazeing::maze::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
     octile_heuristic,
 };
-use amazeing::NodeHeuFn;
+use amazeing::{Node, NodeHeuFn};
 
 pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {
         ArgMode::Create {
             maze,
+            source,
             procedure,
             rows,
             cols,
@@ -20,6 +21,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
         } => {
             let mut context = GEN_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
+            context.source = parse_node(&source);
             context.procedure = procedure;
             context.rows = rows;
             context.cols = cols;
@@ -85,4 +87,12 @@ fn get_heu_fn(value: ArgHeuristic) -> NodeHeuFn {
         ArgHeuristic::Octile => octile_heuristic,
         ArgHeuristic::Dijkstra => dijkstra_heuristic,
     }
+}
+
+fn parse_node(node: &str) -> Node {
+    let node_data = node.split(",").collect::<Vec<&str>>();
+    (
+        u32::from_str_radix(node_data.get(0).unwrap(), 10).unwrap() as usize,
+        u32::from_str_radix(node_data.get(1).unwrap(), 10).unwrap() as usize,
+    )
 }
