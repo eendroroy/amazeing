@@ -1,11 +1,11 @@
 use crate::command::{AmazeingArgs, ArgDisplaySize, ArgHeuristic, ArgMode};
 use crate::context::{ColorContext, ColorScheme, COLOR_CTX, DRAW_CTX, GEN_CTX, SOLVE_CTX, VIS_CTX};
+use crate::helper::load_maze_from_file;
 use amazeing::maze::matrix::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
     octile_heuristic,
 };
 use amazeing::{Node, NodeHeuFn};
-use crate::helper::loader_maze_from_file;
 
 pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {
@@ -32,7 +32,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
         ArgMode::View { maze, update: _ } => {
             let mut context = VIS_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
-            context.maze = loader_maze_from_file(maze.as_path());
+            context.maze = load_maze_from_file(maze.as_path());
             DRAW_CTX.write().unwrap().maze_rows = context.maze.rows();
             DRAW_CTX.write().unwrap().maze_cols = context.maze.cols();
         }
@@ -45,7 +45,7 @@ pub(crate) fn update_context(args: AmazeingArgs) {
         } => {
             let mut context = SOLVE_CTX.write().unwrap();
             context.maze_file_path = maze.clone();
-            context.maze = loader_maze_from_file(maze.as_path());
+            context.maze = load_maze_from_file(maze.as_path());
             context.proc = procedure;
             if let Some(value) = heuristic_function {
                 context.heuristic = get_heu_fn(value)
