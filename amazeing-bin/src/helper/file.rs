@@ -31,7 +31,7 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     }
 }
 
-pub(crate) fn loader_maze_from_file(path: &Path) -> Maze {
+pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
     if !fs::exists(&path).unwrap() {
         panic!("Maze file {} does not exists", path.display());
     }
