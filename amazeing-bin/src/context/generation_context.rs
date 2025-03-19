@@ -1,5 +1,5 @@
 use crate::command::ArgGenProcedure;
-use amazeing::Node;
+use amazeing::matrix::Node;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 

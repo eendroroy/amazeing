@@ -1,4 +1,4 @@
-use crate::Node;
+use crate::matrix::types::Node;
 use std::collections::BTreeMap;
 
 pub(crate) fn reconstruct_path(destination: Node, parent: &BTreeMap<Node, Node>) -> Vec<Node> {

@@ -2,7 +2,7 @@ use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
 use crate::display::action::{populate_source_destination, quit_requested};
 use crate::display::drawer::{draw_destination, draw_maze, draw_path, draw_source};
 use crate::helper::solve_maze;
-use amazeing::Node;
+use amazeing::matrix::Node;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 

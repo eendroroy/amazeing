@@ -1,6 +1,5 @@
 use crate::context::{COLOR_CTX, DRAW_CTX};
-use amazeing::maze::matrix::Maze;
-use amazeing::Node;
+use amazeing::matrix::{Maze, Node};
 use macroquad::prelude::draw_rectangle;
 
 pub(crate) fn draw_path(path: Vec<Node>) {
