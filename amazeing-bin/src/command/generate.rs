@@ -1,7 +1,7 @@
 use crate::context::{GEN_CTX, VIS_CTX};
 use crate::helper::{dump_maze_to_file, generate_maze};
 use crate::ui;
-use amazeing::maze::matrix::Maze;
+use amazeing::matrix::Maze;
 
 pub(crate) fn generate(simulate: bool, visualize: bool) {
     if simulate {

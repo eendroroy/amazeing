@@ -1,8 +1,7 @@
-use amazeing::maze::matrix::{dijkstra_heuristic, Maze};
-use amazeing::NodeHeuFn;
+use crate::command::ArgSolveProcedure;
+use amazeing::matrix::{dijkstra_heuristic, Maze, NodeHeuFn};
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
-use crate::command::ArgSolveProcedure;
 
 type Ctx = LazyLock<RwLock<SolveContext>>;
 

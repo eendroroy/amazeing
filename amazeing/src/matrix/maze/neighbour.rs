@@ -1,18 +1,17 @@
-use crate::maze::matrix::Maze;
-use crate::structure::NeighbourFn;
-use crate::Node;
+use crate::matrix::maze::maze::Maze;
+use crate::matrix::types::{NeighbourFn, Node};
 use std::iter::Iterator;
 
-pub(crate) const D: NeighbourFn = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
-pub(crate) const R: NeighbourFn = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };
-pub(crate) const L: NeighbourFn = |of| -> Option<Node> {
+pub(crate) const DOWN: NeighbourFn = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
+pub(crate) const RIGHT: NeighbourFn = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };
+pub(crate) const LEFT: NeighbourFn = |of| -> Option<Node> {
     if of.1 > 0 {
         Some((of.0, of.1 - 1))
     } else {
         None
     }
 };
-pub(crate) const U: NeighbourFn = |of| -> Option<Node> {
+pub(crate) const UP: NeighbourFn = |of| -> Option<Node> {
     if of.0 > 0 {
         Some((of.0 - 1, of.1))
     } else {
@@ -23,7 +22,7 @@ pub(crate) const U: NeighbourFn = |of| -> Option<Node> {
 type Traversal = Option<Vec<NeighbourFn>>;
 
 pub(crate) fn neighbours(maze: &Maze, pos: Node, directions: Traversal) -> Vec<Node> {
-    let direction_list = directions.unwrap_or_else(|| vec![R, D, L, U]);
+    let direction_list = directions.unwrap_or_else(|| vec![RIGHT, DOWN, LEFT, UP]);
 
     direction_list
         .iter()

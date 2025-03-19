@@ -1,28 +1,27 @@
-use crate::helper::reconstruct_path;
-use crate::maze::matrix::neighbour::neighbours_open;
-use crate::maze::matrix::Maze;
-use crate::solver::matrix::common::validate;
-use crate::structure::queue::Queue;
-use crate::structure::stack::Stack;
-use crate::structure::structure_traits::DataStorage;
-use crate::{Node, Tracer};
-use std::collections::{BTreeMap, HashMap};
+use crate::matrix::helper::reconstruct_path::reconstruct_path;
+use crate::matrix::maze::maze::Maze;
+use crate::matrix::maze::neighbour::neighbours_open;
+use crate::matrix::solver::common::validate;
+use crate::matrix::types::{Node, Tracer};
+use std::collections::{BTreeMap, HashMap, VecDeque};
 
 fn traverse(
     maze: &Maze,
     source: Node,
     destination: Node,
-    storage: &mut dyn DataStorage<Node>,
+    push: fn(&mut VecDeque<Node>, Node),
+    pop: fn(&mut VecDeque<Node>) -> Option<Node>,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let storage = &mut VecDeque::new();
     validate(maze, source, destination);
 
     let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
     let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
-    storage.push(source);
+    push(storage, source);
 
-    while let Some(current) = storage.pop() {
+    while let Some(current) = pop(storage) {
         visited.insert(current, true);
 
         if let Some(trace) = tracer {
@@ -37,7 +36,7 @@ fn traverse(
         for next in neighbours_open(maze, current, None) {
             if visited.get(&next).is_none() || visited.get(&next).unwrap().clone() == false {
                 parent.insert(next, current);
-                storage.push(next);
+                push(storage, next);
             }
         }
     }
@@ -50,11 +49,14 @@ fn traverse(
 }
 
 pub fn bfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
-    let mut queue = Queue::<Node>::new();
-    traverse(maze, start, end, &mut queue, tracer)
+    let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
+    let pop = |s: &mut VecDeque<Node>| s.pop_front();
+    traverse(maze, start, end, push, pop, tracer)
 }
 
 pub fn dfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
-    let mut queue = Stack::<Node>::new();
-    traverse(maze, start, end, &mut queue, tracer)
+    let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
+    let pop = |s: &mut VecDeque<Node>| s.pop_back();
+
+    traverse(maze, start, end, push, pop, tracer)
 }

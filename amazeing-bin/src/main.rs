@@ -1,4 +1,5 @@
-use crate::command::{update_context, AmazeingArgs, ArgMode};
+use crate::command::ArgMode::{Create, Solve, View};
+use crate::command::{generate, solve, update_context, visualize, AmazeingArgs};
 use clap::Parser;
 
 mod command;
@@ -12,8 +13,8 @@ fn main() {
     update_context(args.clone());
 
     match args.mode.clone() {
-        ArgMode::Create { view: visualize, simulate, .. } => command::generate(simulate, visualize),
-        ArgMode::View { update: modify, .. } => command::visualize(modify),
-        ArgMode::Solve { simulate, .. } => command::solve(simulate),
+        Create { view: visualize, simulate, .. } => generate(simulate, visualize),
+        View { update: modify, .. } => visualize(modify),
+        Solve { simulate, .. } => solve(simulate),
     }
 }

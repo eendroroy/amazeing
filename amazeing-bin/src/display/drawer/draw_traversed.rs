@@ -1,5 +1,5 @@
 use crate::context::{COLOR_CTX, DRAW_CTX};
-use amazeing::maze::matrix::Maze;
+use amazeing::matrix::Maze;
 use macroquad::prelude::draw_rectangle;
 
 pub(crate) fn draw_traversed(maze: &Maze) {

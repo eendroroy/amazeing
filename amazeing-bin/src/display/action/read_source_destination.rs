@@ -1,6 +1,5 @@
 use crate::helper::get_node_from_mouse_pos;
-use amazeing::maze::matrix::Maze;
-use amazeing::Node;
+use amazeing::matrix::{Maze, Node};
 use macroquad::input::{is_key_down, KeyCode};
 
 pub(crate) fn populate_source_destination(

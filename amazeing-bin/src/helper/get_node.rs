@@ -1,5 +1,5 @@
 use crate::context::DRAW_CTX;
-use amazeing::Node;
+use amazeing::matrix::Node;
 use macroquad::input::mouse_position;
 
 pub(crate) fn get_node_from_mouse_pos() -> Node {

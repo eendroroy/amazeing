@@ -1,11 +1,10 @@
 use crate::command::{AmazeingArgs, ArgDisplaySize, ArgHeuristic, ArgMode};
 use crate::context::{ColorContext, ColorScheme, COLOR_CTX, DRAW_CTX, GEN_CTX, SOLVE_CTX, VIS_CTX};
 use crate::helper::load_maze_from_file;
-use amazeing::maze::matrix::{
-    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
-    octile_heuristic,
+use amazeing::matrix::{
+    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
+    Node, NodeHeuFn,
 };
-use amazeing::{Node, NodeHeuFn};
 
 pub(crate) fn update_context(args: AmazeingArgs) {
     match args.mode {

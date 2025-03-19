@@ -2,8 +2,7 @@ use crate::context::{DRAW_CTX, GEN_CTX};
 use crate::display::action::quit_requested;
 use crate::display::drawer::{draw_current_path, draw_maze, draw_path, draw_source};
 use crate::helper::{current_millis, dump_maze_to_file, generate_maze};
-use amazeing::maze::matrix::Maze;
-use amazeing::{Node, Tracer};
+use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 

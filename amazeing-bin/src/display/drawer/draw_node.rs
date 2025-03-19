@@ -1,5 +1,5 @@
 use crate::context::{COLOR_CTX, DRAW_CTX};
-use amazeing::Node;
+use amazeing::matrix::Node;
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
 

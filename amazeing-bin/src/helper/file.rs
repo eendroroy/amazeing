@@ -1,4 +1,4 @@
-use amazeing::maze::matrix::Maze;
+use amazeing::matrix::Maze;
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;

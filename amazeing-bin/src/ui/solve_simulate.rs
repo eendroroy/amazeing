@@ -4,8 +4,7 @@ use crate::display::drawer::{
     draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed,
 };
 use crate::helper::{current_millis, solve_maze};
-use amazeing::maze::matrix::Maze;
-use amazeing::{Node, Tracer};
+use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 

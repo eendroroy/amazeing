@@ -1,5 +1,5 @@
-use crate::maze::matrix::Maze;
-use crate::Node;
+use crate::matrix::maze::maze::Maze;
+use crate::matrix::types::Node;
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
     if node.0 >= maze.rows() || node.1 >= maze.cols() {

@@ -1,4 +1,4 @@
-use crate::Node;
+use crate::matrix::Node;
 
 /// Manhattan distance heuristic for A*
 pub fn manhattan_heuristic(node: Node, goal: Node) -> u32 {

@@ -1,6 +1,5 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
-use amazeing::maze::matrix::Maze;
-use amazeing::{generator, solver, Node, NodeHeuFn, Tracer};
+use amazeing::matrix::{Maze, Node, NodeHeuFn, Tracer};
 
 pub(crate) fn solve_maze(
     maze: &Maze,
@@ -12,11 +11,11 @@ pub(crate) fn solve_maze(
 ) -> Vec<Node> {
     println!("{:?} ==> {:?}", from, to);
     match procedure {
-        ArgSolveProcedure::Bfs => solver::matrix::bfs(maze, from, to, tracer),
-        ArgSolveProcedure::Dfs => solver::matrix::dfs(maze, from, to, tracer),
-        ArgSolveProcedure::Dijkstra => solver::matrix::dijkstra(maze, from, to, tracer),
+        ArgSolveProcedure::Bfs => amazeing::matrix::solver::bfs(maze, from, to, tracer),
+        ArgSolveProcedure::Dfs => amazeing::matrix::solver::dfs(maze, from, to, tracer),
+        ArgSolveProcedure::Dijkstra => amazeing::matrix::solver::dijkstra(maze, from, to, tracer),
         ArgSolveProcedure::AStar => {
-            solver::matrix::a_star(maze, from, to, heuristic.unwrap(), tracer)
+            amazeing::matrix::solver::a_star(maze, from, to, heuristic.unwrap(), tracer)
         }
     }
 }
@@ -28,7 +27,7 @@ pub(crate) fn generate_maze(
     tracer: &mut Option<Tracer>,
 ) {
     match procedure {
-        ArgGenProcedure::Bfs => generator::matrix::bfs(maze, from, tracer),
-        ArgGenProcedure::Dfs => generator::matrix::dfs(maze, from, tracer),
+        ArgGenProcedure::Bfs => amazeing::matrix::generator::bfs(maze, from, tracer),
+        ArgGenProcedure::Dfs => amazeing::matrix::generator::dfs(maze, from, tracer),
     }
 }

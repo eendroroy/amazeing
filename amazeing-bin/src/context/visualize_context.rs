@@ -1,4 +1,4 @@
-use amazeing::maze::matrix::Maze;
+use amazeing::matrix::Maze;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 
