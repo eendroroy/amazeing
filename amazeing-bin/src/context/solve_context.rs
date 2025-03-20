@@ -1,5 +1,5 @@
 use crate::command::ArgSolveProcedure;
-use amazeing::matrix::{dijkstra_heuristic, Maze, NodeHeuFn};
+use amazeing::matrix::{heuristics::dijkstra_heuristic, Maze, NodeHeuFn};
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
 
