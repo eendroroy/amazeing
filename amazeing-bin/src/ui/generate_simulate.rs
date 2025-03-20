@@ -24,7 +24,7 @@ async fn display_loop(rows: usize, cols: usize) {
     }
 
     let mut current_path: Vec<Node> = vec![];
-    let mut last_millis = current_millis();
+    let mut last_millis = 0;
     let update_interval = 1000 / GEN_CTX.read().unwrap().fps as u128;
 
     let mut trace_complete = false;
@@ -33,13 +33,8 @@ async fn display_loop(rows: usize, cols: usize) {
     loop {
         if is_key_pressed(KeyCode::S) {
             println!("Starting Simulation");
-            simulating = true;
             trace = tracer.clone().unwrap();
-            current_path = trace.remove(0);
-            last_millis = current_millis();
-            if trace.len() == 0 {
-                trace_complete = true;
-            }
+            simulating = true;
         }
 
         if quit_requested() {
