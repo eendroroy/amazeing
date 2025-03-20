@@ -31,7 +31,7 @@ async fn display_loop(rows: usize, cols: usize) {
     let mut simulating = false;
 
     loop {
-        if is_key_pressed(KeyCode::S) {
+        if is_key_pressed(KeyCode::S) && !simulating && !trace_complete {
             println!("Starting Simulation");
             trace = tracer.clone().unwrap();
             simulating = true;
