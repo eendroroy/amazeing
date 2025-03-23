@@ -3,7 +3,7 @@ use crate::helper::{dump_maze_to_file, generate_maze};
 use crate::ui;
 use amazeing::matrix::Maze;
 
-pub(crate) fn generate(simulate: bool, visualize: bool) {
+pub(crate) fn generate(simulate: bool, view: bool) {
     if simulate {
         ui::generate_simulate::main()
     } else {
@@ -22,7 +22,7 @@ pub(crate) fn generate(simulate: bool, visualize: bool) {
             dump_maze_to_file(&maze_file_path, &maze);
         }
 
-        if visualize {
+        if view {
             VIS_CTX.write().unwrap().maze = maze;
             ui::visualize::main()
         }

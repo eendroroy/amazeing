@@ -1,6 +1,5 @@
 use crate::context::{DRAW_CTX, GEN_CTX};
-use crate::display::action::quit_requested;
-use crate::display::drawer::{draw_current_path, draw_maze, draw_path, draw_source};
+use crate::helper::drawer::{draw_current_path, draw_maze, draw_path, draw_source};
 use crate::helper::{current_millis, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
@@ -37,7 +36,7 @@ async fn display_loop(rows: usize, cols: usize) {
             simulating = true;
         }
 
-        if quit_requested() {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 
