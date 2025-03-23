@@ -1,12 +1,11 @@
 use crate::context::{DRAW_CTX, VIS_CTX};
-use crate::display::action::quit_requested;
-use crate::display::drawer::draw_maze;
+use crate::helper::drawer::draw_maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn looper() {
     loop {
-        if quit_requested() {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 

@@ -1,6 +1,5 @@
 use crate::context::{DRAW_CTX, VIS_CTX};
-use crate::display::action::quit_requested;
-use crate::display::drawer::draw_maze;
+use crate::helper::drawer::draw_maze;
 use crate::helper::{dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -8,7 +7,7 @@ use macroquad::prelude::*;
 async fn display_loop() {
     let maze = &mut VIS_CTX.read().unwrap().maze.clone();
     loop {
-        if quit_requested() {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 

@@ -1,9 +1,8 @@
 use crate::context::{DRAW_CTX, SOLVE_CTX};
-use crate::display::action::{populate_source_destination, quit_requested};
-use crate::display::drawer::{
+use crate::helper::drawer::{
     draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed,
 };
-use crate::helper::{current_millis, solve_maze};
+use crate::helper::{current_millis, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -47,7 +46,7 @@ async fn display_loop(maze: &Maze) {
             }
         }
 
-        if quit_requested() {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 

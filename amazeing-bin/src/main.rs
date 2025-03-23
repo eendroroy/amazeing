@@ -4,7 +4,6 @@ use clap::Parser;
 
 mod command;
 mod context;
-mod display;
 mod helper;
 mod ui;
 
@@ -13,7 +12,7 @@ fn main() {
     update_context(args.clone());
 
     match args.mode.clone() {
-        Create { view: visualize, simulate, .. } => generate(simulate, visualize),
+        Create { view, simulate, .. } => generate(simulate, view),
         View { update: modify, .. } => visualize(modify),
         Solve { simulate, .. } => solve(simulate),
     }
