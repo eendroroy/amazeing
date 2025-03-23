@@ -1,6 +1,5 @@
 use crate::context::{DRAW_CTX, VIS_CTX};
-use crate::helper::drawer::draw_maze;
-use crate::helper::{dump_maze_to_file, get_node_from_mouse_pos};
+use crate::helper::{draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
@@ -23,7 +22,7 @@ async fn display_loop() {
             maze[node] = value;
         }
 
-        draw_maze(maze);
+        draw_maze(maze, None, None, None, None, false);
         next_frame().await
     }
 }

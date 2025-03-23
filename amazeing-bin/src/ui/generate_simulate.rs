@@ -1,12 +1,11 @@
 use crate::context::{DRAW_CTX, GEN_CTX};
-use crate::helper::drawer::{draw_current_path, draw_maze, draw_path, draw_source};
-use crate::helper::{current_millis, dump_maze_to_file, generate_maze};
+use crate::helper::{current_millis, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
 async fn display_loop(rows: usize, cols: usize) {
-    let mut traversed = Maze::from(vec![vec![0u32; cols]; rows]);
+    let traversed = Maze::from(vec![vec![0u32; cols]; rows]);
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
 
     let mut trace: Tracer = vec![];
@@ -50,21 +49,36 @@ async fn display_loop(rows: usize, cols: usize) {
                 }
             }
 
-            draw_maze(&traversed);
-            if trace_complete {
-                draw_path(current_path.clone());
-            } else {
-                draw_current_path(current_path.clone(), &mut traversed);
-            };
+            draw_maze(
+                &traversed,
+                None,
+                Some(&current_path),
+                Some(GEN_CTX.read().unwrap().source),
+                None,
+                !trace_complete,
+            );
         } else {
             if trace_complete {
-                draw_maze(&maze);
+                draw_maze(
+                    &maze,
+                    None,
+                    None,
+                    Some(GEN_CTX.read().unwrap().source),
+                    None,
+                    !trace_complete,
+                );
             } else {
-                draw_maze(&traversed);
+                draw_maze(
+                    &traversed,
+                    None,
+                    None,
+                    Some(GEN_CTX.read().unwrap().source),
+                    None,
+                    trace_complete,
+                );
             }
         }
 
-        draw_source(GEN_CTX.read().unwrap().source);
         next_frame().await
     }
 }

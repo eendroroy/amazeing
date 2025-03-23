@@ -1,8 +1,5 @@
 use crate::context::{DRAW_CTX, SOLVE_CTX};
-use crate::helper::drawer::{
-    draw_current_path, draw_destination, draw_maze, draw_path, draw_source, draw_traversed,
-};
-use crate::helper::{current_millis, populate_source_destination, solve_maze};
+use crate::helper::{current_millis, draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -59,23 +56,18 @@ async fn display_loop(maze: &Maze) {
                 }
             }
 
-            draw_maze(&maze);
-            draw_traversed(&traversed);
-            if trace_complete {
-                draw_path(current_path.clone());
-            } else {
-                draw_current_path(current_path.clone(), &mut traversed);
-            };
+            draw_maze(
+                &maze,
+                Some(&mut traversed),
+                Some(&current_path),
+                source,
+                destination,
+                !trace_complete,
+            )
         } else {
-            draw_maze(&maze);
+            draw_maze(&maze, None, None, source, destination, false);
         }
 
-        if source.is_some() {
-            draw_source(source.unwrap());
-        }
-        if destination.is_some() {
-            draw_destination(destination.unwrap());
-        }
         next_frame().await
     }
 }

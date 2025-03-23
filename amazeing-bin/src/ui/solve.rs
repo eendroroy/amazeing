@@ -1,6 +1,5 @@
 use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
-use crate::helper::drawer::{draw_destination, draw_maze, draw_path, draw_source};
-use crate::helper::{populate_source_destination, solve_maze};
+use crate::helper::{draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::Node;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
@@ -8,19 +7,19 @@ use macroquad::prelude::*;
 async fn display_loop() {
     let maze = &SOLVE_CTX.read().unwrap().maze;
     let mut current_path: Vec<Node> = vec![];
-    let mut from: Option<Node> = None;
-    let mut to: Option<Node> = None;
+    let mut source: Option<Node> = None;
+    let mut destination: Option<Node> = None;
 
     loop {
         clear_background(COLOR_CTX.read().unwrap().color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
-            populate_source_destination(&maze, &mut from, &mut to);
+            populate_source_destination(&maze, &mut source, &mut destination);
 
-            if from.is_some() && to.is_some() {
+            if source.is_some() && destination.is_some() {
                 current_path = solve_maze(
                     &maze,
-                    from.unwrap(),
-                    to.unwrap(),
+                    source.unwrap(),
+                    destination.unwrap(),
                     &SOLVE_CTX.read().unwrap().proc,
                     Some(SOLVE_CTX.read().unwrap().heuristic.clone()),
                     &mut None,
@@ -32,14 +31,7 @@ async fn display_loop() {
             break;
         }
 
-        draw_maze(&maze);
-        draw_path(current_path.clone());
-        if from.is_some() {
-            draw_source(from.unwrap());
-        }
-        if to.is_some() {
-            draw_destination(to.unwrap());
-        }
+        draw_maze(&maze, None, Some(&current_path), source, destination, false);
         next_frame().await
     }
 }
