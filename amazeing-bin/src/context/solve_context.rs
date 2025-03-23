@@ -5,6 +5,7 @@ use std::sync::{LazyLock, RwLock};
 
 type Ctx = LazyLock<RwLock<SolveContext>>;
 
+#[derive(Debug, Clone)]
 pub struct SolveContext {
     pub(crate) maze_file_path: PathBuf,
     pub(crate) maze: Maze,
