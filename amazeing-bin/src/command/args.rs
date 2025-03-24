@@ -60,7 +60,7 @@ pub enum ArgMode {
     },
     /// View a Maze
     ///
-    /// In modify ui Click MouseLeft a cell to open path and
+    /// In modify display_loop Click MouseLeft a cell to open path and
     /// Shift+MouseLeft a cell to block path
     #[clap(visible_alias = "V")]
     View {
@@ -74,7 +74,7 @@ pub enum ArgMode {
     },
     /// Solve a Maze
     ///
-    /// In simulation ui click "MouseLeft" on a cell to select source
+    /// In simulation display_loop click "MouseLeft" on a cell to select source
     /// and "Shift+MouseLeft" on a cell to select destination
     #[clap(visible_alias = "S")]
     Solve {
