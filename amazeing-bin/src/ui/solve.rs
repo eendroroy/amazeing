@@ -1,10 +1,9 @@
-use crate::context::{COLOR_CTX, DRAW_CTX, SOLVE_CTX};
+use crate::context::{COLOR_CTX, SOLVE_CTX};
 use crate::helper::{draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::Node;
-use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-async fn display_loop() {
+pub(crate) async fn solve_loop() {
     let maze = &SOLVE_CTX.read().unwrap().maze;
     let mut current_path: Vec<Node> = vec![];
     let mut source: Option<Node> = None;
@@ -34,12 +33,4 @@ async fn display_loop() {
         draw_maze(&maze, None, Some(&current_path), source, destination, false);
         next_frame().await
     }
-}
-
-#[macroquad::main("Solve Maze")]
-pub async fn main() {
-    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
-    set_window_size(screen_width, screen_height + 30);
-
-    display_loop().await
 }

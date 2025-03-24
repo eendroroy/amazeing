@@ -17,7 +17,6 @@ pub(crate) fn update_context(args: AmazeingArgs) {
             cols,
             simulate: _,
             fps,
-            view: _,
         } => {
             let mut context = GEN_CTX.write().unwrap();
             context.maze_file_path = maze.clone();

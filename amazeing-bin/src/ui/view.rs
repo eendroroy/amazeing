@@ -1,14 +1,8 @@
-use crate::context::{DRAW_CTX, VIS_CTX};
+use crate::context::VIS_CTX;
 use crate::helper::draw_maze;
-use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-#[macroquad::main("View Maze")]
-pub async fn main() {
-    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
-
-    set_window_size(screen_width, screen_height + 30);
-
+pub(crate) async fn view_loop() {
     loop {
         if is_key_pressed(KeyCode::Q) {
             break;

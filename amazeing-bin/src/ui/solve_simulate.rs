@@ -1,10 +1,10 @@
-use crate::context::{DRAW_CTX, SOLVE_CTX};
+use crate::context::SOLVE_CTX;
 use crate::helper::{current_millis, draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
-use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-async fn display_loop(maze: &Maze) {
+pub(crate) async fn solve_simulation_loop() {
+    let maze = &SOLVE_CTX.read().unwrap().maze;
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
     let mut current_path: Vec<Node> = vec![];
@@ -70,14 +70,4 @@ async fn display_loop(maze: &Maze) {
 
         next_frame().await
     }
-}
-
-#[macroquad::main("Simulate Maze Solution")]
-pub async fn main() {
-    let maze = &SOLVE_CTX.read().unwrap().maze;
-    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
-
-    set_window_size(screen_width, screen_height + 30);
-
-    display_loop(maze).await
 }
