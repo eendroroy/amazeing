@@ -1,10 +1,10 @@
 use crate::context::{DRAW_CTX, VIS_CTX};
 use crate::helper::{draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
+use amazeing::matrix::Maze;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-async fn display_loop() {
-    let maze = &mut VIS_CTX.read().unwrap().maze.clone();
+async fn display_loop(maze: &mut Maze) {
     loop {
         if is_key_pressed(KeyCode::Q) {
             break;
@@ -31,12 +31,11 @@ async fn display_loop() {
 pub async fn main() {
     let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
 
+    let mut maze = &mut VIS_CTX.read().unwrap().maze.clone();
+
     set_window_size(screen_width, screen_height + 30);
 
-    display_loop().await;
+    display_loop(&mut maze).await;
 
-    dump_maze_to_file(
-        &*VIS_CTX.read().unwrap().maze_file_path,
-        &VIS_CTX.read().unwrap().maze,
-    );
+    dump_maze_to_file(&*VIS_CTX.read().unwrap().maze_file_path, maze);
 }
