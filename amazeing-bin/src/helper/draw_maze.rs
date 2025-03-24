@@ -14,34 +14,35 @@ pub(crate) fn draw_maze(
 ) {
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            let value = is_traversed((r, c), &mut traversed);
-            let color: Color = if source.is_some() && source.unwrap() == (r, c) {
+            let node = (r, c);
+            let value = is_traversed(node, &mut traversed);
+            let color: Color = if source.is_some() && source.unwrap() == node {
                 color_context.color_source
-            } else if destination.is_some() && destination.unwrap() == (r, c) {
+            } else if destination.is_some() && destination.unwrap() == node {
                 color_context.color_destination
-            } else if path.is_some() && traversing && path.unwrap().contains(&(r, c)) {
+            } else if path.is_some() && traversing && path.unwrap().contains(&node) {
                 if let Some(ref mut trav) = traversed {
-                    trav[(r, c)] = 1;
+                    trav[node] = 1;
                 }
                 color_context.color_visiting
-            } else if path.is_some() && path.unwrap().contains(&(r, c)) {
+            } else if path.is_some() && path.unwrap().contains(&node) {
                 color_context.color_path
             } else if value {
                 color_context.color_traversed
-            } else if maze[(r, c)] > 0 {
+            } else if maze[node] > 0 {
                 color_context.color_open
             } else {
                 color_context.color_block
             };
 
-            draw_node(draw_context, (r, c), color);
+            draw_node(draw_context, node, color);
         }
     }
 }
 
-fn is_traversed((r, c): Node, traversed: &mut Option<&mut Maze>) -> bool {
+fn is_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
     if let Some(t) = traversed {
-        t[(r, c)] == 1
+        t[node] == 1
     } else {
         false
     }
