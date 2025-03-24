@@ -1,9 +1,11 @@
-use crate::context::{COLOR_CTX, DRAW_CTX};
+use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node};
 use macroquad::color::Color;
 use macroquad::prelude::draw_rectangle;
 
 pub(crate) fn draw_maze(
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
     path: Option<&Vec<Node>>,
@@ -11,7 +13,6 @@ pub(crate) fn draw_maze(
     destination: Option<Node>,
     traversing: bool,
 ) {
-    let color_context = COLOR_CTX.read().unwrap();
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let value = is_traversed((r, c), &mut traversed);
@@ -34,7 +35,7 @@ pub(crate) fn draw_maze(
                 color_context.color_block
             };
 
-            draw_node((r, c), color);
+            draw_node(draw_context, (r, c), color);
         }
     }
 }
@@ -47,8 +48,7 @@ fn is_traversed((r, c): Node, traversed: &mut Option<&mut Maze>) -> bool {
     }
 }
 
-fn draw_node(node: Node, color: Color) {
-    let ctx = DRAW_CTX.read().unwrap();
+fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
     draw_rectangle(
         ctx.margin + node.1 as f32 * (ctx.cell_width + ctx.padding),
         ctx.margin + node.0 as f32 * (ctx.cell_height + ctx.padding),

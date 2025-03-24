@@ -1,15 +1,19 @@
-use crate::context::SOLVE_CTX;
+use crate::context::{ColorContext, DrawContext, SolveContext};
 use crate::helper::{current_millis, draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::prelude::*;
 
-pub(crate) async fn solve_simulation_loop() {
-    let maze = &SOLVE_CTX.read().unwrap().maze;
+pub(crate) async fn solve_simulation_loop(
+    context: SolveContext,
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
+) {
+    let maze = &context.maze;
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
     let mut current_path: Vec<Node> = vec![];
     let mut last_millis = current_millis();
-    let update_interval = 1000 / SOLVE_CTX.read().unwrap().fps as u128;
+    let update_interval = 1000 / context.fps as u128;
 
     let mut traversed: Maze = Maze::from(vec![vec![0u32; maze.cols()]; maze.rows()]);
 
@@ -21,7 +25,7 @@ pub(crate) async fn solve_simulation_loop() {
 
     loop {
         if is_mouse_button_pressed(MouseButton::Left) && !simulating {
-            populate_source_destination(&maze, &mut source, &mut destination);
+            populate_source_destination(draw_context, &maze, &mut source, &mut destination);
         }
 
         if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some() {
@@ -30,8 +34,8 @@ pub(crate) async fn solve_simulation_loop() {
                 &maze,
                 source.unwrap(),
                 destination.unwrap(),
-                &SOLVE_CTX.read().unwrap().proc.clone(),
-                Some(SOLVE_CTX.read().unwrap().heuristic.clone()),
+                &context.procedure.clone(),
+                Some(context.heuristic.clone()),
                 &mut tracer,
             );
             simulating = true;
@@ -57,6 +61,8 @@ pub(crate) async fn solve_simulation_loop() {
             }
 
             draw_maze(
+                draw_context,
+                color_context,
                 &maze,
                 Some(&mut traversed),
                 Some(&current_path),
@@ -65,7 +71,16 @@ pub(crate) async fn solve_simulation_loop() {
                 !trace_complete,
             )
         } else {
-            draw_maze(&maze, None, None, source, destination, false);
+            draw_maze(
+                draw_context,
+                color_context,
+                &maze,
+                None,
+                None,
+                source,
+                destination,
+                false,
+            );
         }
 
         next_frame().await
