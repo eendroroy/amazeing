@@ -57,10 +57,6 @@ pub enum ArgMode {
         /// Frame update rate
         #[clap(long, default_value_t = 5)]
         fps: u8,
-
-        /// View after generation
-        #[clap(long, default_value_t = false)]
-        view: bool,
     },
     /// View a Maze
     ///

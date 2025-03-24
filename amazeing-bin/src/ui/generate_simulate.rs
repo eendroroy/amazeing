@@ -1,10 +1,10 @@
-use crate::context::{DRAW_CTX, GEN_CTX};
+use crate::context::GEN_CTX;
 use crate::helper::{current_millis, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
-use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::*;
 
-async fn display_loop(rows: usize, cols: usize) {
+pub(crate) async fn generate_simulation_loop() {
+    let (rows, cols) = (GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols);
     let traversed = Maze::from(vec![vec![0u32; cols]; rows]);
     let mut maze = Maze::from(vec![vec![0u32; cols]; rows]);
 
@@ -81,13 +81,4 @@ async fn display_loop(rows: usize, cols: usize) {
 
         next_frame().await
     }
-}
-
-#[macroquad::main("Simulate Maze Generation")]
-pub async fn main() {
-    let (screen_width, screen_height) = DRAW_CTX.read().unwrap().screen_size();
-
-    set_window_size(screen_width, screen_height + 30);
-
-    display_loop(GEN_CTX.read().unwrap().rows, GEN_CTX.read().unwrap().cols).await
 }
