@@ -1,10 +1,10 @@
 use crate::matrix::helper::{reconstruct_path, validate};
+use crate::matrix::heuristics::dijkstra_heuristic;
 use crate::matrix::maze::Maze;
+use crate::matrix::neighbour::neighbours_open;
 use crate::matrix::{Node, NodeHeuFn, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
-use crate::matrix::heuristics::dijkstra_heuristic;
-use crate::matrix::neighbour::neighbours_open;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 struct DNodeWeighted {

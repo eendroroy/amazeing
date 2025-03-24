@@ -27,7 +27,7 @@ async fn main() {
         }
         Create { simulate: false, .. } => {
             generate_loop(amz_ctx.0.unwrap(), &draw_context, &color_context).await
-        },
+        }
         View { update: false, .. } => {
             view_loop(amz_ctx.1.unwrap(), &draw_context, &color_context).await
         }
@@ -39,6 +39,6 @@ async fn main() {
         }
         Solve { simulate: false, .. } => {
             solve_loop(amz_ctx.2.unwrap(), &draw_context, &color_context).await
-        },
+        }
     }
 }

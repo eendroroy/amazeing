@@ -1,6 +1,6 @@
 use crate::matrix::types::{NeighbourFn, Node};
-use std::iter::Iterator;
 use crate::matrix::Maze;
+use std::iter::Iterator;
 
 pub(crate) const DOWN: NeighbourFn = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
 pub(crate) const RIGHT: NeighbourFn = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };

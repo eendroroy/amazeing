@@ -1,6 +1,6 @@
 use crate::matrix::types::Node;
-use std::collections::BTreeMap;
 use crate::matrix::Maze;
+use std::collections::BTreeMap;
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
     if node.0 >= maze.rows() || node.1 >= maze.cols() {
