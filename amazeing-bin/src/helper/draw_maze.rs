@@ -1,7 +1,6 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node};
-use macroquad::color::Color;
-use macroquad::prelude::draw_rectangle;
+use macroquad::prelude::{draw_rectangle, Color};
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,

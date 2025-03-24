@@ -1,8 +1,5 @@
 use crate::context::ColorScheme;
-use macroquad::color::Color;
-use std::sync::{LazyLock, RwLock};
-
-type Ctx = LazyLock<RwLock<ColorContext>>;
+use macroquad::prelude::Color;
 
 #[derive(Debug, Clone)]
 pub struct ColorContext {
@@ -43,5 +40,3 @@ impl ColorContext {
         }
     }
 }
-
-pub static COLOR_CTX: Ctx = LazyLock::new(|| RwLock::new(ColorContext::new()));
