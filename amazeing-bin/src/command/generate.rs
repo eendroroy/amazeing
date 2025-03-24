@@ -24,7 +24,7 @@ pub(crate) fn generate(simulate: bool, view: bool) {
 
         if view {
             VIS_CTX.write().unwrap().maze = maze;
-            ui::visualize::main()
+            ui::view::main()
         }
     }
 }

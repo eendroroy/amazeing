@@ -1,5 +1,5 @@
 use crate::command::ArgMode::{Create, Solve, View};
-use crate::command::{generate, solve, update_context, visualize, AmazeingArgs};
+use crate::command::{generate, solve, update_context, view, AmazeingArgs};
 use clap::Parser;
 
 mod command;
@@ -13,7 +13,7 @@ fn main() {
 
     match args.mode.clone() {
         Create { view, simulate, .. } => generate(simulate, view),
-        View { update: modify, .. } => visualize(modify),
+        View { update, .. } => view(update),
         Solve { simulate, .. } => solve(simulate),
     }
 }
