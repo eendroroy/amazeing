@@ -1,7 +1,4 @@
 use crate::command::ArgDisplayDensity;
-use std::sync::{LazyLock, RwLock};
-
-type Ctx = LazyLock<RwLock<DrawContext>>;
 
 #[derive(Debug, Clone)]
 pub struct DrawContext {
@@ -46,5 +43,3 @@ impl DrawContext {
         )
     }
 }
-
-pub static DRAW_CTX: Ctx = LazyLock::new(|| RwLock::new(DrawContext::new()));

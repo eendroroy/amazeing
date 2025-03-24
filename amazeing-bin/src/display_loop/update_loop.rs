@@ -1,13 +1,17 @@
-use crate::context::VIS_CTX;
+use crate::context::{ColorContext, DrawContext, ViewContext};
 use crate::helper::{draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::prelude::*;
 
-pub(crate) async fn update_loop() {
-    let maze = &mut VIS_CTX.read().unwrap().maze.clone();
+pub(crate) async fn update_loop(
+    context: ViewContext,
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
+) {
+    let maze = &mut context.maze.clone();
 
     loop {
         if is_key_pressed(KeyCode::Q) {
-            dump_maze_to_file(&*VIS_CTX.read().unwrap().maze_file_path, maze);
+            dump_maze_to_file(&*context.maze_file_path, maze);
             break;
         }
 
@@ -18,12 +22,21 @@ pub(crate) async fn update_loop() {
                 1
             };
 
-            let node = get_node_from_mouse_pos();
+            let node = get_node_from_mouse_pos(draw_context);
 
             maze[node] = value;
         }
 
-        draw_maze(maze, None, None, None, None, false);
+        draw_maze(
+            draw_context,
+            color_context,
+            maze,
+            None,
+            None,
+            None,
+            None,
+            false,
+        );
         next_frame().await
     }
 }
