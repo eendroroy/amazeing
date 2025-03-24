@@ -1,11 +1,10 @@
-use crate::matrix::helper::reconstruct_path;
-use crate::matrix::helper::validate_node;
+use crate::matrix::helper::{reconstruct_path, validate_node};
+use crate::matrix::neighbour::{neighbours_block, DOWN, LEFT, RIGHT, UP};
 use crate::matrix::types::{Node, Tracer};
 use crate::matrix::Maze;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
-use crate::matrix::neighbour::{neighbours_block, DOWN, LEFT, RIGHT, UP};
 
 pub fn bfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);

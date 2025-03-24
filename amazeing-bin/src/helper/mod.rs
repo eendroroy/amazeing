@@ -1,9 +1,9 @@
+mod draw_maze;
 mod file;
 mod get_node;
 mod read_source_destination;
 mod run_algorithm;
-mod time;mod draw_maze;
-
+mod time;
 
 pub(crate) use draw_maze::*;
 pub(crate) use file::*;
