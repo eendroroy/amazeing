@@ -1,13 +1,16 @@
 [package]
 name = "amazeing"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.85.1"
 
-[lib]
-name = "amazeing"
-path = "src/lib.rs"
-crate-type = ["lib"]
-
 [dependencies]
-rand = "0.9.0"
+libamazeing = { version = "*", path = "../libamazeing" }
+macroquad = "0.4.13"
+toml = "0.8.20"
+serde = { version = "1.0.219", features = ["derive"] }
+clap = { version = "4.5.32", features = ["color", "derive"] }
+
+[[bin]]
+name = "amazeing"
+path = "src/main.rs"
