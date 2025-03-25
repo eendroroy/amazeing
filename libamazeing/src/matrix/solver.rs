@@ -121,12 +121,36 @@ fn weighted_traverse(
     Vec::new()
 }
 
+/// Performs a breadth-first search (BFS) on the maze from the start node to the end node.
+///
+/// # Arguments
+///
+/// * `maze` - A reference to the maze to be traversed.
+/// * `start` - The starting node.
+/// * `end` - The destination node.
+/// * `tracer` - An optional tracer to record the path.
+///
+/// # Returns
+///
+/// A vector of nodes representing the path from start to end.
 pub fn bfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_front();
     traverse(maze, start, end, push, pop, tracer)
 }
 
+/// Performs a depth-first search (DFS) on the maze from the start node to the end node.
+///
+/// # Arguments
+///
+/// * `maze` - A reference to the maze to be traversed.
+/// * `start` - The starting node.
+/// * `end` - The destination node.
+/// * `tracer` - An optional tracer to record the path.
+///
+/// # Returns
+///
+/// A vector of nodes representing the path from start to end.
 pub fn dfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
@@ -134,10 +158,35 @@ pub fn dfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> 
     traverse(maze, start, end, push, pop, tracer)
 }
 
+/// Performs Dijkstra's algorithm on the maze from the start node to the end node.
+///
+/// # Arguments
+///
+/// * `maze` - A reference to the maze to be traversed.
+/// * `start` - The starting node.
+/// * `end` - The destination node.
+/// * `tracer` - An optional tracer to record the path.
+///
+/// # Returns
+///
+/// A vector of nodes representing the path from start to end.
 pub fn dijkstra(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, start, end, dijkstra_heuristic, tracer)
 }
 
+/// Performs the A* algorithm on the maze from the start node to the end node.
+///
+/// # Arguments
+///
+/// * `maze` - A reference to the maze to be traversed.
+/// * `start` - The starting node.
+/// * `end` - The destination node.
+/// * `heu` - A heuristic function to estimate the cost from a node to the destination.
+/// * `tracer` - An optional tracer to record the path.
+///
+/// # Returns
+///
+/// A vector of nodes representing the path from start to end.
 pub fn a_star(
     maze: &Maze,
     start: Node,

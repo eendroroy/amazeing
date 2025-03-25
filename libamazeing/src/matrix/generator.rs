@@ -6,6 +6,13 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
 
+/// Generates a maze using a breadth-first search (BFS) algorithm starting from the source node.
+///
+/// # Arguments
+///
+/// * `maze` - A mutable reference to the maze structure.
+/// * `source` - The starting node for the BFS.
+/// * `tracer` - An optional mutable reference to a tracer for recording the path.
 pub fn bfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);
 
@@ -31,7 +38,13 @@ pub fn bfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
         storage.shuffle(&mut rng())
     }
 }
-
+/// Generates a maze using a depth-first search (DFS) algorithm starting from the source node.
+///
+/// # Arguments
+///
+/// * `maze` - A mutable reference to the maze structure.
+/// * `source` - The starting node for the DFS.
+/// * `tracer` - An optional mutable reference to a tracer for recording the path.
 pub fn dfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
     validate_node(maze, source);
 
