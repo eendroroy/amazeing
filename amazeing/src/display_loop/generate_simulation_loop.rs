@@ -4,7 +4,7 @@ use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_simulation_loop(
-    context: CreateContext,
+    context: &CreateContext,
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {

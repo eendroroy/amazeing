@@ -3,7 +3,7 @@ use crate::helper::draw_maze;
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(
-    context: ViewContext,
+    context: &ViewContext,
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {
