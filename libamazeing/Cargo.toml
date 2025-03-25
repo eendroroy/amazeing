@@ -1,0 +1,13 @@
+[package]
+name = "libamazeing"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85.1"
+
+[lib]
+name = "amazeing"
+path = "src/lib.rs"
+crate-type = ["lib"]
+
+[dependencies]
+rand = "0.9.0"
