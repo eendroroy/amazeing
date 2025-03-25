@@ -4,7 +4,7 @@ use amazeing::matrix::Node;
 use macroquad::prelude::*;
 
 pub(crate) async fn solve_loop(
-    context: SolveContext,
+    context: &SolveContext,
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {

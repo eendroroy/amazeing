@@ -3,7 +3,7 @@ use crate::helper::{draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(
-    context: ViewContext,
+    context: &ViewContext,
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {

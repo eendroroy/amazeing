@@ -23,22 +23,22 @@ async fn main() {
 
     match args.mode.clone() {
         Create { simulate: true, .. } => {
-            generate_simulation_loop(amz_ctx.0.unwrap(), &draw_context, &color_context).await
+            generate_simulation_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
         Create { simulate: false, .. } => {
-            generate_loop(amz_ctx.0.unwrap(), &draw_context, &color_context).await
+            generate_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
         View { update: false, .. } => {
-            view_loop(amz_ctx.1.unwrap(), &draw_context, &color_context).await
+            view_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await
         }
         View { update: true, .. } => {
-            update_loop(amz_ctx.1.unwrap(), &draw_context, &color_context).await
+            update_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await
         }
         Solve { simulate: true, .. } => {
-            solve_simulation_loop(amz_ctx.2.unwrap(), &draw_context, &color_context).await
+            solve_simulation_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
         }
         Solve { simulate: false, .. } => {
-            solve_loop(amz_ctx.2.unwrap(), &draw_context, &color_context).await
+            solve_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
         }
     }
 }
