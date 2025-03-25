@@ -8,9 +8,8 @@ Clone the repository and build the project:
 
 ```sh
 git clone https://github.com/eendroroy/amazeing.git
-cd libamazeing
-cargo build --release
-cargo install --path libamazeing-bin
+cd amazeing
+cargo install --path amazeing
 ```
 
 ## Usage
