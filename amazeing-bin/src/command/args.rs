@@ -9,15 +9,15 @@ pub struct AmazeingArgs {
     pub mode: ArgMode,
 
     /// Display size
-    #[clap(global = true, long, value_name = "SIZE")]
+    #[clap(global = true, long, short = 'S', value_name = "SIZE")]
     pub display_size: Option<ArgDisplaySize>,
 
     /// Display density
-    #[clap(global = true, long, value_name = "DENSITY")]
+    #[clap(global = true, long, short = 'D', value_name = "DENSITY")]
     pub display_density: Option<ArgDisplayDensity>,
 
     /// Color scheme file (.toml) path
-    #[clap(global = true, long, value_name = "SCHEME.TOML")]
+    #[clap(global = true, short = 'C', long, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 }
 
@@ -31,31 +31,31 @@ pub enum ArgMode {
         /// optional if '--simulate' flag provided
         ///
         /// if provided, generated maze will be dumped at path
-        #[clap(long, required_unless_present = "simulate")]
+        #[clap(long, short, required_unless_present = "simulate")]
         maze: Option<PathBuf>,
 
         /// Starting point of the generation
-        #[clap(long, value_name = "usize,usize")]
+        #[clap(long, short, value_name = "usize,usize")]
         source: String,
 
         /// Maze Generation Procedure
-        #[clap(long)]
+        #[clap(long, short)]
         procedure: ArgGenProcedure,
 
         /// Number of rows
-        #[clap(long)]
+        #[clap(long, short)]
         rows: usize,
 
         /// Number of cols
-        #[clap(long)]
+        #[clap(long, short)]
         cols: usize,
 
         /// Show a simulation of the generation process
-        #[clap(long, default_value_t = false)]
+        #[clap(long, short = 'v', default_value_t = false)]
         simulate: bool,
 
         /// Frame update rate
-        #[clap(long, default_value_t = 5)]
+        #[clap(long, short, default_value_t = 5)]
         fps: u8,
     },
     /// View a Maze
@@ -65,11 +65,11 @@ pub enum ArgMode {
     #[clap(visible_alias = "V")]
     View {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
 
         /// View and update
-        #[clap(long, default_value_t = false)]
+        #[clap(long, short, default_value_t = false)]
         update: bool,
     },
     /// Solve a Maze
@@ -79,23 +79,23 @@ pub enum ArgMode {
     #[clap(visible_alias = "S")]
     Solve {
         /// Maze file path
-        #[clap(long)]
+        #[clap(long, short)]
         maze: PathBuf,
 
         /// Maze Solving Procedure
-        #[clap(long)]
+        #[clap(long, short)]
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
-        #[clap(long, required_if_eq("procedure", "a-star"))]
+        #[clap(long, short = 'H', required_if_eq("procedure", "a-star"))]
         heuristic_function: Option<ArgHeuristic>,
 
         /// Show a simulation of the solving process
-        #[clap(long, default_value_t = false)]
+        #[clap(long, short = 'V', default_value_t = false)]
         simulate: bool,
 
         /// Frame update rate
-        #[clap(long, default_value_t = 5)]
+        #[clap(long, short, default_value_t = 5)]
         fps: u8,
     },
 }
