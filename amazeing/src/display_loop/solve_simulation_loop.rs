@@ -29,7 +29,6 @@ pub(crate) async fn solve_simulation_loop(
         }
 
         if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some() {
-            println!("Starting Simulation");
             solve_maze(
                 &maze,
                 source.unwrap(),

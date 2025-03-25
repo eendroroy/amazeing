@@ -15,7 +15,7 @@ pub(crate) fn draw_maze(
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let node = (r, c);
-            let value = is_traversed(node, &mut traversed);
+            let is_traversed = check_traversed(node, &mut traversed);
             let color: Color = if source.is_some() && source.unwrap() == node {
                 color_context.color_source
             } else if destination.is_some() && destination.unwrap() == node {
@@ -27,7 +27,7 @@ pub(crate) fn draw_maze(
                 color_context.color_visiting
             } else if path.is_some() && path.unwrap().contains(&node) {
                 color_context.color_path
-            } else if value {
+            } else if is_traversed {
                 color_context.color_traversed
             } else if maze[node] > 0 {
                 color_context.color_open
@@ -40,7 +40,7 @@ pub(crate) fn draw_maze(
     }
 }
 
-fn is_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
+fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
     if let Some(t) = traversed {
         t[node] == 1
     } else {

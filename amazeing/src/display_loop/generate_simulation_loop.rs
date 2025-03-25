@@ -29,7 +29,6 @@ pub(crate) async fn generate_simulation_loop(
 
     loop {
         if is_key_pressed(KeyCode::S) && !simulating && !trace_complete {
-            println!("Starting Simulation");
             trace = tracer.clone().unwrap();
             simulating = true;
         }
