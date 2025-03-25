@@ -8,9 +8,9 @@ Clone the repository and build the project:
 
 ```sh
 git clone https://github.com/eendroroy/amazeing.git
-cd amazeing
+cd libamazeing
 cargo build --release
-cargo install --path amazeing-bin
+cargo install --path libamazeing-bin
 ```
 
 ## Usage
@@ -27,9 +27,9 @@ Commands:
   help    Print this message or the help of the given subcommand(s)
 
 Options:
-      --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
-      --display-density <DENSITY>   Display density [possible values: connected, dense, standard, cozy, ample]
-      --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
+  -S, --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
+  -D, --display-density <DENSITY>   Display density [possible values: connected, dense, standard, cozy, ample]
+  -C, --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
   -h, --help                        Print help
   -V, --version                     Print version
 ```
