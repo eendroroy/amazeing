@@ -36,9 +36,10 @@ Options:
 
 ## Generate Maze
 
-| Algorithm      |                                                                                                            |
-|----------------|------------------------------------------------------------------------------------------------------------|
-| Randomized Bfs | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
+| Algorithm |                                                                                                            |
+|-----------|------------------------------------------------------------------------------------------------------------|
+| Dfs       | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
+| Bfs       | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
 
 ## Solve Maze
 
