@@ -9,7 +9,6 @@ pub(crate) fn solve_maze(
     heuristic: Option<NodeHeuFn>,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
-    println!("{:?} ==> {:?}", from, to);
     match procedure {
         ArgSolveProcedure::Bfs => amazeing::matrix::solver::bfs(maze, from, to, tracer),
         ArgSolveProcedure::Dfs => amazeing::matrix::solver::dfs(maze, from, to, tracer),
