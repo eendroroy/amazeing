@@ -18,7 +18,7 @@ pub(crate) async fn view_loop(
             &context.maze,
             None,
             None,
-            None,
+            vec![],
             None,
             false,
         );

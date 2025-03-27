@@ -34,9 +34,9 @@ pub enum ArgMode {
         #[clap(long, short, required_unless_present = "verbose")]
         maze: Option<PathBuf>,
 
-        /// Starting point of the generation
+        /// Starting point(s) of the generation
         #[clap(long, short, value_name = "usize,usize")]
-        source: String,
+        source: Vec<String>,
 
         /// Maze Generation Procedure
         #[clap(long, short)]

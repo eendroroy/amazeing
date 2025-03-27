@@ -21,7 +21,7 @@ pub(crate) fn solve_maze(
 
 pub(crate) fn generate_maze(
     maze: &mut Maze,
-    from: Node,
+    from: Vec<Node>,
     procedure: &ArgGenProcedure,
     tracer: &mut Option<Tracer>,
 ) {

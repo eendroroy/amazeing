@@ -35,19 +35,55 @@ Options:
 
 ## Example Commands
 
-```shell
-# generate 21x21 maze using BFS
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs
-# simulate
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25
+#### Generate - single source
 
+```shell
+# generate 21x21 maze using BFS - single source
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs
+# short
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs
+
+# simulate - multi source
+amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25
+# short
+amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -t 25
+```
+
+#### Generate - multi source
+
+```shell
+# generate 21x21 maze using BFS - multi source
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs
+# short
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs
+
+# simulate - multi source
+amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --tempo 25
+# short
+amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -t 25
+```
+
+#### Update
+
+```shell
 # update bfs_21_21.maze
 amazeing view --maze bfs_21_21.maze --update
+# short
+amazeing V -m bfs_21_21.maze -u
+```
 
+#### Solve
+
+```shell
 # solve bfs_21_21.maze
 amazeing solve --maze bfs_21_21.maze --procedure bfs
+# short
+amazeing S -m bfs_21_21.maze -p bfs
+
 # simulate
 amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --tempo 25
+# short
+amazeing S -m bfs_21_21.maze -p bfs -v -t 25
 ```
 
 ## Generate Maze

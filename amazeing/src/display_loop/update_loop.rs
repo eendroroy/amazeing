@@ -33,7 +33,7 @@ pub(crate) async fn update_loop(
             maze,
             None,
             None,
-            None,
+            vec![],
             None,
             false,
         );

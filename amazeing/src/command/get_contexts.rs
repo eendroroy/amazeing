@@ -37,7 +37,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             (
                 Some(CreateContext {
                     maze_file_path: maze.clone(),
-                    source: parse_node(&source),
+                    sources: parse_nodes(&source),
                     procedure,
                     rows,
                     cols,
@@ -127,4 +127,8 @@ fn parse_node(node: &str) -> Node {
         u32::from_str_radix(node_data.get(0).unwrap(), 10).unwrap() as usize,
         u32::from_str_radix(node_data.get(1).unwrap(), 10).unwrap() as usize,
     )
+}
+
+fn parse_nodes(nodes: &Vec<String>) -> Vec<Node> {
+    nodes.iter().map(|node| parse_node(node)).collect()
 }

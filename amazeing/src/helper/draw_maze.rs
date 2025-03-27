@@ -9,7 +9,7 @@ pub(crate) fn draw_maze(
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
     path: Option<&HashMap<Node, bool>>,
-    source: Option<Node>,
+    sources: Vec<Node>,
     destination: Option<Node>,
     traversing: bool,
 ) {
@@ -17,7 +17,7 @@ pub(crate) fn draw_maze(
         for c in 0..maze.cols() {
             let node = (r, c);
             let is_traversed = check_traversed(node, &mut traversed);
-            let color: Color = if source.is_some() && source.unwrap() == node {
+            let color: Color = if sources.contains(&node) {
                 color_context.color_source
             } else if destination.is_some() && destination.unwrap() == node {
                 color_context.color_destination
