@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Scheme Previewer</title>
+    <style>
+        table>tbody>tr>td>table>tbody>tr>td {
+            width: 20px;
+            height: 20px;
+        }
+
+        #colorScheme {
+            padding-left: 100px;
+        }
+
+        .background {
+            background-color: #02131b;
+            padding: 10px;
+        }
+
+        .bloc {
+            background-color: #543b3b;
+        }
+
+        .open {
+            background-color: #abb0ac;
+        }
+
+        .visi {
+            background-color: #9fd350;
+        }
+
+        .path {
+            background-color: #ffff00;
+        }
+
+        .sour {
+            background-color: #fd632b;
+        }
+
+        .dest {
+            background-color: #2af024;
+        }
+
+        .trav {
+            background-color: #7c7ef4;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <table>
+        <tr><td>Block:</td><td><input type="color" value="#543b3b" onchange="changeColor('bloc', this.value)"></td></tr>
+        <tr><td>Open:</td><td><input type="color" value="#abb0ac" onchange="changeColor('open', this.value)"></td></tr>
+        <tr><td>Visiting:</td><td><input type="color" value="#9fd350" onchange="changeColor('visi', this.value)"></td></tr>
+        <tr><td>Path:</td><td><input type="color" value="#ffff00" onchange="changeColor('path', this.value)"></td></tr>
+        <tr><td>Source:</td><td><input type="color" value="#fd632b" onchange="changeColor('sour', this.value)"></td></tr>
+        <tr><td>Destination:</td><td><input type="color" value="#2af024" onchange="changeColor('dest', this.value)"></td></tr>
+        <tr><td>Traversed:</td><td><input type="color" value="#7c7ef4" onchange="changeColor('trav', this.value)"></td></tr>
+    </table>
+</div>
+
+<table>
+    <tr>
+        <td>
+            <table class="background">
+                <tbody>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="trav"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="sour"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="open"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="path"></td><td class="open"></td><td class="bloc"></td><td class="trav"></td><td class="open"></td><td class="trav"></td><td class="trav"></td><td class="visi"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="path"></td><td class="path"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="visi"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="path"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="path"></td><td class="bloc"></td><td class="open"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="path"></td><td class="bloc"></td><td class="open"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="path"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="path"></td><td class="path"></td><td class="path"></td><td class="visi"></td><td class="visi"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="trav"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="path"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="trav"></td><td class="path"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="path"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="dest"></td><td class="path"></td><td class="path"></td><td class="path"></td><td class="bloc"></td><td class="visi"></td><td class="open"></td><td class="visi"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="visi"></td><td class="visi"></td><td class="visi"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                <tr><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td><td class="open"></td></tr>
+                </tbody>
+            </table>
+
+        </td>
+        <td>
+        <pre id="colorScheme">
+color_bg = 0x00202e
+color_block = 0x402510
+color_open = 0x979a9a
+color_visiting = 0x6db3d1
+color_path = 0xeacc38
+color_source = 0xc63d0a
+color_destination = 0x23c61e
+color_traversed = 0x5d5fae
+</pre>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    function changeColor(className, color) {
+        document.querySelectorAll("." + className).forEach(el => el.style.backgroundColor = color);
+        updateColorScheme(className, color);
+    }
+
+    function updateColorScheme(className, color) {
+        let colorMappings = {
+            "bloc": "color_block",
+            "open": "color_open",
+            "visi": "color_visiting",
+            "path": "color_path",
+            "sour": "color_source",
+            "dest": "color_destination",
+            "trav": "color_traversed"
+        };
+
+        let hexColor = color.replace("#", "0x");
+        let preElement = document.getElementById("colorScheme");
+        let text = preElement.textContent;
+        let regex = new RegExp(colorMappings[className] + " = 0x[0-9a-fA-F]+", "g");
+        preElement.textContent = text.replace(regex, `${colorMappings[className]} = ${hexColor}`);
+    }
+</script>
+
+</body>
+</html>

@@ -102,6 +102,12 @@ amazeing S -m bfs_21_21.maze -p bfs -v -t 25
 | BFS            | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
 | A* (Manhattan) | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
 
+## Add-on
+
+[Color scheme generator](assets/scheme-generator.html)
+
+<iframe src="assets/scheme-generator.html" width="100%"></iframe>
+
 ## License
 
 This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html). See
