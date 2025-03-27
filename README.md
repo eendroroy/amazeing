@@ -88,10 +88,11 @@ amazeing S -m bfs_21_21.maze -p bfs -v -t 25
 
 ## Generate Maze
 
-| Algorithm |                                                                                                            |
-|-----------|------------------------------------------------------------------------------------------------------------|
-| Dfs       | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
-| Bfs       | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
+| Algorithm          |                                                                                                            |
+|--------------------|------------------------------------------------------------------------------------------------------------|
+| Dfs (Multi Source) | [![Demo Video](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
+| Dfs                | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
+| Bfs                | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
 
 ## Solve Maze
 
