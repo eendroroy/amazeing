@@ -1,13 +1,14 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node};
 use macroquad::prelude::{draw_rectangle, Color};
+use std::collections::HashMap;
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,
     color_context: &ColorContext,
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
-    path: Option<&Vec<Node>>,
+    path: Option<&HashMap<Node, bool>>,
     source: Option<Node>,
     destination: Option<Node>,
     traversing: bool,
@@ -20,12 +21,12 @@ pub(crate) fn draw_maze(
                 color_context.color_source
             } else if destination.is_some() && destination.unwrap() == node {
                 color_context.color_destination
-            } else if path.is_some() && traversing && path.unwrap().contains(&node) {
+            } else if path.is_some() && traversing && path.unwrap().get(&node).is_some() {
                 if let Some(ref mut trav) = traversed {
                     trav[node] = 1;
                 }
                 color_context.color_visiting
-            } else if path.is_some() && path.unwrap().contains(&node) {
+            } else if path.is_some() && path.unwrap().get(&node).is_some() {
                 color_context.color_path
             } else if is_traversed {
                 color_context.color_traversed
