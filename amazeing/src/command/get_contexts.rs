@@ -29,7 +29,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             procedure,
             rows,
             cols,
-            fps,
+            tempo,
             ..
         } => {
             draw_ctx.maze_rows = rows;
@@ -41,7 +41,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                     procedure,
                     rows,
                     cols,
-                    fps,
+                    tempo,
                 }),
                 None,
                 None,
@@ -64,7 +64,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             maze,
             procedure,
             heuristic_function,
-            fps,
+            tempo,
             ..
         } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
@@ -76,7 +76,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 Some(SolveContext {
                     maze: loaded_maze,
                     procedure,
-                    fps,
+                    tempo,
                     heuristic: if let Some(value) = heuristic_function {
                         get_heu_fn(value)
                     } else {

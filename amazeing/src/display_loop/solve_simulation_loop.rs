@@ -16,7 +16,7 @@ pub(crate) async fn solve_simulation_loop(
 
     let mut current_path: Vec<Node> = vec![];
     let mut last_millis = 0;
-    let update_interval = 1000 / context.fps as u128;
+    let update_interval = 1000 / context.tempo as u128;
 
     let mut traversed = Maze::from(vec![vec![0u32; context.maze.cols()]; context.maze.rows()]);
 

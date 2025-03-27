@@ -38,8 +38,8 @@ Options:
 ```shell
 # generate 21x21 maze using BFS
 amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs
-# Simulate
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --simulate --fps 25
+# simulate
+amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25
 
 # update bfs_21_21.maze
 amazeing view --maze bfs_21_21.maze --update
@@ -47,7 +47,7 @@ amazeing view --maze bfs_21_21.maze --update
 # solve bfs_21_21.maze
 amazeing solve --maze bfs_21_21.maze --procedure bfs
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --simulate --fps 25
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --tempo 25
 ```
 
 ## Generate Maze

@@ -22,7 +22,7 @@ pub(crate) async fn generate_simulation_loop(
 
     let mut path: Vec<Node> = vec![];
     let mut last_millis = 0;
-    let update_interval = 1000 / context.fps as u128;
+    let update_interval = 1000 / context.tempo as u128;
 
     let mut trace_complete = false;
     let mut simulating = false;

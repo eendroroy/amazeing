@@ -22,10 +22,10 @@ async fn main() {
     set_window_size(screen_width, screen_height + 30);
 
     match args.mode.clone() {
-        Create { simulate: true, .. } => {
+        Create { verbose: true, .. } => {
             generate_simulation_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
-        Create { simulate: false, .. } => {
+        Create { verbose: false, .. } => {
             generate_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
         View { update: false, .. } => {
@@ -34,10 +34,10 @@ async fn main() {
         View { update: true, .. } => {
             update_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await
         }
-        Solve { simulate: true, .. } => {
+        Solve { verbose: true, .. } => {
             solve_simulation_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
         }
-        Solve { simulate: false, .. } => {
+        Solve { verbose: false, .. } => {
             solve_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
         }
     }
