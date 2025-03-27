@@ -1,4 +1,4 @@
-use crate::matrix::helper::{reconstruct_path, validate_node};
+use crate::matrix::helper::{reconstruct_trace_path, validate_node};
 use crate::matrix::neighbour::{neighbours_block, DOWN, LEFT, RIGHT, UP};
 use crate::matrix::types::{Node, Tracer};
 use crate::matrix::Maze;
@@ -27,7 +27,7 @@ pub fn bfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
         if neighbours.len() > 2 {
             maze[current] = 1;
             if let Some(trace) = tracer {
-                trace.push(reconstruct_path(current, &parent));
+                trace.push(reconstruct_trace_path(current, &parent));
             }
             for next in neighbours {
                 parent.insert(next, current);
@@ -60,7 +60,7 @@ pub fn dfs(maze: &mut Maze, source: Node, tracer: &mut Option<Tracer>) {
             neighbours.shuffle(&mut rng());
             maze[current] = 1;
             if let Some(trace) = tracer {
-                trace.push(reconstruct_path(current, &parent));
+                trace.push(reconstruct_trace_path(current, &parent));
             }
             for next in neighbours {
                 parent.insert(next, current);

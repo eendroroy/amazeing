@@ -1,4 +1,4 @@
-use crate::matrix::helper::{reconstruct_path, validate};
+use crate::matrix::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use crate::matrix::heuristics::dijkstra_heuristic;
 use crate::matrix::maze::Maze;
 use crate::matrix::neighbour::neighbours_open;
@@ -45,7 +45,7 @@ fn traverse(
         visited.insert(current, true);
 
         if let Some(trace) = tracer {
-            trace.push(reconstruct_path(current, &parent));
+            trace.push(reconstruct_trace_path(current, &parent));
         }
 
         if current == destination {
@@ -59,10 +59,6 @@ fn traverse(
                 push(storage, next);
             }
         }
-    }
-
-    if let Some(trace) = tracer {
-        trace.push(vec![source, destination]);
     }
 
     Vec::new()
@@ -94,7 +90,7 @@ fn weighted_traverse(
         visited.insert(current, true);
 
         if let Some(trace) = tracer {
-            trace.push(reconstruct_path(current, &parent));
+            trace.push(reconstruct_trace_path(current, &parent));
         }
 
         if current == destination {
@@ -112,10 +108,6 @@ fn weighted_traverse(
                 });
             }
         }
-    }
-
-    if let Some(trace) = tracer {
-        trace.push(vec![source, destination]);
     }
 
     Vec::new()

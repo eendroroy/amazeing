@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 /// A `Node` represents a position in a matrix, defined by its row and column indices.
 pub type Node = (usize, usize);
 
@@ -5,6 +7,6 @@ pub type Node = (usize, usize);
 pub type NodeHeuFn = fn(Node, Node) -> u32;
 
 /// A `Tracer` is a 2D vector of nodes, used to trace paths in the matrix.
-pub type Tracer = Vec<Vec<Node>>;
+pub type Tracer = Vec<HashMap<Node, bool>>;
 
 pub(crate) type NeighbourFn = fn(Node) -> Option<Node>;
