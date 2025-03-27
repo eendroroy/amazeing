@@ -9,5 +9,5 @@ pub struct CreateContext {
     pub(crate) procedure: ArgGenProcedure,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
-    pub(crate) fps: u8,
+    pub(crate) tempo: u8,
 }

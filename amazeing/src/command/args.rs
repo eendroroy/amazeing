@@ -28,10 +28,10 @@ pub enum ArgMode {
     Create {
         /// File path to dump Maze data
         ///
-        /// optional if '--simulate' flag provided
+        /// optional if '--verbose' flag provided
         ///
         /// if provided, generated maze will be dumped at path
-        #[clap(long, short, required_unless_present = "simulate")]
+        #[clap(long, short, required_unless_present = "verbose")]
         maze: Option<PathBuf>,
 
         /// Starting point of the generation
@@ -51,12 +51,12 @@ pub enum ArgMode {
         cols: usize,
 
         /// Show a simulation of the generation process
-        #[clap(long, short = 'v', default_value_t = false)]
-        simulate: bool,
+        #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
+        verbose: bool,
 
-        /// Frame update rate
+        /// Simulation speed
         #[clap(long, short, default_value_t = 5)]
-        fps: u8,
+        tempo: u8,
     },
     /// View a Maze
     ///
@@ -90,13 +90,13 @@ pub enum ArgMode {
         #[clap(long, short = 'H', required_if_eq("procedure", "a-star"))]
         heuristic_function: Option<ArgHeuristic>,
 
-        /// Show a simulation of the solving process
-        #[clap(long, short = 'V', default_value_t = false)]
-        simulate: bool,
+        /// Show a simulation of the generation process
+        #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
+        verbose: bool,
 
-        /// Frame update rate
+        /// Simulation speed
         #[clap(long, short, default_value_t = 5)]
-        fps: u8,
+        tempo: u8,
     },
 }
 
