@@ -41,7 +41,7 @@ pub(crate) async fn solve_loop(
             &maze,
             None,
             Some(&current_path),
-            source,
+            vec![source.unwrap()],
             destination,
             false,
         );

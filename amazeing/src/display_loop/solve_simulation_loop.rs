@@ -64,7 +64,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 Some(&mut traversed),
                 Some(&current_path),
-                source,
+                vec![source.unwrap()],
                 destination,
                 !trace_complete,
             )
@@ -75,7 +75,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 None,
                 None,
-                source,
+                vec![source.unwrap()],
                 destination,
                 false,
             );

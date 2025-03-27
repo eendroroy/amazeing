@@ -10,7 +10,7 @@ pub(crate) async fn generate_loop(
 ) {
     let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
 
-    generate_maze(&mut maze, context.source, &context.procedure, &mut None);
+    generate_maze(&mut maze, context.sources.clone(), &context.procedure, &mut None);
 
     if let Some(maze_file_path) = context.maze_file_path.clone() {
         dump_maze_to_file(&maze_file_path, &maze);
@@ -27,7 +27,7 @@ pub(crate) async fn generate_loop(
             &maze,
             None,
             None,
-            None,
+            vec![],
             None,
             false,
         );
