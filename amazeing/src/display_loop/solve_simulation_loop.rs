@@ -75,7 +75,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 None,
                 None,
-                vec![source.unwrap()],
+                if source.is_some() { vec![source.unwrap()] } else { vec![] },
                 destination,
                 false,
             );
