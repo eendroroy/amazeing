@@ -5,4 +5,4 @@ color_visiting = 0xbc5090
 color_path = 0xff6361
 color_source = 0xffa600
 color_destination = 0xffa600
-color_traversed = 0xcfa09
+color_traversed = 0x0cfa09
