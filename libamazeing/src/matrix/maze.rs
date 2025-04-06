@@ -5,20 +5,13 @@ use std::ops::{Index, IndexMut};
 ///
 /// # Attributes
 /// - `data`: A 2D vector containing the maze data.
+#[derive(Default)]
 #[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub struct Maze {
     pub(crate) data: Vec<Vec<u32>>,
 }
 
 impl Maze {
-    /// Creates a new, empty `Maze`.
-    ///
-    /// # Returns
-    /// A new `Maze` instance with no data.
-    pub fn new() -> Self {
-        Self { data: vec![] }
-    }
-
     /// Creates a new `Maze` from the given data.
     ///
     /// # Arguments
@@ -51,7 +44,7 @@ impl Maze {
     /// # Returns
     /// The number of columns in the maze.
     pub fn cols(&self) -> usize {
-        self.data.get(0).unwrap().iter().len()
+        self.data.first().unwrap().iter().len()
     }
 }
 
