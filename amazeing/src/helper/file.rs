@@ -12,6 +12,7 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
+        .truncate(true)
         .open(path)
         .expect("Could not open file");
 

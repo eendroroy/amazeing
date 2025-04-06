@@ -9,8 +9,7 @@ pub(crate) fn draw_maze(
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
     path: Option<&HashMap<Node, bool>>,
-    sources: Vec<Node>,
-    destination: Option<Node>,
+    (sources, destination): (Vec<Node>, Option<Node>),
     traversing: bool,
 ) {
     for r in 0..maze.rows() {

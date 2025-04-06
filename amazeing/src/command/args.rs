@@ -102,13 +102,13 @@ pub enum ArgMode {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgDisplaySize {
-    XXS,
-    XS,
+    Xxs,
+    Xs,
     S,
     M,
     L,
-    XL,
-    XXL,
+    Xl,
+    Xxl,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]

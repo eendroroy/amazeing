@@ -54,7 +54,7 @@ fn traverse(
         }
 
         for next in neighbours_open(maze, current, None) {
-            if visited.get(&next).is_none() || !(*visited.get(&next).unwrap()) {
+            if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 push(storage, next);
             }
@@ -99,7 +99,7 @@ fn weighted_traverse(
         }
 
         for next in neighbours_open(maze, current, None) {
-            if visited.get(&next).is_none() || !(*visited.get(&next).unwrap()) {
+            if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {
                     node: next,

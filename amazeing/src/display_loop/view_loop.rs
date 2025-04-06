@@ -8,7 +8,7 @@ pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext,
             break;
         }
 
-        draw_maze(draw_context, color_context, &context.maze, None, None, vec![], None, false);
+        draw_maze(draw_context, color_context, &context.maze, None, None, (vec![], None), false);
         next_frame().await
     }
 }

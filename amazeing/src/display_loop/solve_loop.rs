@@ -37,8 +37,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             maze,
             None,
             Some(&current_path),
-            vec![source.unwrap()],
-            destination,
+            (vec![source.unwrap()], destination),
             false,
         );
         next_frame().await

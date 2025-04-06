@@ -64,8 +64,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 Some(&mut traversed),
                 Some(&current_path),
-                vec![source.unwrap()],
-                destination,
+                (vec![source.unwrap()], destination),
                 !trace_complete,
             )
         } else {
@@ -75,8 +74,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 None,
                 None,
-                if source.is_some() { vec![source.unwrap()] } else { vec![] },
-                destination,
+                (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
                 false,
             );
         }

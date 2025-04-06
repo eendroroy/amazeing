@@ -17,7 +17,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
             break;
         }
 
-        draw_maze(draw_context, color_context, &maze, None, None, vec![], None, false);
+        draw_maze(draw_context, color_context, &maze, None, None, (vec![], None), false);
         next_frame().await
     }
 }
