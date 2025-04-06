@@ -16,6 +16,6 @@ pub(crate) struct ColorScheme {
 
 impl ColorScheme {
     pub(crate) fn from(path: &Path) -> Self {
-        toml::from_str(&*fs::read_to_string(path).unwrap()).unwrap()
+        toml::from_str(&fs::read_to_string(path).unwrap()).unwrap()
     }
 }

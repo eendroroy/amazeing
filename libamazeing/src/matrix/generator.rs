@@ -70,7 +70,6 @@ pub fn dfs(maze: &mut Maze, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     loop {
         storages.iter_mut().enumerate().for_each(|(idx, storage)| {
             if skip_idx.contains(&idx) {
-                return;
             } else if let Some(current) = storage.pop_back() {
                 let mut neighbours = neighbours_block(maze, current, Some(vec![LEFT, RIGHT, UP, DOWN]));
                 if neighbours.len() > 2 {

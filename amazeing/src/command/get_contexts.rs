@@ -113,7 +113,7 @@ fn get_heu_fn(value: ArgHeuristic) -> NodeHeuFn {
 fn parse_node(node: &str) -> Node {
     let node_data = node.split(",").collect::<Vec<&str>>();
     (
-        u32::from_str_radix(node_data.get(0).unwrap(), 10).unwrap() as usize,
+        u32::from_str_radix(node_data.first().unwrap(), 10).unwrap() as usize,
         u32::from_str_radix(node_data.get(1).unwrap(), 10).unwrap() as usize,
     )
 }
