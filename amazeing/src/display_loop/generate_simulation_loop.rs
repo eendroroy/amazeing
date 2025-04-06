@@ -60,27 +60,9 @@ pub(crate) async fn generate_simulation_loop(
             );
         } else {
             if trace_complete {
-                draw_maze(
-                    draw_context,
-                    color_context,
-                    &maze,
-                    None,
-                    None,
-                    context.sources.clone(),
-                    None,
-                    false,
-                );
+                draw_maze(draw_context, color_context, &maze, None, None, context.sources.clone(), None, false);
             } else {
-                draw_maze(
-                    draw_context,
-                    color_context,
-                    &traversed,
-                    None,
-                    None,
-                    context.sources.clone(),
-                    None,
-                    false,
-                );
+                draw_maze(draw_context, color_context, &traversed, None, None, context.sources.clone(), None, false);
             }
         }
 

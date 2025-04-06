@@ -6,11 +6,7 @@ use amazeing::matrix::heuristics::{
 };
 use amazeing::matrix::{Node, NodeHeuFn};
 
-type GetContextRet = (
-    (Option<CreateContext>, Option<ViewContext>, Option<SolveContext>),
-    DrawContext,
-    ColorContext,
-);
+type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
 
 pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     let mut draw_ctx = DrawContext::new();
