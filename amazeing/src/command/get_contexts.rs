@@ -77,13 +77,13 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     };
 
     match args.display_size {
-        Some(ArgDisplaySize::XXS) => draw_ctx.size((3., 1., 3., 3.)),
-        Some(ArgDisplaySize::XS) => draw_ctx.size((5., 1., 5., 5.)),
+        Some(ArgDisplaySize::Xxs) => draw_ctx.size((3., 1., 3., 3.)),
+        Some(ArgDisplaySize::Xs) => draw_ctx.size((5., 1., 5., 5.)),
         Some(ArgDisplaySize::S) => draw_ctx.size((10., 2., 10., 10.)),
         Some(ArgDisplaySize::M) => draw_ctx.size((15., 3., 15., 15.)),
         Some(ArgDisplaySize::L) => draw_ctx.size((25., 4., 20., 20.)),
-        Some(ArgDisplaySize::XL) => draw_ctx.size((30., 5., 30., 30.)),
-        Some(ArgDisplaySize::XXL) => draw_ctx.size((40., 6., 40., 40.)),
+        Some(ArgDisplaySize::Xl) => draw_ctx.size((30., 5., 30., 30.)),
+        Some(ArgDisplaySize::Xxl) => draw_ctx.size((40., 6., 40., 40.)),
         None => {}
     }
 
@@ -113,11 +113,11 @@ fn get_heu_fn(value: ArgHeuristic) -> NodeHeuFn {
 fn parse_node(node: &str) -> Node {
     let node_data = node.split(",").collect::<Vec<&str>>();
     (
-        u32::from_str_radix(node_data.first().unwrap(), 10).unwrap() as usize,
-        u32::from_str_radix(node_data.get(1).unwrap(), 10).unwrap() as usize,
+        node_data.first().unwrap().parse::<u32>().unwrap() as usize,
+        node_data.get(1).unwrap().parse::<u32>().unwrap() as usize,
     )
 }
 
-fn parse_nodes(nodes: &Vec<String>) -> Vec<Node> {
+fn parse_nodes(nodes: &[String]) -> Vec<Node> {
     nodes.iter().map(|node| parse_node(node)).collect()
 }

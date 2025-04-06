@@ -54,14 +54,13 @@ pub(crate) async fn generate_simulation_loop(
                 &dummy_maze,
                 Some(&mut traversed),
                 Some(&path),
-                context.sources.clone(),
-                None,
+                (context.sources.clone(), None),
                 true,
             );
         } else if trace_complete {
-            draw_maze(draw_context, color_context, &maze, None, None, context.sources.clone(), None, false);
+            draw_maze(draw_context, color_context, &maze, None, None, (context.sources.clone(), None), false);
         } else {
-            draw_maze(draw_context, color_context, &traversed, None, None, context.sources.clone(), None, false);
+            draw_maze(draw_context, color_context, &traversed, None, None, (context.sources.clone(), None), false);
         }
 
         next_frame().await
