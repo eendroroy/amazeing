@@ -13,15 +13,15 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
     loop {
         clear_background(color_context.color_bg);
         if is_mouse_button_pressed(MouseButton::Left) {
-            populate_source_destination(draw_context, &maze, &mut source, &mut destination);
+            populate_source_destination(draw_context, maze, &mut source, &mut destination);
 
             if source.is_some() && destination.is_some() {
                 current_path = path_to_trace(solve_maze(
-                    &maze,
+                    maze,
                     source.unwrap(),
                     destination.unwrap(),
                     &context.procedure,
-                    Some(context.heuristic.clone()),
+                    Some(context.heuristic),
                     &mut None,
                 ));
             }
@@ -34,7 +34,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
         draw_maze(
             draw_context,
             color_context,
-            &maze,
+            maze,
             None,
             Some(&current_path),
             vec![source.unwrap()],

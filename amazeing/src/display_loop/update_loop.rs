@@ -7,7 +7,7 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
 
     loop {
         if is_key_pressed(KeyCode::Q) {
-            dump_maze_to_file(&*context.maze_file_path, maze);
+            dump_maze_to_file(&context.maze_file_path, maze);
             break;
         }
 

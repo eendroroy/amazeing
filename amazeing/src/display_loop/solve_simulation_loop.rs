@@ -37,7 +37,7 @@ pub(crate) async fn solve_simulation_loop(
                 source.unwrap(),
                 destination.unwrap(),
                 &context.procedure.clone(),
-                Some(context.heuristic.clone()),
+                Some(context.heuristic),
                 &mut tracer,
             );
             simulating = true;

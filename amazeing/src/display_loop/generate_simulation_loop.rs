@@ -42,7 +42,7 @@ pub(crate) async fn generate_simulation_loop(
             if !trace_complete && last_millis + update_interval <= current_millis() {
                 path = trace.remove(0);
                 last_millis = current_millis();
-                if trace.len() == 0 {
+                if trace.is_empty() {
                     trace_complete = true;
                     simulating = false;
                 }
@@ -58,12 +58,10 @@ pub(crate) async fn generate_simulation_loop(
                 None,
                 true,
             );
+        } else if trace_complete {
+            draw_maze(draw_context, color_context, &maze, None, None, context.sources.clone(), None, false);
         } else {
-            if trace_complete {
-                draw_maze(draw_context, color_context, &maze, None, None, context.sources.clone(), None, false);
-            } else {
-                draw_maze(draw_context, color_context, &traversed, None, None, context.sources.clone(), None, false);
-            }
+            draw_maze(draw_context, color_context, &traversed, None, None, context.sources.clone(), None, false);
         }
 
         next_frame().await

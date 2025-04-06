@@ -14,11 +14,8 @@ pub(crate) fn neighbours(maze: &Maze, pos: Node, directions: Traversal) -> Vec<N
 
     direction_list
         .iter()
-        .map(|i| i(pos))
-        .filter(|p| p.is_some())
-        .map(|p| p.unwrap())
+        .filter_map(|i| i(pos))
         .filter(|p| p.0 < maze.rows() && p.1 < maze.cols())
-        .map(|p| p.clone())
         .collect()
 }
 
