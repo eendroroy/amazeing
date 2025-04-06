@@ -5,8 +5,7 @@ use std::ops::{Index, IndexMut};
 ///
 /// # Attributes
 /// - `data`: A 2D vector containing the maze data.
-#[derive(Default)]
-#[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq)]
+#[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub struct Maze {
     pub(crate) data: Vec<Vec<u32>>,
 }
