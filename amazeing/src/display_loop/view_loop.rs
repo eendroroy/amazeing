@@ -2,11 +2,7 @@ use crate::context::{ColorContext, DrawContext, ViewContext};
 use crate::helper::draw_maze;
 use macroquad::prelude::*;
 
-pub(crate) async fn view_loop(
-    context: &ViewContext,
-    draw_context: &DrawContext,
-    color_context: &ColorContext,
-) {
+pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
     loop {
         if is_key_pressed(KeyCode::Q) {
             break;

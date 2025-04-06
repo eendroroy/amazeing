@@ -1,20 +1,13 @@
 use crate::command::{AmazeingArgs, ArgDisplaySize, ArgHeuristic, ArgMode};
-use crate::context::{
-    ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext,
-};
+use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
 use amazeing::matrix::heuristics::{
-    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic,
-    octile_heuristic,
+    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
 };
 use amazeing::matrix::{Node, NodeHeuFn};
 
 type GetContextRet = (
-    (
-        Option<CreateContext>,
-        Option<ViewContext>,
-        Option<SolveContext>,
-    ),
+    (Option<CreateContext>, Option<ViewContext>, Option<SolveContext>),
     DrawContext,
     ColorContext,
 );

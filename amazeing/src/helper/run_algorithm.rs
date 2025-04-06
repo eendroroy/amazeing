@@ -13,9 +13,7 @@ pub(crate) fn solve_maze(
         ArgSolveProcedure::Bfs => amazeing::matrix::solver::bfs(maze, from, to, tracer),
         ArgSolveProcedure::Dfs => amazeing::matrix::solver::dfs(maze, from, to, tracer),
         ArgSolveProcedure::Dijkstra => amazeing::matrix::solver::dijkstra(maze, from, to, tracer),
-        ArgSolveProcedure::AStar => {
-            amazeing::matrix::solver::a_star(maze, from, to, heuristic.unwrap(), tracer)
-        }
+        ArgSolveProcedure::AStar => amazeing::matrix::solver::a_star(maze, from, to, heuristic.unwrap(), tracer),
     }
 }
 

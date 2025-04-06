@@ -1,8 +1,7 @@
 use crate::command::ArgMode::{Create, Solve, View};
-use crate::command::{get_contexts, AmazeingArgs};
+use crate::command::{AmazeingArgs, get_contexts};
 use crate::display_loop::{
-    generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop,
-    view_loop,
+    generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
@@ -25,20 +24,10 @@ async fn main() {
         Create { verbose: true, .. } => {
             generate_simulation_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
-        Create { verbose: false, .. } => {
-            generate_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
-        }
-        View { update: false, .. } => {
-            view_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await
-        }
-        View { update: true, .. } => {
-            update_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await
-        }
-        Solve { verbose: true, .. } => {
-            solve_simulation_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
-        }
-        Solve { verbose: false, .. } => {
-            solve_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await
-        }
+        Create { verbose: false, .. } => generate_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await,
+        View { update: false, .. } => view_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await,
+        View { update: true, .. } => update_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await,
+        Solve { verbose: true, .. } => solve_simulation_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await,
+        Solve { verbose: false, .. } => solve_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await,
     }
 }

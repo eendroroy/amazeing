@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node};
-use macroquad::prelude::{draw_rectangle, Color};
+use macroquad::prelude::{Color, draw_rectangle};
 use std::collections::HashMap;
 
 pub(crate) fn draw_maze(
@@ -42,11 +42,7 @@ pub(crate) fn draw_maze(
 }
 
 fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
-    if let Some(t) = traversed {
-        t[node] == 1
-    } else {
-        false
-    }
+    if let Some(t) = traversed { t[node] == 1 } else { false }
 }
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {

@@ -91,8 +91,5 @@ pub fn dijkstra_heuristic(_: Node, _: Node) -> u32 {
 }
 
 fn get_points(node: Node, goal: Node) -> ((i32, i32), (i32, i32)) {
-    (
-        (node.0 as i32, node.1 as i32),
-        (goal.0 as i32, goal.1 as i32),
-    )
+    ((node.0 as i32, node.1 as i32), (goal.0 as i32, goal.1 as i32))
 }

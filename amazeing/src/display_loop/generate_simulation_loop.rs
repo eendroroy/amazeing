@@ -1,8 +1,8 @@
-use std::collections::HashMap;
 use crate::context::{ColorContext, CreateContext, DrawContext};
 use crate::helper::{current_millis, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Node, Tracer};
 use macroquad::prelude::*;
+use std::collections::HashMap;
 
 pub(crate) async fn generate_simulation_loop(
     context: &CreateContext,
