@@ -1,7 +1,7 @@
 use crate::context::DrawContext;
 use crate::helper::get_node_from_mouse_pos;
 use amazeing::matrix::{Maze, Node};
-use macroquad::input::{is_key_down, KeyCode};
+use macroquad::input::{KeyCode, is_key_down};
 
 pub(crate) fn populate_source_destination(
     draw_context: &DrawContext,

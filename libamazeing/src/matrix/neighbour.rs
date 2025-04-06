@@ -1,23 +1,11 @@
-use crate::matrix::types::{NeighbourFn, Node};
 use crate::matrix::Maze;
+use crate::matrix::types::{NeighbourFn, Node};
 use std::iter::Iterator;
 
 pub(crate) const DOWN: NeighbourFn = |of| -> Option<Node> { Some((of.0 + 1, of.1)) };
 pub(crate) const RIGHT: NeighbourFn = |of| -> Option<Node> { Some((of.0, of.1 + 1)) };
-pub(crate) const LEFT: NeighbourFn = |of| -> Option<Node> {
-    if of.1 > 0 {
-        Some((of.0, of.1 - 1))
-    } else {
-        None
-    }
-};
-pub(crate) const UP: NeighbourFn = |of| -> Option<Node> {
-    if of.0 > 0 {
-        Some((of.0 - 1, of.1))
-    } else {
-        None
-    }
-};
+pub(crate) const LEFT: NeighbourFn = |of| -> Option<Node> { if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None } };
+pub(crate) const UP: NeighbourFn = |of| -> Option<Node> { if of.0 > 0 { Some((of.0 - 1, of.1)) } else { None } };
 
 type Traversal = Option<Vec<NeighbourFn>>;
 

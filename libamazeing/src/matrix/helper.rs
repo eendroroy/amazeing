@@ -1,5 +1,5 @@
-use crate::matrix::types::Node;
 use crate::matrix::Maze;
+use crate::matrix::types::Node;
 use std::collections::{BTreeMap, HashMap};
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
@@ -32,10 +32,7 @@ pub(crate) fn reconstruct_path(destination: Node, parent: &BTreeMap<Node, Node>)
     path
 }
 
-pub(crate) fn reconstruct_trace_path(
-    destination: Node,
-    parent: &BTreeMap<Node, Node>,
-) -> HashMap<Node, bool> {
+pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, Node>) -> HashMap<Node, bool> {
     let mut path = HashMap::<Node, bool>::new();
     let mut current_node = destination;
     while parent.contains_key(&current_node) {

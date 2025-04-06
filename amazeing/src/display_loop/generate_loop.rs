@@ -3,11 +3,7 @@ use crate::helper::{draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::Maze;
 use macroquad::prelude::*;
 
-pub(crate) async fn generate_loop(
-    context: &CreateContext,
-    draw_context: &DrawContext,
-    color_context: &ColorContext,
-) {
+pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {
     let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
 
     generate_maze(&mut maze, context.sources.clone(), &context.procedure, &mut None);
@@ -21,16 +17,7 @@ pub(crate) async fn generate_loop(
             break;
         }
 
-        draw_maze(
-            draw_context,
-            color_context,
-            &maze,
-            None,
-            None,
-            vec![],
-            None,
-            false,
-        );
+        draw_maze(draw_context, color_context, &maze, None, None, vec![], None, false);
         next_frame().await
     }
 }

@@ -1,7 +1,7 @@
-use crate::matrix::helper::{reconstruct_trace_path, validate_node};
-use crate::matrix::neighbour::{neighbours_block, DOWN, LEFT, RIGHT, UP};
-use crate::matrix::types::{Node, Tracer};
 use crate::matrix::Maze;
+use crate::matrix::helper::{reconstruct_trace_path, validate_node};
+use crate::matrix::neighbour::{DOWN, LEFT, RIGHT, UP, neighbours_block};
+use crate::matrix::types::{Node, Tracer};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
@@ -72,8 +72,7 @@ pub fn dfs(maze: &mut Maze, source: Vec<Node>, tracer: &mut Option<Tracer>) {
             if skip_idx.contains(&idx) {
                 return;
             } else if let Some(current) = storage.pop_back() {
-                let mut neighbours =
-                    neighbours_block(maze, current, Some(vec![LEFT, RIGHT, UP, DOWN]));
+                let mut neighbours = neighbours_block(maze, current, Some(vec![LEFT, RIGHT, UP, DOWN]));
                 if neighbours.len() > 2 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = 1;

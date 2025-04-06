@@ -179,12 +179,6 @@ pub fn dijkstra(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn a_star(
-    maze: &Maze,
-    start: Node,
-    end: Node,
-    heu: NodeHeuFn,
-    tracer: &mut Option<Tracer>,
-) -> Vec<Node> {
+pub fn a_star(maze: &Maze, start: Node, end: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, start, end, heu, tracer)
 }

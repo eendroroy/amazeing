@@ -2,11 +2,7 @@ use crate::context::{ColorContext, DrawContext, ViewContext};
 use crate::helper::{draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::prelude::*;
 
-pub(crate) async fn update_loop(
-    context: &ViewContext,
-    draw_context: &DrawContext,
-    color_context: &ColorContext,
-) {
+pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
     let maze = &mut context.maze.clone();
 
     loop {
@@ -27,16 +23,7 @@ pub(crate) async fn update_loop(
             maze[node] = value;
         }
 
-        draw_maze(
-            draw_context,
-            color_context,
-            maze,
-            None,
-            None,
-            vec![],
-            None,
-            false,
-        );
+        draw_maze(draw_context, color_context, maze, None, None, vec![], None, false);
         next_frame().await
     }
 }
