@@ -45,15 +45,10 @@ pub(crate) async fn generate_simulation_loop(
         }
 
         if simulating {
-            if is_key_pressed(KeyCode::P) {
-                paused = true;
-            }
-            if is_key_pressed(KeyCode::R) {
-                paused = false;
-            }
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;
             }
+
             if !paused && !trace_complete && last_millis + update_interval <= current_millis() {
                 path = trace.remove(0);
                 last_millis = current_millis();

@@ -23,6 +23,7 @@ pub(crate) async fn solve_simulation_loop(
 
     let mut trace_complete = false;
     let mut simulating = false;
+    let mut paused = false;
 
     let mut trace_index = 0;
 
@@ -49,7 +50,11 @@ pub(crate) async fn solve_simulation_loop(
         }
 
         if simulating {
-            if !trace_complete && last_millis + update_interval <= current_millis() {
+            if is_key_pressed(KeyCode::Space) {
+                paused = !paused;
+            }
+
+            if !paused && !trace_complete && last_millis + update_interval <= current_millis() {
                 current_path = trace.get(trace_index).unwrap().clone();
                 last_millis = current_millis();
                 trace_index += 1;

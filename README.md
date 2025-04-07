@@ -35,32 +35,23 @@ Options:
 
 ### Key/Mouse events
 
-#### Create
+- Create - Simulation mode (`--verbose`/`-v`):
+  - `LeftClick` - Add Source
+  - `Shift`+`LeftClick` - Remove Source
+  - `S` - Start Simulation
+  - `<Space>` - Pause/Resume Simulation
 
-Simulation mode (`--verbose`/`-v`) arg is provided:
+- View - Update mode (`--update`/`-u`):
+  - `LeftClick` - Open path
+  - `Shift`+`LeftClick` - Block Path
+  
+- Solve
+  - `LeftClick` - Select Source
+  - `Shift`+`LeftClick` - Select Destination
 
-- `LeftClick` - Add Source
-- `Shift`+`LeftClick` - Remove Source
-- `S` - Start Simulation
-- `P` - Pause
-- `R` - Resume
-- `<Space>` - Toggle Pause/Resume
-
-#### View
-
-Update mode (`--update`/`-u`) arg is provided:
-
-- `LeftClick` - Open path
-- `Shift`+`LeftClick` - Block Path
-
-#### Solve
-
-- `LeftClick` - Select Source
-- `Shift`+`LeftClick` - Select Destination
-
-Simulation mode (`--verbose`/`-v`) arg is provided:
-
-- `S` - Start Simulation
+  - Additional action in simulation mode (`--verbose`/`-v`):
+    - `S` - Start Simulation
+    - `<Space>` - Pause/Resume Simulation
 
 ## Example Commands
 
