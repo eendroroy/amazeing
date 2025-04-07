@@ -18,3 +18,15 @@ pub(crate) fn populate_source_destination(
         }
     }
 }
+
+pub(crate) fn add_source(draw_context: &DrawContext, sources: &mut Vec<Node>) {
+    let (r, c) = get_node_from_mouse_pos(draw_context);
+
+    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+        if let Some(index) = sources.iter().position(|value| *value == (r, c)) {
+            sources.swap_remove(index);
+        }
+    } else {
+        sources.push((r, c));
+    }
+}
