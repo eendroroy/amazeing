@@ -26,7 +26,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             (
                 Some(CreateContext {
                     maze_file_path: maze.clone(),
-                    sources: parse_nodes(&source),
+                    sources: if let Some(sources) = source { parse_nodes(&sources) } else { Vec::new() },
                     procedure,
                     rows,
                     cols,
