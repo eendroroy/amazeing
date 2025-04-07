@@ -6,10 +6,10 @@ rust-version = "1.85.1"
 
 [dependencies]
 libamazeing = { version = "*", path = "../libamazeing" }
-macroquad = "0.4.13"
+macroquad = "0.4.14"
 toml = "0.8.20"
 serde = { version = "1.0.219", features = ["derive"] }
-clap = { version = "4.5.32", features = ["color", "derive"] }
+clap = { version = "4.5.35", features = ["color", "derive"] }
 
 [[bin]]
 name = "amazeing"
