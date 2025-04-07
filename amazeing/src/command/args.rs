@@ -2,6 +2,8 @@ use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
 
 /// A maze generator/solver application with simulation/visualization.
+///
+/// See https://eendroroy.github.io/amazeing for more details
 #[derive(Debug, Clone, Parser)]
 #[command(version, about)]
 pub struct AmazeingArgs {
@@ -35,6 +37,8 @@ pub enum ArgMode {
         maze: Option<PathBuf>,
 
         /// Starting point(s) of the generation
+        ///
+        /// optional if '--verbose' flag provided
         #[clap(long, short, value_name = "usize,usize", required_unless_present = "verbose")]
         source: Option<Vec<String>>,
 
@@ -59,9 +63,6 @@ pub enum ArgMode {
         tempo: u8,
     },
     /// View a Maze
-    ///
-    /// In modify display_loop Click MouseLeft a cell to open path and
-    /// Shift+MouseLeft a cell to block path
     #[clap(visible_alias = "V")]
     View {
         /// Maze file path
@@ -73,9 +74,6 @@ pub enum ArgMode {
         update: bool,
     },
     /// Solve a Maze
-    ///
-    /// In simulation display_loop click "MouseLeft" on a cell to select source
-    /// and "Shift+MouseLeft" on a cell to select destination
     #[clap(visible_alias = "S")]
     Solve {
         /// Maze file path

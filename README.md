@@ -33,6 +33,35 @@ Options:
   -V, --version                     Print version
 ```
 
+### Key/Mouse events
+
+#### Create
+
+Simulation mode (`--verbose`/`-v`) arg is provided:
+
+- `LeftClick` - Add Source
+- `Shift`+`LeftClick` - Remove Source
+- `S` - Start Simulation
+- `P` - Pause
+- `R` - Resume
+- `<Space>` - Toggle Pause/Resume
+
+#### View
+
+Update mode (`--update`/`-u`) arg is provided:
+
+- `LeftClick` - Open path
+- `Shift`+`LeftClick` - Block Path
+
+#### Solve
+
+- `LeftClick` - Select Source
+- `Shift`+`LeftClick` - Select Destination
+
+Simulation mode (`--verbose`/`-v`) arg is provided:
+
+- `S` - Start Simulation
+
 ## Example Commands
 
 #### Generate - single source
