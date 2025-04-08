@@ -64,6 +64,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 None,
                 Some(SolveContext {
                     maze: loaded_maze,
+                    maze_file_path: maze.as_os_str().to_str().unwrap().to_string(),
                     procedure,
                     tempo,
                     heuristic: if let Some(value) = heuristic_function {
