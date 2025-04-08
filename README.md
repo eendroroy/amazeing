@@ -124,9 +124,9 @@ amazeing S -m bfs_21_21.maze -p bfs -v -t 25
 
 ## Add-on
 
-[Color scheme generator](assets/scheme-generator.html)
+[Color scheme generator](contrib/scheme-generator.html)
 
-<iframe src="assets/scheme-generator.html" width="100%" height="890px"></iframe>
+<iframe src="contrib/scheme-generator.html" width="100%" height="890px"></iframe>
 
 ## License
 
