@@ -1,0 +1,50 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH amazeing 1  "amazeing 0.2.0" 
+.SH NAME
+amazeing \- A maze generator/solver application with simulation/visualization
+.SH SYNOPSIS
+\fBamazeing\fR [\fB\-S\fR|\fB\-\-display\-size\fR] [\fB\-D\fR|\fB\-\-display\-density\fR] [\fB\-C\fR|\fB\-\-color\-scheme\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
+.SH DESCRIPTION
+A maze generator/solver application with simulation/visualization.
+.PP
+See https://eendroroy.github.io/amazeing for more details
+.SH OPTIONS
+.TP
+\fB\-S\fR, \fB\-\-display\-size\fR=\fISIZE\fR
+Display size
+.br
+
+.br
+[\fIpossible values: \fRxxs, xs, s, m, l, xl, xxl]
+.TP
+\fB\-D\fR, \fB\-\-display\-density\fR=\fIDENSITY\fR
+Display density
+.br
+
+.br
+[\fIpossible values: \fRconnected, dense, standard, cozy, ample]
+.TP
+\fB\-C\fR, \fB\-\-color\-scheme\fR=\fISCHEME.TOML\fR
+Color scheme file (.toml) path
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Print version
+.SH SUBCOMMANDS
+.TP
+amazeing\-create(1)
+Create a Maze
+.TP
+amazeing\-view(1)
+View a Maze
+.TP
+amazeing\-solve(1)
+Solve a Maze
+.TP
+amazeing\-help(1)
+Print this message or the help of the given subcommand(s)
+.SH VERSION
+v0.2.0
