@@ -10,8 +10,8 @@ fn main() {
 }
 
 fn completions() {
-    let bin_name: &str = env!("CARGO_PKG_NAME");
-    let out_dir: &str = "../contrib/completions";
+    let bin_name = env!("CARGO_PKG_NAME");
+    let out_dir = "../contrib/completions";
 
     let command = &mut args::AmazeingArgs::command();
 
@@ -25,7 +25,6 @@ fn completions() {
 fn man() {
     let bin_name = env!("CARGO_PKG_NAME");
     let out_dir = "../contrib/man";
-
 
     let command = args::AmazeingArgs::command();
 
