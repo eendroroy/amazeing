@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Color Scheme Previewer</title>
     <style>
+        body {
+            background-color: rgba(186, 180, 180, 0.38);
+        }
         table.back>tbody>tr>td {
             width: 15px;
             height: 15px;
@@ -93,32 +96,12 @@ color_traversed = 0x5d5fae
 </table>
 <script type="text/javascript">
     function randomize_colors() {
-        let back = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let bloc = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let open = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let visi = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let path = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let sour = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let dest = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        let trav = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-
-        changeColor('back', back);
-        changeColor('bloc', bloc);
-        changeColor('open', open);
-        changeColor('visi', visi);
-        changeColor('path', path);
-        changeColor('sour', sour);
-        changeColor('dest', dest);
-        changeColor('trav', trav);
-
-        document.getElementById("back-i").value = back;
-        document.getElementById("bloc-i").value = bloc;
-        document.getElementById("open-i").value = open;
-        document.getElementById("visi-i").value = visi;
-        document.getElementById("path-i").value = path;
-        document.getElementById("sour-i").value = sour;
-        document.getElementById("dest-i").value = dest;
-        document.getElementById("trav-i").value = trav;
+        let classes = ["back", "bloc", "open", "visi", "path", "sour", "dest", "trav"];
+        for (let i = 0; i < classes.length; i++) {
+            let color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+            changeColor(classes[i], color);
+            document.getElementById(classes[i] + "-i").value = color;
+        }
     }
 
     function changeColor(className, color) {
