@@ -1,0 +1,269 @@
+#compdef amazeing
+
+autoload -U is-at-least
+
+_amazeing() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_amazeing_commands" \
+"*::: :->amazeing" \
+&& ret=0
+    case $state in
+    (amazeing)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:amazeing-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'*-s+[Starting point(s) of the generation]:usize,usize:_default' \
+'*--source=[Starting point(s) of the generation]:usize,usize:_default' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
+'-r+[Number of rows]:ROWS:_default' \
+'--rows=[Number of rows]:ROWS:_default' \
+'-c+[Number of cols]:COLS:_default' \
+'--cols=[Number of cols]:COLS:_default' \
+'-t+[Simulation speed]:TEMPO:_default' \
+'--tempo=[Simulation speed]:TEMPO:_default' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(C)
+_arguments "${_arguments_options[@]}" : \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'*-s+[Starting point(s) of the generation]:usize,usize:_default' \
+'*--source=[Starting point(s) of the generation]:usize,usize:_default' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
+'-r+[Number of rows]:ROWS:_default' \
+'--rows=[Number of rows]:ROWS:_default' \
+'-c+[Number of cols]:COLS:_default' \
+'--cols=[Number of cols]:COLS:_default' \
+'-t+[Simulation speed]:TEMPO:_default' \
+'--tempo=[Simulation speed]:TEMPO:_default' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(view)
+_arguments "${_arguments_options[@]}" : \
+'-m+[Maze file path]:MAZE:_files' \
+'--maze=[Maze file path]:MAZE:_files' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-u[View and update]' \
+'--update[View and update]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(V)
+_arguments "${_arguments_options[@]}" : \
+'-m+[Maze file path]:MAZE:_files' \
+'--maze=[Maze file path]:MAZE:_files' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-u[View and update]' \
+'--update[View and update]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(solve)
+_arguments "${_arguments_options[@]}" : \
+'-m+[Maze file path]:MAZE:_files' \
+'--maze=[Maze file path]:MAZE:_files' \
+'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
+'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-t+[Simulation speed]:TEMPO:_default' \
+'--tempo=[Simulation speed]:TEMPO:_default' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(S)
+_arguments "${_arguments_options[@]}" : \
+'-m+[Maze file path]:MAZE:_files' \
+'--maze=[Maze file path]:MAZE:_files' \
+'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
+'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-t+[Simulation speed]:TEMPO:_default' \
+'--tempo=[Simulation speed]:TEMPO:_default' \
+'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
+'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_amazeing__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:amazeing-help-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(view)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(solve)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_amazeing_commands] )) ||
+_amazeing_commands() {
+    local commands; commands=(
+'create:Create a Maze' \
+'C:Create a Maze' \
+'view:View a Maze' \
+'V:View a Maze' \
+'solve:Solve a Maze' \
+'S:Solve a Maze' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'amazeing commands' commands "$@"
+}
+(( $+functions[_amazeing__create_commands] )) ||
+_amazeing__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing create commands' commands "$@"
+}
+(( $+functions[_amazeing__help_commands] )) ||
+_amazeing__help_commands() {
+    local commands; commands=(
+'create:Create a Maze' \
+'view:View a Maze' \
+'solve:Solve a Maze' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'amazeing help commands' commands "$@"
+}
+(( $+functions[_amazeing__help__create_commands] )) ||
+_amazeing__help__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing help create commands' commands "$@"
+}
+(( $+functions[_amazeing__help__help_commands] )) ||
+_amazeing__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing help help commands' commands "$@"
+}
+(( $+functions[_amazeing__help__solve_commands] )) ||
+_amazeing__help__solve_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing help solve commands' commands "$@"
+}
+(( $+functions[_amazeing__help__view_commands] )) ||
+_amazeing__help__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing help view commands' commands "$@"
+}
+(( $+functions[_amazeing__solve_commands] )) ||
+_amazeing__solve_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing solve commands' commands "$@"
+}
+(( $+functions[_amazeing__view_commands] )) ||
+_amazeing__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing view commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_amazeing" ]; then
+    _amazeing "$@"
+else
+    compdef _amazeing amazeing
+fi
