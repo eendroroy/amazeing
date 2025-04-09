@@ -77,10 +77,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
         }
     };
 
-    match args.shape {
-        Some(ArgShape::Hexagon) => draw_ctx.shape = Shape::Hexagon,
-        _ => {}
-    }
+    if let Some(ArgShape::Hexagon) = args.shape { draw_ctx.shape = Shape::Hexagon }
 
     match args.display_size {
         Some(ArgDisplaySize::Xxs) => draw_ctx.size((3., 1., 3.)),
