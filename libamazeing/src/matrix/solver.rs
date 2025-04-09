@@ -1,8 +1,8 @@
-use crate::matrix::helper::{reconstruct_path, reconstruct_trace_path, validate};
-use crate::matrix::heuristics::dijkstra_heuristic;
-use crate::matrix::maze::Maze;
-use crate::matrix::neighbour::neighbours_open;
-use crate::matrix::{Node, NodeHeuFn, Tracer};
+use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
+use super::heuristics::dijkstra_heuristic;
+use super::maze::Maze;
+use super::neighbour::neighbours_open;
+use super::{NavMode, Node, NodeHeuFn, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -53,7 +53,7 @@ fn traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, None) {
+        for next in neighbours_open(maze, current, NavMode::Square) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 push(storage, next);
@@ -98,7 +98,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, None) {
+        for next in neighbours_open(maze, current, NavMode::Square) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {

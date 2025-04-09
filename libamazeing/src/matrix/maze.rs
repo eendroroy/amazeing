@@ -1,4 +1,4 @@
-use crate::matrix::types::Node;
+use super::types::Node;
 use std::ops::{Index, IndexMut};
 
 /// A struct representing a maze.

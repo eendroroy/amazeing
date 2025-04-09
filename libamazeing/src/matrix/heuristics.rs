@@ -1,4 +1,4 @@
-use crate::matrix::Node;
+use super::Node;
 
 /// Manhattan distance heuristic for A*
 ///
