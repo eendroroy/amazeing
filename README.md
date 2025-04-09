@@ -37,22 +37,22 @@ Options:
 ### Key/Mouse events
 
 - Create - Simulation mode (`--verbose`/`-v`):
-  - `LeftClick` - Add Source
-  - `Shift`+`LeftClick` - Remove Source
-  - `S` - Start Simulation
-  - `<Space>` - Pause/Resume Simulation
-
-- View - Update mode (`--update`/`-u`):
-  - `LeftClick` - Open path
-  - `Shift`+`LeftClick` - Block Path
-  
-- Solve
-  - `LeftClick` - Select Source
-  - `Shift`+`LeftClick` - Select Destination
-
-  - Additional action in simulation mode (`--verbose`/`-v`):
+    - `LeftClick` - Add Source
+    - `Shift`+`LeftClick` - Remove Source
     - `S` - Start Simulation
     - `<Space>` - Pause/Resume Simulation
+
+- View - Update mode (`--update`/`-u`):
+    - `LeftClick` - Open path
+    - `Shift`+`LeftClick` - Block Path
+
+- Solve
+    - `LeftClick` - Select Source
+    - `Shift`+`LeftClick` - Select Destination
+
+    - Additional action in simulation mode (`--verbose`/`-v`):
+        - `S` - Start Simulation
+        - `<Space>` - Pause/Resume Simulation
 
 ## Example Commands
 
@@ -109,20 +109,20 @@ amazeing S -m bfs_21_21.maze -p bfs -v -t 25 -R square
 
 ## Generate Maze
 
-| Algorithm          |                                                                                                            |
-|--------------------|------------------------------------------------------------------------------------------------------------|
-| Dfs (Multi Source) | [![Demo Video](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
-| Dfs                | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
-| Bfs                | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
-| Dfs (Hexagonal)    | [![Demo Video](https://img.youtube.com/vi/twafvSeVQOs/0.jpg)](https://www.youtube.com/watch?v=twafvSeVQOs) |
+| Algorithm          | Shape     |                                                                                                            |
+|--------------------|-----------|------------------------------------------------------------------------------------------------------------|
+| Dfs                | Hexagonal | [![Demo Video](https://img.youtube.com/vi/twafvSeVQOs/0.jpg)](https://www.youtube.com/watch?v=twafvSeVQOs) |
+| Dfs (Multi Source) | Square    | [![Demo Video](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
+| Dfs                | Square    | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
+| Bfs                | Square    | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
 
 ## Solve Maze
 
-| Algorithm      |                                                                                                            |
-|----------------|------------------------------------------------------------------------------------------------------------|
-| DFS            | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU)  |
-| BFS            | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
-| A* (Manhattan) | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
+| Algorithm      | Shape  |                                                                                                            |
+|----------------|--------|------------------------------------------------------------------------------------------------------------|
+| DFS            | Square | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU)  |
+| BFS            | Square | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
+| A* (Manhattan) | Square | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
 
 ## Add-on
 
