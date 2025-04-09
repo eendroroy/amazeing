@@ -13,6 +13,6 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext) -> Node {
             let r = m(my, ctx.height);
             let c = m(mx - ctx.s(r), ctx.width);
             (r, c)
-        },
+        }
     }
 }

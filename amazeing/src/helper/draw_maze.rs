@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node, Shape};
-use macroquad::prelude::{draw_poly, draw_rectangle, Color};
+use macroquad::prelude::{Color, draw_poly, draw_rectangle};
 use std::collections::HashMap;
 
 pub(crate) fn draw_maze(
@@ -46,11 +46,7 @@ fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
     match ctx.shape {
-        Shape::Square => {
-            draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color);
-        }
-        Shape::Hexagon => {
-            draw_poly(ctx.x(node), ctx.y(node), 6, ctx.size, 90., color);
-        }
+        Shape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),
+        Shape::Hexagon => draw_poly(ctx.x(node), ctx.y(node), 6, ctx.size, 90., color),
     }
 }

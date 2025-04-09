@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::neighbour::neighbours_open;
-use super::{Shape, Node, NodeHeuFn, Tracer};
+use super::{Node, NodeHeuFn, Shape, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -181,6 +181,13 @@ pub fn dijkstra(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn a_star(maze: &Maze, shape: &Shape, start: Node, end: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn a_star(
+    maze: &Maze,
+    shape: &Shape,
+    start: Node,
+    end: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
     weighted_traverse(maze, shape, start, end, heu, tracer)
 }
