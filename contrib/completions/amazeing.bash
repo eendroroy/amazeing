@@ -52,12 +52,20 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-S -D -C -h -V --display-size --display-density --color-scheme --help --version create C view V solve S help"
+            opts="-R -S -D -C -h -V --shape --display-size --display-density --color-scheme --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
+                --shape)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
+                -R)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
                 --display-size)
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
                     return 0
@@ -90,7 +98,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -s -p -r -c -v -t -S -D -C -h --maze --source --procedure --rows --cols --verbose --verbose --tempo --display-size --display-density --color-scheme --help"
+            opts="-m -s -p -r -c -v -t -R -S -D -C -h --maze --source --procedure --rows --cols --verbose --verbose --tempo --shape --display-size --display-density --color-scheme --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -142,6 +150,14 @@ _amazeing() {
                     ;;
                 -t)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --shape)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
+                -R)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)
@@ -246,7 +262,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -t -S -D -C -h --maze --procedure --heuristic-function --verbose --verbose --tempo --display-size --display-density --color-scheme --help"
+            opts="-m -p -H -v -t -R -S -D -C -h --maze --procedure --heuristic-function --verbose --verbose --tempo --shape --display-size --display-density --color-scheme --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -284,6 +300,14 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                --shape)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
+                -R)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
                 --display-size)
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
                     return 0
@@ -316,7 +340,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__view)
-            opts="-m -u -S -D -C -h --maze --update --display-size --display-density --color-scheme --help"
+            opts="-m -u -R -S -D -C -h --maze --update --shape --display-size --display-density --color-scheme --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -328,6 +352,14 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --shape)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    return 0
+                    ;;
+                -R)
+                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)

@@ -8,7 +8,11 @@ use std::path::PathBuf;
 #[command(version, about)]
 pub struct AmazeingArgs {
     #[clap(subcommand)]
-    pub mode: ArgMode,
+    pub command: ArgCommand,
+
+    /// Block shape
+    #[clap(global = true, long, short = 'R', value_name = "Shape")]
+    pub shape: Option<ArgShape>,
 
     /// Display size
     #[clap(global = true, long, short = 'S', value_name = "SIZE")]
@@ -24,7 +28,7 @@ pub struct AmazeingArgs {
 }
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
-pub enum ArgMode {
+pub enum ArgCommand {
     /// Create a Maze
     #[clap(visible_alias = "C")]
     Create {
@@ -107,6 +111,12 @@ pub enum ArgDisplaySize {
     L,
     Xl,
     Xxl,
+}
+
+#[derive(Debug, Clone, PartialEq, ValueEnum)]
+pub enum ArgShape {
+    Square,
+    Hexagon,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]

@@ -1,20 +1,20 @@
 use super::types::{NeighbourFn, Node};
-use super::{Maze, NavMode};
+use super::{Maze, Shape};
 use std::iter::Iterator;
 
 pub(crate) const LEFT: NeighbourFn = |of| if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None };
 pub(crate) const RIGHT: NeighbourFn = |of| Some((of.0, of.1 + 1));
 pub(crate) const UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1)) } else { None };
 pub(crate) const DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1));
-pub(crate) const LEFT_UP: NeighbourFn = |of| if of > (0, 0) { Some((of.0 - 1, of.1 - 1)) } else { None };
+pub(crate) const LEFT_UP: NeighbourFn = |of| if of.0 > 0 && of.1 > 0 { Some((of.0 - 1, of.1 - 1)) } else { None };
 pub(crate) const LEFT_DOWN: NeighbourFn = |of| if of.1 > 0 { Some((of.0 + 1, of.1 - 1)) } else { None };
 pub(crate) const RIGHT_UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1 + 1)) } else { None };
 pub(crate) const RIGHT_DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1 + 1));
 
-pub(crate) fn neighbours(maze: &Maze, pos: Node, nav: NavMode) -> Vec<Node> {
-    match nav {
-        NavMode::Square => vec![RIGHT, DOWN, LEFT, UP],
-        NavMode::Hexagonal => {
+pub(crate) fn neighbours(maze: &Maze, pos: Node, shape: &Shape) -> Vec<Node> {
+    match shape {
+        Shape::Square => vec![RIGHT, DOWN, LEFT, UP],
+        Shape::Hexagon => {
             if pos.0 % 2 == 0 {
                 vec![RIGHT, DOWN, LEFT_DOWN, LEFT, LEFT_UP, UP]
             } else {
@@ -28,15 +28,15 @@ pub(crate) fn neighbours(maze: &Maze, pos: Node, nav: NavMode) -> Vec<Node> {
     .collect()
 }
 
-pub(crate) fn neighbours_open(maze: &Maze, pos: Node, nav: NavMode) -> Vec<Node> {
-    neighbours(maze, pos, nav)
+pub(crate) fn neighbours_open(maze: &Maze, pos: Node, shape: &Shape) -> Vec<Node> {
+    neighbours(maze, pos, shape)
         .into_iter()
         .filter(|p| maze[*p] > 0)
         .collect()
 }
 
-pub(crate) fn neighbours_block(maze: &Maze, pos: Node, nav: NavMode) -> Vec<Node> {
-    neighbours(maze, pos, nav)
+pub(crate) fn neighbours_block(maze: &Maze, pos: Node, shape: &Shape) -> Vec<Node> {
+    neighbours(maze, pos, shape)
         .into_iter()
         .filter(|p| maze[*p] < 1)
         .collect()

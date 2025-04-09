@@ -21,6 +21,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
 
     $completions = @(switch ($command) {
         'amazeing' {
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -53,6 +55,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--cols', '--cols', [CompletionResultType]::ParameterName, 'Number of cols')
             [CompletionResult]::new('-t', '-t', [CompletionResultType]::ParameterName, 'Simulation speed')
             [CompletionResult]::new('--tempo', '--tempo', [CompletionResultType]::ParameterName, 'Simulation speed')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -79,6 +83,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--cols', '--cols', [CompletionResultType]::ParameterName, 'Number of cols')
             [CompletionResult]::new('-t', '-t', [CompletionResultType]::ParameterName, 'Simulation speed')
             [CompletionResult]::new('--tempo', '--tempo', [CompletionResultType]::ParameterName, 'Simulation speed')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -95,6 +101,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
         'amazeing;view' {
             [CompletionResult]::new('-m', '-m', [CompletionResultType]::ParameterName, 'Maze file path')
             [CompletionResult]::new('--maze', '--maze', [CompletionResultType]::ParameterName, 'Maze file path')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -110,6 +118,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
         'amazeing;V' {
             [CompletionResult]::new('-m', '-m', [CompletionResultType]::ParameterName, 'Maze file path')
             [CompletionResult]::new('--maze', '--maze', [CompletionResultType]::ParameterName, 'Maze file path')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -131,6 +141,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--heuristic-function', '--heuristic-function', [CompletionResultType]::ParameterName, 'Heuristic function (to use with AStar)')
             [CompletionResult]::new('-t', '-t', [CompletionResultType]::ParameterName, 'Simulation speed')
             [CompletionResult]::new('--tempo', '--tempo', [CompletionResultType]::ParameterName, 'Simulation speed')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')
@@ -153,6 +165,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--heuristic-function', '--heuristic-function', [CompletionResultType]::ParameterName, 'Heuristic function (to use with AStar)')
             [CompletionResult]::new('-t', '-t', [CompletionResultType]::ParameterName, 'Simulation speed')
             [CompletionResult]::new('--tempo', '--tempo', [CompletionResultType]::ParameterName, 'Simulation speed')
+            [CompletionResult]::new('-R', '-R ', [CompletionResultType]::ParameterName, 'Block shape')
+            [CompletionResult]::new('--shape', '--shape', [CompletionResultType]::ParameterName, 'Block shape')
             [CompletionResult]::new('-S', '-S ', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('--display-size', '--display-size', [CompletionResultType]::ParameterName, 'Display size')
             [CompletionResult]::new('-D', '-D ', [CompletionResultType]::ParameterName, 'Display density')

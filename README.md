@@ -26,6 +26,7 @@ Commands:
   help    Print this message or the help of the given subcommand(s)
 
 Options:
+  -R, --shape <Shape>               Block shape [possible values: square, hexagon]
   -S, --display-size <SIZE>         Display size [possible values: xxs, xs, s, m, l, xl, xxl]
   -D, --display-density <DENSITY>   Display density [possible values: connected, dense, standard, cozy, ample]
   -C, --color-scheme <SCHEME.TOML>  Color scheme file (.toml) path
@@ -59,28 +60,28 @@ Options:
 
 ```shell
 # generate 21x21 maze using BFS - single source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --shape square
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -R square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25
+amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -t 25
+amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -t 25 -R hexagonal
 ```
 
 #### Generate - multi source
 
 ```shell
 # generate 21x21 maze using BFS - multi source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --shape sqaure
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -R square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --tempo 25
+amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --tempo 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -t 25
+amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -t 25 -R hexagonal
 ```
 
 #### Update
@@ -96,14 +97,14 @@ amazeing V -m bfs_21_21.maze -u
 
 ```shell
 # solve bfs_21_21.maze
-amazeing solve --maze bfs_21_21.maze --procedure bfs
+amazeing solve --maze bfs_21_21.maze --procedure bfs --shape hexagonal
 # short
-amazeing S -m bfs_21_21.maze -p bfs
+amazeing S -m bfs_21_21.maze -p bfs -R hexagonal
 
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --tempo 25
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --tempo 25 --share square
 # short
-amazeing S -m bfs_21_21.maze -p bfs -v -t 25
+amazeing S -m bfs_21_21.maze -p bfs -v -t 25 -R square
 ```
 
 ## Generate Maze
@@ -113,6 +114,7 @@ amazeing S -m bfs_21_21.maze -p bfs -v -t 25
 | Dfs (Multi Source) | [![Demo Video](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
 | Dfs                | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
 | Bfs                | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
+| Dfs (Hexagonal)    | [![Demo Video](https://img.youtube.com/vi/twafvSeVQOs/0.jpg)](https://www.youtube.com/watch?v=twafvSeVQOs) |
 
 ## Solve Maze
 

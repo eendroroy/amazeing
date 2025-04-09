@@ -1,4 +1,4 @@
-use crate::command::ArgMode::{Create, Solve, View};
+use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, get_contexts};
 use crate::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
@@ -17,10 +17,9 @@ async fn main() {
     let (amz_ctx, draw_context, color_context) = get_contexts(args.clone());
 
     let (screen_width, screen_height) = draw_context.screen_size();
-
     set_window_size(screen_width, screen_height + 30);
 
-    match args.mode.clone() {
+    match args.command.clone() {
         Create { verbose: true, .. } => {
             generate_simulation_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
         }
