@@ -1,12 +1,12 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
 use crate::helper::{draw_maze, path_to_trace, populate_source_destination, solve_maze};
-use amazeing::matrix::Node;
+use amazeing::matrix::{Node, Trace};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
 pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContext, color_context: &ColorContext) {
     let maze = &context.maze;
-    let mut current_path: HashMap<Node, bool> = HashMap::new();
+    let mut current_path: Trace = HashMap::new();
     let mut source: Option<Node> = None;
     let mut destination: Option<Node> = None;
 

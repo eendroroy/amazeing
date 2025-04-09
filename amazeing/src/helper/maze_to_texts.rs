@@ -1,10 +1,9 @@
-use amazeing::matrix::{Maze, Node};
-use std::collections::HashMap;
+use amazeing::matrix::{Maze, Node, Trace};
 
 pub(crate) fn maze_html_text(
     maze: &Maze,
     traversed: Option<&mut Maze>,
-    path: Option<&HashMap<Node, bool>>,
+    path: Option<&Trace>,
     (sources, destination): (Vec<Node>, Option<Node>),
     traversing: bool,
 ) -> String {

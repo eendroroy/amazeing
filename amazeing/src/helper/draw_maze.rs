@@ -1,14 +1,13 @@
 use crate::context::{ColorContext, DrawContext};
-use amazeing::matrix::{Maze, Node, Shape};
+use amazeing::matrix::{Maze, Node, Shape, Trace};
 use macroquad::prelude::{Color, draw_poly, draw_rectangle};
-use std::collections::HashMap;
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,
     color_context: &ColorContext,
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
-    path: Option<&HashMap<Node, bool>>,
+    path: Option<&Trace>,
     (sources, destination): (Vec<Node>, Option<Node>),
     traversing: bool,
 ) {

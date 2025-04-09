@@ -1,5 +1,5 @@
-use super::Maze;
 use super::types::Node;
+use super::{Maze, Rank, Trace};
 use std::collections::{BTreeMap, HashMap};
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
@@ -26,14 +26,16 @@ pub(crate) fn reconstruct_path(destination: Node, parent: &BTreeMap<Node, Node>)
     path
 }
 
-pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, Node>) -> HashMap<Node, bool> {
-    let mut path = HashMap::<Node, bool>::new();
+pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, Node>) -> Trace {
+    let mut rank = Rank::MAX;
+    let mut path = HashMap::<Node, i32>::new();
     let mut current_node = destination;
     while parent.contains_key(&current_node) {
-        path.insert(current_node, true);
+        path.insert(current_node, rank);
+        rank -= 1;
         current_node = parent[&current_node];
     }
-    path.insert(current_node, true);
+    path.insert(current_node, rank);
     path
 }
 
