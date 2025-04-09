@@ -31,14 +31,51 @@
         <td>
             <table>
                 <tbody>
-                    <tr><td>Background:</td><td><input id="back-i" type="color" value="#02131b" onchange="changeColor('back', this.value)"></td></tr>
-                    <tr><td>Block:</td><td><input id="bloc-i" type="color" value="#543b3b" onchange="changeColor('bloc', this.value)"></td></tr>
-                    <tr><td>Open:</td><td><input id="open-i" type="color" value="#abb0ac" onchange="changeColor('open', this.value)"></td></tr>
-                    <tr><td>Visiting:</td><td><input id="visi-i" type="color" value="#9fd350" onchange="changeColor('visi', this.value)"></td></tr>
-                    <tr><td>Path:</td><td><input id="path-i" type="color" value="#ffff00" onchange="changeColor('path', this.value)"></td></tr>
-                    <tr><td>Source:</td><td><input id="sour-i" type="color" value="#fd632b" onchange="changeColor('sour', this.value)"></td></tr>
-                    <tr><td>Destination:</td><td><input id="dest-i" type="color" value="#2af024" onchange="changeColor('dest', this.value)"></td></tr>
-                    <tr><td>Traversed:</td><td><input id="trav-i" type="color" value="#7c7ef4" onchange="changeColor('trav', this.value)"></td></tr>
+                <tr>
+                    <td>Background:</td>
+                    <td><input id="back-i" type="color" value="#02131b" onchange="changeColor('back', this.value)"></td>
+                    <td><input id="back-ii" type="text" value="02131b" onchange="changeColor('back', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Block:</td>
+                    <td><input id="bloc-i" type="color" value="#543b3b" onchange="changeColor('bloc', this.value)"></td>
+                    <td><input id="bloc-ii" type="text" value="#543b3b" onchange="changeColor('bloc', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Open:</td>
+                    <td><input id="open-i" type="color" value="#abb0ac" onchange="changeColor('open', this.value)"></td>
+                    <td><input id="open-ii" type="text" value="#abb0ac" onchange="changeColor('open', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Visiting:</td>
+                    <td><input id="visi-i" type="color" value="#9fd350" onchange="changeColor('visi', this.value)"></td>
+                    <td><input id="visi-ii" type="text" value="#9fd350" onchange="changeColor('visi', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Visiting Peak:</td>
+                    <td><input id="visp-i" type="color" value="#9fd350" onchange="changeColor('visp', this.value)"></td>
+                    <td><input id="visp-ii" type="text" value="#9fd350" onchange="changeColor('visp', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Path:</td>
+                    <td><input id="path-i" type="color" value="#ffff00" onchange="changeColor('path', this.value)"></td>
+                    <td><input id="path-ii" type="text" value="#ffff00" onchange="changeColor('path', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Source:</td>
+                    <td><input id="sour-i" type="color" value="#fd632b" onchange="changeColor('sour', this.value)"></td>
+                    <td><input id="sour-ii" type="text" value="#fd632b" onchange="changeColor('sour', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Destination:</td>
+                    <td><input id="dest-i" type="color" value="#2af024" onchange="changeColor('dest', this.value)"></td>
+                    <td><input id="dest-ii" type="text" value="#2af024" onchange="changeColor('dest', this.value)"></td>
+                </tr>
+                <tr>
+                    <td>Traversed:</td>
+                    <td><input id="trav-i" type="color" value="#7c7ef4" onchange="changeColor('trav', this.value)"></td>
+                    <td><input id="trav-ii" type="text" value="#7c7ef4" onchange="changeColor('trav', this.value)"></td>
+                </tr>
                 </tbody>
             </table>
         </td>
@@ -48,6 +85,7 @@ color_bg = 0x00202e
 color_block = 0x402510
 color_open = 0x979a9a
 color_visiting = 0x6db3d1
+color_visiting_peak = 0x6db3d1
 color_path = 0xeacc38
 color_source = 0xc63d0a
 color_destination = 0x23c61e
@@ -86,8 +124,8 @@ color_traversed = 0x5d5fae
         <tr><td class="open"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
         <tr><td class="open"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
         <tr><td class="open"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td></tr>
-        <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td></tr>
-        <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visi"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
+        <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visp"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td></tr>
+        <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="visp"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
         <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
         <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="trav"></td><td class="bloc"></td><td class="trav"></td></tr>
         <tr><td class="open"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="bloc"></td><td class="trav"></td></tr>
@@ -96,16 +134,19 @@ color_traversed = 0x5d5fae
 </table>
 <script type="text/javascript">
     function randomize_colors() {
-        let classes = ["back", "bloc", "open", "visi", "path", "sour", "dest", "trav"];
+        let classes = ["back", "bloc", "open", "visi", "visp", "path", "sour", "dest", "trav"];
         for (let i = 0; i < classes.length; i++) {
             let color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
             changeColor(classes[i], color);
             document.getElementById(classes[i] + "-i").value = color;
+            document.getElementById(classes[i] + "-ii").value = color;
         }
     }
 
     function changeColor(className, color) {
         document.querySelectorAll("." + className).forEach(el => el.style.backgroundColor = color);
+        document.getElementById(className + "-i").value = color;
+        document.getElementById(className + "-ii").value = color;
         updateColorScheme(className, color);
     }
 
@@ -115,6 +156,7 @@ color_traversed = 0x5d5fae
             "bloc": "color_block",
             "open": "color_open",
             "visi": "color_visiting",
+            "visp": "color_visiting_peak",
             "path": "color_path",
             "sour": "color_source",
             "dest": "color_destination",

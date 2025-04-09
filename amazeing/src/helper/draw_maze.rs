@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, DrawContext};
-use amazeing::matrix::{Maze, Node, Shape, Trace};
-use macroquad::prelude::{Color, draw_poly, draw_rectangle};
+use amazeing::matrix::{Maze, Node, Rank, Shape, Trace};
+use macroquad::prelude::{draw_poly, draw_rectangle, Color};
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,
@@ -14,17 +14,23 @@ pub(crate) fn draw_maze(
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
             let node = (r, c);
+            let rank = if let Some(path) = path { path.get(&node) } else { None };
             let is_traversed = check_traversed(node, &mut traversed);
             let color: Color = if sources.contains(&node) {
                 color_context.color_source
             } else if destination.is_some() && destination.unwrap() == node {
                 color_context.color_destination
-            } else if path.is_some() && traversing && path.unwrap().get(&node).is_some() {
+            } else if path.is_some() && traversing && rank.is_some() {
                 if let Some(ref mut trav) = traversed {
                     trav[node] = 1;
                 }
-                color_context.color_visiting
-            } else if path.is_some() && path.unwrap().get(&node).is_some() {
+                let idx = Rank::MAX - rank.unwrap();
+                if idx < color_context.color_visiting_gradient.len() as i32 {
+                    *color_context.color_visiting_gradient.get(idx as usize).unwrap()
+                } else {
+                    color_context.color_visiting
+                }
+            } else if path.is_some() && rank.is_some() {
                 color_context.color_path
             } else if is_traversed {
                 color_context.color_traversed

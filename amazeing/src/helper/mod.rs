@@ -1,3 +1,4 @@
+mod color_gradient;
 mod draw_maze;
 mod file;
 mod get_node;
@@ -7,6 +8,7 @@ mod read_node;
 mod run_algorithm;
 mod time;
 
+pub(crate) use color_gradient::*;
 pub(crate) use draw_maze::*;
 pub(crate) use file::*;
 pub(crate) use get_node::*;
