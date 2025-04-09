@@ -2,6 +2,7 @@ color_bg = 0x00202e
 color_block = 0x543b3b
 color_open = 0xabb0ac
 color_visiting = 0x9fd350
+color_visiting_peak = 0x2bff00
 color_path = 0xffff00
 color_source = 0xfd632b
 color_destination = 0x2af024

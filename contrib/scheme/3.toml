@@ -1,7 +1,8 @@
 color_bg = 0x000000
-color_block = 0x000000
-color_open = 0xffffff
+color_block = 0x280105
+color_open = 0xaaaaaa
 color_visiting = 0xf08928
+color_visiting_peak = 0xffffaa
 color_path = 0xeaed0c
 color_source = 0xff0026
 color_destination = 0x00ff40
