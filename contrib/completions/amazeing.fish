@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_amazeing_global_optspecs
-	string join \n S/display-size= D/display-density= C/color-scheme= h/help V/version
+	string join \n R/shape= S/display-size= D/display-density= C/color-scheme= h/help V/version
 end
 
 function __fish_amazeing_needs_command
@@ -24,6 +24,8 @@ function __fish_amazeing_using_subcommand
 	contains -- $cmd[1] $argv
 end
 
+complete -c amazeing -n "__fish_amazeing_needs_command" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_needs_command" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -53,6 +55,8 @@ dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -d 'Number of cols' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -75,6 +79,8 @@ dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Number of cols' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -91,6 +97,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l color-schem
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -107,6 +115,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s C -l color-sc
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Maze file path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -133,6 +143,8 @@ chebyshev\t''
 octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -159,6 +171,8 @@ chebyshev\t''
 octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s R -l shape -d 'Block shape' -r -f -a "square\t''
+hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''

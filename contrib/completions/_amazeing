@@ -15,6 +15,8 @@ _amazeing() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" : \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -48,6 +50,8 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-t+[Simulation speed]:TEMPO:_default' \
 '--tempo=[Simulation speed]:TEMPO:_default' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -75,6 +79,8 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-t+[Simulation speed]:TEMPO:_default' \
 '--tempo=[Simulation speed]:TEMPO:_default' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -92,6 +98,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -108,6 +116,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -130,6 +140,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-t+[Simulation speed]:TEMPO:_default' \
 '--tempo=[Simulation speed]:TEMPO:_default' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -153,6 +165,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-t+[Simulation speed]:TEMPO:_default' \
 '--tempo=[Simulation speed]:TEMPO:_default' \
+'-R+[Block shape]:Shape:(square hexagon)' \
+'--shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \

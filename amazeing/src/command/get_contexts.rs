@@ -1,18 +1,18 @@
-use crate::command::{AmazeingArgs, ArgDisplaySize, ArgHeuristic, ArgMode};
+use crate::command::{AmazeingArgs, ArgCommand, ArgDisplaySize, ArgHeuristic, ArgShape};
 use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
 use amazeing::matrix::heuristics::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
 };
-use amazeing::matrix::{Node, NodeHeuFn};
+use amazeing::matrix::{Node, NodeHeuFn, Shape};
 
 type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
 
 pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     let mut draw_ctx = DrawContext::new();
 
-    let amazeing_context = match args.mode {
-        ArgMode::Create {
+    let amazeing_context = match args.command {
+        ArgCommand::Create {
             maze,
             source,
             procedure,
@@ -36,7 +36,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 None,
             )
         }
-        ArgMode::View { maze, update: _ } => {
+        ArgCommand::View { maze, update: _ } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
             draw_ctx.maze_rows = loaded_maze.rows();
             draw_ctx.maze_cols = loaded_maze.cols();
@@ -49,7 +49,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 None,
             )
         }
-        ArgMode::Solve {
+        ArgCommand::Solve {
             maze,
             procedure,
             heuristic_function,
@@ -77,15 +77,20 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
         }
     };
 
+    match args.shape {
+        Some(ArgShape::Hexagon) => draw_ctx.shape = Shape::Hexagon,
+        _ => {}
+    }
+
     match args.display_size {
-        Some(ArgDisplaySize::Xxs) => draw_ctx.size((3., 1., 3., 3.)),
-        Some(ArgDisplaySize::Xs) => draw_ctx.size((5., 1., 5., 5.)),
-        Some(ArgDisplaySize::S) => draw_ctx.size((10., 2., 10., 10.)),
-        Some(ArgDisplaySize::M) => draw_ctx.size((15., 3., 15., 15.)),
-        Some(ArgDisplaySize::L) => draw_ctx.size((25., 4., 20., 20.)),
-        Some(ArgDisplaySize::Xl) => draw_ctx.size((30., 5., 30., 30.)),
-        Some(ArgDisplaySize::Xxl) => draw_ctx.size((40., 6., 40., 40.)),
-        None => {}
+        Some(ArgDisplaySize::Xxs) => draw_ctx.size((3., 1., 3.)),
+        Some(ArgDisplaySize::Xs) => draw_ctx.size((5., 1., 5.)),
+        Some(ArgDisplaySize::S) => draw_ctx.size((10., 2., 10.)),
+        Some(ArgDisplaySize::M) => draw_ctx.size((15., 3., 15.)),
+        Some(ArgDisplaySize::L) => draw_ctx.size((25., 4., 20.)),
+        Some(ArgDisplaySize::Xl) => draw_ctx.size((30., 5., 30.)),
+        Some(ArgDisplaySize::Xxl) => draw_ctx.size((40., 6., 40.)),
+        _ => draw_ctx.size((15., 3., 15.)),
     }
 
     if let Some(density) = args.display_density {

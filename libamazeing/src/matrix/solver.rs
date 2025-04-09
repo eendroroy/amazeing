@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::neighbour::neighbours_open;
-use super::{NavMode, Node, NodeHeuFn, Tracer};
+use super::{Shape, Node, NodeHeuFn, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -27,6 +27,7 @@ impl Ord for DNodeWeighted {
 
 fn traverse(
     maze: &Maze,
+    shape: &Shape,
     source: Node,
     destination: Node,
     push: fn(&mut VecDeque<Node>, Node),
@@ -53,7 +54,7 @@ fn traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, NavMode::Square) {
+        for next in neighbours_open(maze, current, shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 push(storage, next);
@@ -66,6 +67,7 @@ fn traverse(
 
 fn weighted_traverse(
     maze: &Maze,
+    shape: &Shape,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
@@ -98,7 +100,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, NavMode::Square) {
+        for next in neighbours_open(maze, current, shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {
@@ -125,10 +127,10 @@ fn weighted_traverse(
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn bfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn bfs(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_front();
-    traverse(maze, start, end, push, pop, tracer)
+    traverse(maze, shape, start, end, push, pop, tracer)
 }
 
 /// Performs a depth-first search (DFS) on the maze from the start node to the end node.
@@ -143,11 +145,11 @@ pub fn bfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> 
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn dfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn dfs(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
 
-    traverse(maze, start, end, push, pop, tracer)
+    traverse(maze, shape, start, end, push, pop, tracer)
 }
 
 /// Performs Dijkstra's algorithm on the maze from the start node to the end node.
@@ -162,8 +164,8 @@ pub fn dfs(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> 
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn dijkstra(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
-    weighted_traverse(maze, start, end, dijkstra_heuristic, tracer)
+pub fn dijkstra(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    weighted_traverse(maze, shape, start, end, dijkstra_heuristic, tracer)
 }
 
 /// Performs the A* algorithm on the maze from the start node to the end node.
@@ -179,6 +181,6 @@ pub fn dijkstra(maze: &Maze, start: Node, end: Node, tracer: &mut Option<Tracer>
 /// # Returns
 ///
 /// A vector of nodes representing the path from start to end.
-pub fn a_star(maze: &Maze, start: Node, end: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
-    weighted_traverse(maze, start, end, heu, tracer)
+pub fn a_star(maze: &Maze, shape: &Shape, start: Node, end: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    weighted_traverse(maze, shape, start, end, heu, tracer)
 }

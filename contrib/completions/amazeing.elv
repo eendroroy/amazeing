@@ -18,6 +18,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
     }
     var completions = [
         &'amazeing'= {
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -49,6 +51,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --cols 'Number of cols'
             cand -t 'Simulation speed'
             cand --tempo 'Simulation speed'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -74,6 +78,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --cols 'Number of cols'
             cand -t 'Simulation speed'
             cand --tempo 'Simulation speed'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -89,6 +95,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
         &'amazeing;view'= {
             cand -m 'Maze file path'
             cand --maze 'Maze file path'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -103,6 +111,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
         &'amazeing;V'= {
             cand -m 'Maze file path'
             cand --maze 'Maze file path'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -123,6 +133,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --heuristic-function 'Heuristic function (to use with AStar)'
             cand -t 'Simulation speed'
             cand --tempo 'Simulation speed'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'
@@ -144,6 +156,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --heuristic-function 'Heuristic function (to use with AStar)'
             cand -t 'Simulation speed'
             cand --tempo 'Simulation speed'
+            cand -R 'Block shape'
+            cand --shape 'Block shape'
             cand -S 'Display size'
             cand --display-size 'Display size'
             cand -D 'Display density'

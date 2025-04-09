@@ -38,6 +38,7 @@ pub(crate) async fn solve_simulation_loop(
         if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some() {
             solve_maze(
                 &context.maze,
+                &draw_context.shape,
                 source.unwrap(),
                 destination.unwrap(),
                 &context.procedure.clone(),
