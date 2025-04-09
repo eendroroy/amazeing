@@ -1,7 +1,7 @@
-use crate::matrix::Maze;
-use crate::matrix::helper::{reconstruct_trace_path, validate_node};
-use crate::matrix::neighbour::{DOWN, LEFT, RIGHT, UP, neighbours_block};
-use crate::matrix::types::{Node, Tracer};
+use super::helper::{reconstruct_trace_path, validate_node};
+use super::neighbour::neighbours_block;
+use super::types::{Node, Tracer};
+use super::{Maze, NavMode};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
@@ -26,9 +26,9 @@ pub fn bfs(maze: &mut Maze, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     });
 
     while let Some(current) = storage.pop() {
-        let neighbours = neighbours_block(maze, current, Some(vec![LEFT, RIGHT, UP, DOWN]));
+        let neighbours = neighbours_block(maze, current, NavMode::Square);
 
-        if neighbours.len() > 2 {
+        if neighbours.len() >= NavMode::Square.sides() - 1 {
             maze[current] = 1;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));
@@ -71,8 +71,8 @@ pub fn dfs(maze: &mut Maze, source: Vec<Node>, tracer: &mut Option<Tracer>) {
         storages.iter_mut().enumerate().for_each(|(idx, storage)| {
             if skip_idx.contains(&idx) {
             } else if let Some(current) = storage.pop_back() {
-                let mut neighbours = neighbours_block(maze, current, Some(vec![LEFT, RIGHT, UP, DOWN]));
-                if neighbours.len() > 2 {
+                let mut neighbours = neighbours_block(maze, current, NavMode::Square);
+                if neighbours.len() >= NavMode::Square.sides() - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = 1;
                     if let Some(trace) = tracer {

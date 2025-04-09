@@ -1,5 +1,5 @@
-use crate::matrix::Maze;
-use crate::matrix::types::Node;
+use super::Maze;
+use super::types::Node;
 use std::collections::{BTreeMap, HashMap};
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
