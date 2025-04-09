@@ -7,7 +7,9 @@ pub type Node = (usize, usize);
 pub type NodeHeuFn = fn(Node, Node) -> u32;
 
 /// A `Tracer` is a 2D vector of nodes, used to trace paths in the matrix.
-pub type Tracer = Vec<HashMap<Node, bool>>;
+pub type Rank = i32;
+pub type Trace = HashMap<Node, Rank>;
+pub type Tracer = Vec<Trace>;
 
 pub(crate) type NeighbourFn = fn(Node) -> Option<Node>;
 
