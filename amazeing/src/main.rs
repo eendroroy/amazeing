@@ -16,17 +16,40 @@ async fn main() {
     let args = AmazeingArgs::parse();
     let (amz_ctx, draw_context, color_context) = get_contexts(args.clone());
 
-    let (screen_width, screen_height) = draw_context.screen_size();
-    set_window_size(screen_width, screen_height + 30);
-
     match args.command.clone() {
         Create { verbose: true, .. } => {
-            generate_simulation_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await
+            let ctx = amz_ctx.0.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.rows, ctx.cols));
+            generate_simulation_loop(&ctx, &draw_context, &color_context).await
         }
-        Create { verbose: false, .. } => generate_loop(&amz_ctx.0.unwrap(), &draw_context, &color_context).await,
-        View { update: false, .. } => view_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await,
-        View { update: true, .. } => update_loop(&amz_ctx.1.unwrap(), &draw_context, &color_context).await,
-        Solve { verbose: true, .. } => solve_simulation_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await,
-        Solve { verbose: false, .. } => solve_loop(&amz_ctx.2.unwrap(), &draw_context, &color_context).await,
+        Create { verbose: false, .. } => {
+            let ctx = amz_ctx.0.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.rows, ctx.cols));
+            generate_loop(&ctx, &draw_context, &color_context).await
+        }
+        View { update: false, .. } => {
+            let ctx = amz_ctx.1.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
+            view_loop(&ctx, &draw_context, &color_context).await
+        }
+        View { update: true, .. } => {
+            let ctx = amz_ctx.1.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
+            update_loop(&ctx, &draw_context, &color_context).await
+        }
+        Solve { verbose: true, .. } => {
+            let ctx = amz_ctx.2.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
+            solve_simulation_loop(&ctx, &draw_context, &color_context).await
+        }
+        Solve { verbose: false, .. } => {
+            let ctx = amz_ctx.2.unwrap();
+            set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
+            solve_loop(&ctx, &draw_context, &color_context).await
+        }
     }
+}
+
+fn set_screen_size((width, height): (u32, u32)) {
+    set_window_size(width, height + 30);
 }
