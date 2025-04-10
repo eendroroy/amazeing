@@ -38,11 +38,11 @@ Options:
 
 - Create
     - `G`/`<Space>` - (Re)Generate Maze
-    - Simulation mode (`--verbose`/`-v`):
+    - Additional action in simulation mode (`--verbose`/`-v`):
         - `LeftClick` - Add Source
         - `Shift`+`LeftClick` - Remove Source
-        - `S` - Start Simulation
-        - `<Space>` - Pause/Resume Simulation
+        - `S`/`<Space>` - Start Simulation
+        - `<Space>` - Start/Pause/Resume Simulation
 
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
@@ -51,7 +51,6 @@ Options:
 - Solve
     - `LeftClick` - Select Source
     - `Shift`+`LeftClick` - Select Destination
-
     - Additional action in simulation mode (`--verbose`/`-v`):
         - `S` - Start Simulation
         - `<Space>` - Pause/Resume Simulation

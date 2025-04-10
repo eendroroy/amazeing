@@ -27,25 +27,8 @@ pub(crate) async fn generate_simulation_loop(
     let mut sources = context.sources.clone();
 
     loop {
-        if is_mouse_button_pressed(MouseButton::Left) && !simulating && !trace_complete {
-            add_source(draw_context, &mut sources);
-        }
-
-        if is_key_pressed(KeyCode::S) && !simulating && !trace_complete {
-            generate_maze(&mut maze, &draw_context.shape, sources.clone(), &context.procedure, &mut tracer);
-            if let Some(maze_file_path) = context.maze_file_path.clone() {
-                dump_maze_to_file(&maze_file_path, &maze);
-            }
-            trace = tracer.clone().unwrap();
-            simulating = true;
-        }
-
-        if is_key_pressed(KeyCode::Q) {
-            break;
-        }
-
         if simulating {
-            if is_key_pressed(KeyCode::Space) {
+            if is_key_released(KeyCode::Space) {
                 paused = !paused;
             }
 
@@ -71,6 +54,25 @@ pub(crate) async fn generate_simulation_loop(
             draw_maze(draw_context, color_context, &maze, None, None, (sources.clone(), None), false);
         } else {
             draw_maze(draw_context, color_context, &traversed, None, None, (sources.clone(), None), false);
+        }
+
+        if !simulating && !trace_complete {
+            if is_mouse_button_released(MouseButton::Left) {
+                add_source(draw_context, &mut sources);
+            }
+
+            if is_key_released(KeyCode::S) || is_key_released(KeyCode::Space) {
+                generate_maze(&mut maze, &draw_context.shape, sources.clone(), &context.procedure, &mut tracer);
+                if let Some(maze_file_path) = context.maze_file_path.clone() {
+                    dump_maze_to_file(&maze_file_path, &maze);
+                }
+                trace = tracer.clone().unwrap();
+                simulating = true;
+            }
+        }
+
+        if is_key_released(KeyCode::Q) {
+            break;
         }
 
         next_frame().await
