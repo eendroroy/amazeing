@@ -5,15 +5,15 @@ use amazeing::matrix::heuristics::{
 use amazeing::matrix::{NodeHeuFn, Shape};
 
 impl ArgDisplaySize {
-    pub fn size(&self, density: f32) -> (f32, f32, f32) {
+    pub fn size(&self, density: f32, shape: f32) -> (f32, f32, f32) {
         match self {
-            ArgDisplaySize::Xxs => (3., density * 1., 3.),
-            ArgDisplaySize::Xs => (5., density * 1., 5.),
-            ArgDisplaySize::S => (10., density * 2., 10.),
-            ArgDisplaySize::M => (15., density * 3., 15.),
-            ArgDisplaySize::L => (25., density * 4., 20.),
-            ArgDisplaySize::Xl => (30., density * 5., 30.),
-            ArgDisplaySize::Xxl => (40., density * 6., 40.),
+            ArgDisplaySize::Xxs => (3., density * 1., shape * 3.),
+            ArgDisplaySize::Xs => (5., density * 1., shape * 5.),
+            ArgDisplaySize::S => (10., density * 2., shape * 10.),
+            ArgDisplaySize::M => (15., density * 3., shape * 15.),
+            ArgDisplaySize::L => (25., density * 4., shape * 20.),
+            ArgDisplaySize::Xl => (30., density * 5., shape * 30.),
+            ArgDisplaySize::Xxl => (40., density * 6., shape * 40.),
         }
     }
 }
