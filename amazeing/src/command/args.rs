@@ -18,25 +18,25 @@ pub const CLAP_STYLE: Styles = Styles::styled()
 ///
 /// See https://eendroroy.github.io/amazeing for more details
 #[derive(Debug, Clone, Parser)]
-#[command(version, about, styles=CLAP_STYLE)]
+#[command(version, about, long_about, styles=CLAP_STYLE)]
 pub struct AmazeingArgs {
     #[clap(subcommand)]
     pub command: ArgCommand,
 
     /// Block shape
-    #[clap(global = true, long, short = 'B', default_value_t=ArgBlockShape::Square, value_name = "Shape")]
+    #[clap(global = true, long, short = 'B', display_order=100, default_value_t=ArgBlockShape::Square, value_name = "Shape")]
     pub block_shape: ArgBlockShape,
 
     /// Display size
-    #[clap(global = true, long, short = 'S', default_value_t=ArgDisplaySize::M, value_name = "SIZE")]
+    #[clap(global = true, long, short = 'S', display_order=101, default_value_t=ArgDisplaySize::M, value_name = "SIZE")]
     pub display_size: ArgDisplaySize,
 
     /// Display density
-    #[clap(global = true, long, short = 'D', default_value_t=ArgDisplayDensity::Standard, value_name = "DENSITY")]
+    #[clap(global = true, long, short = 'D', display_order=102, default_value_t=ArgDisplayDensity::Standard, value_name = "DENSITY")]
     pub display_density: ArgDisplayDensity,
 
     /// Color scheme file (.toml) path
-    #[clap(global = true, short = 'C', long, value_name = "SCHEME.TOML")]
+    #[clap(global = true, short = 'C', display_order=103, long, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 }
 
@@ -76,7 +76,7 @@ pub enum ArgCommand {
         verbose: bool,
 
         /// Simulation speed
-        #[clap(long, short, default_value_t = 60)]
+        #[clap(long, short, display_order=104, default_value_t = 60)]
         fps: u8,
     },
     /// View a Maze
@@ -110,7 +110,7 @@ pub enum ArgCommand {
         verbose: bool,
 
         /// Simulation speed
-        #[clap(long, short, default_value_t = 5)]
+        #[clap(long, short, display_order=104, default_value_t = 5)]
         fps: u8,
     },
 }
