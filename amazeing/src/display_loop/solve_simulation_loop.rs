@@ -1,5 +1,5 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{current_millis, draw_maze, populate_source_destination, solve_maze};
+use crate::helper::{delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -16,8 +16,6 @@ pub(crate) async fn solve_simulation_loop(
     let mut tracer: Option<Tracer> = Some(vec![]);
 
     let mut current_path: Trace = HashMap::new();
-    let mut last_millis = 0;
-    let update_interval = 1000 / context.tempo as u128;
 
     let mut traversed = Maze::from(vec![vec![0u32; context.maze.cols()]; context.maze.rows()]);
 
@@ -33,9 +31,8 @@ pub(crate) async fn solve_simulation_loop(
                 paused = !paused;
             }
 
-            if !paused && !trace_complete && last_millis + update_interval <= current_millis() {
+            if !paused && !trace_complete {
                 current_path = trace.get(trace_index).unwrap().clone();
-                last_millis = current_millis();
                 trace_index += 1;
                 if trace.len() == trace_index {
                     trace_complete = true;
@@ -88,6 +85,8 @@ pub(crate) async fn solve_simulation_loop(
         if is_key_released(KeyCode::Q) {
             break;
         }
+
+        delay_till_next_frame(context.tempo as f32);
 
         next_frame().await
     }

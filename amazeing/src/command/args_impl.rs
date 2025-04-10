@@ -1,4 +1,4 @@
-use crate::command::{ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgBlockShape};
+use crate::command::{ArgBlockShape, ArgDisplayDensity, ArgDisplaySize, ArgHeuristic};
 use amazeing::matrix::heuristics::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
 };

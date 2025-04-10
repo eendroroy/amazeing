@@ -54,7 +54,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s p -l proced
 dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -d 'Number of cols' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s f -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s B -l block-shape -d 'Block shape' -r -f -a "square\t''
 hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
@@ -70,7 +70,7 @@ standard\t''
 cozy\t''
 ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s s -l source -d 'Starting point(s) of the generation' -r
@@ -78,7 +78,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s p -l procedure -
 dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Number of cols' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s f -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s B -l block-shape -d 'Block shape' -r -f -a "square\t''
 hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
@@ -94,7 +94,7 @@ standard\t''
 cozy\t''
 ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s B -l block-shape -d 'Block shape' -r -f -a "square\t''

@@ -14,14 +14,19 @@ pub struct DrawContext {
 
 impl DrawContext {
     pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, shape: UnitShape) -> Self {
-        let (margin, border, size) = size.size(density.multiplier(), if shape == UnitShape::Hexagon { 0.65 } else { 1.0 });
+        let (margin, border, size) =
+            size.size(density.multiplier(), if shape == UnitShape::Hexagon { 0.65 } else { 1.0 });
 
         Self {
             margin,
             border,
             size,
             shape: shape.clone(),
-            height: if shape == UnitShape::Hexagon { ((PI / 6.).sin() + 1.0) * size } else { 0. },
+            height: if shape == UnitShape::Hexagon {
+                ((PI / 6.).sin() + 1.0) * size
+            } else {
+                0.
+            },
             width: if shape == UnitShape::Hexagon { (PI / 6.).cos() * size * 2.0 } else { 0. },
         }
     }

@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand, ValueEnum};
+use std::fmt::Display;
 use std::path::PathBuf;
 
 /// A maze generator/solver application with simulation/visualization.
@@ -11,16 +12,16 @@ pub struct AmazeingArgs {
     pub command: ArgCommand,
 
     /// Block shape
-    #[clap(global = true, long, short = 'B', value_name = "Shape")]
-    pub block_shape: Option<ArgBlockShape>,
+    #[clap(global = true, long, short = 'B', default_value_t=ArgBlockShape::Square, value_name = "Shape")]
+    pub block_shape: ArgBlockShape,
 
     /// Display size
-    #[clap(global = true, long, short = 'S', value_name = "SIZE")]
-    pub display_size: Option<ArgDisplaySize>,
+    #[clap(global = true, long, short = 'S', default_value_t=ArgDisplaySize::M, value_name = "SIZE")]
+    pub display_size: ArgDisplaySize,
 
     /// Display density
-    #[clap(global = true, long, short = 'D', value_name = "DENSITY")]
-    pub display_density: Option<ArgDisplayDensity>,
+    #[clap(global = true, long, short = 'D', default_value_t=ArgDisplayDensity::Standard, value_name = "DENSITY")]
+    pub display_density: ArgDisplayDensity,
 
     /// Color scheme file (.toml) path
     #[clap(global = true, short = 'C', long, value_name = "SCHEME.TOML")]
@@ -59,12 +60,12 @@ pub enum ArgCommand {
         cols: usize,
 
         /// Show a simulation of the generation process
-        #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
+        #[clap(long, short, default_value_t = false)]
         verbose: bool,
 
         /// Simulation speed
-        #[clap(long, short, default_value_t = 5)]
-        tempo: u8,
+        #[clap(long, short, default_value_t = 60)]
+        fps: u8,
     },
     /// View a Maze
     #[clap(visible_alias = "V")]
@@ -113,10 +114,33 @@ pub enum ArgDisplaySize {
     Xxl,
 }
 
+impl Display for ArgDisplaySize {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgDisplaySize::Xxs => write!(f, "xxs"),
+            ArgDisplaySize::Xs => write!(f, "xs"),
+            ArgDisplaySize::S => write!(f, "s"),
+            ArgDisplaySize::M => write!(f, "m"),
+            ArgDisplaySize::L => write!(f, "l"),
+            ArgDisplaySize::Xl => write!(f, "xl"),
+            ArgDisplaySize::Xxl => write!(f, "xxl"),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgBlockShape {
     Square,
     Hexagon,
+}
+
+impl Display for ArgBlockShape {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgBlockShape::Square => write!(f, "square"),
+            ArgBlockShape::Hexagon => write!(f, "hexagon"),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
@@ -126,6 +150,18 @@ pub enum ArgDisplayDensity {
     Standard,
     Cozy,
     Ample,
+}
+
+impl Display for ArgDisplayDensity {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgDisplayDensity::Connected => write!(f, "connected"),
+            ArgDisplayDensity::Dense => write!(f, "dense"),
+            ArgDisplayDensity::Standard => write!(f, "standard"),
+            ArgDisplayDensity::Cozy => write!(f, "cozy"),
+            ArgDisplayDensity::Ample => write!(f, "ample"),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
