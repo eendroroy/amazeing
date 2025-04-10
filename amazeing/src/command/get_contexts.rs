@@ -4,7 +4,7 @@ use crate::helper::load_maze_from_file;
 use amazeing::matrix::Node;
 
 type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
-static GRADIENT_STEPS: fn(usize, usize) -> usize = |r, c| ((r + c) as f32 * 0.4 / 2.).max(8.).min(64.) as usize;
+static GRADIENT_STEPS: fn(usize, usize) -> usize = |r, c| ((r + c) as f32 * 0.25).max(8.).min(64.) as usize;
 
 pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     let gradient_steps: usize;
@@ -78,8 +78,6 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     } else {
         ColorContext::new(gradient_steps)
     };
-
-    println!("{}", gradient_steps);
 
     (amazeing_context, draw_ctx, colors)
 }
