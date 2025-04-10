@@ -4,8 +4,11 @@ use crate::helper::load_maze_from_file;
 use amazeing::matrix::Node;
 
 type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
+static GRADIENT_STEPS: fn(usize, usize) -> usize = |r, c| ((r + c) as f32 * 0.4 / 2.).max(8.).min(64.) as usize;
 
 pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
+    let gradient_steps: usize;
+
     let amazeing_context = match args.command {
         ArgCommand::Create {
             maze,
@@ -15,20 +18,24 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             cols,
             tempo,
             ..
-        } => (
-            Some(CreateContext {
-                maze_file_path: maze.clone(),
-                sources: if let Some(sources) = source { parse_nodes(&sources) } else { Vec::new() },
-                procedure,
-                rows,
-                cols,
-                tempo,
-            }),
-            None,
-            None,
-        ),
+        } => {
+            gradient_steps = GRADIENT_STEPS(rows, cols);
+            (
+                Some(CreateContext {
+                    maze_file_path: maze.clone(),
+                    sources: if let Some(sources) = source { parse_nodes(&sources) } else { Vec::new() },
+                    procedure,
+                    rows,
+                    cols,
+                    tempo,
+                }),
+                None,
+                None,
+            )
+        }
         ArgCommand::View { maze, update: _ } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
+            gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
             (
                 None,
                 Some(ViewContext {
@@ -46,6 +53,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             ..
         } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
+            gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
             (
                 None,
                 None,
@@ -66,10 +74,12 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     );
 
     let colors = if let Some(path) = args.color_scheme {
-        ColorContext::from(ColorScheme::from(path.as_path()))
+        ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)
     } else {
-        ColorContext::default()
+        ColorContext::new(gradient_steps)
     };
+
+    println!("{}", gradient_steps);
 
     (amazeing_context, draw_ctx, colors)
 }

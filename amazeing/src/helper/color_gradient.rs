@@ -1,6 +1,6 @@
 use macroquad::prelude::Color;
 
-pub(crate) fn gradient(c1: Color, c2: Color, steps: u8) -> Vec<Color> {
+pub(crate) fn gradient(c1: Color, c2: Color, steps: usize) -> Vec<Color> {
     if steps <= 1 {
         return vec![c2];
     }
