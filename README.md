@@ -48,9 +48,9 @@ amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --proce
 amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -R square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --tempo 25 --shape hexagonal
+amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -t 25 -R hexagonal
+amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -f 25 -R hexagonal
 ```
 
 #### Generate - multi source
@@ -62,9 +62,9 @@ amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 
 amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -R square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --tempo 25 --shape hexagonal
+amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -t 25 -R hexagonal
+amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -f 25 -R hexagonal
 ```
 
 #### Update
@@ -85,9 +85,9 @@ amazeing solve --maze bfs_21_21.maze --procedure bfs --shape hexagonal
 amazeing S -m bfs_21_21.maze -p bfs -R hexagonal
 
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --tempo 25 --share square
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --share square
 # short
-amazeing S -m bfs_21_21.maze -p bfs -v -t 25 -R square
+amazeing S -m bfs_21_21.maze -p bfs -v -f 25 -R square
 ```
 
 ## Generate Maze
