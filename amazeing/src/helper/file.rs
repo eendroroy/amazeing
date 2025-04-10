@@ -48,18 +48,3 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
             .collect::<Vec<Vec<u32>>>(),
     )
 }
-
-pub(crate) fn dump_text_to_file(path: &Path, text: String) {
-    if fs::exists(path).unwrap_or(false) {
-        fs::remove_file(path).unwrap();
-    }
-
-    let mut file = OpenOptions::new()
-        .write(true)
-        .create(true)
-        .truncate(true)
-        .open(path)
-        .expect("Could not open file");
-
-    file.write_all(text.as_bytes()).expect("Could not write to file");
-}

@@ -1,11 +1,8 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{
-    current_millis, draw_maze, dump_text_to_file, maze_html_text, populate_source_destination, solve_maze,
-};
+use crate::helper::{current_millis, draw_maze, populate_source_destination, solve_maze};
 use amazeing::matrix::{Maze, Node, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
-use std::path::Path;
 
 pub(crate) async fn solve_simulation_loop(
     context: &SolveContext,
@@ -51,18 +48,6 @@ pub(crate) async fn solve_simulation_loop(
 
         if is_key_pressed(KeyCode::Q) {
             break;
-        }
-
-        if (paused || trace_complete) && is_key_pressed(KeyCode::D) {
-            let html = maze_html_text(
-                &context.maze,
-                Some(&mut traversed),
-                Some(&current_path),
-                (vec![source.unwrap()], destination),
-                !trace_complete,
-            );
-
-            dump_text_to_file(Path::new(&format!("{}.html", context.maze_file_path)), html);
         }
 
         if simulating {
