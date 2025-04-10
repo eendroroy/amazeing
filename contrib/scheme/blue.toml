@@ -1,9 +1,9 @@
-color_bg = 0x040e1f
-color_block = 0x011124
-color_open = 0x9dabbd
-color_visiting = 0x3081f2
+color_bg = 0x001842
+color_block = 0x140f2f
+color_open = 0x96a1b0
+color_visiting = 0x4582d9
 color_visiting_peak = 0xffff00
-color_path = 0x1566e8
+color_path = 0x61a1e5
 color_source = 0x055ef7
 color_destination = 0x055ef7
-color_traversed = 0x465e82
+color_traversed = 0x3b4d68
