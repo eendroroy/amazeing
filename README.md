@@ -52,8 +52,8 @@ Options:
     - `LeftClick` - Select Source
     - `Shift`+`LeftClick` - Select Destination
     - Additional action in simulation mode (`--verbose`/`-v`):
-        - `S` - Start Simulation
-        - `<Space>` - Pause/Resume Simulation
+        - `S`/`<Space>` - Start Simulation
+        - `<Space>` - Start/Pause/Resume Simulation
 
 ## Example Commands
 
