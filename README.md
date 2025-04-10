@@ -36,11 +36,13 @@ Options:
 
 ### Key/Mouse events
 
-- Create - Simulation mode (`--verbose`/`-v`):
-    - `LeftClick` - Add Source
-    - `Shift`+`LeftClick` - Remove Source
-    - `S` - Start Simulation
-    - `<Space>` - Pause/Resume Simulation
+- Create
+    - `G`/`<Space>` - (Re)Generate Maze
+    - Simulation mode (`--verbose`/`-v`):
+        - `LeftClick` - Add Source
+        - `Shift`+`LeftClick` - Remove Source
+        - `S` - Start Simulation
+        - `<Space>` - Pause/Resume Simulation
 
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
