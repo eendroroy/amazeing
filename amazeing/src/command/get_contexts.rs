@@ -1,4 +1,4 @@
-use crate::command::{AmazeingArgs, ArgCommand, ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgShape};
+use crate::command::{AmazeingArgs, ArgCommand, ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgBlockShape};
 use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
 use amazeing::matrix::Node;
@@ -70,7 +70,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     let draw_ctx = DrawContext::from(
         args.display_density.unwrap_or(ArgDisplayDensity::Standard),
         args.display_size.unwrap_or(ArgDisplaySize::M),
-        args.shape.unwrap_or(ArgShape::Square).shape(),
+        args.block_shape.unwrap_or(ArgBlockShape::Square).shape(),
     );
 
     let colors = if let Some(path) = args.color_scheme {

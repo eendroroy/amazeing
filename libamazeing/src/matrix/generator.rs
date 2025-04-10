@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::neighbour::neighbours_block;
 use super::types::{Node, Tracer};
-use super::{Maze, Shape};
+use super::{Maze, UnitShape};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
@@ -13,7 +13,7 @@ use std::collections::{BTreeMap, VecDeque};
 /// * `maze` - A mutable reference to the maze structure.
 /// * `source` - The starting node for the BFS.
 /// * `tracer` - An optional mutable reference to a tracer for recording the path.
-pub fn bfs(maze: &mut Maze, shape: &Shape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
+pub fn bfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -49,7 +49,7 @@ pub fn bfs(maze: &mut Maze, shape: &Shape, source: Vec<Node>, tracer: &mut Optio
 /// * `maze` - A mutable reference to the maze structure.
 /// * `source` - The starting node for the DFS.
 /// * `tracer` - An optional mutable reference to a tracer for recording the path.
-pub fn dfs(maze: &mut Maze, shape: &Shape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
+pub fn dfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
     });

@@ -11,8 +11,8 @@ pub struct AmazeingArgs {
     pub command: ArgCommand,
 
     /// Block shape
-    #[clap(global = true, long, short = 'R', value_name = "Shape")]
-    pub shape: Option<ArgShape>,
+    #[clap(global = true, long, short = 'B', value_name = "Shape")]
+    pub block_shape: Option<ArgBlockShape>,
 
     /// Display size
     #[clap(global = true, long, short = 'S', value_name = "SIZE")]
@@ -114,7 +114,7 @@ pub enum ArgDisplaySize {
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ArgShape {
+pub enum ArgBlockShape {
     Square,
     Hexagon,
 }
