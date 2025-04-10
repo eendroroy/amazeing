@@ -17,8 +17,8 @@ pub struct ColorContext {
     pub(crate) color_traversed: Color,
 }
 
-impl ColorContext {
-    pub fn new() -> Self {
+impl Default for ColorContext {
+    fn default() -> Self {
         Self {
             color_bg: Color::from_hex(0x00202e),
             color_block: Color::from_hex(0x003f5c),
@@ -31,7 +31,9 @@ impl ColorContext {
             color_traversed: Color::from_hex(0xcfa093),
         }
     }
+}
 
+impl ColorContext {
     pub fn from(scheme: ColorScheme) -> Self {
         Self {
             color_bg: Color::from_hex(scheme.color_bg),
