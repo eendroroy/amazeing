@@ -86,7 +86,7 @@ pub(crate) async fn solve_simulation_loop(
             break;
         }
 
-        delay_till_next_frame(context.tempo as f32);
+        delay_till_next_frame(context.fps as f32);
 
         next_frame().await
     }
