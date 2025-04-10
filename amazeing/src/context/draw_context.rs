@@ -14,7 +14,7 @@ pub struct DrawContext {
 
 impl DrawContext {
     pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, shape: Shape) -> Self {
-        let (margin, border, size) = size.size(density.multiplier());
+        let (margin, border, size) = size.size(density.multiplier(), if shape == Shape::Hexagon { 0.65 } else { 1.0 });
 
         Self {
             margin,
