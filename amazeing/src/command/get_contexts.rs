@@ -67,7 +67,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
         }
     };
 
-    let draw_ctx = DrawContext::from(args.display_density, args.display_size, args.block_shape.shape());
+    let draw_ctx = DrawContext::from(args.display_density, args.display_size, args.unit_shape.shape());
 
     let colors = if let Some(path) = args.color_scheme {
         ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)

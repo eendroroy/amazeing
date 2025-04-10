@@ -11,8 +11,8 @@ pub(crate) const LEFT_DOWN: NeighbourFn = |of| if of.1 > 0 { Some((of.0 + 1, of.
 pub(crate) const RIGHT_UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1 + 1)) } else { None };
 pub(crate) const RIGHT_DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1 + 1));
 
-pub(crate) fn neighbours(maze: &Maze, pos: Node, shape: &UnitShape) -> Vec<Node> {
-    match shape {
+pub(crate) fn neighbours(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
+    match unit_shape {
         UnitShape::Square => vec![RIGHT, DOWN, LEFT, UP],
         UnitShape::Hexagon => {
             if pos.0 % 2 == 0 {
@@ -28,15 +28,15 @@ pub(crate) fn neighbours(maze: &Maze, pos: Node, shape: &UnitShape) -> Vec<Node>
     .collect()
 }
 
-pub(crate) fn neighbours_open(maze: &Maze, pos: Node, shape: &UnitShape) -> Vec<Node> {
-    neighbours(maze, pos, shape)
+pub(crate) fn neighbours_open(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
+    neighbours(maze, pos, unit_shape)
         .into_iter()
         .filter(|p| maze[*p] > 0)
         .collect()
 }
 
-pub(crate) fn neighbours_block(maze: &Maze, pos: Node, shape: &UnitShape) -> Vec<Node> {
-    neighbours(maze, pos, shape)
+pub(crate) fn neighbours_block(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
+    neighbours(maze, pos, unit_shape)
         .into_iter()
         .filter(|p| maze[*p] < 1)
         .collect()
