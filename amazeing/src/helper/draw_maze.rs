@@ -51,7 +51,7 @@ fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
 }
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
-    match ctx.shape {
+    match ctx.unit_shape {
         UnitShape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),
         UnitShape::Hexagon => draw_hexagon(ctx.x(node), ctx.y(node), ctx.size, 0., true, BLANK, color),
     }

@@ -23,9 +23,9 @@ pub struct AmazeingArgs {
     #[clap(subcommand)]
     pub command: ArgCommand,
 
-    /// Block shape
-    #[clap(global = true, long, short = 'B', display_order=100, default_value_t=ArgBlockShape::Square, value_name = "Shape")]
-    pub block_shape: ArgBlockShape,
+    /// Unit shape
+    #[clap(global = true, long, short = 'U', display_order=100, default_value_t=ArgUnitShape::Square, value_name = "Shape")]
+    pub unit_shape: ArgUnitShape,
 
     /// Display size
     #[clap(global = true, long, short = 'S', display_order=101, default_value_t=ArgDisplaySize::M, value_name = "SIZE")]
@@ -141,16 +141,16 @@ impl Display for ArgDisplaySize {
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ArgBlockShape {
+pub enum ArgUnitShape {
     Square,
     Hexagon,
 }
 
-impl Display for ArgBlockShape {
+impl Display for ArgUnitShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ArgBlockShape::Square => write!(f, "square"),
-            ArgBlockShape::Hexagon => write!(f, "hexagon"),
+            ArgUnitShape::Square => write!(f, "square"),
+            ArgUnitShape::Hexagon => write!(f, "hexagon"),
         }
     }
 }

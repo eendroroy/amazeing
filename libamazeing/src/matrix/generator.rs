@@ -8,12 +8,21 @@ use std::collections::{BTreeMap, VecDeque};
 
 /// Generates a maze using a breadth-first search (BFS) algorithm starting from the source node.
 ///
+/// This algorithm explores the maze space by visiting nodes in breadth-first order, creating
+/// passages between nodes when they satisfy the unit shape's criteria. The result is a maze
+/// with a more "spread out" pattern compared to DFS.
+///
 /// # Arguments
 ///
 /// * `maze` - A mutable reference to the maze structure.
-/// * `source` - The starting node for the BFS.
-/// * `tracer` - An optional mutable reference to a tracer for recording the path.
-pub fn bfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
+/// * `unit_shape` - The shape type that defines the neighbors structure and validation criteria.
+/// * `source` - The starting nodes for the BFS algorithm.
+/// * `tracer` - An optional mutable reference to a tracer for recording the path generation.
+///
+/// # Note
+///
+/// The algorithm will validate all source nodes before beginning the maze generation process.
+pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -26,9 +35,9 @@ pub fn bfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut O
     });
 
     while let Some(current) = storage.pop() {
-        let neighbours = neighbours_block(maze, current, shape);
+        let neighbours = neighbours_block(maze, current, unit_shape);
 
-        if neighbours.len() >= shape.sides() - 1 {
+        if neighbours.len() >= unit_shape.sides() - 1 {
             maze[current] = 1;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));
@@ -42,14 +51,24 @@ pub fn bfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut O
         storage.shuffle(&mut rng())
     }
 }
-/// Generates a maze using a depth-first search (DFS) algorithm starting from the source node.
+
+/// Generates a maze using a depth-first search (DFS) algorithm starting from the source nodes.
+///
+/// This algorithm explores the maze space by visiting nodes in depth-first order, creating
+/// passages between nodes when they satisfy the unit shape's criteria. The result is a maze
+/// with longer corridors and fewer branches compared to BFS.
 ///
 /// # Arguments
 ///
 /// * `maze` - A mutable reference to the maze structure.
-/// * `source` - The starting node for the DFS.
-/// * `tracer` - An optional mutable reference to a tracer for recording the path.
-pub fn dfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
+/// * `unit_shape` - The shape type that defines the neighbors structure and validation criteria.
+/// * `source` - The starting nodes for the DFS algorithm.
+/// * `tracer` - An optional mutable reference to a tracer for recording the path generation.
+///
+/// # Note
+///
+/// The algorithm will validate all source nodes before beginning the maze generation process.
+pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -71,8 +90,8 @@ pub fn dfs(maze: &mut Maze, shape: &UnitShape, source: Vec<Node>, tracer: &mut O
         storages.iter_mut().enumerate().for_each(|(idx, storage)| {
             if skip_idx.contains(&idx) {
             } else if let Some(current) = storage.pop_back() {
-                let mut neighbours = neighbours_block(maze, current, shape);
-                if neighbours.len() >= shape.sides() - 1 {
+                let mut neighbours = neighbours_block(maze, current, unit_shape);
+                if neighbours.len() >= unit_shape.sides() - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = 1;
                     if let Some(trace) = tracer {

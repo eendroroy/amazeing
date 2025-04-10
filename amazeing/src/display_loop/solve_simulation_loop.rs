@@ -71,7 +71,7 @@ pub(crate) async fn solve_simulation_loop(
         {
             solve_maze(
                 &context.maze,
-                &draw_context.shape,
+                &draw_context.unit_shape,
                 source.unwrap(),
                 destination.unwrap(),
                 &context.procedure.clone(),
