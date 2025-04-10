@@ -2,6 +2,8 @@
 
 Amazeing is a maze generator/solver application with simulation/visualization.
 
+![hex_maze_gen.png](hex_maze_gen.png)
+
 ## Installation
 
 Clone the repository and build the project:
@@ -45,12 +47,12 @@ cargo install --path amazeing
 # generate 21x21 maze using BFS - single source
 amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --shape square
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -R square
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -U square
 
 # simulate - multi source
 amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -f 25 -R hexagonal
+amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -f 25 -U hexagonal
 ```
 
 #### Generate - multi source
@@ -59,12 +61,12 @@ amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -f 25 -R hexagonal
 # generate 21x21 maze using BFS - multi source
 amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --shape sqaure
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -R square
+amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
 
 # simulate - multi source
 amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -f 25 -R hexagonal
+amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -f 25 -U hexagonal
 ```
 
 #### Update
@@ -82,12 +84,12 @@ amazeing V -m bfs_21_21.maze -u
 # solve bfs_21_21.maze
 amazeing solve --maze bfs_21_21.maze --procedure bfs --shape hexagonal
 # short
-amazeing S -m bfs_21_21.maze -p bfs -R hexagonal
+amazeing S -m bfs_21_21.maze -p bfs -U hexagonal
 
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --share square
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-share square
 # short
-amazeing S -m bfs_21_21.maze -p bfs -v -f 25 -R square
+amazeing S -m bfs_21_21.maze -p bfs -v -f 25 -U square
 ```
 
 ## Generate Maze
