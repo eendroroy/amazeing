@@ -48,8 +48,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-t+[Simulation speed]:TEMPO:_default' \
-'--tempo=[Simulation speed]:TEMPO:_default' \
+'-f+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-B+[Block shape]:Shape:(square hexagon)' \
 '--block-shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -59,7 +59,6 @@ _arguments "${_arguments_options[@]}" : \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-v[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
@@ -77,8 +76,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-t+[Simulation speed]:TEMPO:_default' \
-'--tempo=[Simulation speed]:TEMPO:_default' \
+'-f+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-B+[Block shape]:Shape:(square hexagon)' \
 '--block-shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -88,7 +87,6 @@ _arguments "${_arguments_options[@]}" : \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-v[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \

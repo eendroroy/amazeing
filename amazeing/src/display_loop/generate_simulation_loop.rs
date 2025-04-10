@@ -1,5 +1,5 @@
 use crate::context::{ColorContext, CreateContext, DrawContext};
-use crate::helper::{add_source, current_millis, draw_maze, dump_maze_to_file, generate_maze};
+use crate::helper::{add_source, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -17,8 +17,6 @@ pub(crate) async fn generate_simulation_loop(
     let mut tracer: Option<Tracer> = Some(vec![]);
 
     let mut path: Trace = HashMap::new();
-    let mut last_millis = 0;
-    let update_interval = 1000 / context.tempo as u128;
 
     let mut trace_complete = false;
     let mut simulating = false;
@@ -32,9 +30,8 @@ pub(crate) async fn generate_simulation_loop(
                 paused = !paused;
             }
 
-            if !paused && !trace_complete && last_millis + update_interval <= current_millis() {
+            if !paused && !trace_complete {
                 path = trace.remove(0);
-                last_millis = current_millis();
                 if trace.is_empty() {
                     trace_complete = true;
                     simulating = false;
@@ -74,6 +71,8 @@ pub(crate) async fn generate_simulation_loop(
         if is_key_released(KeyCode::Q) {
             break;
         }
+
+        delay_till_next_frame(context.tempo as f32);
 
         next_frame().await
     }

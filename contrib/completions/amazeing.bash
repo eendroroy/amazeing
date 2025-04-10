@@ -98,7 +98,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -s -p -r -c -v -t -B -S -D -C -h --maze --source --procedure --rows --cols --verbose --verbose --tempo --block-shape --display-size --display-density --color-scheme --help"
+            opts="-m -s -p -r -c -v -f -B -S -D -C -h --maze --source --procedure --rows --cols --verbose --fps --block-shape --display-size --display-density --color-scheme --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -144,11 +144,11 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --tempo)
+                --fps)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -t)
+                -f)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;

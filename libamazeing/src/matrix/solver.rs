@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::neighbour::neighbours_open;
-use super::{Node, NodeHeuFn, Pop, Push, UnitShape, Tracer};
+use super::{Node, NodeHeuFn, Pop, Push, Tracer, UnitShape};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -174,7 +174,13 @@ pub fn dfs(maze: &Maze, shape: &UnitShape, source: Node, destination: Node, trac
 ///
 /// A vector of nodes representing the path from the start node to the destination node.
 /// If no path is found, an empty vector is returned.
-pub fn dijkstra(maze: &Maze, shape: &UnitShape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn dijkstra(
+    maze: &Maze,
+    shape: &UnitShape,
+    source: Node,
+    destination: Node,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
     weighted_traverse(maze, shape, source, destination, dijkstra_heuristic, tracer)
 }
 

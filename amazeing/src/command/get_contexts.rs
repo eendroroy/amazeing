@@ -1,4 +1,4 @@
-use crate::command::{AmazeingArgs, ArgCommand, ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgBlockShape};
+use crate::command::{AmazeingArgs, ArgCommand, ArgHeuristic};
 use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
 use amazeing::matrix::Node;
@@ -16,7 +16,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             procedure,
             rows,
             cols,
-            tempo,
+            fps: tempo,
             ..
         } => {
             gradient_steps = GRADIENT_STEPS(rows, cols);
@@ -67,11 +67,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
         }
     };
 
-    let draw_ctx = DrawContext::from(
-        args.display_density.unwrap_or(ArgDisplayDensity::Standard),
-        args.display_size.unwrap_or(ArgDisplaySize::M),
-        args.block_shape.unwrap_or(ArgBlockShape::Square).shape(),
-    );
+    let draw_ctx = DrawContext::from(args.display_density, args.display_size, args.block_shape.shape());
 
     let colors = if let Some(path) = args.color_scheme {
         ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)

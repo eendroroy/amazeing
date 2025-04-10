@@ -1,5 +1,5 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
-use amazeing::matrix::{Maze, Node, NodeHeuFn, UnitShape, Tracer};
+use amazeing::matrix::{Maze, Node, NodeHeuFn, Tracer, UnitShape};
 
 pub(crate) fn solve_maze(
     maze: &Maze,
