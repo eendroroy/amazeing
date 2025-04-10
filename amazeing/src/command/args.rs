@@ -36,7 +36,7 @@ pub struct AmazeingArgs {
     pub display_density: ArgDisplayDensity,
 
     /// Color scheme file (.toml) path
-    #[clap(global = true, short = 'C', display_order=103, long, value_name = "SCHEME.TOML")]
+    #[clap(global = true, short = 'C', display_order = 103, long, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 }
 
@@ -76,7 +76,7 @@ pub enum ArgCommand {
         verbose: bool,
 
         /// Simulation speed
-        #[clap(long, short, display_order=104, default_value_t = 60)]
+        #[clap(long, short, display_order = 104, default_value_t = 60)]
         fps: u8,
     },
     /// View a Maze
@@ -110,7 +110,7 @@ pub enum ArgCommand {
         verbose: bool,
 
         /// Simulation speed
-        #[clap(long, short, display_order=104, default_value_t = 5)]
+        #[clap(long, short, display_order = 104, default_value_t = 5)]
         fps: u8,
     },
 }
