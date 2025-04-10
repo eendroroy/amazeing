@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::neighbour::neighbours_open;
-use super::{Node, NodeHeuFn, Pop, Push, Shape, Tracer};
+use super::{Node, NodeHeuFn, Pop, Push, UnitShape, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -27,7 +27,7 @@ impl Ord for DNodeWeighted {
 
 fn traverse(
     maze: &Maze,
-    shape: &Shape,
+    shape: &UnitShape,
     source: Node,
     destination: Node,
     push: Push,
@@ -67,7 +67,7 @@ fn traverse(
 
 fn weighted_traverse(
     maze: &Maze,
-    shape: &Shape,
+    shape: &UnitShape,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
@@ -129,7 +129,7 @@ fn weighted_traverse(
 ///
 /// A vector of nodes representing the path from source to destination.
 /// If no path is found, an empty vector is returned.
-pub fn bfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn bfs(maze: &Maze, shape: &UnitShape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_front();
     traverse(maze, shape, source, destination, push, pop, tracer)
@@ -149,7 +149,7 @@ pub fn bfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: 
 ///
 /// A vector of nodes representing the path from source to destination.
 /// If no path is found, an empty vector is returned.
-pub fn dfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn dfs(maze: &Maze, shape: &UnitShape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
 
@@ -174,7 +174,7 @@ pub fn dfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: 
 ///
 /// A vector of nodes representing the path from the start node to the destination node.
 /// If no path is found, an empty vector is returned.
-pub fn dijkstra(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+pub fn dijkstra(maze: &Maze, shape: &UnitShape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, shape, source, destination, dijkstra_heuristic, tracer)
 }
 
@@ -199,7 +199,7 @@ pub fn dijkstra(maze: &Maze, shape: &Shape, source: Node, destination: Node, tra
 /// If no path is found, an empty vector is returned.
 pub fn a_star(
     maze: &Maze,
-    shape: &Shape,
+    shape: &UnitShape,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,

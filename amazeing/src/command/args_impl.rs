@@ -1,8 +1,8 @@
-use crate::command::{ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgShape};
+use crate::command::{ArgDisplayDensity, ArgDisplaySize, ArgHeuristic, ArgBlockShape};
 use amazeing::matrix::heuristics::{
     chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
 };
-use amazeing::matrix::{NodeHeuFn, Shape};
+use amazeing::matrix::{NodeHeuFn, UnitShape};
 
 impl ArgDisplaySize {
     pub fn size(&self, density: f32, shape: f32) -> (f32, f32, f32) {
@@ -18,11 +18,11 @@ impl ArgDisplaySize {
     }
 }
 
-impl ArgShape {
-    pub fn shape(&self) -> Shape {
+impl ArgBlockShape {
+    pub fn shape(&self) -> UnitShape {
         match self {
-            ArgShape::Square => Shape::Square,
-            ArgShape::Hexagon => Shape::Hexagon,
+            ArgBlockShape::Square => UnitShape::Square,
+            ArgBlockShape::Hexagon => UnitShape::Hexagon,
         }
     }
 }

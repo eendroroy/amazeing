@@ -1,9 +1,9 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
-use amazeing::matrix::{Maze, Node, NodeHeuFn, Shape, Tracer};
+use amazeing::matrix::{Maze, Node, NodeHeuFn, UnitShape, Tracer};
 
 pub(crate) fn solve_maze(
     maze: &Maze,
-    shape: &Shape,
+    shape: &UnitShape,
     from: Node,
     to: Node,
     procedure: &ArgSolveProcedure,
@@ -20,7 +20,7 @@ pub(crate) fn solve_maze(
 
 pub(crate) fn generate_maze(
     maze: &mut Maze,
-    shape: &Shape,
+    shape: &UnitShape,
     from: Vec<Node>,
     procedure: &ArgGenProcedure,
     tracer: &mut Option<Tracer>,
