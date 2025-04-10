@@ -28,30 +28,8 @@ pub(crate) async fn solve_simulation_loop(
     let mut trace_index = 0;
 
     loop {
-        if is_mouse_button_pressed(MouseButton::Left) && !simulating {
-            populate_source_destination(draw_context, &context.maze, &mut source, &mut destination);
-        }
-
-        if is_key_pressed(KeyCode::S) && !simulating && source.is_some() && destination.is_some() {
-            solve_maze(
-                &context.maze,
-                &draw_context.shape,
-                source.unwrap(),
-                destination.unwrap(),
-                &context.procedure.clone(),
-                Some(context.heuristic),
-                &mut tracer,
-            );
-            simulating = true;
-            trace = tracer.clone().unwrap();
-        }
-
-        if is_key_pressed(KeyCode::Q) {
-            break;
-        }
-
         if simulating {
-            if is_key_pressed(KeyCode::Space) {
+            if is_key_released(KeyCode::Space) {
                 paused = !paused;
             }
 
@@ -83,6 +61,32 @@ pub(crate) async fn solve_simulation_loop(
                 (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
                 false,
             );
+        }
+
+        if !simulating && is_mouse_button_released(MouseButton::Left) {
+            populate_source_destination(draw_context, &context.maze, &mut source, &mut destination);
+        }
+
+        if !simulating
+            && source.is_some()
+            && destination.is_some()
+            && (is_key_released(KeyCode::S) || is_key_released(KeyCode::Space))
+        {
+            solve_maze(
+                &context.maze,
+                &draw_context.shape,
+                source.unwrap(),
+                destination.unwrap(),
+                &context.procedure.clone(),
+                Some(context.heuristic),
+                &mut tracer,
+            );
+            simulating = true;
+            trace = tracer.clone().unwrap();
+        }
+
+        if is_key_released(KeyCode::Q) {
+            break;
         }
 
         next_frame().await

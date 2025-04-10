@@ -22,7 +22,7 @@ impl ColorContext {
             color_block: Color::from_hex(0x003f5c),
             color_open: Color::from_hex(0xfff0d4),
             color_visiting: Color::from_hex(0xbc5090),
-            color_visiting_gradient: gradient(Color::from_hex(0xbc5090), Color::from_hex(0xff0000), steps),
+            color_visiting_gradient: gradient(Color::from_hex(0xff0000), Color::from_hex(0xbc5090), steps),
             color_path: Color::from_hex(0xff6361),
             color_source: Color::from_hex(0xffa600),
             color_destination: Color::from_hex(0xffa600),
