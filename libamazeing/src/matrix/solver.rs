@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::neighbour::neighbours_open;
-use super::{Node, NodeHeuFn, Shape, Tracer};
+use super::{Node, NodeHeuFn, Pop, Push, Shape, Tracer};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -30,8 +30,8 @@ fn traverse(
     shape: &Shape,
     source: Node,
     destination: Node,
-    push: fn(&mut VecDeque<Node>, Node),
-    pop: fn(&mut VecDeque<Node>) -> Option<Node>,
+    push: Push,
+    pop: Pop,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
     let storage = &mut VecDeque::new();
@@ -120,17 +120,19 @@ fn weighted_traverse(
 /// # Arguments
 ///
 /// * `maze` - A reference to the maze to be traversed.
-/// * `start` - The starting node.
-/// * `end` - The destination node.
+/// * `shape` - The shape of the maze, which determines the connectivity of nodes.
+/// * `source` - The starting node.
+/// * `destination` - The destination node.
 /// * `tracer` - An optional tracer to record the path.
 ///
 /// # Returns
 ///
-/// A vector of nodes representing the path from start to end.
-pub fn bfs(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+/// A vector of nodes representing the path from source to destination.
+/// If no path is found, an empty vector is returned.
+pub fn bfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_front();
-    traverse(maze, shape, start, end, push, pop, tracer)
+    traverse(maze, shape, source, destination, push, pop, tracer)
 }
 
 /// Performs a depth-first search (DFS) on the maze from the start node to the end node.
@@ -138,56 +140,70 @@ pub fn bfs(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Opti
 /// # Arguments
 ///
 /// * `maze` - A reference to the maze to be traversed.
-/// * `start` - The starting node.
-/// * `end` - The destination node.
+/// * `shape` - The shape of the maze, which determines the connectivity of nodes.
+/// * `source` - The starting node.
+/// * `destination` - The destination node.
 /// * `tracer` - An optional tracer to record the path.
 ///
 /// # Returns
 ///
-/// A vector of nodes representing the path from start to end.
-pub fn dfs(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+/// A vector of nodes representing the path from source to destination.
+/// If no path is found, an empty vector is returned.
+pub fn dfs(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
 
-    traverse(maze, shape, start, end, push, pop, tracer)
+    traverse(maze, shape, source, destination, push, pop, tracer)
 }
 
 /// Performs Dijkstra's algorithm on the maze from the start node to the end node.
 ///
+/// This function uses Dijkstra's algorithm, which is a graph search algorithm
+/// that finds the shortest path between nodes in a weighted graph. It explores
+/// all possible paths, ensuring the shortest path is found.
+///
 /// # Arguments
 ///
 /// * `maze` - A reference to the maze to be traversed.
-/// * `start` - The starting node.
-/// * `end` - The destination node.
-/// * `tracer` - An optional tracer to record the path.
+/// * `shape` - The shape of the maze, which determines the connectivity of nodes.
+/// * `source` - The starting node.
+/// * `destination` - The destination node.
+/// * `tracer` - An optional tracer to record the path during traversal.
 ///
 /// # Returns
 ///
-/// A vector of nodes representing the path from start to end.
-pub fn dijkstra(maze: &Maze, shape: &Shape, start: Node, end: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
-    weighted_traverse(maze, shape, start, end, dijkstra_heuristic, tracer)
+/// A vector of nodes representing the path from the start node to the destination node.
+/// If no path is found, an empty vector is returned.
+pub fn dijkstra(maze: &Maze, shape: &Shape, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    weighted_traverse(maze, shape, source, destination, dijkstra_heuristic, tracer)
 }
 
 /// Performs the A* algorithm on the maze from the start node to the end node.
 ///
+/// This function uses the A* search algorithm, which combines the benefits of
+/// Dijkstra's algorithm and a heuristic function to efficiently find the shortest
+/// path in a weighted graph.
+///
 /// # Arguments
 ///
 /// * `maze` - A reference to the maze to be traversed.
-/// * `start` - The starting node.
-/// * `end` - The destination node.
+/// * `shape` - The shape of the maze, which determines the connectivity of nodes.
+/// * `source` - The starting node.
+/// * `destination` - The destination node.
 /// * `heu` - A heuristic function to estimate the cost from a node to the destination.
-/// * `tracer` - An optional tracer to record the path.
+/// * `tracer` - An optional tracer to record the path during traversal.
 ///
 /// # Returns
 ///
-/// A vector of nodes representing the path from start to end.
+/// A vector of nodes representing the path from the start node to the destination node.
+/// If no path is found, an empty vector is returned.
 pub fn a_star(
     maze: &Maze,
     shape: &Shape,
-    start: Node,
-    end: Node,
+    source: Node,
+    destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
-    weighted_traverse(maze, shape, start, end, heu, tracer)
+    weighted_traverse(maze, shape, source, destination, heu, tracer)
 }
