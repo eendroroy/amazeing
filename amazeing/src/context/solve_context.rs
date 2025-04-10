@@ -6,5 +6,5 @@ pub struct SolveContext {
     pub(crate) maze: Maze,
     pub(crate) procedure: ArgSolveProcedure,
     pub(crate) heuristic: NodeHeuFn,
-    pub(crate) tempo: u8,
+    pub(crate) fps: u8,
 }

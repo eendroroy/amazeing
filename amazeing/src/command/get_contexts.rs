@@ -1,4 +1,4 @@
-use crate::command::{AmazeingArgs, ArgCommand, ArgHeuristic};
+use crate::command::{AmazeingArgs, ArgCommand};
 use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
 use amazeing::matrix::Node;
@@ -16,7 +16,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             procedure,
             rows,
             cols,
-            fps: tempo,
+            fps,
             ..
         } => {
             gradient_steps = GRADIENT_STEPS(rows, cols);
@@ -27,7 +27,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                     procedure,
                     rows,
                     cols,
-                    tempo,
+                    fps: fps,
                 }),
                 None,
                 None,
@@ -49,7 +49,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             maze,
             procedure,
             heuristic_function,
-            tempo,
+            fps,
             ..
         } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
@@ -60,8 +60,8 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 Some(SolveContext {
                     maze: loaded_maze,
                     procedure,
-                    tempo,
-                    heuristic: heuristic_function.unwrap_or(ArgHeuristic::Dijkstra).heuristic(),
+                    fps,
+                    heuristic: heuristic_function.heuristic(),
                 }),
             )
         }

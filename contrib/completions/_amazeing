@@ -136,8 +136,8 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-t+[Simulation speed]:TEMPO:_default' \
-'--tempo=[Simulation speed]:TEMPO:_default' \
+'-f+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-B+[Block shape]:Shape:(square hexagon)' \
 '--block-shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -161,8 +161,8 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-t+[Simulation speed]:TEMPO:_default' \
-'--tempo=[Simulation speed]:TEMPO:_default' \
+'-f+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-B+[Block shape]:Shape:(square hexagon)' \
 '--block-shape=[Block shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \

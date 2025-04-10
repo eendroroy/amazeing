@@ -262,7 +262,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -t -B -S -D -C -h --maze --procedure --heuristic-function --verbose --verbose --tempo --block-shape --display-size --display-density --color-scheme --help"
+            opts="-m -p -H -v -f -B -S -D -C -h --maze --procedure --heuristic-function --verbose --verbose --fps --block-shape --display-size --display-density --color-scheme --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -292,11 +292,11 @@ _amazeing() {
                     COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
                     return 0
                     ;;
-                --tempo)
+                --fps)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -t)
+                -f)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;

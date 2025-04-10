@@ -102,8 +102,8 @@ pub enum ArgCommand {
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
-        #[clap(long, short = 'H', required_if_eq("procedure", "a-star"))]
-        heuristic_function: Option<ArgHeuristic>,
+        #[clap(long, short = 'H', default_value_t=ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
+        heuristic_function: ArgHeuristic,
 
         /// Show a simulation of the generation process
         #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
@@ -111,7 +111,7 @@ pub enum ArgCommand {
 
         /// Simulation speed
         #[clap(long, short, default_value_t = 5)]
-        tempo: u8,
+        fps: u8,
     },
 }
 
@@ -197,4 +197,16 @@ pub enum ArgHeuristic {
     Chebyshev,
     Octile,
     Dijkstra,
+}
+
+impl Display for ArgHeuristic {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgHeuristic::Manhattan => write!(f, "manhattan"),
+            ArgHeuristic::Euclidean => write!(f, "euclidean"),
+            ArgHeuristic::Chebyshev => write!(f, "chebyshev"),
+            ArgHeuristic::Octile => write!(f, "octile"),
+            ArgHeuristic::Dijkstra => write!(f, "dijkstra"),
+        }
+    }
 }

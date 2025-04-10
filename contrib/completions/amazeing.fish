@@ -142,7 +142,7 @@ euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s f -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s B -l block-shape -d 'Block shape' -r -f -a "square\t''
 hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
@@ -170,7 +170,7 @@ euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s t -l tempo -d 'Simulation speed' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s f -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s B -l block-shape -d 'Block shape' -r -f -a "square\t''
 hexagon\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
