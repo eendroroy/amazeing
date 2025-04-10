@@ -1,9 +1,5 @@
 use macroquad::prelude::Color;
 
-fn step_length(a: f32, b: f32, steps: u8) -> f32 {
-    if a == b { 0. } else { (a - b).round() / (steps - 1) as f32 }
-}
-
 pub(crate) fn gradient(c1: Color, c2: Color, steps: u8) -> Vec<Color> {
     if steps <= 1 {
         return vec![c2];
