@@ -20,7 +20,7 @@ cargo install --path amazeing
 
 ### Key/Mouse events
 
-- (`LeftControl` / `RightControl`) + `I` - Save current screen as png in current directory
+- (`LeftControl`/`RightControl`)+`I` - Save current screen as png in current directory
 - Create
     - `G`/`<Space>` - (Re)Generate Maze
     - Additional action in simulation mode (`--verbose`/`-v`):
@@ -32,6 +32,7 @@ cargo install --path amazeing
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
     - `Shift`+`LeftClick` - Block Path
+    - (`LeftControl`/`RightControl`)+`S` - Save current maze to same file
 
 - Solve
     - `LeftClick` - Select Source
@@ -53,7 +54,7 @@ amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -U square
 # simulate - multi source
 amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -f 25 -U hexagonal
+amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 ```
 
 #### Generate - multi source
@@ -67,7 +68,7 @@ amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
 # simulate - multi source
 amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -f 25 -U hexagonal
+amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
 ```
 
 #### Update
@@ -90,7 +91,7 @@ amazeing S -m bfs_21_21.maze -p bfs -U hexagonal
 # simulate
 amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-share square
 # short
-amazeing S -m bfs_21_21.maze -p bfs -v -f 25 -U square
+amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 ```
 
 ## Generate Maze

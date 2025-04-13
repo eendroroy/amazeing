@@ -8,11 +8,6 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
     loop {
         draw_maze(draw_context, color_context, maze, None, None, (vec![], None), false);
 
-        if is_key_pressed(KeyCode::Q) {
-            dump_maze_to_file(&context.maze_file_path, maze);
-            break;
-        }
-
         if is_mouse_button_pressed(MouseButton::Left) {
             let value = if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
                 0
@@ -29,6 +24,14 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
             if is_key_pressed(KeyCode::I) {
                 get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), maze.rows(), maze.cols()));
             }
+
+            if is_key_pressed(KeyCode::S) {
+                dump_maze_to_file(&context.maze_file_path, maze);
+            }
+        }
+
+        if is_key_pressed(KeyCode::Q) {
+            break;
         }
 
         delay_till_next_frame(draw_context.fps as f32);
