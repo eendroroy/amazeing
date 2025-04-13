@@ -1,4 +1,4 @@
-use crate::command::{ArgDisplayDensity, ArgDisplaySize};
+use crate::command::ArgDisplaySize;
 use amazeing::matrix::{Node, UnitShape};
 use std::f32::consts::PI;
 
@@ -14,13 +14,13 @@ pub struct DrawContext {
 }
 
 impl DrawContext {
-    pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, unit_shape: UnitShape, fps: u8) -> Self {
+    pub fn from(size: ArgDisplaySize, unit_shape: UnitShape, fps: u8) -> Self {
         let shape_multiplier = match unit_shape {
             UnitShape::Hexagon | UnitShape::Circle => 0.65,
             _ => 1.0,
         };
 
-        let (margin, border, size) = size.size(density.multiplier(), shape_multiplier);
+        let (margin, border, size) = size.size(shape_multiplier);
 
         let (height, width) = match unit_shape {
             UnitShape::Hexagon | UnitShape::Circle => (((PI / 6.).sin() + 1.0) * size, (PI / 6.).cos() * size * 2.0),

@@ -19,8 +19,6 @@ _amazeing() {
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -54,8 +52,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -82,8 +78,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -102,8 +96,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -122,8 +114,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -146,8 +136,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -171,8 +159,6 @@ _arguments "${_arguments_options[@]}" : \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
-'--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \

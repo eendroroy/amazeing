@@ -52,7 +52,7 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-U -S -D -C -F -h -V --unit-shape --display-size --display-density --color-scheme --fps --help --version create C view V solve S help"
+            opts="-U -S -C -F -h -V --unit-shape --display-size --color-scheme --fps --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -72,14 +72,6 @@ _amazeing() {
                     ;;
                 -S)
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
-                    return 0
-                    ;;
-                --display-density)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
-                    return 0
-                    ;;
-                -D)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
                     return 0
                     ;;
                 --color-scheme)
@@ -106,7 +98,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -s -p -r -c -v -U -S -D -C -F -h --maze --source --procedure --rows --cols --verbose --unit-shape --display-size --display-density --color-scheme --fps --help"
+            opts="-m -s -p -r -c -v -U -S -C -F -h --maze --source --procedure --rows --cols --verbose --unit-shape --display-size --color-scheme --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -166,14 +158,6 @@ _amazeing() {
                     ;;
                 -S)
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
-                    return 0
-                    ;;
-                --display-density)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
-                    return 0
-                    ;;
-                -D)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
                     return 0
                     ;;
                 --color-scheme)
@@ -270,7 +254,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -U -S -D -C -F -h --maze --procedure --heuristic-function --verbose --verbose --unit-shape --display-size --display-density --color-scheme --fps --help"
+            opts="-m -p -H -v -U -S -C -F -h --maze --procedure --heuristic-function --verbose --verbose --unit-shape --display-size --color-scheme --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -316,14 +300,6 @@ _amazeing() {
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
                     return 0
                     ;;
-                --display-density)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
-                    return 0
-                    ;;
-                -D)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
-                    return 0
-                    ;;
                 --color-scheme)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
@@ -348,7 +324,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__view)
-            opts="-m -u -U -S -D -C -F -h --maze --update --unit-shape --display-size --display-density --color-scheme --fps --help"
+            opts="-m -u -U -S -C -F -h --maze --update --unit-shape --display-size --color-scheme --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -376,14 +352,6 @@ _amazeing() {
                     ;;
                 -S)
                     COMPREPLY=($(compgen -W "xxs xs s m l xl xxl" -- "${cur}"))
-                    return 0
-                    ;;
-                --display-density)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
-                    return 0
-                    ;;
-                -D)
-                    COMPREPLY=($(compgen -W "connected dense standard cozy ample" -- "${cur}"))
                     return 0
                     ;;
                 --color-scheme)
