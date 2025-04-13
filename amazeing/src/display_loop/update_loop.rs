@@ -6,6 +6,8 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
     let maze = &mut context.maze.clone();
 
     loop {
+        draw_maze(draw_context, color_context, maze, None, None, (vec![], None), false);
+
         if is_key_pressed(KeyCode::Q) {
             dump_maze_to_file(&context.maze_file_path, maze);
             break;
@@ -22,8 +24,6 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
 
             maze[node] = value;
         }
-
-        draw_maze(draw_context, color_context, maze, None, None, (vec![], None), false);
         next_frame().await
     }
 }

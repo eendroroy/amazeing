@@ -7,6 +7,8 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
     let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
 
     loop {
+        draw_maze(draw_context, color_context, &maze, None, None, (context.sources.clone(), None), false);
+
         if is_key_pressed(KeyCode::Q) {
             break;
         }
@@ -16,7 +18,6 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
             generate_maze(&mut maze, &draw_context.unit_shape, context.sources.clone(), &context.procedure, &mut None);
         }
 
-        draw_maze(draw_context, color_context, &maze, None, None, (context.sources.clone(), None), false);
         next_frame().await
     }
 

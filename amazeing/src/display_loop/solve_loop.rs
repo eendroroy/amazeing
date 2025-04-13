@@ -11,7 +11,16 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
     let mut destination: Option<Node> = None;
 
     loop {
-        clear_background(color_context.color_bg);
+        draw_maze(
+            draw_context,
+            color_context,
+            maze,
+            None,
+            Some(&current_path),
+            (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
+            false,
+        );
+
         if is_mouse_button_pressed(MouseButton::Left) {
             populate_source_destination(draw_context, maze, &mut source, &mut destination);
 
@@ -32,15 +41,6 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             break;
         }
 
-        draw_maze(
-            draw_context,
-            color_context,
-            maze,
-            None,
-            Some(&current_path),
-            (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
-            false,
-        );
         next_frame().await
     }
 }

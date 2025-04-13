@@ -26,10 +26,6 @@ pub(crate) async fn generate_simulation_loop(
 
     loop {
         if simulating {
-            if is_key_released(KeyCode::Space) {
-                paused = !paused;
-            }
-
             if !paused && !trace_complete {
                 path = trace.remove(0);
                 if trace.is_empty() {
@@ -47,6 +43,10 @@ pub(crate) async fn generate_simulation_loop(
                 (sources.clone(), None),
                 true,
             );
+
+            if is_key_pressed(KeyCode::Space) {
+                paused = !paused;
+            }
         } else if trace_complete {
             draw_maze(draw_context, color_context, &maze, None, None, (sources.clone(), None), false);
         } else {
@@ -58,7 +58,7 @@ pub(crate) async fn generate_simulation_loop(
                 add_source(draw_context, &mut sources);
             }
 
-            if is_key_released(KeyCode::S) || is_key_released(KeyCode::Space) {
+            if is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space) {
                 generate_maze(&mut maze, &draw_context.unit_shape, sources.clone(), &context.procedure, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &maze);
@@ -68,7 +68,7 @@ pub(crate) async fn generate_simulation_loop(
             }
         }
 
-        if is_key_released(KeyCode::Q) {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 

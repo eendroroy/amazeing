@@ -27,10 +27,6 @@ pub(crate) async fn solve_simulation_loop(
 
     loop {
         if simulating {
-            if is_key_released(KeyCode::Space) {
-                paused = !paused;
-            }
-
             if !paused && !trace_complete {
                 current_path = trace.get(trace_index).unwrap().clone();
                 trace_index += 1;
@@ -47,7 +43,11 @@ pub(crate) async fn solve_simulation_loop(
                 Some(&current_path),
                 (vec![source.unwrap()], destination),
                 !trace_complete,
-            )
+            );
+
+            if is_key_pressed(KeyCode::Space) {
+                paused = !paused;
+            }
         } else {
             draw_maze(
                 draw_context,
@@ -67,7 +67,7 @@ pub(crate) async fn solve_simulation_loop(
         if !simulating
             && source.is_some()
             && destination.is_some()
-            && (is_key_released(KeyCode::S) || is_key_released(KeyCode::Space))
+            && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
             solve_maze(
                 &context.maze,
@@ -82,7 +82,7 @@ pub(crate) async fn solve_simulation_loop(
             trace = tracer.clone().unwrap();
         }
 
-        if is_key_released(KeyCode::Q) {
+        if is_key_pressed(KeyCode::Q) {
             break;
         }
 
