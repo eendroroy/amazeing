@@ -1,5 +1,5 @@
 use crate::command::ArgCommand::{Create, Solve, View};
-use crate::command::{get_contexts, AmazeingArgs};
+use crate::command::{AmazeingArgs, get_contexts};
 use crate::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };

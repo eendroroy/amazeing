@@ -33,7 +33,7 @@ impl DrawContext {
             } else {
                 0.
             },
-            fps
+            fps,
         }
     }
 
