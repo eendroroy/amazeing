@@ -49,12 +49,12 @@ cargo install --path amazeing
 
 ```shell
 # generate 21x21 maze using BFS - single source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --shape square
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-shape square
 # short
 amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -U square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --shape hexagonal
+amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
 # short
 amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 ```
@@ -63,12 +63,12 @@ amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 
 ```shell
 # generate 21x21 maze using BFS - multi source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --shape sqaure
+amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-shape sqaure
 # short
 amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --shape hexagonal
+amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
 # short
 amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
 ```
@@ -86,12 +86,12 @@ amazeing V -m bfs_21_21.maze -u
 
 ```shell
 # solve bfs_21_21.maze
-amazeing solve --maze bfs_21_21.maze --procedure bfs --shape hexagonal
+amazeing solve --maze bfs_21_21.maze --procedure bfs --unit-shape hexagonal
 # short
 amazeing S -m bfs_21_21.maze -p bfs -U hexagonal
 
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-share square
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-shape square
 # short
 amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 ```
