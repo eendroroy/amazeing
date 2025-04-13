@@ -1,5 +1,5 @@
 use crate::context::{ColorContext, CreateContext, DrawContext};
-use crate::helper::{add_source, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
+use crate::helper::{add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::matrix::{Maze, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -65,6 +65,17 @@ pub(crate) async fn generate_simulation_loop(
                 }
                 trace = tracer.clone().unwrap();
                 simulating = true;
+            }
+        }
+
+        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
+            if is_key_pressed(KeyCode::I) {
+                get_screen_data().export_png(&format!(
+                    "maze_{}_{}_{}.png",
+                    current_millis(),
+                    context.rows,
+                    context.cols
+                ));
             }
         }
 

@@ -1,5 +1,7 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{delay_till_next_frame, draw_maze, path_to_trace, populate_source_destination, solve_maze};
+use crate::helper::{
+    current_millis, delay_till_next_frame, draw_maze, path_to_trace, populate_source_destination, solve_maze,
+};
 use amazeing::matrix::{Node, Trace};
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -34,6 +36,12 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
                     Some(context.heuristic),
                     &mut None,
                 ));
+            }
+        }
+
+        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
+            if is_key_pressed(KeyCode::I) {
+                get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), maze.rows(), maze.cols()));
             }
         }
 
