@@ -1,11 +1,12 @@
 use crate::command::ArgCommand::{Create, Solve, View};
-use crate::command::{AmazeingArgs, get_contexts};
+use crate::command::{get_contexts, AmazeingArgs};
 use crate::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
+use macroquad::window::clear_background;
 
 mod command;
 mod context;
@@ -16,6 +17,8 @@ mod helper;
 async fn main() {
     let args = AmazeingArgs::parse();
     let (amz_ctx, draw_context, color_context) = get_contexts(args.clone());
+
+    clear_background(color_context.color_bg);
 
     match args.command.clone() {
         Create { verbose: true, .. } => {

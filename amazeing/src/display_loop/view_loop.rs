@@ -1,5 +1,5 @@
 use crate::context::{ColorContext, DrawContext, ViewContext};
-use crate::helper::draw_maze;
+use crate::helper::{delay_till_next_frame, draw_maze};
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
@@ -9,6 +9,8 @@ pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext,
         if is_key_pressed(KeyCode::Q) {
             break;
         }
+
+        delay_till_next_frame(draw_context.fps as f32);
 
         next_frame().await
     }

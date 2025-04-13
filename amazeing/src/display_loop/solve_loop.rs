@@ -1,5 +1,5 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{draw_maze, path_to_trace, populate_source_destination, solve_maze};
+use crate::helper::{delay_till_next_frame, draw_maze, path_to_trace, populate_source_destination, solve_maze};
 use amazeing::matrix::{Node, Trace};
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -40,6 +40,8 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
         if is_key_pressed(KeyCode::Q) {
             break;
         }
+
+        delay_till_next_frame(draw_context.fps as f32);
 
         next_frame().await
     }
