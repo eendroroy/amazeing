@@ -59,11 +59,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 -U)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)
@@ -153,11 +153,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 -U)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)
@@ -301,11 +301,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 -U)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)
@@ -363,11 +363,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 -U)
-                    COMPREPLY=($(compgen -W "square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 --display-size)

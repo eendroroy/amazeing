@@ -14,7 +14,7 @@ pub(crate) const RIGHT_DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1 + 1));
 pub(crate) fn neighbours(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
     match unit_shape {
         UnitShape::Square => vec![RIGHT, DOWN, LEFT, UP],
-        UnitShape::Hexagon => {
+        UnitShape::Hexagon | UnitShape::Circle => {
             if pos.0 % 2 == 0 {
                 vec![RIGHT, DOWN, LEFT_DOWN, LEFT, LEFT_UP, UP]
             } else {

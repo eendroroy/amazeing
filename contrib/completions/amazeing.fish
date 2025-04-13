@@ -25,7 +25,8 @@ function __fish_amazeing_using_subcommand
 end
 
 complete -c amazeing -n "__fish_amazeing_needs_command" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_needs_command" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -56,7 +57,8 @@ dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -d 'Number of cols' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -80,7 +82,8 @@ dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Number of cols' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -99,7 +102,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -118,7 +122,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -146,7 +151,8 @@ chebyshev\t''
 octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''
@@ -174,7 +180,8 @@ chebyshev\t''
 octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
-hexagon\t''"
+hexagon\t''
+circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
 xs\t''
 s\t''

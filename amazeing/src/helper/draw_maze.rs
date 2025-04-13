@@ -1,7 +1,7 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node, Rank, Trace, UnitShape};
 use macroquad::prelude::{BLANK, Color, draw_rectangle};
-use macroquad::shapes::draw_hexagon;
+use macroquad::shapes::{draw_circle, draw_hexagon};
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,
@@ -54,5 +54,6 @@ fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
     match ctx.unit_shape {
         UnitShape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),
         UnitShape::Hexagon => draw_hexagon(ctx.x(node), ctx.y(node), ctx.size, 0., true, BLANK, color),
+        UnitShape::Circle => draw_circle(ctx.x(node), ctx.y(node), ctx.size, color),
     }
 }

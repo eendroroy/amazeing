@@ -6,6 +6,7 @@
 pub enum UnitShape {
     Square,
     Hexagon,
+    Circle,
 }
 
 impl UnitShape {
@@ -14,6 +15,7 @@ impl UnitShape {
         match self {
             UnitShape::Square => 4,
             UnitShape::Hexagon => 6,
+            UnitShape::Circle => 6,
         }
     }
 }

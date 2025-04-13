@@ -15,26 +15,29 @@ pub struct DrawContext {
 
 impl DrawContext {
     pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, unit_shape: UnitShape, fps: u8) -> Self {
-        let (margin, border, size) =
-            size.size(density.multiplier(), if unit_shape == UnitShape::Hexagon { 0.65 } else { 1.0 });
+        let shape_multiplier = match unit_shape {
+            UnitShape::Hexagon | UnitShape::Circle => 0.65,
+            _ => 1.0,
+        };
 
-        Self {
+        let (margin, border, size) = size.size(density.multiplier(), shape_multiplier);
+
+        let (height, width) = match unit_shape {
+            UnitShape::Hexagon | UnitShape::Circle => (((PI / 6.).sin() + 1.0) * size, (PI / 6.).cos() * size * 2.0),
+            _ => (0., 0.),
+        };
+
+        let ctx = Self {
             margin,
             border,
             size,
             unit_shape: unit_shape.clone(),
-            height: if unit_shape == UnitShape::Hexagon {
-                ((PI / 6.).sin() + 1.0) * size
-            } else {
-                0.
-            },
-            width: if unit_shape == UnitShape::Hexagon {
-                (PI / 6.).cos() * size * 2.0
-            } else {
-                0.
-            },
+            height,
+            width,
             fps,
-        }
+        };
+
+        ctx
     }
 
     pub fn screen_size(&self, rows: usize, cols: usize) -> (u32, u32) {
@@ -43,7 +46,7 @@ impl DrawContext {
                 (self.margin * 2. + cols as f32 * (self.size + self.border)) as u32,
                 (self.margin * 2. + rows as f32 * (self.size + self.border)) as u32,
             ),
-            UnitShape::Hexagon => {
+            UnitShape::Hexagon | UnitShape::Circle => {
                 let width = (self.margin * 2. + cols as f32 * (self.width + self.border)) as u32 + self.size as u32;
                 let height = (self.margin * 2. + rows as f32 * (self.height + self.border)) as u32;
                 (width, height)
@@ -54,7 +57,7 @@ impl DrawContext {
     pub fn x(&self, node: Node) -> f32 {
         match self.unit_shape {
             UnitShape::Square => self.margin + node.1 as f32 * (self.size + self.border),
-            UnitShape::Hexagon => {
+            UnitShape::Hexagon | UnitShape::Circle => {
                 (self.margin + self.size + (node.1 as f32 * self.width) + self.border * node.1 as f32) + self.s(node.0)
             }
         }
@@ -63,7 +66,9 @@ impl DrawContext {
     pub fn y(&self, node: Node) -> f32 {
         match self.unit_shape {
             UnitShape::Square => self.margin + node.0 as f32 * (self.size + self.border),
-            UnitShape::Hexagon => self.margin + self.size + (node.0 as f32 * self.height) + self.border * node.0 as f32,
+            UnitShape::Hexagon | UnitShape::Circle => {
+                self.margin + self.size + (node.0 as f32 * self.height) + self.border * node.0 as f32
+            }
         }
     }
 

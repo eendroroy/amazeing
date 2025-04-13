@@ -23,6 +23,7 @@ impl ArgUnitShape {
         match self {
             ArgUnitShape::Square => UnitShape::Square,
             ArgUnitShape::Hexagon => UnitShape::Hexagon,
+            ArgUnitShape::Circle => UnitShape::Circle,
         }
     }
 }

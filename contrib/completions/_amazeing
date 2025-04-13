@@ -15,8 +15,8 @@ _amazeing() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" : \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -50,8 +50,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -78,8 +78,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -98,8 +98,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -118,8 +118,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -142,8 +142,8 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
@@ -167,8 +167,8 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-U+[Unit shape]:Shape:(square hexagon)' \
-'--unit-shape=[Unit shape]:Shape:(square hexagon)' \
+'-U+[Unit shape]:Shape:(square hexagon circle)' \
+'--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
 '-D+[Display density]:DENSITY:(connected dense standard cozy ample)' \
