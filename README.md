@@ -2,9 +2,9 @@
 
 Amazeing is a maze generator/solver application with simulation/visualization.
 
-![title_image_1.png](title_image_1.png)
-![title_image_2.png](title_image_2.png)
-![title_image_3.png](title_image_3.png)
+![title_image_1.png](assets/image/title_image_1.png)
+![title_image_2.png](assets/image/title_image_2.png)
+![title_image_3.png](assets/image/title_image_3.png)
 
 ## Installation
 
@@ -116,9 +116,9 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 
 ## Add-on
 
-[Color scheme generator](contrib/scheme-generator.html)
+[Color scheme generator](assets/scheme-generator.html)
 
-<iframe src="contrib/scheme-generator.html" width="100%" height="890px"></iframe>
+<iframe src="assets/scheme-generator.html" width="100%" height="890px"></iframe>
 
 ## License
 
