@@ -9,5 +9,5 @@ pub(crate) fn delay_till_next_frame(fps: f32) {
         time_to_sleep = (minimum_frame_time - frame_time) * 1000.;
         std::thread::sleep(std::time::Duration::from_millis(time_to_sleep as u64));
     }
-    // println!("Min Frame time: {}ms | Frame time: {}ms | Sleep for {}ms", minimum_frame_time, frame_time * 1000., time_to_sleep);
+    // println!("Min Frame time: {}ms | Frame time: {}ms | Sleep for {}ms", minimum_frame_time * 1000., frame_time * 1000., time_to_sleep);
 }

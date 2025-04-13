@@ -58,10 +58,8 @@ fn window_config() -> Conf {
     Conf {
         window_title: "Amazeing".to_string(),
         high_dpi: true,
-        fullscreen: false,
         sample_count: 10,
         window_resizable: false,
-        icon: None,
         ..Default::default()
     }
 }
