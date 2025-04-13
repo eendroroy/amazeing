@@ -110,11 +110,11 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 | Algorithm      | Shape   |                                                                                                            |
 |----------------|---------|------------------------------------------------------------------------------------------------------------|
 | A* (Octile)    | Hexagon | [![Demo Video](https://img.youtube.com/vi/MRt7X6JGDuo/0.jpg)](https://www.youtube.com/watch?v=MRt7X6JGDuo) |
+| A* (Manhattan) | Square  | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
 | DFS            | Square  | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU)  |
 | BFS            | Square  | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
-| A* (Manhattan) | Square  | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
 
-## Add-on
+## Others
 
 [Color scheme generator](assets/scheme-generator.html)
 
@@ -122,5 +122,5 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 
 ## License
 
-This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html). See
-the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html). 
+See the [LICENSE](./LICENSE) file for more details.
