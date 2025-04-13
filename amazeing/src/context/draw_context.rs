@@ -66,6 +66,6 @@ impl DrawContext {
     }
 
     pub fn s(&self, m: usize) -> f32 {
-        if m % 2 == 1 { self.width / 2.0 } else { 0. }
+        if m % 2 == 1 { (self.width + self.border) / 2.0 } else { 0. }
     }
 }
