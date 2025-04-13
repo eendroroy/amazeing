@@ -2,7 +2,7 @@
 
 Amazeing is a maze generator/solver application with simulation/visualization.
 
-![hex_maze_gen.png](hex_maze_gen.png)
+![title_image.png](title_image.png)
 
 ## Installation
 
