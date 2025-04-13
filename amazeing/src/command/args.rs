@@ -24,19 +24,19 @@ pub struct AmazeingArgs {
     pub command: ArgCommand,
 
     /// Unit shape
-    #[clap(global = true, long, short = 'U', display_order=100, default_value_t=ArgUnitShape::Square, value_name = "Shape")]
+    #[clap(global = true, long, short = 'U', display_order = 100, default_value_t = ArgUnitShape::Square, value_name = "Shape")]
     pub unit_shape: ArgUnitShape,
 
     /// Display size
-    #[clap(global = true, long, short = 'S', display_order=101, default_value_t=ArgDisplaySize::M, value_name = "SIZE")]
+    #[clap(global = true, long, short = 'S', display_order = 101, default_value_t = ArgDisplaySize::M, value_name = "SIZE")]
     pub display_size: ArgDisplaySize,
 
     /// Display density
-    #[clap(global = true, long, short = 'D', display_order=102, default_value_t=ArgDisplayDensity::Standard, value_name = "DENSITY")]
+    #[clap(global = true, long, short = 'D', display_order = 102, default_value_t = ArgDisplayDensity::Standard, value_name = "DENSITY")]
     pub display_density: ArgDisplayDensity,
 
     /// Color scheme file (.toml) path
-    #[clap(global = true, long, short = 'C', display_order = 103, long, value_name = "SCHEME.TOML")]
+    #[clap(global = true, long, short = 'C', display_order = 103, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
 
     /// Simulation speed
@@ -64,7 +64,7 @@ pub enum ArgCommand {
         source: Option<Vec<String>>,
 
         /// Maze Generation Procedure
-        #[clap(long, short)]
+        #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
         procedure: ArgGenProcedure,
 
         /// Number of rows
@@ -98,7 +98,7 @@ pub enum ArgCommand {
         maze: PathBuf,
 
         /// Maze Solving Procedure
-        #[clap(long, short)]
+        #[clap(long, short, default_value_t = ArgSolveProcedure::Dfs)]
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
@@ -180,10 +180,30 @@ pub enum ArgSolveProcedure {
     AStar,
 }
 
+impl Display for ArgSolveProcedure {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgSolveProcedure::Bfs => write!(f, "bfs"),
+            ArgSolveProcedure::Dfs => write!(f, "dfs"),
+            ArgSolveProcedure::Dijkstra => write!(f, "dijkstra"),
+            ArgSolveProcedure::AStar => write!(f, "a-star"),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgGenProcedure {
     Bfs,
     Dfs,
+}
+
+impl Display for ArgGenProcedure {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgGenProcedure::Bfs => write!(f, "bfs"),
+            ArgGenProcedure::Dfs => write!(f, "dfs"),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
