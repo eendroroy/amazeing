@@ -23,6 +23,8 @@ _amazeing() {
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 '-V[Print version]' \
@@ -48,8 +50,6 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-f+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -58,6 +58,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -76,8 +78,6 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of cols]:COLS:_default' \
 '--cols=[Number of cols]:COLS:_default' \
-'-f+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -86,6 +86,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -104,6 +106,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-h[Print help]' \
@@ -122,6 +126,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-h[Print help]' \
@@ -136,8 +142,6 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-f+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -146,6 +150,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
@@ -161,8 +167,6 @@ _arguments "${_arguments_options[@]}" : \
 '--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs dijkstra a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
-'-f+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon)' \
 '-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
@@ -171,6 +175,8 @@ _arguments "${_arguments_options[@]}" : \
 '--display-density=[Display density]:DENSITY:(connected dense standard cozy ample)' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
+'-F+[Simulation speed]:FPS:_default' \
+'--fps=[Simulation speed]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \

@@ -10,10 +10,11 @@ pub struct DrawContext {
     pub(crate) unit_shape: UnitShape,
     pub(crate) height: f32,
     pub(crate) width: f32,
+    pub(crate) fps: u8,
 }
 
 impl DrawContext {
-    pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, unit_shape: UnitShape) -> Self {
+    pub fn from(density: ArgDisplayDensity, size: ArgDisplaySize, unit_shape: UnitShape, fps: u8) -> Self {
         let (margin, border, size) =
             size.size(density.multiplier(), if unit_shape == UnitShape::Hexagon { 0.65 } else { 1.0 });
 
@@ -32,6 +33,7 @@ impl DrawContext {
             } else {
                 0.
             },
+            fps
         }
     }
 

@@ -16,7 +16,6 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             procedure,
             rows,
             cols,
-            fps,
             ..
         } => {
             gradient_steps = GRADIENT_STEPS(rows, cols);
@@ -27,7 +26,6 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                     procedure,
                     rows,
                     cols,
-                    fps,
                 }),
                 None,
                 None,
@@ -49,7 +47,6 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             maze,
             procedure,
             heuristic_function,
-            fps,
             ..
         } => {
             let loaded_maze = load_maze_from_file(maze.as_path());
@@ -60,14 +57,13 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 Some(SolveContext {
                     maze: loaded_maze,
                     procedure,
-                    fps,
                     heuristic: heuristic_function.heuristic(),
                 }),
             )
         }
     };
 
-    let draw_ctx = DrawContext::from(args.display_density, args.display_size, args.unit_shape.shape());
+    let draw_ctx = DrawContext::from(args.display_density, args.display_size, args.unit_shape.shape(), args.fps);
 
     let colors = if let Some(path) = args.color_scheme {
         ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)
