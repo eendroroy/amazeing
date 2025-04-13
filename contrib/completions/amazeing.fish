@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_amazeing_global_optspecs
-	string join \n U/unit-shape= S/display-size= D/display-density= C/color-scheme= F/fps= h/help V/version
+	string join \n U/unit-shape= S/display-size= C/color-scheme= F/fps= h/help V/version
 end
 
 function __fish_amazeing_needs_command
@@ -34,11 +34,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_needs_command" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_needs_command" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_needs_command" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_needs_command" -s h -l help -d 'Print help (see more with \'--help\')'
@@ -66,11 +61,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -91,11 +81,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -111,11 +96,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
@@ -131,11 +111,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s u -l update -d 'View and update'
@@ -160,11 +135,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'
@@ -189,11 +159,6 @@ m\t''
 l\t''
 xl\t''
 xxl\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s D -l display-density -d 'Display density' -r -f -a "connected\t''
-dense\t''
-standard\t''
-cozy\t''
-ample\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'

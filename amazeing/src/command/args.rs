@@ -31,10 +31,6 @@ pub struct AmazeingArgs {
     #[clap(global = true, long, short = 'S', display_order = 101, default_value_t = ArgDisplaySize::M, value_name = "SIZE")]
     pub display_size: ArgDisplaySize,
 
-    /// Display density
-    #[clap(global = true, long, short = 'D', display_order = 102, default_value_t = ArgDisplayDensity::Standard, value_name = "DENSITY")]
-    pub display_density: ArgDisplayDensity,
-
     /// Color scheme file (.toml) path
     #[clap(global = true, long, short = 'C', display_order = 103, value_name = "SCHEME.TOML")]
     pub color_scheme: Option<PathBuf>,
@@ -149,27 +145,6 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
             ArgUnitShape::Circle => write!(f, "circle"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ArgDisplayDensity {
-    Connected,
-    Dense,
-    Standard,
-    Cozy,
-    Ample,
-}
-
-impl Display for ArgDisplayDensity {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ArgDisplayDensity::Connected => write!(f, "connected"),
-            ArgDisplayDensity::Dense => write!(f, "dense"),
-            ArgDisplayDensity::Standard => write!(f, "standard"),
-            ArgDisplayDensity::Cozy => write!(f, "cozy"),
-            ArgDisplayDensity::Ample => write!(f, "ample"),
         }
     }
 }
