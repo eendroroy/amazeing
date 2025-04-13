@@ -140,6 +140,7 @@ impl Display for ArgDisplaySize {
 pub enum ArgUnitShape {
     Square,
     Hexagon,
+    Circle,
 }
 
 impl Display for ArgUnitShape {
@@ -147,6 +148,7 @@ impl Display for ArgUnitShape {
         match self {
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
+            ArgUnitShape::Circle => write!(f, "circle"),
         }
     }
 }
