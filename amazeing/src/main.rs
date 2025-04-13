@@ -5,13 +5,14 @@ use crate::display_loop::{
 };
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
+use macroquad::prelude::Conf;
 
 mod command;
 mod context;
 mod display_loop;
 mod helper;
 
-#[macroquad::main("Amazeing")]
+#[macroquad::main(window_config())]
 async fn main() {
     let args = AmazeingArgs::parse();
     let (amz_ctx, draw_context, color_context) = get_contexts(args.clone());
@@ -47,6 +48,18 @@ async fn main() {
             set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
             solve_loop(&ctx, &draw_context, &color_context).await
         }
+    }
+}
+
+fn window_config() -> Conf {
+    Conf {
+        window_title: "Amazeing".to_string(),
+        high_dpi: true,
+        fullscreen: false,
+        sample_count: 10,
+        window_resizable: false,
+        icon: None,
+        ..Default::default()
     }
 }
 
