@@ -1,0 +1,9 @@
+color_bg = 0x000000
+color_block = 0x000000
+color_open = 0xcccccc
+color_visiting = 0x666600
+color_visiting_peak = 0xffff00
+color_path = 0xdddd00
+color_source = 0xffffff
+color_destination = 0xffffff
+color_traversed = 0x222222
