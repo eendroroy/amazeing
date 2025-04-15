@@ -29,7 +29,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             if source.is_some() && destination.is_some() {
                 current_path = path_to_trace(solve_maze(
                     maze,
-                    &draw_context.unit_shape,
+                    &draw_context.u_shape,
                     source.unwrap(),
                     destination.unwrap(),
                     &context.procedure,

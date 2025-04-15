@@ -15,7 +15,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
 
         if is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space) {
             maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
-            generate_maze(&mut maze, &draw_context.unit_shape, context.sources.clone(), &context.procedure, &mut None);
+            generate_maze(&mut maze, &draw_context.u_shape, context.sources.clone(), &context.procedure, &mut None);
         }
 
         if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {

@@ -28,8 +28,15 @@ pub struct AmazeingArgs {
     pub unit_shape: ArgUnitShape,
 
     /// Display size
-    #[clap(global = true, long, short = 'S', display_order = 101, default_value_t = ArgDisplaySize::M, value_name = "SIZE")]
-    pub display_size: ArgDisplaySize,
+    #[clap(
+        global = true,
+        long,
+        short = 'Z',
+        display_order = 101,
+        default_value_t = 1f32,
+        value_name = "ZOOM"
+    )]
+    pub zoom: f32,
 
     /// Color scheme file (.toml) path
     #[clap(global = true, long, short = 'C', display_order = 103, value_name = "SCHEME.TOML")]
@@ -105,31 +112,6 @@ pub enum ArgCommand {
         #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
         verbose: bool,
     },
-}
-
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ArgDisplaySize {
-    Xxs,
-    Xs,
-    S,
-    M,
-    L,
-    Xl,
-    Xxl,
-}
-
-impl Display for ArgDisplaySize {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ArgDisplaySize::Xxs => write!(f, "xxs"),
-            ArgDisplaySize::Xs => write!(f, "xs"),
-            ArgDisplaySize::S => write!(f, "s"),
-            ArgDisplaySize::M => write!(f, "m"),
-            ArgDisplaySize::L => write!(f, "l"),
-            ArgDisplaySize::Xl => write!(f, "xl"),
-            ArgDisplaySize::Xxl => write!(f, "xxl"),
-        }
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
