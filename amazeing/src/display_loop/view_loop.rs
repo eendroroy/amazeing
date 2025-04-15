@@ -4,6 +4,8 @@ use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
     loop {
+        let current_frame_start_time = current_millis();
+
         draw_maze(draw_context, color_context, &context.maze, None, None, (vec![], None), false);
 
         if is_key_pressed(KeyCode::Q) {
@@ -19,7 +21,7 @@ pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext,
             ));
         }
 
-        delay_till_next_frame(draw_context.fps as f32);
+        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
 
         next_frame().await
     }

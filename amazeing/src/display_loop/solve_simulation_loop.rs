@@ -26,6 +26,8 @@ pub(crate) async fn solve_simulation_loop(
     let mut trace_index = 0;
 
     loop {
+        let current_frame_start_time = current_millis();
+
         if simulating {
             if !paused && !trace_complete {
                 current_path = trace.get(trace_index).unwrap().clone();
@@ -95,7 +97,7 @@ pub(crate) async fn solve_simulation_loop(
             break;
         }
 
-        delay_till_next_frame(draw_context.fps as f32);
+        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
 
         next_frame().await
     }
