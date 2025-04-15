@@ -8,6 +8,8 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
     loop {
         let current_frame_start_time = current_millis();
 
+        clear_background(color_context.color_bg);
+
         draw_maze(draw_context, color_context, maze, None, None, (vec![], None), false);
 
         if is_mouse_button_pressed(MouseButton::Left) {
