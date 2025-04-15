@@ -13,6 +13,8 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
     let mut destination: Option<Node> = None;
 
     loop {
+        let current_frame_start_time = current_millis();
+
         draw_maze(
             draw_context,
             color_context,
@@ -47,7 +49,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             break;
         }
 
-        delay_till_next_frame(draw_context.fps as f32);
+        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
 
         next_frame().await
     }

@@ -7,6 +7,8 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
     let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
 
     loop {
+        let current_frame_start_time = current_millis();
+
         draw_maze(draw_context, color_context, &maze, None, None, (context.sources.clone(), None), false);
 
         if is_key_pressed(KeyCode::Q) {
@@ -19,15 +21,10 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
         }
 
         if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
-            get_screen_data().export_png(&format!(
-                "maze_{}_{}_{}.png",
-                current_millis(),
-                context.rows,
-                context.cols
-            ));
+            get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), context.rows, context.cols));
         }
 
-        delay_till_next_frame(draw_context.fps as f32);
+        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
 
         next_frame().await
     }

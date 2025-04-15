@@ -25,6 +25,8 @@ pub(crate) async fn generate_simulation_loop(
     let mut sources = context.sources.clone();
 
     loop {
+        let current_frame_start_time = current_millis();
+
         if simulating {
             if !paused && !trace_complete {
                 path = trace.remove(0);
@@ -69,19 +71,14 @@ pub(crate) async fn generate_simulation_loop(
         }
 
         if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
-            get_screen_data().export_png(&format!(
-                "maze_{}_{}_{}.png",
-                current_millis(),
-                context.rows,
-                context.cols
-            ));
+            get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), context.rows, context.cols));
         }
 
         if is_key_pressed(KeyCode::Q) {
             break;
         }
 
-        delay_till_next_frame(draw_context.fps as f32);
+        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
 
         next_frame().await
     }
