@@ -4,7 +4,7 @@
 .SH NAME
 amazeing \- A maze generator/solver application with simulation/visualization
 .SH SYNOPSIS
-\fBamazeing\fR [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-S\fR|\fB\-\-display\-size\fR] [\fB\-C\fR|\fB\-\-color\-scheme\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
+\fBamazeing\fR [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-Z\fR|\fB\-\-zoom\fR] [\fB\-C\fR|\fB\-\-color\-scheme\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
 .SH DESCRIPTION
 A maze generator/solver application with simulation/visualization.
 .PP
@@ -18,12 +18,8 @@ Unit shape
 .br
 [\fIpossible values: \fRsquare, hexagon, circle]
 .TP
-\fB\-S\fR, \fB\-\-display\-size\fR=\fISIZE\fR [default: m]
+\fB\-Z\fR, \fB\-\-zoom\fR=\fIZOOM\fR [default: 1]
 Display size
-.br
-
-.br
-[\fIpossible values: \fRxxs, xs, s, m, l, xl, xxl]
 .TP
 \fB\-C\fR, \fB\-\-color\-scheme\fR=\fISCHEME.TOML\fR
 Color scheme file (.toml) path

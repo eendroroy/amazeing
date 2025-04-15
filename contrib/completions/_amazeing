@@ -17,8 +17,8 @@ _amazeing() {
     _arguments "${_arguments_options[@]}" : \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -50,8 +50,8 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -76,8 +76,8 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -94,8 +94,8 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -112,8 +112,8 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -134,8 +134,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \
@@ -157,8 +157,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-U+[Unit shape]:Shape:(square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(square hexagon circle)' \
-'-S+[Display size]:SIZE:(xxs xs s m l xl xxl)' \
-'--display-size=[Display size]:SIZE:(xxs xs s m l xl xxl)' \
+'-Z+[Display size]:ZOOM:_default' \
+'--zoom=[Display size]:ZOOM:_default' \
 '-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
 '-F+[Simulation speed]:FPS:_default' \

@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_amazeing_global_optspecs
-	string join \n U/unit-shape= S/display-size= C/color-scheme= F/fps= h/help V/version
+	string join \n U/unit-shape= Z/zoom= C/color-scheme= F/fps= h/help V/version
 end
 
 function __fish_amazeing_needs_command
@@ -27,13 +27,7 @@ end
 complete -c amazeing -n "__fish_amazeing_needs_command" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_needs_command" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_needs_command" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_needs_command" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_needs_command" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_needs_command" -s h -l help -d 'Print help (see more with \'--help\')'
@@ -54,13 +48,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -74,13 +62,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Nu
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -89,13 +71,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
@@ -104,13 +80,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Ma
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s u -l update -d 'View and update'
@@ -128,13 +98,7 @@ dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'
@@ -152,13 +116,7 @@ dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
 hexagon\t''
 circle\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s S -l display-size -d 'Display size' -r -f -a "xxs\t''
-xs\t''
-s\t''
-m\t''
-l\t''
-xl\t''
-xxl\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l color-scheme -d 'Color scheme file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Simulation speed' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -l verbose -d 'Show a simulation of the generation process'

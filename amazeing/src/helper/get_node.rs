@@ -7,11 +7,11 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext) -> Node {
 
     let (mx, my) = mouse_position();
 
-    match ctx.unit_shape {
+    match ctx.u_shape {
         UnitShape::Square => (m(my, ctx.size), m(mx, ctx.size)),
         UnitShape::Hexagon | UnitShape::Circle => {
-            let r = m(my, ctx.height);
-            let c = m(mx - ctx.s(r), ctx.width);
+            let r = m(my, ctx.u_height);
+            let c = m(mx - ctx.s(r), ctx.u_width);
             (r, c)
         }
     }
