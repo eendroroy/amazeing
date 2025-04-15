@@ -22,7 +22,7 @@ cargo install --path amazeing
 
 ### Key/Mouse events
 
-- (`LeftControl`/`RightControl`)+`I` - Save current screen as png in current directory
+- `Control`+`I` - Save current screen as png in current directory
 - Create
     - `G`/`<Space>` - (Re)Generate Maze
     - Additional action in simulation mode (`--verbose`/`-v`):
@@ -34,7 +34,7 @@ cargo install --path amazeing
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
     - `Shift`+`LeftClick` - Block Path
-    - (`LeftControl`/`RightControl`)+`S` - Save current maze to same file
+    - `Control`+`S` - Save current maze to same file
 
 - Solve
     - `LeftClick` - Select Source
