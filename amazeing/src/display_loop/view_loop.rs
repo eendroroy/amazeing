@@ -10,15 +10,13 @@ pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext,
             break;
         }
 
-        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
-            if is_key_pressed(KeyCode::I) {
-                get_screen_data().export_png(&format!(
-                    "maze_{}_{}_{}.png",
-                    current_millis(),
-                    context.maze.rows(),
-                    context.maze.cols()
-                ));
-            }
+        if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
+            get_screen_data().export_png(&format!(
+                "maze_{}_{}_{}.png",
+                current_millis(),
+                context.maze.rows(),
+                context.maze.cols()
+            ));
         }
 
         delay_till_next_frame(draw_context.fps as f32);

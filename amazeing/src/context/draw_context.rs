@@ -26,7 +26,7 @@ impl DrawContext {
             _ => (size, size),
         };
 
-        let ctx = Self {
+        Self {
             margin,
             border,
             size,
@@ -34,9 +34,7 @@ impl DrawContext {
             u_height: unit_height,
             u_width: unit_width,
             fps,
-        };
-
-        ctx
+        }
     }
 
     pub fn screen_size(&self, rows: usize, cols: usize) -> (u32, u32) {
