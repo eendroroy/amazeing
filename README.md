@@ -96,6 +96,8 @@ amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-s
 amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
 ```
 
+![demo.gif](assets/image/demo.gif)
+
 ## Generate Maze
 
 | Algorithm          | Shape     |                                                                                                            |
