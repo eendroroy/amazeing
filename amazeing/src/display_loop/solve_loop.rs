@@ -39,10 +39,8 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             }
         }
 
-        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
-            if is_key_pressed(KeyCode::I) {
-                get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), maze.rows(), maze.cols()));
-            }
+        if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
+            get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), maze.rows(), maze.cols()));
         }
 
         if is_key_pressed(KeyCode::Q) {

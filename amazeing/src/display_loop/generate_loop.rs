@@ -18,15 +18,13 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
             generate_maze(&mut maze, &draw_context.u_shape, context.sources.clone(), &context.procedure, &mut None);
         }
 
-        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
-            if is_key_pressed(KeyCode::I) {
-                get_screen_data().export_png(&format!(
-                    "maze_{}_{}_{}.png",
-                    current_millis(),
-                    context.rows,
-                    context.cols
-                ));
-            }
+        if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
+            get_screen_data().export_png(&format!(
+                "maze_{}_{}_{}.png",
+                current_millis(),
+                context.rows,
+                context.cols
+            ));
         }
 
         delay_till_next_frame(draw_context.fps as f32);
