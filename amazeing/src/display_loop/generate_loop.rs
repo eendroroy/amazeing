@@ -9,6 +9,8 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
     loop {
         let current_frame_start_time = current_millis();
 
+        clear_background(color_context.color_bg);
+
         draw_maze(draw_context, color_context, &maze, None, None, (context.sources.clone(), None), false);
 
         if is_key_pressed(KeyCode::Q) {

@@ -28,6 +28,8 @@ pub(crate) async fn solve_simulation_loop(
     loop {
         let current_frame_start_time = current_millis();
 
+        clear_background(color_context.color_bg);
+
         if simulating {
             if !paused && !trace_complete {
                 current_path = trace.get(trace_index).unwrap().clone();
