@@ -13,7 +13,7 @@ Clone the repository and build the project:
 ```sh
 git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
-make install # make uninstall
+make install # this will install man-pages and shell-completions
 ```
 
 ## Usage
