@@ -1,5 +1,5 @@
 use crate::command::ArgCommand::{Create, Solve, View};
-use crate::command::{AmazeingArgs, get_contexts};
+use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
 use crate::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
@@ -18,32 +18,32 @@ async fn main() {
     let (amz_ctx, draw_context, color_context) = get_contexts(args.clone());
 
     match args.command.clone() {
-        Create { verbose: false, .. } => {
+        Create(CreateArgs { verbose: false, .. }) => {
             let ctx = amz_ctx.0.unwrap();
             set_screen_size(draw_context.screen_size(ctx.rows, ctx.cols));
             generate_loop(&ctx, &draw_context, &color_context).await
         }
-        Create { verbose: true, .. } => {
+        Create(CreateArgs { verbose: true, .. }) => {
             let ctx = amz_ctx.0.unwrap();
             set_screen_size(draw_context.screen_size(ctx.rows, ctx.cols));
             generate_simulation_loop(&ctx, &draw_context, &color_context).await
         }
-        View { update: false, .. } => {
+        View(ViewArgs { update: false, .. }) => {
             let ctx = amz_ctx.1.unwrap();
             set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
             view_loop(&ctx, &draw_context, &color_context).await
         }
-        View { update: true, .. } => {
+        View(ViewArgs { update: true, .. }) => {
             let ctx = amz_ctx.1.unwrap();
             set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
             update_loop(&ctx, &draw_context, &color_context).await
         }
-        Solve { verbose: false, .. } => {
+        Solve(SolveArgs { verbose: false, .. }) => {
             let ctx = amz_ctx.2.unwrap();
             set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
             solve_loop(&ctx, &draw_context, &color_context).await
         }
-        Solve { verbose: true, .. } => {
+        Solve(SolveArgs { verbose: true, .. }) => {
             let ctx = amz_ctx.2.unwrap();
             set_screen_size(draw_context.screen_size(ctx.maze.rows(), ctx.maze.cols()));
             solve_simulation_loop(&ctx, &draw_context, &color_context).await

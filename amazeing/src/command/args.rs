@@ -54,71 +54,81 @@ pub struct AmazeingArgs {
     pub fps: u8,
 }
 
+/// {bin-name} amazeing create
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgCommand {
     /// Create a Maze
     #[clap(visible_alias = "C")]
-    Create {
-        /// File path to dump Maze data
-        ///
-        /// optional if '--verbose' flag provided
-        ///
-        /// if provided, generated maze will be dumped at path
-        #[clap(long, short, required_unless_present = "verbose")]
-        maze: Option<PathBuf>,
-
-        /// Starting point(s) of the generation
-        ///
-        /// optional if '--verbose' flag provided
-        #[clap(long, short, value_name = "usize,usize", required_unless_present = "verbose")]
-        source: Option<Vec<String>>,
-
-        /// Maze Generation Procedure
-        #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-        procedure: ArgGenProcedure,
-
-        /// Number of rows
-        #[clap(long, short)]
-        rows: usize,
-
-        /// Number of cols
-        #[clap(long, short)]
-        cols: usize,
-
-        /// Show a simulation of the generation process
-        #[clap(long, short, default_value_t = false)]
-        verbose: bool,
-    },
+    Create(CreateArgs),
     /// View a Maze
     #[clap(visible_alias = "V")]
-    View {
-        /// Maze file path
-        #[clap(long, short)]
-        maze: PathBuf,
-
-        /// View and update
-        #[clap(long, short, default_value_t = false)]
-        update: bool,
-    },
+    View(ViewArgs),
     /// Solve a Maze
     #[clap(visible_alias = "S")]
-    Solve {
-        /// Maze file path
-        #[clap(long, short)]
-        maze: PathBuf,
+    Solve(SolveArgs),
+}
 
-        /// Maze Solving Procedure
-        #[clap(long, short, default_value_t = ArgSolveProcedure::Dfs)]
-        procedure: ArgSolveProcedure,
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct CreateArgs {
+    /// File path to dump Maze data
+    ///
+    /// optional if '--verbose' flag provided
+    ///
+    /// if provided, generated maze will be dumped at path
+    #[clap(long, short, required_unless_present = "verbose")]
+    pub maze: Option<PathBuf>,
 
-        /// Heuristic function (to use with AStar)
-        #[clap(long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
-        heuristic_function: ArgHeuristic,
+    /// Starting point(s) of the generation
+    ///
+    /// optional if '--verbose' flag provided
+    #[clap(long, short, value_name = "usize,usize", required_unless_present = "verbose")]
+    pub source: Option<Vec<String>>,
 
-        /// Show a simulation of the generation process
-        #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
-        verbose: bool,
-    },
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Number of rows
+    #[clap(long, short)]
+    pub rows: usize,
+
+    /// Number of cols
+    #[clap(long, short)]
+    pub cols: usize,
+
+    /// Show a simulation of the generation process
+    #[clap(long, short, default_value_t = false)]
+    pub verbose: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct ViewArgs {
+    /// Maze file path
+    #[clap(long, short)]
+    pub maze: PathBuf,
+
+    /// View and update
+    #[clap(long, short, default_value_t = false)]
+    pub update: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct SolveArgs {
+    /// Maze file path
+    #[clap(long, short)]
+    pub maze: PathBuf,
+
+    /// Maze Solving Procedure
+    #[clap(long, short, default_value_t = ArgSolveProcedure::Dfs)]
+    pub procedure: ArgSolveProcedure,
+
+    /// Heuristic function (to use with AStar)
+    #[clap(long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
+    pub heuristic_function: ArgHeuristic,
+
+    /// Show a simulation of the generation process
+    #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
+    pub verbose: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
