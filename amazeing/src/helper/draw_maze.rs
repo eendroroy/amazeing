@@ -1,7 +1,7 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::matrix::{Maze, Node, Rank, Trace, UnitShape};
 use macroquad::prelude::{BLANK, Color, draw_rectangle};
-use macroquad::shapes::{draw_circle, draw_hexagon};
+use macroquad::shapes::{draw_circle, draw_hexagon, draw_triangle};
 
 pub(crate) fn draw_maze(
     draw_context: &DrawContext,
@@ -52,6 +52,10 @@ fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
     match ctx.u_shape {
+        UnitShape::Triangle => {
+            let vertexes = ctx.t_vertexes(node);
+            draw_triangle(vertexes.0, vertexes.1, vertexes.2, color);
+        }
         UnitShape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),
         UnitShape::Hexagon => draw_hexagon(ctx.x(node), ctx.y(node), ctx.size, 0., true, BLANK, color),
         UnitShape::Circle => draw_circle(ctx.x(node), ctx.y(node), ctx.size, color),

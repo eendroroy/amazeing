@@ -26,9 +26,7 @@ pub(crate) fn add_source(draw_context: &DrawContext, sources: &mut Vec<Node>) {
         if let Some(index) = sources.iter().position(|value| *value == (r, c)) {
             sources.swap_remove(index);
         }
-    } else {
-        if !sources.contains(&(r, c)) {
-            sources.push((r, c));
-        }
+    } else if !sources.contains(&(r, c)) {
+        sources.push((r, c));
     }
 }
