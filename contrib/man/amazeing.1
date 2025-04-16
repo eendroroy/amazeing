@@ -4,28 +4,28 @@
 .SH NAME
 amazeing \- A maze generator/solver application with simulation/visualization
 .SH SYNOPSIS
-\fBamazeing\fR [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-Z\fR|\fB\-\-zoom\fR] [\fB\-C\fR|\fB\-\-color\-scheme\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
+\fBamazeing\fR [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-Z\fR|\fB\-\-zoom\fR] [\fB\-C\fR|\fB\-\-colors\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
 .SH DESCRIPTION
 A maze generator/solver application with simulation/visualization.
 .PP
 See https://eendroroy.github.io/amazeing for more details
 .SH OPTIONS
 .TP
-\fB\-U\fR, \fB\-\-unit\-shape\fR=\fIShape\fR [default: square]
+\fB\-U\fR, \fB\-\-unit\-shape\fR=\fIShape\fR [default: hexagon]
 Unit shape
 .br
 
 .br
 [\fIpossible values: \fRtriangle, square, hexagon, circle]
 .TP
-\fB\-Z\fR, \fB\-\-zoom\fR=\fIZOOM\fR [default: 1]
-Display size
+\fB\-Z\fR, \fB\-\-zoom\fR=\fIzoom\fR [default: 1]
+Display size (zoom)
 .TP
-\fB\-C\fR, \fB\-\-color\-scheme\fR=\fISCHEME.TOML\fR
-Color scheme file (.toml) path
+\fB\-C\fR, \fB\-\-colors\fR=\fIColors.toml\fR
+Color file (.toml) path
 .TP
 \fB\-F\fR, \fB\-\-fps\fR=\fIFPS\fR [default: 60]
-Simulation speed
+Frame rate per second (controls simulation speed)
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Print help (see a summary with \*(Aq\-h\*(Aq)

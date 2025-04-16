@@ -52,7 +52,7 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-U -Z -C -F -h -V --unit-shape --zoom --color-scheme --fps --help --version create C view V solve S help"
+            opts="-U -Z -C -F -h -V --unit-shape --zoom --colors --fps --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -74,7 +74,7 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --color-scheme)
+                --colors)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -98,7 +98,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -s -p -r -c -v -U -Z -C -F -h --maze --source --procedure --rows --cols --verbose --unit-shape --zoom --color-scheme --fps --help"
+            opts="-m -s -p -r -c -v -U -Z -C -F -h --maze --source --procedure --rows --cols --verbose --unit-shape --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -160,7 +160,7 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --color-scheme)
+                --colors)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -254,7 +254,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -U -Z -C -F -h --maze --procedure --heuristic-function --verbose --verbose --unit-shape --zoom --color-scheme --fps --help"
+            opts="-m -p -H -v -U -Z -C -F -h --maze --procedure --heuristic-function --verbose --verbose --unit-shape --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -300,7 +300,7 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --color-scheme)
+                --colors)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -324,7 +324,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__view)
-            opts="-m -u -U -Z -C -F -h --maze --update --unit-shape --zoom --color-scheme --fps --help"
+            opts="-m -u -U -Z -C -F -h --maze --update --unit-shape --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -354,7 +354,7 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --color-scheme)
+                --colors)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;

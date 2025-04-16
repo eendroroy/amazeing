@@ -24,25 +24,32 @@ pub struct AmazeingArgs {
     pub command: ArgCommand,
 
     /// Unit shape
-    #[clap(global = true, long, short = 'U', display_order = 100, default_value_t = ArgUnitShape::Square, value_name = "Shape")]
+    #[clap(
+        global = true,
+        long,
+        short = 'U',
+        display_order = 100,
+        default_value_t = ArgUnitShape::Hexagon,
+        value_name = "Shape"
+    )]
     pub unit_shape: ArgUnitShape,
 
-    /// Display size
+    /// Display size (zoom)
     #[clap(
         global = true,
         long,
         short = 'Z',
         display_order = 101,
         default_value_t = 1f32,
-        value_name = "ZOOM"
+        value_name = "zoom"
     )]
     pub zoom: f32,
 
-    /// Color scheme file (.toml) path
-    #[clap(global = true, long, short = 'C', display_order = 103, value_name = "SCHEME.TOML")]
-    pub color_scheme: Option<PathBuf>,
+    /// Color file (.toml) path
+    #[clap(global = true, long, short = 'C', display_order = 103, value_name = "Colors.toml")]
+    pub colors: Option<PathBuf>,
 
-    /// Simulation speed
+    /// Frame rate per second (controls simulation speed)
     #[clap(global = true, long, short = 'F', display_order = 104, default_value_t = 60)]
     pub fps: u8,
 }
@@ -105,7 +112,7 @@ pub enum ArgCommand {
         procedure: ArgSolveProcedure,
 
         /// Heuristic function (to use with AStar)
-        #[clap(long, short = 'H', default_value_t=ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
+        #[clap(long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
         heuristic_function: ArgHeuristic,
 
         /// Show a simulation of the generation process
