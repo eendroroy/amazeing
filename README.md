@@ -13,7 +13,7 @@ Clone the repository and build the project:
 ```sh
 git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
-cargo install --path amazeing
+make install # make uninstall
 ```
 
 ## Usage

@@ -10,54 +10,46 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
     let gradient_steps: usize;
 
     let amazeing_context = match args.command {
-        ArgCommand::Create {
-            maze,
-            source,
-            procedure,
-            rows,
-            cols,
-            ..
-        } => {
-            gradient_steps = GRADIENT_STEPS(rows, cols);
+        ArgCommand::Create(sub_args) => {
+            gradient_steps = GRADIENT_STEPS(sub_args.rows, sub_args.cols);
             (
                 Some(CreateContext {
-                    maze_file_path: maze.clone(),
-                    sources: if let Some(sources) = source { parse_nodes(&sources) } else { Vec::new() },
-                    procedure,
-                    rows,
-                    cols,
+                    maze_file_path: sub_args.maze.clone(),
+                    sources: if let Some(sources) = sub_args.source {
+                        parse_nodes(&sources)
+                    } else {
+                        Vec::new()
+                    },
+                    procedure: sub_args.procedure,
+                    rows: sub_args.rows,
+                    cols: sub_args.cols,
                 }),
                 None,
                 None,
             )
         }
-        ArgCommand::View { maze, update: _ } => {
-            let loaded_maze = load_maze_from_file(maze.as_path());
+        ArgCommand::View(sub_args) => {
+            let loaded_maze = load_maze_from_file(sub_args.maze.as_path());
             gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
             (
                 None,
                 Some(ViewContext {
-                    maze_file_path: maze.clone(),
+                    maze_file_path: sub_args.maze.clone(),
                     maze: loaded_maze,
                 }),
                 None,
             )
         }
-        ArgCommand::Solve {
-            maze,
-            procedure,
-            heuristic_function,
-            ..
-        } => {
-            let loaded_maze = load_maze_from_file(maze.as_path());
+        ArgCommand::Solve(sub_args) => {
+            let loaded_maze = load_maze_from_file(sub_args.maze.as_path());
             gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
             (
                 None,
                 None,
                 Some(SolveContext {
                     maze: loaded_maze,
-                    procedure,
-                    heuristic: heuristic_function.heuristic(),
+                    procedure: sub_args.procedure,
+                    heuristic: sub_args.heuristic_function.heuristic(),
                 }),
             )
         }
