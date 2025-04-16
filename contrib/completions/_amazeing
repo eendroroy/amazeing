@@ -17,12 +17,12 @@ _amazeing() {
     _arguments "${_arguments_options[@]}" : \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 '-V[Print version]' \
@@ -50,12 +50,12 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -76,12 +76,12 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -94,12 +94,12 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-h[Print help]' \
@@ -112,12 +112,12 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-h[Print help]' \
@@ -134,12 +134,12 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
@@ -157,12 +157,12 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-U+[Unit shape]:Shape:(triangle square hexagon circle)' \
 '--unit-shape=[Unit shape]:Shape:(triangle square hexagon circle)' \
-'-Z+[Display size]:ZOOM:_default' \
-'--zoom=[Display size]:ZOOM:_default' \
-'-C+[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'--color-scheme=[Color scheme file (.toml) path]:SCHEME.TOML:_files' \
-'-F+[Simulation speed]:FPS:_default' \
-'--fps=[Simulation speed]:FPS:_default' \
+'-Z+[Display size (zoom)]:zoom:_default' \
+'--zoom=[Display size (zoom)]:zoom:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
