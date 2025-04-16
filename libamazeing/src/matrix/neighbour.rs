@@ -2,25 +2,23 @@ use super::types::{NeighbourFn, Node};
 use super::{Maze, UnitShape};
 use std::iter::Iterator;
 
-pub(crate) const LEFT: NeighbourFn = |of| if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None };
-pub(crate) const RIGHT: NeighbourFn = |of| Some((of.0, of.1 + 1));
-pub(crate) const UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1)) } else { None };
-pub(crate) const DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1));
-pub(crate) const LEFT_UP: NeighbourFn = |of| if of.0 > 0 && of.1 > 0 { Some((of.0 - 1, of.1 - 1)) } else { None };
-pub(crate) const LEFT_DOWN: NeighbourFn = |of| if of.1 > 0 { Some((of.0 + 1, of.1 - 1)) } else { None };
-pub(crate) const RIGHT_UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1 + 1)) } else { None };
-pub(crate) const RIGHT_DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1 + 1));
+pub const LEFT: NeighbourFn = |of| if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None };
+pub const RIGHT: NeighbourFn = |of| Some((of.0, of.1 + 1));
+pub const UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1)) } else { None };
+pub const DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1));
+pub const LEFT_UP: NeighbourFn = |of| if of.0 > 0 && of.1 > 0 { Some((of.0 - 1, of.1 - 1)) } else { None };
+pub const LEFT_DOWN: NeighbourFn = |of| if of.1 > 0 { Some((of.0 + 1, of.1 - 1)) } else { None };
+pub const RIGHT_UP: NeighbourFn = |of| if of.0 > 0 { Some((of.0 - 1, of.1 + 1)) } else { None };
+pub const RIGHT_DOWN: NeighbourFn = |of| Some((of.0 + 1, of.1 + 1));
 
 pub(crate) fn neighbours(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
     match unit_shape {
-        UnitShape::Triangle => {
-            match pos.0 % 4 {
-                0 => vec![DOWN, LEFT_DOWN, UP],
-                1 => vec![RIGHT_UP, DOWN, UP],
-                2 => vec![RIGHT_DOWN, DOWN, UP],
-                3 => vec![UP, DOWN, LEFT_UP],
-                _ => unreachable!()
-            }
+        UnitShape::Triangle => match pos.0 % 4 {
+            0 => vec![DOWN, LEFT_DOWN, UP],
+            1 => vec![RIGHT_UP, DOWN, UP],
+            2 => vec![RIGHT_DOWN, DOWN, UP],
+            3 => vec![UP, DOWN, LEFT_UP],
+            _ => unreachable!(),
         },
         UnitShape::Square => vec![RIGHT, DOWN, LEFT, UP],
         UnitShape::Hexagon | UnitShape::Circle => {
