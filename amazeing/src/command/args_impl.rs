@@ -7,6 +7,7 @@ use amazeing::matrix::{NodeHeuFn, UnitShape};
 impl ArgUnitShape {
     pub fn shape(&self) -> UnitShape {
         match self {
+            ArgUnitShape::Triangle => UnitShape::Triangle,
             ArgUnitShape::Square => UnitShape::Square,
             ArgUnitShape::Hexagon => UnitShape::Hexagon,
             ArgUnitShape::Circle => UnitShape::Circle,

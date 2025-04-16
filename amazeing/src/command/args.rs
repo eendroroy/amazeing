@@ -116,6 +116,7 @@ pub enum ArgCommand {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgUnitShape {
+    Triangle,
     Square,
     Hexagon,
     Circle,
@@ -124,6 +125,7 @@ pub enum ArgUnitShape {
 impl Display for ArgUnitShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            ArgUnitShape::Triangle => write!(f, "triangle"),
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
             ArgUnitShape::Circle => write!(f, "circle"),

@@ -24,7 +24,8 @@ function __fish_amazeing_using_subcommand
 	contains -- $cmd[1] $argv
 end
 
-complete -c amazeing -n "__fish_amazeing_needs_command" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_needs_command" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_needs_command" -s Z -l zoom -d 'Display size' -r
@@ -45,7 +46,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s p -l proced
 dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -d 'Number of cols' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s Z -l zoom -d 'Display size' -r
@@ -59,7 +61,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s p -l procedure -
 dfs\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s r -l rows -d 'Number of rows' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Number of cols' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s Z -l zoom -d 'Display size' -r
@@ -68,7 +71,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Sim
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s Z -l zoom -d 'Display size' -r
@@ -77,7 +81,8 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s F -l fps -d '
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Maze file path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s Z -l zoom -d 'Display size' -r
@@ -95,7 +100,8 @@ euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size' -r
@@ -113,7 +119,8 @@ euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s U -l unit-shape -d 'Unit shape' -r -f -a "square\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s U -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+square\t''
 hexagon\t''
 circle\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size' -r
