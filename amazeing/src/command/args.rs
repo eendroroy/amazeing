@@ -126,7 +126,7 @@ pub struct SolveArgs {
     #[clap(long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
     pub heuristic_function: ArgHeuristic,
 
-    /// Show a simulation of the generation process
+    /// Show a simulation of the solving process
     #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
     pub verbose: bool,
 }
