@@ -1,35 +1,25 @@
-use clap::{Command, CommandFactory};
-use clap_complete::Shell::{Bash, Fish, PowerShell, Zsh};
-
 #[path = "src/command/args.rs"]
 mod args;
+
+use crate::args::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs};
+use clap::{Command, CommandFactory};
+use clap_complete::Shell::{Bash, Fish, Zsh};
 
 fn main() {
     let package = env!("CARGO_PKG_NAME");
 
-    completions(package);
-    man(package, "../contrib/man", args::AmazeingArgs::command());
-    man(
-        &format!("{package}-create"),
-        "../contrib/man",
-        args::CreateArgs::command().bin_name(&format!("{package} create")),
-    );
-    man(&format!("{package}-view"), "../contrib/man", args::ViewArgs::command().bin_name(&format!("{package} view")));
-    man(
-        &format!("{package}-solve"),
-        "../contrib/man",
-        args::SolveArgs::command().bin_name(&format!("{package} solve")),
-    );
+    completions(package, "../contrib/completions");
+    man(package, "../contrib/man", AmazeingArgs::command());
+    man(&format!("{package}-create"), "../contrib/man", CreateArgs::command().bin_name(format!("{package} create")));
+    man(&format!("{package}-view"), "../contrib/man", ViewArgs::command().bin_name(format!("{package} view")));
+    man(&format!("{package}-solve"), "../contrib/man", SolveArgs::command().bin_name(format!("{package} solve")));
 }
 
-fn completions(bin_name: &str) {
-    let out_dir = "../contrib/completions";
-
-    let command = &mut args::AmazeingArgs::command();
+fn completions(bin_name: &str, out_dir: &str) {
+    let command = &mut AmazeingArgs::command();
 
     clap_complete::generate_to(Bash, command, bin_name, out_dir).unwrap();
     clap_complete::generate_to(Fish, command, bin_name, out_dir).unwrap();
-    clap_complete::generate_to(PowerShell, command, bin_name, out_dir).unwrap();
     clap_complete::generate_to(Zsh, command, bin_name, out_dir).unwrap();
 }
 
