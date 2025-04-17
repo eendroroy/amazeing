@@ -9,9 +9,17 @@ fn main() {
 
     completions(package);
     man(package, "../contrib/man", args::AmazeingArgs::command());
-    man(&format!("{package}-create"), "../contrib/man", args::CreateArgs::command().bin_name(&format!("{package} create")));
+    man(
+        &format!("{package}-create"),
+        "../contrib/man",
+        args::CreateArgs::command().bin_name(&format!("{package} create")),
+    );
     man(&format!("{package}-view"), "../contrib/man", args::ViewArgs::command().bin_name(&format!("{package} view")));
-    man(&format!("{package}-solve"), "../contrib/man", args::SolveArgs::command().bin_name(&format!("{package} solve")));
+    man(
+        &format!("{package}-solve"),
+        "../contrib/man",
+        args::SolveArgs::command().bin_name(&format!("{package} solve")),
+    );
 }
 
 fn completions(bin_name: &str) {

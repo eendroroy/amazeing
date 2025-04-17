@@ -140,9 +140,9 @@ _arguments "${_arguments_options[@]}" : \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-v[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
+'-v[Show a simulation of the solving process]' \
+'--verbose[Show a simulation of the solving process]' \
+'--verbose[Show a simulation of the solving process]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
@@ -163,9 +163,9 @@ _arguments "${_arguments_options[@]}" : \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-v[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
-'--verbose[Show a simulation of the generation process]' \
+'-v[Show a simulation of the solving process]' \
+'--verbose[Show a simulation of the solving process]' \
+'--verbose[Show a simulation of the solving process]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
