@@ -33,6 +33,18 @@ _amazeing() {
             amazeing,view)
                 cmd="amazeing__view"
                 ;;
+            amazeing__create,help)
+                cmd="amazeing__create__help"
+                ;;
+            amazeing__create,rectangle)
+                cmd="amazeing__create__rectangle"
+                ;;
+            amazeing__create__help,help)
+                cmd="amazeing__create__help__help"
+                ;;
+            amazeing__create__help,rectangle)
+                cmd="amazeing__create__help__rectangle"
+                ;;
             amazeing__help,create)
                 cmd="amazeing__help__create"
                 ;;
@@ -45,6 +57,9 @@ _amazeing() {
             amazeing__help,view)
                 cmd="amazeing__help__view"
                 ;;
+            amazeing__help__create,rectangle)
+                cmd="amazeing__help__create__rectangle"
+                ;;
             *)
                 ;;
         esac
@@ -52,18 +67,56 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-M -Z -C -F -h -V --maze-shape --zoom --colors --fps --help --version create C view V solve S help"
+            opts="-Z -C -F -h -V --zoom --colors --fps --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --maze-shape)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
+                --zoom)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -M)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
+                -Z)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --colors)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -C)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --fps)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -F)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__create)
+            opts="-m -v -Z -C -F -h --maze --verbose --zoom --colors --fps --help rectangle help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --maze)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -m)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -97,35 +150,61 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__create)
-            opts="-m -u -s -p -r -c -v -M -Z -C -F -h --maze --unit-shape --source --procedure --rows --cols --verbose --maze-shape --zoom --colors --fps --help"
-            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+        amazeing__create__help)
+            opts="rectangle help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --maze)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
+                *)
+                    COMPREPLY=()
                     ;;
-                -m)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__create__help__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
                     ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__create__help__rectangle)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__create__rectangle)
+            opts="-u -p -r -c -m -v -Z -C -F -h --unit-shape --procedure --rows --cols --maze --verbose --zoom --colors --fps --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
                 --unit-shape)
                     COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
                     return 0
                     ;;
                 -u)
                     COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
-                    return 0
-                    ;;
-                --source)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -s)
-                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --procedure)
@@ -152,12 +231,12 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --maze-shape)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
+                --maze)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -M)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
+                -m)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -206,8 +285,22 @@ _amazeing() {
             return 0
             ;;
         amazeing__help__create)
-            opts=""
+            opts="rectangle"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__help__create__rectangle)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
@@ -262,7 +355,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -M -Z -C -F -h --maze --procedure --heuristic-function --verbose --verbose --maze-shape --zoom --colors --fps --help"
+            opts="-m -p -H -v -Z -C -F -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -290,14 +383,6 @@ _amazeing() {
                     ;;
                 -H)
                     COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
-                    return 0
-                    ;;
-                --maze-shape)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
-                    return 0
-                    ;;
-                -M)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -332,7 +417,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__view)
-            opts="-m -u -M -Z -C -F -h --maze --update --maze-shape --zoom --colors --fps --help"
+            opts="-m -u -Z -C -F -h --maze --update --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -344,14 +429,6 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --maze-shape)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
-                    return 0
-                    ;;
-                -M)
-                    COMPREPLY=($(compgen -W "rectangle" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)

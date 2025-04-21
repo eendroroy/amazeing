@@ -24,7 +24,7 @@ impl Display for MazeShape {
 impl FromStr for MazeShape {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s { 
+        match s {
             "rectangle" => Ok(MazeShape::Rectangle),
             _ => Err(format!("Unrecognized MazeShape: {}", s)),
         }

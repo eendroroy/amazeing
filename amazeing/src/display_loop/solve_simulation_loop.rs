@@ -9,7 +9,7 @@ pub(crate) async fn solve_simulation_loop(
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {
-    let mut source: Option<Node> = None;
+    let sources = &mut vec![];
     let mut destination: Option<Node> = None;
 
     let mut trace: Tracer = vec![];
@@ -49,7 +49,7 @@ pub(crate) async fn solve_simulation_loop(
                 &context.maze,
                 Some(&mut traversed),
                 Some(&current_path),
-                (vec![source.unwrap()], destination),
+                (sources, destination),
                 !trace_complete,
             );
 
@@ -57,30 +57,22 @@ pub(crate) async fn solve_simulation_loop(
                 paused = !paused;
             }
         } else {
-            draw_maze(
-                draw_context,
-                color_context,
-                &context.maze,
-                None,
-                None,
-                (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
-                false,
-            );
+            draw_maze(draw_context, color_context, &context.maze, None, None, (sources, destination), false);
         }
 
         if !simulating && is_mouse_button_released(MouseButton::Left) {
-            populate_source_destination(draw_context, &context.maze, &mut source, &mut destination);
+            populate_source_destination(draw_context, &context.maze, sources, &mut destination);
         }
 
         if !simulating
-            && source.is_some()
+            && !sources.is_empty()
             && destination.is_some()
             && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
             solve_maze(
                 &context.maze,
                 &draw_context.u_shape,
-                source.unwrap(),
+                *sources.first().unwrap(),
                 destination.unwrap(),
                 &context.procedure.clone(),
                 Some(context.heuristic),

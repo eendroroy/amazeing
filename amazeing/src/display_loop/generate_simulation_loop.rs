@@ -23,7 +23,7 @@ pub(crate) async fn generate_simulation_loop(
     let mut simulating = false;
     let mut paused = false;
 
-    let mut sources = context.sources.clone();
+    let sources = &mut vec![];
 
     loop {
         let current_frame_start_time = current_millis();
@@ -45,7 +45,7 @@ pub(crate) async fn generate_simulation_loop(
                 &dummy_maze,
                 Some(&mut traversed),
                 Some(&path),
-                (sources.clone(), None),
+                (sources, None),
                 true,
             );
 
@@ -53,18 +53,18 @@ pub(crate) async fn generate_simulation_loop(
                 paused = !paused;
             }
         } else if trace_complete {
-            draw_maze(draw_context, color_context, &maze, None, None, (sources.clone(), None), false);
+            draw_maze(draw_context, color_context, &maze, None, None, (sources, None), false);
         } else {
-            draw_maze(draw_context, color_context, &traversed, None, None, (sources.clone(), None), false);
+            draw_maze(draw_context, color_context, &traversed, None, None, (sources, None), false);
         }
 
         if !simulating && !trace_complete {
             if is_mouse_button_released(MouseButton::Left) {
-                add_source(draw_context, &mut sources);
+                add_source(draw_context, sources);
             }
 
             if is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space) {
-                generate_maze(&mut maze, &draw_context.u_shape, sources.clone(), &context.procedure, &mut tracer);
+                generate_maze(&mut maze, &draw_context.u_shape, sources, &context.procedure, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &maze);
                 }

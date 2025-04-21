@@ -1,14 +1,6 @@
-use crate::command::{ArgHeuristic, ArgMazeShape, ArgUnitShape};
+use crate::command::{ArgHeuristic, ArgUnitShape};
 use amazeing::tiled::heuristics::*;
-use amazeing::tiled::{MazeShape, NodeHeuFn, UnitShape};
-
-impl ArgMazeShape {
-    pub fn shape(&self) -> MazeShape {
-        match self {
-            ArgMazeShape::Rectangle => MazeShape::Rectangle,
-        }
-    }
-}
+use amazeing::tiled::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
     pub fn shape(&self) -> UnitShape {
