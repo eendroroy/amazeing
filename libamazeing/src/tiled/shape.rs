@@ -61,9 +61,9 @@ impl MazeShape {
             MazeShape::Rectangle => "rectangle",
         }
     }
-    
+
     pub fn from_str(str: &str) -> Self {
-        match str { 
+        match str {
             "rectangle" => MazeShape::Rectangle,
             _ => panic!("Unrecognized shape: {}", str),
         }
