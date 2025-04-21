@@ -9,7 +9,7 @@ use std::collections::HashMap;
 pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContext, color_context: &ColorContext) {
     let maze = &context.maze;
     let mut current_path: Trace = HashMap::new();
-    let mut source: Option<Node> = None;
+    let sources = &mut vec![];
     let mut destination: Option<Node> = None;
 
     loop {
@@ -17,24 +17,16 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
 
         clear_background(color_context.color_bg);
 
-        draw_maze(
-            draw_context,
-            color_context,
-            maze,
-            None,
-            Some(&current_path),
-            (if source.is_some() { vec![source.unwrap()] } else { vec![] }, destination),
-            false,
-        );
+        draw_maze(draw_context, color_context, maze, None, Some(&current_path), (sources, destination), false);
 
         if is_mouse_button_pressed(MouseButton::Left) {
-            populate_source_destination(draw_context, maze, &mut source, &mut destination);
+            populate_source_destination(draw_context, maze, sources, &mut destination);
 
-            if source.is_some() && destination.is_some() {
+            if !sources.is_empty() && destination.is_some() {
                 current_path = path_to_trace(solve_maze(
                     maze,
                     &draw_context.u_shape,
-                    source.unwrap(),
+                    *sources.first().unwrap(),
                     destination.unwrap(),
                     &context.procedure,
                     Some(context.heuristic),

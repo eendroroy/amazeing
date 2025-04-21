@@ -8,7 +8,7 @@ pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext,
 
         clear_background(color_context.color_bg);
 
-        draw_maze(draw_context, color_context, &context.maze, None, None, (vec![], None), false);
+        draw_maze(draw_context, color_context, &context.maze, None, None, (&vec![], None), false);
 
         if is_key_pressed(KeyCode::Q) {
             break;

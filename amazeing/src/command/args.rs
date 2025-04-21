@@ -23,34 +23,16 @@ pub struct AmazeingArgs {
     #[clap(subcommand)]
     pub command: ArgCommand,
 
-    /// Maze shape
-    #[clap(
-        global = true,
-        long,
-        short = 'M',
-        display_order = 100,
-        default_value_t = ArgMazeShape::default(),
-        value_name = "MazeShape"
-    )]
-    pub maze_shape: ArgMazeShape,
-
     /// Display size (zoom)
-    #[clap(
-        global = true,
-        long,
-        short = 'Z',
-        display_order = 102,
-        default_value_t = 1f32,
-        value_name = "zoom"
-    )]
+    #[clap(global = true, long, short = 'Z', display_order = 101, default_value_t = 1f32)]
     pub zoom: f32,
 
     /// Color file (.toml) path
-    #[clap(global = true, long, short = 'C', display_order = 103, value_name = "Colors.toml")]
+    #[clap(global = true, long, short = 'C', display_order = 102, value_name = "Colors.toml")]
     pub colors: Option<PathBuf>,
 
     /// Frame rate per second (controls simulation speed)
-    #[clap(global = true, long, short = 'F', display_order = 104, default_value_t = 60)]
+    #[clap(global = true, long, short = 'F', display_order = 103, default_value_t = 60)]
     pub fps: u8,
 }
 
@@ -70,38 +52,20 @@ pub enum ArgCommand {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CreateArgs {
+    /// Maze shape
+    #[clap(subcommand)]
+    pub maze_shape: ArgMazeShape,
+
     /// File path to dump Maze data
     ///
     /// optional if '--verbose' flag provided
     ///
     /// if provided, generated maze will be dumped at path
-    #[clap(long, short, required_unless_present = "verbose")]
+    #[clap(global = true, long, short)]
     pub maze: Option<PathBuf>,
 
-    /// Unit shape
-    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
-    pub unit_shape: ArgUnitShape,
-
-    /// Starting point(s) of the generation
-    ///
-    /// optional if '--verbose' flag provided
-    #[clap(long, short, value_name = "usize,usize", required_unless_present = "verbose")]
-    pub source: Option<Vec<String>>,
-
-    /// Maze Generation Procedure
-    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
-
-    /// Number of rows
-    #[clap(long, short)]
-    pub rows: usize,
-
-    /// Number of cols
-    #[clap(long, short)]
-    pub cols: usize,
-
     /// Show a simulation of the generation process
-    #[clap(long, short, default_value_t = false)]
+    #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
 }
 
@@ -131,7 +95,7 @@ pub struct SolveArgs {
     pub heuristic_function: ArgHeuristic,
 
     /// Show a simulation of the solving process
-    #[clap(long, short, default_value_t = false, visible_alias = "verbose")]
+    #[clap(long, short, default_value_t = false)]
     pub verbose: bool,
 }
 
@@ -155,18 +119,36 @@ impl Display for ArgUnitShape {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
+#[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgMazeShape {
-    #[default]
-    Rectangle,
+    Rectangle(RectangleArgs),
 }
 
 impl Display for ArgMazeShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ArgMazeShape::Rectangle => write!(f, "rectangle"),
+            ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
         }
     }
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct RectangleArgs {
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
+
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Number of rows
+    #[clap(long, short)]
+    pub rows: usize,
+
+    /// Number of cols
+    #[clap(long, short)]
+    pub cols: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]

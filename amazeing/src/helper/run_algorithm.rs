@@ -23,12 +23,12 @@ pub(crate) fn solve_maze(
 pub(crate) fn generate_maze(
     maze: &mut Maze,
     unit_shape: &UnitShape,
-    from: Vec<Node>,
+    sources: &[Node],
     procedure: &ArgGenProcedure,
     tracer: &mut Option<Tracer>,
 ) {
     match procedure {
-        ArgGenProcedure::Bfs => amazeing::tiled::generator::bfs(maze, unit_shape, from, tracer),
-        ArgGenProcedure::Dfs => amazeing::tiled::generator::dfs(maze, unit_shape, from, tracer),
+        ArgGenProcedure::Bfs => amazeing::tiled::generator::bfs(maze, unit_shape, sources, tracer),
+        ArgGenProcedure::Dfs => amazeing::tiled::generator::dfs(maze, unit_shape, sources, tracer),
     }
 }

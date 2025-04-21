@@ -6,15 +6,15 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
 
-pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
-    source.iter().for_each(|source| {
+pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &mut Option<Tracer>) {
+    sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
 
     let mut storage = Vec::<Node>::new();
     let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
-    source.iter().for_each(|source| {
+    sources.iter().for_each(|source| {
         storage.push(*source);
     });
 
@@ -36,14 +36,14 @@ pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &
     }
 }
 
-pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
-    source.iter().for_each(|source| {
+pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &mut Option<Tracer>) {
+    sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
 
     let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
-    let mut storages: Vec<VecDeque<Node>> = source
+    let mut storages: Vec<VecDeque<Node>> = sources
         .iter()
         .map(|source| {
             let mut storage = VecDeque::<Node>::new();

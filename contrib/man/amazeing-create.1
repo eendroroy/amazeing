@@ -4,7 +4,7 @@
 .SH NAME
 amazeing
 .SH SYNOPSIS
-\fBamazeing create\fR [\fB\-m\fR|\fB\-\-maze\fR] [\fB\-u\fR|\fB\-\-unit\-shape\fR] [\fB\-s\fR|\fB\-\-source\fR] [\fB\-p\fR|\fB\-\-procedure\fR] <\fB\-r\fR|\fB\-\-rows\fR> <\fB\-c\fR|\fB\-\-cols\fR> [\fB\-v\fR|\fB\-\-verbose\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+\fBamazeing create\fR [\fB\-m\fR|\fB\-\-maze\fR] [\fB\-v\fR|\fB\-\-verbose\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
 .SH DESCRIPTION
 .SH OPTIONS
 .TP
@@ -15,33 +15,14 @@ optional if \*(Aq\-\-verbose\*(Aq flag provided
 
 if provided, generated maze will be dumped at path
 .TP
-\fB\-u\fR, \fB\-\-unit\-shape\fR=\fIUnitShape\fR [default: hexagon]
-Unit shape
-.br
-
-.br
-[\fIpossible values: \fRtriangle, square, hexagon, circle]
-.TP
-\fB\-s\fR, \fB\-\-source\fR=\fIusize,usize\fR
-Starting point(s) of the generation
-
-optional if \*(Aq\-\-verbose\*(Aq flag provided
-.TP
-\fB\-p\fR, \fB\-\-procedure\fR=\fIPROCEDURE\fR [default: dfs]
-Maze Generation Procedure
-.br
-
-.br
-[\fIpossible values: \fRbfs, dfs]
-.TP
-\fB\-r\fR, \fB\-\-rows\fR=\fIROWS\fR
-Number of rows
-.TP
-\fB\-c\fR, \fB\-\-cols\fR=\fICOLS\fR
-Number of cols
-.TP
 \fB\-v\fR, \fB\-\-verbose\fR
 Show a simulation of the generation process
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Print help (see a summary with \*(Aq\-h\*(Aq)
+.SH SUBCOMMANDS
+.TP
+amazeing\-rectangle(1)
+.TP
+amazeing\-help(1)
+Print this message or the help of the given subcommand(s)

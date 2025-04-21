@@ -10,7 +10,7 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
 
         clear_background(color_context.color_bg);
 
-        draw_maze(draw_context, color_context, maze, None, None, (vec![], None), false);
+        draw_maze(draw_context, color_context, maze, None, None, (&vec![], None), false);
 
         if is_mouse_button_pressed(MouseButton::Left) {
             let value = if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
