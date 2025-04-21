@@ -1,5 +1,5 @@
 use crate::command::ArgSolveProcedure;
-use amazeing::matrix::{Maze, NodeHeuFn};
+use amazeing::tiled::{Maze, NodeHeuFn};
 
 #[derive(Debug, Clone)]
 pub struct SolveContext {

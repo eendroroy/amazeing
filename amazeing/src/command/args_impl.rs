@@ -1,8 +1,6 @@
 use crate::command::{ArgHeuristic, ArgUnitShape};
-use amazeing::matrix::heuristics::{
-    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic,
-};
-use amazeing::matrix::{NodeHeuFn, UnitShape};
+use amazeing::tiled::heuristics::*;
+use amazeing::tiled::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
     pub fn shape(&self) -> UnitShape {

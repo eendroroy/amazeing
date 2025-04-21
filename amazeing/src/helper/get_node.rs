@@ -1,6 +1,6 @@
 use crate::context::DrawContext;
-use amazeing::matrix::neighbour::{DOWN, LEFT, LEFT_DOWN, LEFT_UP, RIGHT, RIGHT_DOWN, RIGHT_UP, UP};
-use amazeing::matrix::{Node, UnitShape};
+use amazeing::tiled::neighbour::{DOWN, LEFT, LEFT_DOWN, LEFT_UP, RIGHT, RIGHT_DOWN, RIGHT_UP, UP};
+use amazeing::tiled::{Node, UnitShape};
 use macroquad::input::mouse_position;
 
 pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext) -> Node {

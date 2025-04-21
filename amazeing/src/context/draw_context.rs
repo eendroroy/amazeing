@@ -1,4 +1,4 @@
-use amazeing::matrix::{Node, UnitShape};
+use amazeing::tiled::{Node, UnitShape};
 use macroquad::prelude::Vec2;
 use std::f32::consts::PI;
 

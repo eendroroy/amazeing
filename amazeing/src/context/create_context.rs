@@ -1,5 +1,5 @@
 use crate::command::ArgGenProcedure;
-use amazeing::matrix::Node;
+use amazeing::tiled::Node;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]
