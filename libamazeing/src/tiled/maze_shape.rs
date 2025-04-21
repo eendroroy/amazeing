@@ -5,12 +5,14 @@ use std::str::FromStr;
 pub enum MazeShape {
     #[default]
     Rectangle,
+    Square,
 }
 
 impl MazeShape {
     pub fn as_str(&self) -> &'static str {
         match self {
             MazeShape::Rectangle => "rectangle",
+            MazeShape::Square => "square",
         }
     }
 }
@@ -26,6 +28,7 @@ impl FromStr for MazeShape {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "rectangle" => Ok(MazeShape::Rectangle),
+            "square" => Ok(MazeShape::Square),
             _ => Err(format!("Unrecognized MazeShape: {}", s)),
         }
     }
