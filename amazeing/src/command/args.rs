@@ -29,7 +29,7 @@ pub struct AmazeingArgs {
         long,
         short = 'M',
         display_order = 100,
-        default_value_t = ArgMazeShape::Rectangle,
+        default_value_t = ArgMazeShape::default(),
         value_name = "MazeShape"
     )]
     pub maze_shape: ArgMazeShape,
@@ -79,7 +79,7 @@ pub struct CreateArgs {
     pub maze: Option<PathBuf>,
 
     /// Unit shape
-    #[clap(long, short, default_value_t = ArgUnitShape::Hexagon, value_name = "UnitShape")]
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
 
     /// Starting point(s) of the generation
@@ -135,10 +135,11 @@ pub struct SolveArgs {
     pub verbose: bool,
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgUnitShape {
     Triangle,
     Square,
+    #[default]
     Hexagon,
     Circle,
 }
@@ -154,8 +155,9 @@ impl Display for ArgUnitShape {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgMazeShape {
+    #[default]
     Rectangle,
 }
 

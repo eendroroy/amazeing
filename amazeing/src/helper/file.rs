@@ -3,6 +3,7 @@ use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
 use std::path::Path;
+use std::str::FromStr;
 
 pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     if fs::exists(path).unwrap_or(false) {
@@ -45,8 +46,8 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
     let mut lines = file_data.split("\n").collect::<Vec<&str>>();
 
     Maze::from(
-        MazeShape::from_str(lines.remove(0)),
-        UnitShape::from_str(lines.remove(0)),
+        MazeShape::from_str(lines.remove(0)).unwrap_or_else(|e| panic!("{}", e)),
+        UnitShape::from_str(lines.remove(0)).unwrap_or_else(|e| panic!("{}", e)),
         lines
             .iter()
             .map(|line| {
