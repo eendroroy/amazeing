@@ -1,4 +1,4 @@
-use amazeing::matrix::{Node, Trace};
+use amazeing::tiled::{Node, Trace};
 
 pub(crate) fn path_to_trace(path: Vec<Node>) -> Trace {
     let mut rank = i32::MAX;

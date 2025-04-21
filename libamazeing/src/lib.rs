@@ -1,2 +1,2 @@
-/// This module contains the matrix structured maze related functionality.
-pub mod matrix;
+/// This module contains the tiled structured maze related functionality.
+pub mod tiled;

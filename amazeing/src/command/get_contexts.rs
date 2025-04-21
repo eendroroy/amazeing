@@ -1,7 +1,7 @@
 use crate::command::{AmazeingArgs, ArgCommand};
 use crate::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::helper::load_maze_from_file;
-use amazeing::matrix::Node;
+use amazeing::tiled::Node;
 
 type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
 static GRADIENT_STEPS: fn(usize, usize) -> usize = |r, c| ((r + c) as f32 * 0.25).clamp(8., 64.) as usize;

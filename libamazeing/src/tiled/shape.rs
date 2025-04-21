@@ -1,4 +1,4 @@
-/// Represents the shape of the blocks of a matrix.
+/// Represents the shape of the blocks of a tiled.
 ///
 /// - `Square`: A shape with 4 sides, allowing movement in 4 directions.
 /// - `Hexagon`: A shape with 6 sides, allowing movement in 6 directions.

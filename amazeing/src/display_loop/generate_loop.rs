@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, CreateContext, DrawContext};
 use crate::helper::{current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
-use amazeing::matrix::Maze;
+use amazeing::tiled::Maze;
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {

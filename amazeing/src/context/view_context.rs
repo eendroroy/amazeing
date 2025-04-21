@@ -1,4 +1,4 @@
-use amazeing::matrix::Maze;
+use amazeing::tiled::Maze;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]
