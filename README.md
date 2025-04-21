@@ -13,7 +13,7 @@ Clone the repository and build the project:
 ```sh
 git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
-make install # this will install man-pages and shell-completions
+make install # this will install shell-completions
 ```
 
 ## Usage
@@ -49,28 +49,28 @@ make install # this will install man-pages and shell-completions
 
 ```shell
 # generate 21x21 maze using BFS - single source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-shape square
+amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-shape square
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -U square
+amazeing C R -m bfs_21_21.maze -r 21 -c 21 -s 10,10 -p bfs -U square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
+amazeing create rectangle --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
+amazeing C R -r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 ```
 
 #### Generate - multi source
 
 ```shell
 # generate 21x21 maze using BFS - multi source
-amazeing create --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-shape sqaure
+amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-shape sqaure
 # short
-amazeing C -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
+amazeing C R -m bfs_21_21.maze -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
 
 # simulate - multi source
-amazeing create --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
+amazeing create rectangle --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
 # short
-amazeing C -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
+amazeing C R -r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
 ```
 
 #### Update
