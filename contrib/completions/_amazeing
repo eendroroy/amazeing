@@ -17,8 +17,6 @@ _amazeing() {
     _arguments "${_arguments_options[@]}" : \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -42,6 +40,8 @@ _amazeing() {
 _arguments "${_arguments_options[@]}" : \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '*-s+[Starting point(s) of the generation]:usize,usize:_default' \
 '*--source=[Starting point(s) of the generation]:usize,usize:_default' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
@@ -52,8 +52,6 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -70,6 +68,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '*-s+[Starting point(s) of the generation]:usize,usize:_default' \
 '*--source=[Starting point(s) of the generation]:usize,usize:_default' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
@@ -80,8 +80,6 @@ _arguments "${_arguments_options[@]}" : \
 '--cols=[Number of cols]:COLS:_default' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -100,8 +98,6 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -120,8 +116,6 @@ _arguments "${_arguments_options[@]}" : \
 '--maze=[Maze file path]:MAZE:_files' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -144,8 +138,6 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -169,8 +161,6 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-M+[Maze shape]:MazeShape:(rectangle)' \
 '--maze-shape=[Maze shape]:MazeShape:(rectangle)' \
-'-U+[Unit shape]:UnitShape:(triangle square hexagon circle)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon circle)' \
 '-Z+[Display size (zoom)]:zoom:_default' \
 '--zoom=[Display size (zoom)]:zoom:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \

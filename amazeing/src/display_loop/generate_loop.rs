@@ -4,7 +4,7 @@ use amazeing::tiled::Maze;
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {
-    let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
+    let mut maze = Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
 
     loop {
         let current_frame_start_time = current_millis();
@@ -18,7 +18,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
         }
 
         if is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space) {
-            maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
+            maze = Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
             generate_maze(&mut maze, &draw_context.u_shape, context.sources.clone(), &context.procedure, &mut None);
         }
 

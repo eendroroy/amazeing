@@ -34,17 +34,6 @@ pub struct AmazeingArgs {
     )]
     pub maze_shape: ArgMazeShape,
 
-    /// Unit shape
-    #[clap(
-        global = true,
-        long,
-        short = 'U',
-        display_order = 101,
-        default_value_t = ArgUnitShape::Hexagon,
-        value_name = "UnitShape"
-    )]
-    pub unit_shape: ArgUnitShape,
-
     /// Display size (zoom)
     #[clap(
         global = true,
@@ -88,6 +77,10 @@ pub struct CreateArgs {
     /// if provided, generated maze will be dumped at path
     #[clap(long, short, required_unless_present = "verbose")]
     pub maze: Option<PathBuf>,
+
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::Hexagon, value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
 
     /// Starting point(s) of the generation
     ///
@@ -163,7 +156,7 @@ impl Display for ArgUnitShape {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgMazeShape {
-    Rectangle
+    Rectangle,
 }
 
 impl Display for ArgMazeShape {

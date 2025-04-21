@@ -115,20 +115,6 @@ fn weighted_traverse(
     Vec::new()
 }
 
-/// Performs a breadth-first search (BFS) on the maze from the start node to the end node.
-///
-/// # Arguments
-///
-/// * `maze` - A reference to the maze to be traversed.
-/// * `unit_shape` - The shape of the maze, which determines the connectivity of nodes.
-/// * `source` - The starting node.
-/// * `destination` - The destination node.
-/// * `tracer` - An optional tracer to record the path.
-///
-/// # Returns
-///
-/// A vector of nodes representing the path from source to destination.
-/// If no path is found, an empty vector is returned.
 pub fn bfs(
     maze: &Maze,
     unit_shape: &UnitShape,
@@ -141,20 +127,6 @@ pub fn bfs(
     traverse(maze, unit_shape, source, destination, push, pop, tracer)
 }
 
-/// Performs a depth-first search (DFS) on the maze from the start node to the end node.
-///
-/// # Arguments
-///
-/// * `maze` - A reference to the maze to be traversed.
-/// * `unit_shape` - The shape of the maze, which determines the connectivity of nodes.
-/// * `source` - The starting node.
-/// * `destination` - The destination node.
-/// * `tracer` - An optional tracer to record the path.
-///
-/// # Returns
-///
-/// A vector of nodes representing the path from source to destination.
-/// If no path is found, an empty vector is returned.
 pub fn dfs(
     maze: &Maze,
     unit_shape: &UnitShape,
@@ -168,24 +140,6 @@ pub fn dfs(
     traverse(maze, unit_shape, source, destination, push, pop, tracer)
 }
 
-/// Performs Dijkstra's algorithm on the maze from the start node to the end node.
-///
-/// This function uses Dijkstra's algorithm, which is a graph search algorithm
-/// that finds the shortest path between nodes in a weighted graph. It explores
-/// all possible paths, ensuring the shortest path is found.
-///
-/// # Arguments
-///
-/// * `maze` - A reference to the maze to be traversed.
-/// * `unit_shape` - The shape of the maze, which determines the connectivity of nodes.
-/// * `source` - The starting node.
-/// * `destination` - The destination node.
-/// * `tracer` - An optional tracer to record the path during traversal.
-///
-/// # Returns
-///
-/// A vector of nodes representing the path from the start node to the destination node.
-/// If no path is found, an empty vector is returned.
 pub fn dijkstra(
     maze: &Maze,
     unit_shape: &UnitShape,
@@ -196,25 +150,6 @@ pub fn dijkstra(
     weighted_traverse(maze, unit_shape, source, destination, dijkstra_heuristic, tracer)
 }
 
-/// Performs the A* algorithm on the maze from the start node to the end node.
-///
-/// This function uses the A* search algorithm, which combines the benefits of
-/// Dijkstra's algorithm and a heuristic function to efficiently find the shortest
-/// path in a weighted graph.
-///
-/// # Arguments
-///
-/// * `maze` - A reference to the maze to be traversed.
-/// * `unit_shape` - The shape of the maze, which determines the connectivity of nodes.
-/// * `source` - The starting node.
-/// * `destination` - The destination node.
-/// * `heu` - A heuristic function to estimate the cost from a node to the destination.
-/// * `tracer` - An optional tracer to record the path during traversal.
-///
-/// # Returns
-///
-/// A vector of nodes representing the path from the start node to the destination node.
-/// If no path is found, an empty vector is returned.
 pub fn a_star(
     maze: &Maze,
     unit_shape: &UnitShape,

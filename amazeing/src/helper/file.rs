@@ -1,4 +1,4 @@
-use amazeing::tiled::Maze;
+use amazeing::tiled::{Maze, MazeShape, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -16,18 +16,22 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
         .open(path)
         .expect("Could not open file");
 
+    file.write_all(format!("{}\n", maze.maze_shape).as_bytes())
+        .expect("Could not write to file");
+
+    file.write_all(format!("{}\n", maze.unit_shape).as_bytes())
+        .expect("Could not write to file");
+
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            file.write_all(format!("{}", maze[(r, c)]).to_string().as_bytes())
+            file.write_all(format!("{}", maze[(r, c)]).as_bytes())
                 .expect("Could not write to file");
             if c < maze.cols() - 1 {
-                file.write_all(" ".to_string().as_bytes())
-                    .expect("Could not write to file");
+                file.write_all(" ".as_bytes()).expect("Could not write to file");
             }
         }
         if r < maze.rows() - 1 {
-            file.write_all("\n".to_string().as_bytes())
-                .expect("Could not write to file");
+            file.write_all("\n".as_bytes()).expect("Could not write to file");
         }
     }
 }
@@ -36,13 +40,18 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
     if !fs::exists(path).unwrap() {
         panic!("Maze file {} does not exists", path.display());
     }
+
+    let file_data = fs::read_to_string(path).expect("Could not read maze file");
+    let mut lines = file_data.split("\n").collect::<Vec<&str>>();
+
     Maze::from(
-        fs::read_to_string(path)
-            .expect("Should have been able to read the file")
-            .split("\n")
+        MazeShape::from_str(lines.remove(0)),
+        UnitShape::from_str(lines.remove(0)),
+        lines
+            .iter()
             .map(|line| {
                 line.split(" ")
-                    .map(|block| block.trim().parse::<u32>().unwrap())
+                    .map(|unit| unit.trim().parse::<u32>().unwrap())
                     .collect::<Vec<u32>>()
             })
             .collect::<Vec<Vec<u32>>>(),
