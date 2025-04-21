@@ -1,9 +1,11 @@
 use std::fmt::Display;
+use std::str::FromStr;
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub enum UnitShape {
     Triangle,
     Square,
+    #[default]
     Hexagon,
     Circle,
 }
@@ -18,16 +20,6 @@ impl UnitShape {
         }
     }
 
-    pub fn from_str(str: &str) -> Self {
-        match str {
-            "triangle" => UnitShape::Triangle,
-            "square" => UnitShape::Square,
-            "hexagon" => UnitShape::Hexagon,
-            "circle" => UnitShape::Circle,
-            _ => panic!("Unrecognized shape: {}", str),
-        }
-    }
-
     pub fn sides(&self) -> usize {
         match self {
             UnitShape::Triangle => 3,
@@ -38,9 +30,16 @@ impl UnitShape {
     }
 }
 
-impl Default for UnitShape {
-    fn default() -> Self {
-        UnitShape::Hexagon
+impl FromStr for UnitShape {
+    type Err = String;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "triangle" => Ok(UnitShape::Triangle),
+            "square" => Ok(UnitShape::Square),
+            "hexagon" => Ok(UnitShape::Hexagon),
+            "circle" => Ok(UnitShape::Circle),
+            _ => Err(format!("Unrecognized UnitShape: {}", s)),
+        }
     }
 }
 
