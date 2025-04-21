@@ -21,3 +21,8 @@ impl UnitShape {
         }
     }
 }
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum MazeShape {
+    Rectangle,
+}
