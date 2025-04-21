@@ -1,4 +1,4 @@
-use amazeing::tiled::{Node, UnitShape};
+use amazeing::tiled::{MazeShape, Node, UnitShape};
 use macroquad::prelude::Vec2;
 use std::f32::consts::PI;
 
@@ -7,6 +7,7 @@ pub struct DrawContext {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) size: f32,
+    pub(crate) m_shape: MazeShape,
     pub(crate) u_shape: UnitShape,
     pub(crate) u_height: f32,
     pub(crate) u_width: f32,
@@ -14,7 +15,7 @@ pub struct DrawContext {
 }
 
 impl DrawContext {
-    pub fn from(zoom: f32, unit_shape: UnitShape, fps: u8) -> Self {
+    pub fn from(zoom: f32, maze_shape: MazeShape, unit_shape: UnitShape, fps: u8) -> Self {
         let shape_multiplier = match unit_shape {
             UnitShape::Hexagon | UnitShape::Circle => 0.65,
             _ => 1.0,
@@ -32,7 +33,8 @@ impl DrawContext {
             margin,
             border,
             size,
-            u_shape: unit_shape.clone(),
+            m_shape: maze_shape,
+            u_shape: unit_shape,
             u_height: unit_height,
             u_width: unit_width,
             fps,

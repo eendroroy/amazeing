@@ -17,7 +17,11 @@ pub(crate) async fn solve_simulation_loop(
 
     let mut current_path: Trace = HashMap::new();
 
-    let mut traversed = Maze::from(vec![vec![0u32; context.maze.cols()]; context.maze.rows()]);
+    let mut traversed = Maze::from(
+        draw_context.m_shape,
+        draw_context.u_shape,
+        vec![vec![0u32; context.maze.cols()]; context.maze.rows()],
+    );
 
     let mut trace_complete = false;
     let mut simulating = false;

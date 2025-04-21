@@ -34,7 +34,7 @@ make install # this will install man-pages and shell-completions
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
     - `Shift`+`LeftClick` - Block Path
-    - `Control`+`S` - Save current maze to same file
+    - `Control`+`S` - Save current maze to the same file
 
 - Solve
     - `LeftClick` - Select Source
@@ -86,14 +86,14 @@ amazeing V -m bfs_21_21.maze -u
 
 ```shell
 # solve bfs_21_21.maze
-amazeing solve --maze bfs_21_21.maze --procedure bfs --unit-shape hexagonal
+amazeing solve --maze bfs_21_21.maze --procedure bfs
 # short
-amazeing S -m bfs_21_21.maze -p bfs -U hexagonal
+amazeing S -m bfs_21_21.maze -p bfs
 
 # simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25 --unit-shape square
+amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25
 # short
-amazeing S -m bfs_21_21.maze -p bfs -v -F 25 -U square
+amazeing S -m bfs_21_21.maze -p bfs -v -F 25
 ```
 
 ![demo.gif](assets/image/demo.gif)

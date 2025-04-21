@@ -9,8 +9,9 @@ pub(crate) async fn generate_simulation_loop(
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {
-    let mut traversed = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
-    let mut maze = Maze::from(vec![vec![0u32; context.cols]; context.rows]);
+    let mut traversed =
+        Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
+    let mut maze = Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
     let dummy_maze = maze.clone();
 
     let mut trace: Tracer = vec![];

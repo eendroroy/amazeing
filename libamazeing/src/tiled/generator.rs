@@ -6,22 +6,6 @@ use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
 
-/// Generates a maze using a breadth-first search (BFS) algorithm starting from the source node.
-///
-/// This algorithm explores the maze space by visiting nodes in breadth-first order, creating
-/// passages between nodes when they satisfy the unit shape's criteria. The result is a maze
-/// with a more "spread out" pattern compared to DFS.
-///
-/// # Arguments
-///
-/// * `maze` - A mutable reference to the maze structure.
-/// * `unit_shape` - The shape type that defines the neighbors structure and validation criteria.
-/// * `source` - The starting nodes for the BFS algorithm.
-/// * `tracer` - An optional mutable reference to a tracer for recording the path generation.
-///
-/// # Note
-///
-/// The algorithm will validate all source nodes before beginning the maze generation process.
 pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
@@ -52,22 +36,6 @@ pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &
     }
 }
 
-/// Generates a maze using a depth-first search (DFS) algorithm starting from the source nodes.
-///
-/// This algorithm explores the maze space by visiting nodes in depth-first order, creating
-/// passages between nodes when they satisfy the unit shape's criteria. The result is a maze
-/// with longer corridors and fewer branches compared to BFS.
-///
-/// # Arguments
-///
-/// * `maze` - A mutable reference to the maze structure.
-/// * `unit_shape` - The shape type that defines the neighbors structure and validation criteria.
-/// * `source` - The starting nodes for the DFS algorithm.
-/// * `tracer` - An optional mutable reference to a tracer for recording the path generation.
-///
-/// # Note
-///
-/// The algorithm will validate all source nodes before beginning the maze generation process.
 pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, source: Vec<Node>, tracer: &mut Option<Tracer>) {
     source.iter().for_each(|source| {
         validate_node(maze, *source);
