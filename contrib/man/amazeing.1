@@ -1,17 +1,24 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH amazeing 1  "amazeing 0.3.2" 
+.TH amazeing 1  "amazeing 0.3.3" 
 .SH NAME
 amazeing \- A maze generator/solver application with simulation/visualization
 .SH SYNOPSIS
-\fBamazeing\fR [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-Z\fR|\fB\-\-zoom\fR] [\fB\-C\fR|\fB\-\-colors\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
+\fBamazeing\fR [\fB\-M\fR|\fB\-\-maze\-shape\fR] [\fB\-U\fR|\fB\-\-unit\-shape\fR] [\fB\-Z\fR|\fB\-\-zoom\fR] [\fB\-C\fR|\fB\-\-colors\fR] [\fB\-F\fR|\fB\-\-fps\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] <\fIsubcommands\fR>
 .SH DESCRIPTION
 A maze generator/solver application with simulation/visualization.
 .PP
 See https://eendroroy.github.io/amazeing for more details
 .SH OPTIONS
 .TP
-\fB\-U\fR, \fB\-\-unit\-shape\fR=\fIShape\fR [default: hexagon]
+\fB\-M\fR, \fB\-\-maze\-shape\fR=\fIMazeShape\fR [default: rectangle]
+Maze shape
+.br
+
+.br
+[\fIpossible values: \fRrectangle]
+.TP
+\fB\-U\fR, \fB\-\-unit\-shape\fR=\fIUnitShape\fR [default: hexagon]
 Unit shape
 .br
 
@@ -46,4 +53,4 @@ Solve a Maze
 amazeing\-help(1)
 Print this message or the help of the given subcommand(s)
 .SH VERSION
-v0.3.2
+v0.3.3

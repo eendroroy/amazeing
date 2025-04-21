@@ -23,14 +23,25 @@ pub struct AmazeingArgs {
     #[clap(subcommand)]
     pub command: ArgCommand,
 
+    /// Maze shape
+    #[clap(
+        global = true,
+        long,
+        short = 'M',
+        display_order = 100,
+        default_value_t = ArgMazeShape::Rectangle,
+        value_name = "MazeShape"
+    )]
+    pub maze_shape: ArgMazeShape,
+
     /// Unit shape
     #[clap(
         global = true,
         long,
         short = 'U',
-        display_order = 100,
+        display_order = 101,
         default_value_t = ArgUnitShape::Hexagon,
-        value_name = "Shape"
+        value_name = "UnitShape"
     )]
     pub unit_shape: ArgUnitShape,
 
@@ -39,7 +50,7 @@ pub struct AmazeingArgs {
         global = true,
         long,
         short = 'Z',
-        display_order = 101,
+        display_order = 102,
         default_value_t = 1f32,
         value_name = "zoom"
     )]
@@ -146,6 +157,19 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
             ArgUnitShape::Circle => write!(f, "circle"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, ValueEnum)]
+pub enum ArgMazeShape {
+    Rectangle
+}
+
+impl Display for ArgMazeShape {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgMazeShape::Rectangle => write!(f, "rectangle"),
         }
     }
 }
