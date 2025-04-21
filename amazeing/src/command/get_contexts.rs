@@ -28,6 +28,21 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                     None,
                 )
             }
+            ArgMazeShape::Square(square_args) => {
+                gradient_steps = GRADIENT_STEPS(square_args.size, square_args.size);
+                maze_shape = MazeShape::Square;
+                unit_shape = square_args.unit_shape.shape();
+                (
+                    Some(CreateContext {
+                        maze_file_path: sub_args.maze.clone(),
+                        procedure: square_args.procedure,
+                        rows: square_args.size,
+                        cols: square_args.size,
+                    }),
+                    None,
+                    None,
+                )
+            }
         },
         ArgCommand::View(sub_args) => {
             let loaded_maze = load_maze_from_file(sub_args.maze.as_path());

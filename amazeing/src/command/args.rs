@@ -1,6 +1,6 @@
-use clap::builder::Styles;
 use clap::builder::styling::Color::Ansi;
 use clap::builder::styling::{AnsiColor, Style};
+use clap::builder::Styles;
 use clap::{Parser, Subcommand, ValueEnum};
 use std::fmt::Display;
 use std::path::PathBuf;
@@ -69,6 +69,57 @@ pub struct CreateArgs {
     pub verbose: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Subcommand)]
+pub enum ArgMazeShape {
+    #[clap(visible_alias = "R")]
+    Rectangle(RectangleArgs),
+    #[clap(visible_alias = "S")]
+    Square(SquareArgs),
+}
+
+impl Display for ArgMazeShape {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
+            ArgMazeShape::Square(_) => write!(f, "square"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct RectangleArgs {
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
+
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Number of rows
+    #[clap(long, short)]
+    pub rows: usize,
+
+    /// Number of cols
+    #[clap(long, short)]
+    pub cols: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct SquareArgs {
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
+
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Number of rows
+    #[clap(long, short)]
+    pub size: usize,
+}
+
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct ViewArgs {
     /// Maze file path
@@ -121,39 +172,6 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Circle => write!(f, "circle"),
         }
     }
-}
-
-#[derive(Debug, Clone, PartialEq, Subcommand)]
-pub enum ArgMazeShape {
-    #[clap(visible_alias = "R")]
-    Rectangle(RectangleArgs),
-}
-
-impl Display for ArgMazeShape {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Parser)]
-pub struct RectangleArgs {
-    /// Unit shape
-    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
-    pub unit_shape: ArgUnitShape,
-
-    /// Maze Generation Procedure
-    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
-
-    /// Number of rows
-    #[clap(long, short)]
-    pub rows: usize,
-
-    /// Number of cols
-    #[clap(long, short)]
-    pub cols: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
