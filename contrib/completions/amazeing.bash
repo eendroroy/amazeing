@@ -33,6 +33,9 @@ _amazeing() {
             amazeing,view)
                 cmd="amazeing__view"
                 ;;
+            amazeing__create,R)
+                cmd="amazeing__create__rectangle"
+                ;;
             amazeing__create,help)
                 cmd="amazeing__create__help"
                 ;;
@@ -105,7 +108,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -v -Z -C -F -h --maze --verbose --zoom --colors --fps --help rectangle help"
+            opts="-m -v -Z -C -F -h --maze --verbose --zoom --colors --fps --help rectangle R help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

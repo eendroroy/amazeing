@@ -101,10 +101,14 @@ pub struct SolveArgs {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgUnitShape {
+    #[clap(alias = "t")]
     Triangle,
+    #[clap(alias = "s")]
     Square,
     #[default]
+    #[clap(alias = "h")]
     Hexagon,
+    #[clap(alias = "c")]
     Circle,
 }
 
@@ -121,6 +125,7 @@ impl Display for ArgUnitShape {
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgMazeShape {
+    #[clap(visible_alias = "R")]
     Rectangle(RectangleArgs),
 }
 
@@ -153,9 +158,13 @@ pub struct RectangleArgs {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgSolveProcedure {
+    #[clap(alias = "b")]
     Bfs,
+    #[clap(alias = "d")]
     Dfs,
+    #[clap(alias = "dj")]
     Dijkstra,
+    #[clap(alias = "as")]
     AStar,
 }
 
@@ -172,7 +181,9 @@ impl Display for ArgSolveProcedure {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgGenProcedure {
+    #[clap(alias = "b")]
     Bfs,
+    #[clap(alias = "d")]
     Dfs,
 }
 
@@ -187,10 +198,15 @@ impl Display for ArgGenProcedure {
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgHeuristic {
+    #[clap(alias = "m")]
     Manhattan,
+    #[clap(alias = "e")]
     Euclidean,
+    #[clap(alias = "c")]
     Chebyshev,
+    #[clap(alias = "o")]
     Octile,
+    #[clap(alias = "dj")]
     Dijkstra,
 }
 

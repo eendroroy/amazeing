@@ -1,6 +1,6 @@
 [package]
 name = "amazeing"
-version = "0.3.4"
+version = "0.3.5"
 edition = "2024"
 rust-version = "1.86.0"
 
@@ -14,7 +14,6 @@ clap = { version = "4.5.35", features = ["color", "derive"] }
 [build-dependencies]
 clap = { version = "4.3.0", features = ["derive"] }
 clap_complete = "4.5.47"
-clap_mangen = "0.2.26"
 
 [[bin]]
 name = "amazeing"
