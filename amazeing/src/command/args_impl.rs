@@ -3,7 +3,7 @@ use amazeing::tiled::heuristics::*;
 use amazeing::tiled::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
-    pub fn shape(&self) -> UnitShape {
+    pub fn as_unit_shape(&self) -> UnitShape {
         match self {
             ArgUnitShape::Triangle => UnitShape::Triangle,
             ArgUnitShape::Square => UnitShape::Square,
@@ -14,7 +14,7 @@ impl ArgUnitShape {
 }
 
 impl ArgHeuristic {
-    pub fn heuristic(&self) -> NodeHeuFn {
+    pub fn as_node_heu_fn(&self) -> NodeHeuFn {
         match self {
             ArgHeuristic::Manhattan => manhattan_heuristic,
             ArgHeuristic::Euclidean => euclidean_heuristic,
