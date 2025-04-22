@@ -16,7 +16,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             ArgMazeShape::Rectangle(rectangle_args) => {
                 gradient_steps = GRADIENT_STEPS(rectangle_args.rows, rectangle_args.cols);
                 maze_shape = MazeShape::Rectangle;
-                unit_shape = rectangle_args.unit_shape.shape();
+                unit_shape = rectangle_args.unit_shape.as_unit_shape();
                 (
                     Some(CreateContext {
                         maze_file_path: sub_args.maze.clone(),
@@ -31,7 +31,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
             ArgMazeShape::Square(square_args) => {
                 gradient_steps = GRADIENT_STEPS(square_args.size, square_args.size);
                 maze_shape = MazeShape::Square;
-                unit_shape = square_args.unit_shape.shape();
+                unit_shape = square_args.unit_shape.as_unit_shape();
                 (
                     Some(CreateContext {
                         maze_file_path: sub_args.maze.clone(),
@@ -69,7 +69,7 @@ pub(crate) fn get_contexts(args: AmazeingArgs) -> GetContextRet {
                 Some(SolveContext {
                     maze: loaded_maze,
                     procedure: sub_args.procedure,
-                    heuristic: sub_args.heuristic_function.heuristic(),
+                    heuristic: sub_args.heuristic_function.as_node_heu_fn(),
                 }),
             )
         }

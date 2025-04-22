@@ -1,18 +1,21 @@
-use clap::builder::styling::Color::Ansi;
-use clap::builder::styling::{AnsiColor, Style};
 use clap::builder::Styles;
+use clap::builder::styling::Color::Ansi;
+use clap::builder::styling::{
+    AnsiColor::{Blue, Cyan, Green, Red, Yellow},
+    Style,
+};
 use clap::{Parser, Subcommand, ValueEnum};
 use std::fmt::Display;
 use std::path::PathBuf;
 
 pub const CLAP_STYLE: Styles = Styles::styled()
-    .header(Style::new().bold().fg_color(Some(Ansi(AnsiColor::Green))))
-    .usage(Style::new().bold().fg_color(Some(Ansi(AnsiColor::Green))))
-    .literal(Style::new().fg_color(Some(Ansi(AnsiColor::Blue))).bold())
-    .placeholder(Style::new().fg_color(Some(Ansi(AnsiColor::Cyan))))
-    .error(Style::new().fg_color(Some(Ansi(AnsiColor::Red))).bold())
-    .valid(Style::new().fg_color(Some(Ansi(AnsiColor::Green))))
-    .invalid(Style::new().fg_color(Some(Ansi(AnsiColor::Yellow))));
+    .header(Style::new().bold().fg_color(Some(Ansi(Green))))
+    .usage(Style::new().bold().fg_color(Some(Ansi(Green))))
+    .literal(Style::new().fg_color(Some(Ansi(Blue))).bold())
+    .placeholder(Style::new().fg_color(Some(Ansi(Cyan))))
+    .error(Style::new().fg_color(Some(Ansi(Red))).bold())
+    .valid(Style::new().fg_color(Some(Ansi(Green))))
+    .invalid(Style::new().fg_color(Some(Ansi(Yellow))));
 
 /// A maze generator/solver application with simulation/visualization.
 ///
