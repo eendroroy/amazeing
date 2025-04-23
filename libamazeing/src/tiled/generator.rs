@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::neighbour::neighbours_block;
 use super::types::{Node, Tracer};
-use super::{Maze, UnitShape};
+use super::{Maze, UnitShape, OPEN};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
@@ -22,7 +22,7 @@ pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
         let neighbours = neighbours_block(maze, current, unit_shape);
 
         if neighbours.len() >= unit_shape.sides() - 1 {
-            maze[current] = 1;
+            maze[current] = OPEN;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));
             }
@@ -61,7 +61,7 @@ pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
                 let mut neighbours = neighbours_block(maze, current, unit_shape);
                 if neighbours.len() >= unit_shape.sides() - 1 {
                     neighbours.shuffle(&mut rng());
-                    maze[current] = 1;
+                    maze[current] = OPEN;
                     if let Some(trace) = tracer {
                         trace.push(reconstruct_trace_path(current, &parent));
                     }

@@ -1,6 +1,5 @@
 use crate::context::{ColorContext, DrawContext};
-use crate::helper::constants::{BLOCK, OPEN};
-use amazeing::tiled::{Maze, Node, Rank, Trace, UnitShape};
+use amazeing::tiled::{Maze, Node, Rank, Trace, UnitShape, BLOCK, OPEN};
 use macroquad::prelude::{BLANK, Color, draw_rectangle};
 use macroquad::shapes::{draw_circle, draw_hexagon, draw_triangle};
 
