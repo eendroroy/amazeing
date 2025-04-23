@@ -25,9 +25,14 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     (shape_args.procedure, shape_args.size, shape_args.size)
                 }
                 ArgMazeShape::Triangle(shape_args) => {
-                    maze_shape = MazeShape::Square;
+                    maze_shape = MazeShape::Triangle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
-                    (shape_args.procedure, shape_args.base, shape_args.base)
+                    let base = if shape_args.base % 2 == 0 {
+                        shape_args.base + 1
+                    } else {
+                        shape_args.base
+                    };
+                    (shape_args.procedure, base, base)
                 }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);

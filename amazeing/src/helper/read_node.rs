@@ -1,7 +1,6 @@
 use crate::context::DrawContext;
-use crate::helper::constants::BLOCK;
 use crate::helper::get_node_from_mouse_pos;
-use amazeing::tiled::{Maze, Node};
+use amazeing::tiled::{Maze, Node, BLOCK};
 use macroquad::input::{KeyCode, is_key_down};
 
 pub(crate) fn populate_source_destination(

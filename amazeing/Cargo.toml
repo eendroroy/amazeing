@@ -1,6 +1,6 @@
 [package]
 name = "amazeing"
-version = "0.3.6"
+version = "0.3.7"
 edition = "2024"
 rust-version = "1.86.0"
 
@@ -10,6 +10,7 @@ macroquad = "0.4.14"
 toml = "0.8.20"
 serde = { version = "1.0.219", features = ["derive"] }
 clap = { version = "4.5.37", features = ["color", "derive"] }
+log = "0.4.27"
 
 [build-dependencies]
 clap = { version = "4.5.37", features = ["derive"] }

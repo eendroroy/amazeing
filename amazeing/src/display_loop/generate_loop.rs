@@ -1,12 +1,12 @@
 use crate::context::{ColorContext, CreateContext, DrawContext};
-use crate::helper::constants::BLOCK;
-use crate::helper::{add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
-use amazeing::tiled::Maze;
+use crate::helper::{
+    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze, generate_maze_tiles,
+};
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {
-    let mut maze =
-        Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![BLOCK; context.cols]; context.rows]);
+    let maze_tiles = generate_maze_tiles(context.rows, context.cols, draw_context.m_shape, draw_context.u_shape);
+    let mut maze = maze_tiles.clone();
     let sources = &mut vec![];
 
     loop {
@@ -25,8 +25,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
         }
 
         if !sources.is_empty() && is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space) {
-            maze =
-                Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![BLOCK; context.cols]; context.rows]);
+            maze = maze_tiles.clone();
             generate_maze(&mut maze, &draw_context.u_shape, sources, &context.procedure, &mut None);
         }
 

@@ -1,5 +1,5 @@
 use super::types::{NeighbourFn, Node};
-use super::{Maze, UnitShape};
+use super::{Maze, UnitShape, BLOCK, OPEN};
 use std::iter::Iterator;
 
 pub const LEFT: NeighbourFn = |of| if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None };
@@ -38,13 +38,13 @@ pub(crate) fn neighbours(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<
 pub(crate) fn neighbours_open(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
     neighbours(maze, pos, unit_shape)
         .into_iter()
-        .filter(|p| maze[*p] > 0)
+        .filter(|p| maze[*p] == OPEN)
         .collect()
 }
 
 pub(crate) fn neighbours_block(maze: &Maze, pos: Node, unit_shape: &UnitShape) -> Vec<Node> {
     neighbours(maze, pos, unit_shape)
         .into_iter()
-        .filter(|p| maze[*p] < 1)
+        .filter(|p| maze[*p] == BLOCK)
         .collect()
 }
