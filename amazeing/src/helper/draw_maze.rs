@@ -1,4 +1,5 @@
 use crate::context::{ColorContext, DrawContext};
+use crate::helper::constants::{BLOCK, OPEN};
 use amazeing::tiled::{Maze, Node, Rank, Trace, UnitShape};
 use macroquad::prelude::{BLANK, Color, draw_rectangle};
 use macroquad::shapes::{draw_circle, draw_hexagon, draw_triangle};
@@ -23,7 +24,7 @@ pub(crate) fn draw_maze(
                 color_context.color_destination
             } else if path.is_some() && traversing && rank.is_some() {
                 if let Some(ref mut trav) = traversed {
-                    trav[node] = 1;
+                    trav[node] = OPEN;
                 }
                 let idx = Rank::MAX - rank.unwrap();
                 if idx < color_context.color_visiting_gradient.len() as i32 {
@@ -35,10 +36,12 @@ pub(crate) fn draw_maze(
                 color_context.color_path
             } else if is_traversed {
                 color_context.color_traversed
-            } else if maze[node] > 0 {
+            } else if maze[node] == OPEN {
                 color_context.color_open
-            } else {
+            } else if maze[node] == BLOCK {
                 color_context.color_block
+            } else {
+                color_context.color_bg
             };
 
             draw_node(draw_context, node, color);
@@ -47,7 +50,7 @@ pub(crate) fn draw_maze(
 }
 
 fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
-    if let Some(t) = traversed { t[node] == 1 } else { false }
+    if let Some(t) = traversed { t[node] == OPEN } else { false }
 }
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {

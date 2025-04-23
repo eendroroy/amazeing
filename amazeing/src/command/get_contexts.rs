@@ -24,6 +24,11 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     unit_shape = shape_args.unit_shape.as_unit_shape();
                     (shape_args.procedure, shape_args.size, shape_args.size)
                 }
+                ArgMazeShape::Triangle(shape_args) => {
+                    maze_shape = MazeShape::Square;
+                    unit_shape = shape_args.unit_shape.as_unit_shape();
+                    (shape_args.procedure, shape_args.base, shape_args.base)
+                }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);
             (Some(CreateContext::from(command_args.maze.clone(), procedure, rows, cols)), None, None)

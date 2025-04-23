@@ -6,11 +6,11 @@ use std::ops::{Index, IndexMut};
 pub struct Maze {
     pub maze_shape: MazeShape,
     pub unit_shape: UnitShape,
-    pub data: Vec<Vec<u32>>,
+    pub data: Vec<Vec<i8>>,
 }
 
 impl Maze {
-    pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: Vec<Vec<u32>>) -> Self {
+    pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: Vec<Vec<i8>>) -> Self {
         Self {
             maze_shape,
             unit_shape,
@@ -28,7 +28,7 @@ impl Maze {
 }
 
 impl Index<Node> for Maze {
-    type Output = u32;
+    type Output = i8;
 
     fn index(&self, index: Node) -> &Self::Output {
         &self.data[index.0][index.1]

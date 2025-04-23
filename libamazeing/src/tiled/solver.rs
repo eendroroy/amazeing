@@ -83,8 +83,8 @@ fn weighted_traverse(
 
     storage.push(DNodeWeighted {
         node: source,
-        cost: maze[source],
-        heu_cost: maze[source] + heu(source, destination),
+        cost: maze[source] as u32,
+        heu_cost: maze[source] as u32 + heu(source, destination),
     });
 
     while let Some(node) = storage.pop() {
@@ -105,8 +105,8 @@ fn weighted_traverse(
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {
                     node: next,
-                    cost: cost + maze[next],
-                    heu_cost: cost + maze[next] + heu(next, destination),
+                    cost: cost + maze[next] as u32,
+                    heu_cost: cost + maze[next] as u32 + heu(next, destination),
                 });
             }
         }
