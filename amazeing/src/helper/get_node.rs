@@ -10,11 +10,7 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext) -> Node {
 
     match ctx.u_shape {
         UnitShape::Triangle => {
-            let mut node = (m(my, ctx.u_height) * 2, m(mx, ctx.u_width));
-
-            if [1usize, 2usize].contains(&(node.0 % 4)) {
-                node.1 -= 1
-            }
+            let node = (m(my, ctx.u_height) * 2, m(mx, ctx.u_width));
 
             *[LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN]
                 .iter()

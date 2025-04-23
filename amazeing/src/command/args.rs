@@ -90,6 +90,21 @@ impl Display for ArgMazeShape {
 }
 
 #[derive(Debug, Clone, PartialEq, Parser)]
+pub struct TriangleArgs {
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
+
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Width of base of the triangle
+    #[clap(long, short)]
+    pub base: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
 pub struct RectangleArgs {
     /// Unit shape
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
