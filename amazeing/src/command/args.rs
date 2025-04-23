@@ -74,6 +74,8 @@ pub struct CreateArgs {
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgMazeShape {
+    #[clap(visible_alias = "T")]
+    Triangle(TriangleArgs),
     #[clap(visible_alias = "R")]
     Rectangle(RectangleArgs),
     #[clap(visible_alias = "S")]
@@ -83,6 +85,7 @@ pub enum ArgMazeShape {
 impl Display for ArgMazeShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            ArgMazeShape::Triangle(_) => write!(f, "triangle"),
             ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
             ArgMazeShape::Square(_) => write!(f, "square"),
         }

@@ -25,7 +25,7 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            file.write_all(format!("{}", maze[(r, c)]).as_bytes())
+            file.write_all(format!("{: >2}", maze[(r, c)]).as_bytes())
                 .expect("Could not write to file");
             if c < maze.cols() - 1 {
                 file.write_all(" ".as_bytes()).expect("Could not write to file");
@@ -52,9 +52,10 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
             .iter()
             .map(|line| {
                 line.split(" ")
-                    .map(|unit| unit.trim().parse::<u32>().unwrap())
-                    .collect::<Vec<u32>>()
+                    .filter(|&x| !x.is_empty())
+                    .map(|unit| unit.trim().parse::<i8>().unwrap())
+                    .collect::<Vec<i8>>()
             })
-            .collect::<Vec<Vec<u32>>>(),
+            .collect::<Vec<Vec<i8>>>(),
     )
 }

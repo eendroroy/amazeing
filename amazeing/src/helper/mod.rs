@@ -8,6 +8,8 @@ mod read_node;
 mod run_algorithm;
 mod time;
 
+pub(crate) mod constants;
+
 pub(crate) use color_gradient::*;
 pub(crate) use draw_maze::*;
 pub(crate) use file::*;

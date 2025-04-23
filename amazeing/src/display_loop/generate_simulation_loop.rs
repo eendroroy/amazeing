@@ -1,4 +1,5 @@
 use crate::context::{ColorContext, CreateContext, DrawContext};
+use crate::helper::constants::BLOCK;
 use crate::helper::{add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze};
 use amazeing::tiled::{Maze, Trace, Tracer};
 use macroquad::prelude::*;
@@ -10,8 +11,9 @@ pub(crate) async fn generate_simulation_loop(
     color_context: &ColorContext,
 ) {
     let mut traversed =
-        Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
-    let mut maze = Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![0u32; context.cols]; context.rows]);
+        Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![BLOCK; context.cols]; context.rows]);
+    let mut maze =
+        Maze::from(draw_context.m_shape, draw_context.u_shape, vec![vec![BLOCK; context.cols]; context.rows]);
     let dummy_maze = maze.clone();
 
     let mut trace: Tracer = vec![];

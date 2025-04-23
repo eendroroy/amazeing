@@ -1,4 +1,5 @@
 use crate::context::{ColorContext, DrawContext, ViewContext};
+use crate::helper::constants::{BLOCK, OPEN};
 use crate::helper::{current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::prelude::*;
 
@@ -14,9 +15,9 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
 
         if is_mouse_button_pressed(MouseButton::Left) {
             let value = if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                0
+                BLOCK
             } else {
-                1
+                OPEN
             };
 
             let node = get_node_from_mouse_pos(draw_context);

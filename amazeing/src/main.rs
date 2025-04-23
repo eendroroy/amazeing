@@ -1,3 +1,8 @@
+mod command;
+mod context;
+mod display_loop;
+mod helper;
+
 use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
 use crate::display_loop::{
@@ -6,11 +11,6 @@ use crate::display_loop::{
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
-
-mod command;
-mod context;
-mod display_loop;
-mod helper;
 
 #[macroquad::main(window_config())]
 async fn main() {

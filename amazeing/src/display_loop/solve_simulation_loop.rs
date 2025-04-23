@@ -1,4 +1,5 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
+use crate::helper::constants::BLOCK;
 use crate::helper::{current_millis, delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
 use amazeing::tiled::{Maze, Node, Trace, Tracer};
 use macroquad::prelude::*;
@@ -20,7 +21,7 @@ pub(crate) async fn solve_simulation_loop(
     let mut traversed = Maze::from(
         draw_context.m_shape,
         draw_context.u_shape,
-        vec![vec![0u32; context.maze.cols()]; context.maze.rows()],
+        vec![vec![BLOCK; context.maze.cols()]; context.maze.rows()],
     );
 
     let mut trace_complete = false;

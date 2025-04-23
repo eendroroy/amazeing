@@ -3,6 +3,7 @@ use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub enum MazeShape {
+    Triangle,
     #[default]
     Rectangle,
     Square,
@@ -11,6 +12,7 @@ pub enum MazeShape {
 impl MazeShape {
     pub fn as_str(&self) -> &'static str {
         match self {
+            MazeShape::Triangle => "triangle",
             MazeShape::Rectangle => "rectangle",
             MazeShape::Square => "square",
         }
@@ -27,6 +29,7 @@ impl FromStr for MazeShape {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
+            "triangle" => Ok(MazeShape::Triangle),
             "rectangle" => Ok(MazeShape::Rectangle),
             "square" => Ok(MazeShape::Square),
             _ => Err(format!("Unrecognized MazeShape: {}", s)),
