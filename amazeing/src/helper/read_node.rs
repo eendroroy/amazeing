@@ -1,6 +1,6 @@
 use crate::context::DrawContext;
 use crate::helper::get_node_from_mouse_pos;
-use amazeing::tiled::{Maze, Node, OPEN};
+use amazeing::tiled::{Maze, Node, OPEN, VOID};
 use macroquad::input::{KeyCode, is_key_down};
 
 pub(crate) fn populate_source_destination(
@@ -19,14 +19,15 @@ pub(crate) fn populate_source_destination(
     }
 }
 
-pub(crate) fn add_source(draw_context: &DrawContext, sources: &mut Vec<Node>) {
+pub(crate) fn add_source(draw_context: &DrawContext, maze: &Maze, sources: &mut Vec<Node>) {
     let (r, c) = get_node_from_mouse_pos(draw_context);
-
-    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-        if let Some(index) = sources.iter().position(|value| *value == (r, c)) {
-            sources.swap_remove(index);
+    if maze[(r, c)] != VOID {
+        if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+            if let Some(index) = sources.iter().position(|value| *value == (r, c)) {
+                sources.swap_remove(index);
+            }
+        } else if !sources.contains(&(r, c)) {
+            sources.push((r, c));
         }
-    } else if !sources.contains(&(r, c)) {
-        sources.push((r, c));
     }
 }

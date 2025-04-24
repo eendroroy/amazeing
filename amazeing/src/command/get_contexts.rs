@@ -32,7 +32,11 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     } else {
                         shape_args.base
                     };
-                    (shape_args.procedure, base, base)
+                    if unit_shape == UnitShape::Triangle {
+                        (shape_args.procedure, base * 2, base)
+                    } else {
+                        (shape_args.procedure, base, base)
+                    }
                 }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);

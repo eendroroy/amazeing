@@ -61,7 +61,7 @@ pub(crate) async fn generate_simulation_loop(
 
         if !simulating && !trace_complete {
             if is_mouse_button_released(MouseButton::Left) {
-                add_source(draw_context, sources);
+                add_source(draw_context, &maze, sources);
             }
 
             if is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space) {
