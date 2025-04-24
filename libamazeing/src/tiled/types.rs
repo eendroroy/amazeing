@@ -1,5 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 
+pub type MazeData = Vec<Vec<i8>>;
+
 pub type Node = (usize, usize);
 
 pub type NodeHeuFn = fn(Node, Node) -> u32;

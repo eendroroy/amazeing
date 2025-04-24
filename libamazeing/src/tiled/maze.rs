@@ -1,16 +1,16 @@
 use super::types::Node;
-use crate::tiled::{MazeShape, UnitShape};
+use crate::tiled::{MazeData, MazeShape, UnitShape};
 use std::ops::{Index, IndexMut};
 
 #[derive(Default, Debug, Clone)]
 pub struct Maze {
     pub maze_shape: MazeShape,
     pub unit_shape: UnitShape,
-    pub data: Vec<Vec<i8>>,
+    pub data: MazeData,
 }
 
 impl Maze {
-    pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: Vec<Vec<i8>>) -> Self {
+    pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: MazeData) -> Self {
         Self {
             maze_shape,
             unit_shape,

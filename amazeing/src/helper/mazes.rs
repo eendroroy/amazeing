@@ -1,20 +1,23 @@
-use amazeing::tiled::{BLOCK, Maze, MazeShape, UnitShape, VOID};
+use amazeing::tiled::{BLOCK, Maze, MazeData, MazeShape, UnitShape, VOID};
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, maze_shape: MazeShape, unit_shape: UnitShape) -> Maze {
-    let mut data = vec![vec![VOID; cols]; rows];
+    let mut data: MazeData;
     if maze_shape == MazeShape::Triangle {
+        data = vec![vec![VOID; cols]; rows];
         match unit_shape {
             UnitShape::Triangle => set_triangle_triangle_perimeter(&mut data),
             UnitShape::Square => set_triangle_square_perimeter(&mut data),
             UnitShape::Hexagon => set_triangle_hexagon_circle_perimeter(&mut data),
             UnitShape::Circle => set_triangle_hexagon_circle_perimeter(&mut data),
         }
-    };
+    } else {
+        data = vec![vec![VOID; cols]; rows]
+    }
 
     Maze::from(maze_shape, unit_shape, data)
 }
 
-fn set_triangle_square_perimeter(data: &mut [Vec<i8>]) {
+fn set_triangle_square_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre_column = cols.div_ceil(2) - 1;
     for (r, row) in data.iter_mut().enumerate() {
@@ -23,7 +26,7 @@ fn set_triangle_square_perimeter(data: &mut [Vec<i8>]) {
     }
 }
 
-fn set_triangle_hexagon_circle_perimeter(data: &mut [Vec<i8>]) {
+fn set_triangle_hexagon_circle_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre_column = cols.div_ceil(2);
     for (r, row) in data.iter_mut().enumerate() {
@@ -37,7 +40,7 @@ fn set_triangle_hexagon_circle_perimeter(data: &mut [Vec<i8>]) {
     }
 }
 
-fn set_triangle_triangle_perimeter(data: &mut [Vec<i8>]) {
+fn set_triangle_triangle_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre_column = cols.div_ceil(2) - 1;
     for (r, row) in data.iter_mut().enumerate() {
