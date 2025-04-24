@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::neighbour::neighbours_block;
 use super::types::{Node, Tracer};
-use super::{Maze, UnitShape, OPEN};
+use super::{Maze, OPEN, UnitShape};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, VecDeque};
