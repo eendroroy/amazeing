@@ -8,7 +8,7 @@ use clap_complete::Shell::{Bash, Fish, Zsh};
 fn main() {
     let package = env!("CARGO_PKG_NAME");
 
-    completions(package, "../contrib/completions");
+    completions(package, "../../contrib/completions");
 }
 
 fn completions(bin_name: &str, out_dir: &str) {
