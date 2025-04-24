@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, DrawContext, SolveContext};
 use crate::helper::{current_millis, delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
-use amazeing::tiled::{Maze, Node, Trace, Tracer, BLOCK};
+use amazeing::tiled::{BLOCK, Maze, Node, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 

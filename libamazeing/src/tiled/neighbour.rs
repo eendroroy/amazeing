@@ -1,5 +1,5 @@
 use super::types::{NeighbourFn, Node};
-use super::{Maze, UnitShape, BLOCK, OPEN};
+use super::{BLOCK, Maze, OPEN, UnitShape};
 use std::iter::Iterator;
 
 pub const LEFT: NeighbourFn = |of| if of.1 > 0 { Some((of.0, of.1 - 1)) } else { None };
