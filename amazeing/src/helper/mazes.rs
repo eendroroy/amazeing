@@ -2,11 +2,13 @@ use amazeing::tiled::{BLOCK, Maze, MazeShape, UnitShape, VOID};
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, maze_shape: MazeShape, unit_shape: UnitShape) -> Maze {
     let mut data = vec![vec![BLOCK; cols]; rows];
-    match (maze_shape, unit_shape) {
-        (MazeShape::Triangle, UnitShape::Square) => set_triangle_square_perimeter(&mut data),
-        (MazeShape::Triangle, UnitShape::Hexagon) => set_triangle_hexagon_circle_perimeter(&mut data),
-        (MazeShape::Triangle, UnitShape::Circle) => set_triangle_hexagon_circle_perimeter(&mut data),
-        _ => {}
+    if maze_shape == MazeShape::Triangle {
+        match unit_shape {
+            UnitShape::Square => set_triangle_square_perimeter(&mut data),
+            UnitShape::Hexagon => set_triangle_hexagon_circle_perimeter(&mut data),
+            UnitShape::Circle => set_triangle_hexagon_circle_perimeter(&mut data),
+            _ => {}
+        }
     };
 
     Maze::from(maze_shape, unit_shape, data)
