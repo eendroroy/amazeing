@@ -80,6 +80,8 @@ pub enum ArgMazeShape {
     Rectangle(RectangleArgs),
     #[clap(visible_alias = "S")]
     Square(SquareArgs),
+    #[clap(visible_alias = "C")]
+    Circle(CircleArgs),
 }
 
 impl Display for ArgMazeShape {
@@ -88,6 +90,7 @@ impl Display for ArgMazeShape {
             ArgMazeShape::Triangle(_) => write!(f, "triangle"),
             ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
             ArgMazeShape::Square(_) => write!(f, "square"),
+            ArgMazeShape::Circle(_) => write!(f, "circle"),
         }
     }
 }
@@ -121,7 +124,7 @@ pub struct RectangleArgs {
     #[clap(long, short)]
     pub rows: usize,
 
-    /// Number of cols
+    /// Number of columns
     #[clap(long, short)]
     pub cols: usize,
 }
@@ -136,9 +139,24 @@ pub struct SquareArgs {
     #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
     pub procedure: ArgGenProcedure,
 
-    /// Number of rows
+    /// Number of rows/columns
     #[clap(long, short)]
     pub size: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Parser)]
+pub struct CircleArgs {
+    /// Unit shape
+    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
+
+    /// Maze Generation Procedure
+    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Width/Height of the circle
+    #[clap(long, short)]
+    pub diameter: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Parser)]
