@@ -11,7 +11,7 @@ pub(crate) async fn generate_simulation_loop(
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) {
-    let mut maze = generate_maze_tiles(context.rows, context.cols, draw_context.m_shape, draw_context.u_shape);
+    let mut maze = generate_maze_tiles(context.rows, context.cols, draw_context);
     let mut traversed = maze.clone();
     let dummy_maze = maze.clone();
 

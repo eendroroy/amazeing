@@ -11,9 +11,14 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
     let unit_shape: UnitShape;
     let maze_shape: MazeShape;
 
-    let amazeing_context = match amazeing_args.command {
+    let mut amz_ctx = match amazeing_args.command {
         ArgCommand::Create(command_args) => {
             let (procedure, rows, cols) = match command_args.maze_shape {
+                ArgMazeShape::Triangle(shape_args) => {
+                    maze_shape = MazeShape::Triangle;
+                    unit_shape = shape_args.unit_shape.as_unit_shape();
+                    (shape_args.procedure, shape_args.base, shape_args.base)
+                }
                 ArgMazeShape::Rectangle(shape_args) => {
                     maze_shape = MazeShape::Rectangle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
@@ -24,19 +29,10 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     unit_shape = shape_args.unit_shape.as_unit_shape();
                     (shape_args.procedure, shape_args.size, shape_args.size)
                 }
-                ArgMazeShape::Triangle(shape_args) => {
-                    maze_shape = MazeShape::Triangle;
+                ArgMazeShape::Circle(shape_args) => {
+                    maze_shape = MazeShape::Circle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
-                    let base = if shape_args.base % 2 == 0 {
-                        shape_args.base + 1
-                    } else {
-                        shape_args.base
-                    };
-                    if unit_shape == UnitShape::Triangle {
-                        (shape_args.procedure, base * 2, base)
-                    } else {
-                        (shape_args.procedure, base, base)
-                    }
+                    (shape_args.procedure, shape_args.diameter, shape_args.diameter)
                 }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);
@@ -66,7 +62,22 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
         }
     };
 
-    let draw_context = DrawContext::from(amazeing_args.zoom, maze_shape, unit_shape, amazeing_args.fps);
+    let dr_ctx = DrawContext::from(amazeing_args.zoom, maze_shape, unit_shape, amazeing_args.fps);
+
+    if let Some(ref mut c_ctx) = amz_ctx.0 {
+        if maze_shape == MazeShape::Triangle {
+            if c_ctx.rows % 2 == 0 {
+                c_ctx.rows += 1;
+                c_ctx.cols += 1;
+            }
+            if unit_shape == UnitShape::Triangle {
+                c_ctx.rows *= 2;
+            }
+        }
+        if maze_shape == MazeShape::Circle && [UnitShape::Circle, UnitShape::Hexagon].contains(&unit_shape) {
+            c_ctx.cols = (c_ctx.rows as f32 * dr_ctx.u_height / dr_ctx.u_width) as usize;
+        }
+    }
 
     let colors = if let Some(path) = amazeing_args.colors {
         ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)
@@ -74,5 +85,5 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
         ColorContext::new(gradient_steps)
     };
 
-    (amazeing_context, draw_context, colors)
+    (amz_ctx, dr_ctx, colors)
 }

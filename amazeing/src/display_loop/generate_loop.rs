@@ -5,7 +5,7 @@ use crate::helper::{
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {
-    let maze_tiles = generate_maze_tiles(context.rows, context.cols, draw_context.m_shape, draw_context.u_shape);
+    let maze_tiles = generate_maze_tiles(context.rows, context.cols, draw_context);
     let mut maze = maze_tiles.clone();
     let sources = &mut vec![];
 
