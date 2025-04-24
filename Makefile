@@ -19,7 +19,7 @@ endif
 
 install:
 	@echo "Installing amazeing bin ......"
-	@cargo install --path amazeing --quiet
+	@cargo install --path crates/amazeing --quiet
 
 	@echo
 	@$(MAKE) install-completions

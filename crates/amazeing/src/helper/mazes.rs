@@ -1,5 +1,6 @@
 use crate::context::DrawContext;
 use amazeing::tiled::{BLOCK, Maze, MazeData, MazeShape, UnitShape, VOID};
+use macroquad::math::Vec2;
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
     let mut data: MazeData;
@@ -14,11 +15,10 @@ pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawConte
     } else if draw_ctx.m_shape == MazeShape::Circle {
         data = vec![vec![VOID; cols]; rows];
         match draw_ctx.u_shape {
-            // UnitShape::Triangle => set_triangle_triangle_perimeter(&mut data),
+            UnitShape::Triangle => set_circle_triangle_perimeter(&mut data, draw_ctx),
             UnitShape::Square => set_circle_square_perimeter(&mut data),
             UnitShape::Hexagon => set_circle_hexagon_circle_perimeter(&mut data, draw_ctx),
             UnitShape::Circle => set_circle_hexagon_circle_perimeter(&mut data, draw_ctx),
-            _ => {}
         }
     } else {
         data = vec![vec![VOID; cols]; rows]
@@ -80,7 +80,6 @@ fn set_circle_square_perimeter(data: &mut MazeData) {
 fn set_circle_hexagon_circle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
     let rows: usize = data.len() - 1;
     let cols: usize = data.first().unwrap().len() - 1;
-    println!("{rows} ---- {cols}");
     let centre = (((rows as f32) * draw_ctx.u_height) / 2., ((cols as f32 - 0.5) * draw_ctx.u_width) / 2.);
     for (r, row) in data.iter_mut().enumerate() {
         for (c, col) in row.iter_mut().enumerate() {
@@ -89,6 +88,26 @@ fn set_circle_hexagon_circle_perimeter(data: &mut MazeData, draw_ctx: &DrawConte
             } else {
                 (r as f32 * draw_ctx.u_height, c as f32 * draw_ctx.u_width)
             };
+            let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
+
+            if distance < centre.0 {
+                *col = BLOCK;
+            }
+        }
+    }
+}
+
+fn set_circle_triangle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
+    fn get_centre(v: (Vec2, Vec2, Vec2)) -> (f32, f32) {
+        ((v.0.x + v.1.x + v.2.x) / 3., (v.0.y + v.1.y + v.2.y) / 3.)
+    }
+
+    let rows: usize = data.len() - 1;
+    let cols: usize = data.first().unwrap().len() - 1;
+    let centre = get_centre(draw_ctx.t_vertexes((rows / 2, cols / 2)));
+    for (r, row) in data.iter_mut().enumerate() {
+        for (c, col) in row.iter_mut().enumerate() {
+            let node_pos = get_centre(draw_ctx.t_vertexes((r, c)));
             let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
 
             if distance < centre.0 {
