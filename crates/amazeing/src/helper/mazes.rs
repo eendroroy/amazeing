@@ -21,7 +21,7 @@ pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawConte
             UnitShape::Circle => set_circle_hexagon_circle_perimeter(&mut data, draw_ctx),
         }
     } else {
-        data = vec![vec![VOID; cols]; rows]
+        data = vec![vec![BLOCK; cols]; rows]
     }
 
     Maze::from(draw_ctx.m_shape, draw_ctx.u_shape, data)
