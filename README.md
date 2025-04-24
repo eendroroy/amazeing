@@ -18,7 +18,7 @@ make install # this will install shell-completions
 
 ## Usage
 
->Run `amazeing --help`
+> Run `amazeing --help`
 
 ### Key/Mouse events
 
@@ -96,25 +96,24 @@ amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25
 amazeing S -m bfs_21_21.maze -p bfs -v -F 25
 ```
 
-![demo.gif](assets/image/demo.gif)
-
 ## Generate Maze
 
-| Algorithm          | Shape     |                                                                                                            |
-|--------------------|-----------|------------------------------------------------------------------------------------------------------------|
-| Dfs                | Hexagonal | [![Demo Video](https://img.youtube.com/vi/twafvSeVQOs/0.jpg)](https://www.youtube.com/watch?v=twafvSeVQOs) |
-| Dfs (Multi Source) | Square    | [![Demo Video](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
-| Dfs                | Square    | [![Demo Video](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
-| Bfs                | Square    | [![Demo Video](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
+| Algorithm          | Maze Shape | Unit Shape |                                                                                                  |
+|--------------------|------------|------------|--------------------------------------------------------------------------------------------------|
+| Dfs                | Rectangle  | Hexagon    | [![](https://img.youtube.com/vi/twafvSeVQOs/0.jpg)](https://www.youtube.com/watch?v=twafvSeVQOs) |
+| Dfs (Multi Source) | Rectangle  | Square     | [![](https://img.youtube.com/vi/fL93bHyf6-M/0.jpg)](https://www.youtube.com/watch?v=fL93bHyf6-M) |
+| Dfs                | Rectangle  | Square     | [![](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
+| Bfs                | Rectangle  | Square     | [![](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
+| Dfs                | Triangle   | Hexagon    | [![](https://img.youtube.com/vi/0c4s49G1RAk/0.jpg)](https://www.youtube.com/watch?v=0c4s49G1RAk) |
 
 ## Solve Maze
 
-| Algorithm      | Shape   |                                                                                                            |
-|----------------|---------|------------------------------------------------------------------------------------------------------------|
-| A* (Octile)    | Hexagon | [![Demo Video](https://img.youtube.com/vi/MRt7X6JGDuo/0.jpg)](https://www.youtube.com/watch?v=MRt7X6JGDuo) |
-| A* (Manhattan) | Square  | [![Demo Video](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
-| DFS            | Square  | [![Demo Video](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU)  |
-| BFS            | Square  | [![Demo Video](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
+| Algorithm      | Maze Shape | Unit Shape |                                                                                                  |
+|----------------|------------|------------|--------------------------------------------------------------------------------------------------|
+| A* (Octile)    | Rectangle  | Hexagon    | [![](https://img.youtube.com/vi/MRt7X6JGDuo/0.jpg)](https://www.youtube.com/watch?v=MRt7X6JGDuo) |
+| A* (Manhattan) | Rectangle  | Square     | [![](https://img.youtube.com/vi/LkxyikxTX6Y/0.jpg)](https://www.youtube.com/watch?v=LkxyikxTX6Y) |
+| DFS            | Rectangle  | Square     | [![](https://img.youtube.com/vi/9F8XRL7lnIU/0.jpg)](https://www.youtube.com/shorts/9F8XRL7lnIU)  |
+| BFS            | Rectangle  | Square     | [![](https://img.youtube.com/vi/h8q5vi68fz0/0.jpg)](https://www.youtube.com/shorts/h8q5vi68fz0)  |
 
 ## Others
 
@@ -124,5 +123,5 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25
 
 ## License
 
-This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html). 
+This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html).
 See the [LICENSE](./LICENSE) file for more details.
