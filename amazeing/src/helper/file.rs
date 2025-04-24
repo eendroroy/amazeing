@@ -1,4 +1,4 @@
-use amazeing::tiled::{Maze, MazeShape, UnitShape};
+use amazeing::tiled::{Maze, MazeData, MazeShape, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -56,6 +56,6 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
                     .map(|unit| unit.trim().parse::<i8>().unwrap())
                     .collect::<Vec<i8>>()
             })
-            .collect::<Vec<Vec<i8>>>(),
+            .collect::<MazeData>(),
     )
 }
