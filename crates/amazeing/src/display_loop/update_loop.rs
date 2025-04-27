@@ -20,9 +20,9 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
                 OPEN
             };
 
-            let node = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols()));
-
-            maze[node] = value;
+            if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+                maze[node] = value;
+            }
         }
 
         if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {

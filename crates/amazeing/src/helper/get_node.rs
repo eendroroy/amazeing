@@ -1,34 +1,40 @@
 use crate::context::DrawContext;
 use amazeing::tiled::{Node, UnitShape};
 use macroquad::input::mouse_position;
+use macroquad::math::Vec2;
 
-pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Node {
+pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Option<Node> {
     let m = |p: f32, s: f32| ((p - ctx.margin) / (s + ctx.border)).floor() as usize;
 
     let (mx, my) = mouse_position();
 
     match ctx.u_shape {
-        UnitShape::Triangle => *<&Node>::clone(
-            node.at(m(my, ctx.u_height) * 2, m(mx, ctx.u_width))
-                .neighbours(&ctx.u_shape)
-                .iter()
-                .filter(|&n| point_in_triangle(ctx, (mx, my), n))
-                .collect::<Vec<&Node>>()
-                .first()
-                .unwrap(),
-        ),
-        UnitShape::Square => node.at(m(my, ctx.size), m(mx, ctx.size)),
+        UnitShape::Triangle => {
+            let node = node.at(m(my, ctx.u_height) * 2, m(mx, ctx.u_width));
+            if point_in_triangle(ctx.t_vertexes(&node), (mx, my)) {
+                Some(node)
+            } else {
+                let neighbours = node.surroundings();
+
+                let o_node = neighbours
+                    .iter()
+                    .filter(|&n| point_in_triangle(ctx.t_vertexes(n), (mx, my)))
+                    .collect::<Vec<&Node>>()
+                    .first()
+                    .cloned();
+                if let Some(&node) = o_node { Some(node) } else { None }
+            }
+        }
+        UnitShape::Square => Some(node.at(m(my, ctx.size), m(mx, ctx.size))),
         UnitShape::Hexagon | UnitShape::Circle => {
             let r = m(my, ctx.u_height);
             let c = m(mx - ctx.s(r), ctx.u_width);
-            node.at(r, c)
+            Some(node.at(r, c))
         }
     }
 }
 
-pub fn point_in_triangle(ctx: &DrawContext, (mx, my): (f32, f32), node: &Node) -> bool {
-    let (v1, v2, v3) = ctx.t_vertexes(node);
-
+pub fn point_in_triangle((v1, v2, v3): (Vec2, Vec2, Vec2), (mx, my): (f32, f32)) -> bool {
     // Calculate barycentric coordinates
     let d = (v2.y - v3.y) * (v1.x - v3.x) + (v3.x - v2.x) * (v1.y - v3.y);
 
