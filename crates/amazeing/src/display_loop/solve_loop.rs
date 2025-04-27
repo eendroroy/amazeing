@@ -25,7 +25,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
             if !sources.is_empty() && destination.is_some() {
                 current_path = path_to_trace(solve_maze(
                     maze,
-                    &draw_context.u_shape,
+                    &draw_context.unit_shape,
                     *sources.first().unwrap(),
                     destination.unwrap(),
                     &context.procedure,

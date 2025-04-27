@@ -65,7 +65,7 @@ pub(crate) async fn generate_simulation_loop(
             }
 
             if is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space) {
-                generate_maze(&mut maze, &draw_context.u_shape, sources, &context.procedure, &mut tracer);
+                generate_maze(&mut maze, &draw_context.unit_shape, sources, &context.procedure, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &maze);
                 }

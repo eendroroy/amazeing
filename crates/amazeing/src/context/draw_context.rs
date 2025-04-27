@@ -7,10 +7,10 @@ pub struct DrawContext {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) size: f32,
-    pub(crate) m_shape: MazeShape,
-    pub(crate) u_shape: UnitShape,
-    pub(crate) u_height: f32,
-    pub(crate) u_width: f32,
+    pub(crate) maze_shape: MazeShape,
+    pub(crate) unit_shape: UnitShape,
+    pub(crate) unit_height: f32,
+    pub(crate) unit_width: f32,
     pub(crate) fps: u8,
 }
 
@@ -33,88 +33,88 @@ impl DrawContext {
             margin,
             border,
             size,
-            m_shape: maze_shape,
-            u_shape: unit_shape,
-            u_height: unit_height,
-            u_width: unit_width,
+            maze_shape,
+            unit_shape,
+            unit_height,
+            unit_width,
             fps,
         }
     }
 
     pub fn screen_size(&self, rows: usize, cols: usize) -> (u32, u32) {
-        match self.u_shape {
+        let (blocks_width, blocks_height) = (
+            cols as f32 * self.unit_width + (cols as f32 - 1.) * self.border,
+            rows as f32 * self.unit_height + (rows as f32 - 1.) * self.border,
+        );
+        match self.unit_shape {
             UnitShape::Triangle => (
-                (self.margin * 2. + cols as f32 * (self.u_width + self.border) + self.size / 2.) as u32,
-                (self.margin * 2. + rows as f32 * (self.u_height + self.border) / 2.) as u32,
+                (self.margin * 2. + blocks_width + self.size / 2.) as u32,
+                (self.margin * 2. + blocks_height / 2.) as u32,
             ),
-            UnitShape::Square => (
-                (self.margin * 2. + cols as f32 * (self.size + self.border)) as u32,
-                (self.margin * 2. + rows as f32 * (self.size + self.border)) as u32,
+            UnitShape::Square => ((self.margin * 2. + blocks_width) as u32, (self.margin * 2. + blocks_height) as u32),
+            UnitShape::Hexagon | UnitShape::Circle => (
+                (self.margin * 2. + blocks_width) as u32 + self.unit_width as u32,
+                (self.margin * 2. + blocks_height) as u32,
             ),
-            UnitShape::Hexagon | UnitShape::Circle => {
-                let width = (self.margin * 2. + cols as f32 * (self.u_width + self.border)) as u32 + self.size as u32;
-                let height = (self.margin * 2. + rows as f32 * (self.u_height + self.border)) as u32;
-                (width, height)
-            }
         }
     }
 
     pub fn x(&self, node: Node) -> f32 {
-        match self.u_shape {
+        match self.unit_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
             UnitShape::Square => self.margin + node.col as f32 * (self.size + self.border),
             UnitShape::Hexagon | UnitShape::Circle => {
-                (self.margin + self.size + (node.col as f32 * self.u_width) + self.border * node.col as f32)
+                (self.margin + self.size + (node.col as f32 * self.unit_width) + self.border * node.col as f32)
                     + self.s(node.row)
             }
         }
     }
 
     pub fn y(&self, node: Node) -> f32 {
-        match self.u_shape {
+        match self.unit_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
             UnitShape::Square => self.margin + node.row as f32 * (self.size + self.border),
             UnitShape::Hexagon | UnitShape::Circle => {
-                self.margin + self.size + (node.row as f32 * self.u_height) + self.border * node.row as f32
+                self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
             }
         }
     }
 
     pub fn s(&self, m: usize) -> f32 {
-        if m % 2 == 1 { (self.u_width + self.border) / 2.0 } else { 0. }
+        if m % 2 == 1 { (self.unit_width + self.border) / 2.0 } else { 0. }
     }
 
     pub fn t_vertexes(&self, node: &Node) -> (Vec2, Vec2, Vec2) {
         let base_v1 = Vec2::new(
-            self.margin + (node.col as f32 * (self.u_width + self.border)),
-            self.margin + ((node.row as f32 / 2.).floor() * (self.u_height + self.border)),
+            self.margin + (node.col as f32 * (self.unit_width + self.border)),
+            self.margin + ((node.row as f32 / 2.).floor() * (self.unit_height + self.border)),
         );
         match node.row % 4 {
             0 => {
                 let v1 = Vec2::new(base_v1.x, base_v1.y);
-                let v2 = Vec2::new(v1.x + self.u_width, v1.y);
-                let v3 = Vec2::new(v1.x + self.u_width / 2., v2.y + self.u_height);
+                let v2 = Vec2::new(v1.x + self.unit_width, v1.y);
+                let v3 = Vec2::new(v1.x + self.unit_width / 2., v2.y + self.unit_height);
 
                 (v1, v2, v3)
             }
             1 => {
-                let v1 = Vec2::new(base_v1.x + self.u_width + self.border / 2., base_v1.y + self.border / 2.);
-                let v2 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
-                let v3 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
+                let v1 = Vec2::new(base_v1.x + self.unit_width + self.border / 2., base_v1.y + self.border / 2.);
+                let v2 = Vec2::new(v1.x + self.unit_width / 2., v1.y + self.unit_height);
+                let v3 = Vec2::new(v1.x - self.unit_width / 2., v1.y + self.unit_height);
 
                 (v1, v2, v3)
             }
             2 => {
-                let v1 = Vec2::new(base_v1.x + (self.u_width + self.border) / 2., base_v1.y);
-                let v2 = Vec2::new(v1.x + self.u_width, v1.y);
-                let v3 = Vec2::new(v1.x + self.u_width / 2., v2.y + self.u_height);
+                let v1 = Vec2::new(base_v1.x + (self.unit_width + self.border) / 2., base_v1.y);
+                let v2 = Vec2::new(v1.x + self.unit_width, v1.y);
+                let v3 = Vec2::new(v1.x + self.unit_width / 2., v2.y + self.unit_height);
 
                 (v1, v2, v3)
             }
             3 => {
-                let v1 = Vec2::new(base_v1.x + self.u_width / 2., base_v1.y + self.border / 2.);
-                let v2 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
-                let v3 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
+                let v1 = Vec2::new(base_v1.x + self.unit_width / 2., base_v1.y + self.border / 2.);
+                let v2 = Vec2::new(v1.x + self.unit_width / 2., v1.y + self.unit_height);
+                let v3 = Vec2::new(v1.x - self.unit_width / 2., v1.y + self.unit_height);
 
                 (v1, v2, v3)
             }

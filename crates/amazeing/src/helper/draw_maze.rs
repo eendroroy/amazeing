@@ -4,8 +4,8 @@ use macroquad::prelude::{BLANK, Color, draw_rectangle};
 use macroquad::shapes::{draw_circle, draw_hexagon, draw_triangle};
 
 pub(crate) fn draw_maze(
-    draw_context: &DrawContext,
-    color_context: &ColorContext,
+    draw_ctx: &DrawContext,
+    colors: &ColorContext,
     maze: &Maze,
     mut traversed: Option<&mut Maze>,
     path: Option<&Trace>,
@@ -19,32 +19,32 @@ pub(crate) fn draw_maze(
             let rank = if let Some(path) = path { path.get(&node) } else { None };
             let is_traversed = check_traversed(node, &mut traversed);
             let color: Color = if sources.contains(&node) {
-                color_context.color_source
+                colors.color_source
             } else if destination.is_some() && destination.unwrap() == node {
-                color_context.color_destination
+                colors.color_destination
             } else if path.is_some() && traversing && rank.is_some() {
                 if let Some(ref mut trav) = traversed {
                     trav[node] = OPEN;
                 }
                 let idx = Rank::MAX - rank.unwrap();
-                if idx < color_context.color_visiting_gradient.len() as i32 {
-                    *color_context.color_visiting_gradient.get(idx as usize).unwrap()
+                if idx < colors.color_visiting_gradient.len() as i32 {
+                    *colors.color_visiting_gradient.get(idx as usize).unwrap()
                 } else {
-                    color_context.color_visiting
+                    colors.color_visiting
                 }
             } else if path.is_some() && rank.is_some() {
-                color_context.color_path
+                colors.color_path
             } else if is_traversed {
-                color_context.color_traversed
+                colors.color_traversed
             } else if maze[node] == OPEN {
-                color_context.color_open
+                colors.color_open
             } else if maze[node] == BLOCK {
-                color_context.color_block
+                colors.color_block
             } else {
-                color_context.color_bg
+                colors.color_bg
             };
 
-            draw_node(draw_context, node, color);
+            draw_node(draw_ctx, node, color);
         }
     }
 }
@@ -54,7 +54,7 @@ fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
 }
 
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
-    match ctx.u_shape {
+    match ctx.unit_shape {
         UnitShape::Triangle => {
             let vertexes = ctx.t_vertexes(&node);
             draw_triangle(vertexes.0, vertexes.1, vertexes.2, color);
