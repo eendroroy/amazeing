@@ -99,8 +99,8 @@ impl DrawContext {
             }
             1 => {
                 let v1 = Vec2::new(base_v1.x + self.u_width + self.border / 2., base_v1.y + self.border / 2.);
-                let v2 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
-                let v3 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
+                let v2 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
+                let v3 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
 
                 (v1, v2, v3)
             }
@@ -113,8 +113,8 @@ impl DrawContext {
             }
             3 => {
                 let v1 = Vec2::new(base_v1.x + self.u_width / 2., base_v1.y + self.border / 2.);
-                let v2 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
-                let v3 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
+                let v2 = Vec2::new(v1.x + self.u_width / 2., v1.y + self.u_height);
+                let v3 = Vec2::new(v1.x - self.u_width / 2., v1.y + self.u_height);
 
                 (v1, v2, v3)
             }
