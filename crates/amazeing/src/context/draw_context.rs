@@ -62,10 +62,10 @@ impl DrawContext {
     pub fn x(&self, node: Node) -> f32 {
         match self.u_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
-            UnitShape::Square => self.margin + node.1 as f32 * (self.size + self.border),
+            UnitShape::Square => self.margin + node.col as f32 * (self.size + self.border),
             UnitShape::Hexagon | UnitShape::Circle => {
-                (self.margin + self.size + (node.1 as f32 * self.u_width) + self.border * node.1 as f32)
-                    + self.s(node.0)
+                (self.margin + self.size + (node.col as f32 * self.u_width) + self.border * node.col as f32)
+                    + self.s(node.row)
             }
         }
     }
@@ -73,9 +73,9 @@ impl DrawContext {
     pub fn y(&self, node: Node) -> f32 {
         match self.u_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
-            UnitShape::Square => self.margin + node.0 as f32 * (self.size + self.border),
+            UnitShape::Square => self.margin + node.row as f32 * (self.size + self.border),
             UnitShape::Hexagon | UnitShape::Circle => {
-                self.margin + self.size + (node.0 as f32 * self.u_height) + self.border * node.0 as f32
+                self.margin + self.size + (node.row as f32 * self.u_height) + self.border * node.row as f32
             }
         }
     }
@@ -84,12 +84,12 @@ impl DrawContext {
         if m % 2 == 1 { (self.u_width + self.border) / 2.0 } else { 0. }
     }
 
-    pub fn t_vertexes(&self, node: Node) -> (Vec2, Vec2, Vec2) {
+    pub fn t_vertexes(&self, node: &Node) -> (Vec2, Vec2, Vec2) {
         let base_v1 = Vec2::new(
-            self.margin + (node.1 as f32 * (self.u_width + self.border)),
-            self.margin + ((node.0 as f32 / 2.).floor() * (self.u_height + self.border)),
+            self.margin + (node.col as f32 * (self.u_width + self.border)),
+            self.margin + ((node.row as f32 / 2.).floor() * (self.u_height + self.border)),
         );
-        match node.0 % 4 {
+        match node.row % 4 {
             0 => {
                 let v1 = Vec2::new(base_v1.x, base_v1.y);
                 let v2 = Vec2::new(v1.x + self.u_width, v1.y);

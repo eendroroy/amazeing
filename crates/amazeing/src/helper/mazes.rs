@@ -1,5 +1,5 @@
 use crate::context::DrawContext;
-use amazeing::tiled::{BLOCK, Maze, MazeData, MazeShape, UnitShape, VOID};
+use amazeing::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
 use macroquad::math::Vec2;
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
@@ -102,12 +102,11 @@ fn set_circle_triangle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
         ((v.0.x + v.1.x + v.2.x) / 3., (v.0.y + v.1.y + v.2.y) / 3.)
     }
 
-    let rows: usize = data.len() - 1;
-    let cols: usize = data.first().unwrap().len() - 1;
-    let centre = get_centre(draw_ctx.t_vertexes((rows / 2, cols / 2)));
+    let node = Node::new(data.len() - 1, data.first().unwrap().len() - 1);
+    let centre = get_centre(draw_ctx.t_vertexes(&node.center()));
     for (r, row) in data.iter_mut().enumerate() {
         for (c, col) in row.iter_mut().enumerate() {
-            let node_pos = get_centre(draw_ctx.t_vertexes((r, c)));
+            let node_pos = get_centre(draw_ctx.t_vertexes(&node.at(r, c)));
             let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
 
             if distance < centre.0 {

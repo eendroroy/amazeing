@@ -1,16 +1,21 @@
-use super::types::Node;
-use super::{Maze, Rank, Trace};
+use super::{Maze, Node, OPEN, Rank, Trace};
 use std::collections::{BTreeMap, HashMap};
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
-    if node.0 >= maze.rows() || node.1 >= maze.cols() {
-        panic!("Invalid node({},{}), available nodes (0,0 - {},{})", node.0, node.1, maze.rows() - 1, maze.cols() - 1);
+    if node.row >= maze.rows() || node.col >= maze.cols() {
+        panic!(
+            "Invalid node({},{}), available nodes (0,0 - {},{})",
+            node.row,
+            node.col,
+            maze.rows() - 1,
+            maze.cols() - 1
+        );
     }
 }
 
 pub(crate) fn validate_node_open(maze: &Maze, node: Node) {
-    if maze[node] < 1 {
-        panic!("Invalid node({},{} [{}])", node.0, node.1, maze[node])
+    if maze[node] != OPEN {
+        panic!("Invalid node({},{} [{}])", node.row, node.col, maze[node])
     }
 }
 

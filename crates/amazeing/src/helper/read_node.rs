@@ -9,25 +9,25 @@ pub(crate) fn populate_source_destination(
     sources: &mut Vec<Node>,
     destination: &mut Option<Node>,
 ) {
-    let (r, c) = get_node_from_mouse_pos(draw_context);
-    if maze[(r, c)] == OPEN {
+    let node = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols()));
+    if maze[node] == OPEN {
         if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-            *destination = Some((r, c));
+            *destination = Some(node);
         } else {
-            *sources = vec![(r, c)];
+            *sources = vec![node];
         }
     }
 }
 
 pub(crate) fn add_source(draw_context: &DrawContext, maze: &Maze, sources: &mut Vec<Node>) {
-    let (r, c) = get_node_from_mouse_pos(draw_context);
-    if maze[(r, c)] != VOID {
+    let node = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols()));
+    if maze[node] != VOID {
         if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-            if let Some(index) = sources.iter().position(|value| *value == (r, c)) {
+            if let Some(index) = sources.iter().position(|value| *value == node) {
                 sources.swap_remove(index);
             }
-        } else if !sources.contains(&(r, c)) {
-            sources.push((r, c));
+        } else if !sources.contains(&node) {
+            sources.push(node);
         }
     }
 }
