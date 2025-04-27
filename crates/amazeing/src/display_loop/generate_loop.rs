@@ -26,7 +26,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
 
         if !sources.is_empty() && is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space) {
             maze = maze_tiles.clone();
-            generate_maze(&mut maze, &draw_context.u_shape, sources, &context.procedure, &mut None);
+            generate_maze(&mut maze, &draw_context.unit_shape, sources, &context.procedure, &mut None);
         }
 
         if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {

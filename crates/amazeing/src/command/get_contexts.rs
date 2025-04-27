@@ -76,10 +76,10 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
         }
         if maze_shape == MazeShape::Circle {
             if [UnitShape::Circle, UnitShape::Hexagon].contains(&unit_shape) {
-                c_ctx.cols = (c_ctx.rows as f32 * dr_ctx.u_height / dr_ctx.u_width) as usize;
+                c_ctx.cols = (c_ctx.rows as f32 * dr_ctx.unit_height / dr_ctx.unit_width) as usize;
             }
             if unit_shape == UnitShape::Triangle {
-                c_ctx.rows = (c_ctx.cols as f32 * dr_ctx.u_width / dr_ctx.u_height) as usize * 2;
+                c_ctx.rows = (c_ctx.cols as f32 * dr_ctx.unit_width / dr_ctx.unit_height) as usize * 2;
             }
         }
     }

@@ -8,9 +8,9 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Option<N
 
     let (mx, my) = mouse_position();
 
-    match ctx.u_shape {
+    match ctx.unit_shape {
         UnitShape::Triangle => {
-            let node = node.at(m(my, ctx.u_height) * 2, m(mx, ctx.u_width));
+            let node = node.at(m(my, ctx.unit_height) * 2, m(mx, ctx.unit_width));
             if point_in_triangle(ctx.t_vertexes(&node), (mx, my)) {
                 Some(node)
             } else {
@@ -27,8 +27,8 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Option<N
         }
         UnitShape::Square => Some(node.at(m(my, ctx.size), m(mx, ctx.size))),
         UnitShape::Hexagon | UnitShape::Circle => {
-            let r = m(my, ctx.u_height);
-            let c = m(mx - ctx.s(r), ctx.u_width);
+            let r = m(my, ctx.unit_height);
+            let c = m(mx - ctx.s(r), ctx.unit_width);
             Some(node.at(r, c))
         }
     }
