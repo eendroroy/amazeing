@@ -1,8 +1,8 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
-use super::neighbour::neighbours_open;
-use super::{Node, NodeHeuFn, Pop, Push, Tracer, UnitShape};
+use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
+use crate::tiled::node::Node;
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -54,7 +54,7 @@ fn traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, unit_shape) {
+        for next in current.neighbours_open(maze, unit_shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 push(storage, next);
@@ -100,7 +100,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in neighbours_open(maze, current, unit_shape) {
+        for next in current.neighbours_open(maze, unit_shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 storage.push(DNodeWeighted {

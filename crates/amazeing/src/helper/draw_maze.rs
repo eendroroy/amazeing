@@ -12,9 +12,10 @@ pub(crate) fn draw_maze(
     (sources, destination): (&Vec<Node>, Option<Node>),
     traversing: bool,
 ) {
+    let mut node = Node::new(maze.rows(), maze.cols());
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            let node = (r, c);
+            node = node.at(r, c);
             let rank = if let Some(path) = path { path.get(&node) } else { None };
             let is_traversed = check_traversed(node, &mut traversed);
             let color: Color = if sources.contains(&node) {
@@ -55,7 +56,7 @@ fn check_traversed(node: Node, traversed: &mut Option<&mut Maze>) -> bool {
 fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
     match ctx.u_shape {
         UnitShape::Triangle => {
-            let vertexes = ctx.t_vertexes(node);
+            let vertexes = ctx.t_vertexes(&node);
             draw_triangle(vertexes.0, vertexes.1, vertexes.2, color);
         }
         UnitShape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),

@@ -1,4 +1,4 @@
-use amazeing::tiled::{Maze, MazeData, MazeShape, UnitShape};
+use amazeing::tiled::{Maze, MazeData, MazeShape, Node, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -23,9 +23,11 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     file.write_all(format!("{}\n", maze.unit_shape).as_bytes())
         .expect("Could not write to file");
 
+    let node = Node::new(maze.rows(), maze.cols());
+
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            file.write_all(format!("{: >2}", maze[(r, c)]).as_bytes())
+            file.write_all(format!("{: >2}", maze[node.at(r, c)]).as_bytes())
                 .expect("Could not write to file");
             if c < maze.cols() - 1 {
                 file.write_all(" ".as_bytes()).expect("Could not write to file");

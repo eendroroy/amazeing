@@ -1,35 +1,32 @@
 use crate::context::DrawContext;
-use amazeing::tiled::neighbour::{DOWN, LEFT, LEFT_DOWN, LEFT_UP, RIGHT, RIGHT_DOWN, RIGHT_UP, UP};
 use amazeing::tiled::{Node, UnitShape};
 use macroquad::input::mouse_position;
 
-pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext) -> Node {
+pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Node {
     let m = |p: f32, s: f32| ((p - ctx.margin) / (s + ctx.border)).floor() as usize;
 
     let (mx, my) = mouse_position();
 
     match ctx.u_shape {
-        UnitShape::Triangle => {
-            let node = (m(my, ctx.u_height) * 2, m(mx, ctx.u_width));
-
-            *[LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN]
+        UnitShape::Triangle => *<&Node>::clone(
+            node.at(m(my, ctx.u_height) * 2, m(mx, ctx.u_width))
+                .neighbours(&ctx.u_shape)
                 .iter()
-                .filter_map(|i| i(node))
-                .filter(|n| point_in_triangle(ctx, (mx, my), *n))
-                .collect::<Vec<Node>>()
+                .filter(|&n| point_in_triangle(ctx, (mx, my), n))
+                .collect::<Vec<&Node>>()
                 .first()
-                .unwrap_or(&node)
-        }
-        UnitShape::Square => (m(my, ctx.size), m(mx, ctx.size)),
+                .unwrap(),
+        ),
+        UnitShape::Square => node.at(m(my, ctx.size), m(mx, ctx.size)),
         UnitShape::Hexagon | UnitShape::Circle => {
             let r = m(my, ctx.u_height);
             let c = m(mx - ctx.s(r), ctx.u_width);
-            (r, c)
+            node.at(r, c)
         }
     }
 }
 
-pub fn point_in_triangle(ctx: &DrawContext, (mx, my): (f32, f32), node: Node) -> bool {
+pub fn point_in_triangle(ctx: &DrawContext, (mx, my): (f32, f32), node: &Node) -> bool {
     let (v1, v2, v3) = ctx.t_vertexes(node);
 
     // Calculate barycentric coordinates

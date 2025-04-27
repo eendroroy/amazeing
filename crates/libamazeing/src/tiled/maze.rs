@@ -1,4 +1,4 @@
-use super::types::Node;
+use crate::tiled::node::Node;
 use crate::tiled::{MazeData, MazeShape, UnitShape};
 use std::ops::{Index, IndexMut};
 
@@ -31,12 +31,12 @@ impl Index<Node> for Maze {
     type Output = i8;
 
     fn index(&self, index: Node) -> &Self::Output {
-        &self.data[index.0][index.1]
+        &self.data[index.row][index.col]
     }
 }
 
 impl IndexMut<Node> for Maze {
     fn index_mut(&mut self, index: Node) -> &mut Self::Output {
-        &mut self.data[index.0][index.1]
+        &mut self.data[index.row][index.col]
     }
 }
