@@ -9,25 +9,27 @@ pub(crate) fn populate_source_destination(
     sources: &mut Vec<Node>,
     destination: &mut Option<Node>,
 ) {
-    let node = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols()));
-    if maze[node] == OPEN {
-        if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-            *destination = Some(node);
-        } else {
-            *sources = vec![node];
+    if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+        if maze[node] == OPEN {
+            if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                *destination = Some(node);
+            } else {
+                *sources = vec![node];
+            }
         }
     }
 }
 
 pub(crate) fn add_source(draw_context: &DrawContext, maze: &Maze, sources: &mut Vec<Node>) {
-    let node = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols()));
-    if maze[node] != VOID {
-        if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-            if let Some(index) = sources.iter().position(|value| *value == node) {
-                sources.swap_remove(index);
+    if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+        if maze[node] != VOID {
+            if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                if let Some(index) = sources.iter().position(|value| *value == node) {
+                    sources.swap_remove(index);
+                }
+            } else if !sources.contains(&node) {
+                sources.push(node);
             }
-        } else if !sources.contains(&node) {
-            sources.push(node);
         }
     }
 }
