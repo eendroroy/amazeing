@@ -24,11 +24,6 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     unit_shape = shape_args.unit_shape.as_unit_shape();
                     (shape_args.procedure, shape_args.rows, shape_args.cols)
                 }
-                ArgMazeShape::Square(shape_args) => {
-                    maze_shape = MazeShape::Square;
-                    unit_shape = shape_args.unit_shape.as_unit_shape();
-                    (shape_args.procedure, shape_args.size, shape_args.size)
-                }
                 ArgMazeShape::Circle(shape_args) => {
                     maze_shape = MazeShape::Circle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
