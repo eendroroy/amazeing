@@ -171,11 +171,11 @@ _amazeing() {
                     return 0
                     ;;
                 --weight-direction)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 -w)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -265,11 +265,11 @@ _amazeing() {
                     return 0
                     ;;
                 --weight-direction)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 -w)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -437,11 +437,11 @@ _amazeing() {
                     return 0
                     ;;
                 --weight-direction)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 -w)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -531,11 +531,11 @@ _amazeing() {
                     return 0
                     ;;
                 --weight-direction)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 -w)
-                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)

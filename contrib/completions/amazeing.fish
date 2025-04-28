@@ -47,7 +47,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -75,7 +75,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -96,7 +96,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -118,7 +118,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -140,7 +140,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -161,7 +161,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -182,7 +182,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -203,7 +203,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -231,7 +231,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -252,7 +252,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -274,7 +274,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -296,7 +296,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -317,7 +317,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
@@ -338,7 +338,7 @@ octile\t''
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
-reversed\t''"
+backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r

@@ -73,16 +73,7 @@ pub(crate) async fn generate_simulation_loop(
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
             {
-                generate_maze(
-                    &mut maze,
-                    &draw_context.unit_shape,
-                    sources,
-                    destination,
-                    &context.procedure,
-                    context.heuristic,
-                    context.jumble_factor,
-                    &mut tracer,
-                );
+                generate_maze(&mut maze, &draw_context.unit_shape, sources, destination, context, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &maze);
                 }

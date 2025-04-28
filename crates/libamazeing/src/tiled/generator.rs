@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::Tracer;
 use super::{Maze, Node, NodeHeuFn, OPEN, UnitShape};
-use crate::tiled::node::DNodeWeightedReverse;
+use crate::tiled::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, VecDeque};
@@ -81,7 +81,7 @@ pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
     }
 }
 
-pub fn a_star(
+pub fn a_star<T: DNodeWeighted>(
     maze: &mut Maze,
     unit_shape: &UnitShape,
     sources: &[Node],
@@ -90,28 +90,25 @@ pub fn a_star(
     jumble_factor: u32,
     tracer: &mut Option<Tracer>,
 ) {
-    type WNode = DNodeWeightedReverse;
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
 
     validate_node(maze, destination);
 
-    let capacity = maze.rows() * maze.cols();
-
-    let mut storage: BinaryHeap<WNode> = BinaryHeap::with_capacity(capacity);
+    let mut storage: BinaryHeap<T> = BinaryHeap::new();
     let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
     sources.iter().for_each(|source| {
-        storage.push(WNode {
-            node: *source,
-            cost: maze[*source] as u32,
-            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
-        });
+        storage.push(T::new(
+            *source,
+            maze[*source] as u32,
+            maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
+        ));
     });
 
     while let Some(node) = storage.pop() {
-        let (current, cost, _) = (node.node, node.cost, node.heu_cost);
+        let (current, cost, _) = (node.node(), node.cost(), node.heu_cost());
 
         let neighbours = current.neighbours_block(maze, unit_shape);
 
@@ -122,11 +119,11 @@ pub fn a_star(
             }
             for next in neighbours {
                 parent.insert(next, current);
-                storage.push(WNode {
-                    node: next,
-                    cost: cost + maze[next] as u32,
-                    heu_cost: cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
-                });
+                storage.push(T::new(
+                    next,
+                    cost + maze[next] as u32,
+                    cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
+                ));
             }
         }
     }

@@ -44,8 +44,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -80,8 +80,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -108,8 +108,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -138,8 +138,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -168,8 +168,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -196,8 +196,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -224,8 +224,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -284,8 +284,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -320,8 +320,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -348,8 +348,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -378,8 +378,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -408,8 +408,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -436,8 +436,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -464,8 +464,8 @@ _arguments "${_arguments_options[@]}" : \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
 '--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
-'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
-'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \

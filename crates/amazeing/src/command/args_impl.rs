@@ -1,5 +1,6 @@
-use crate::command::{ArgHeuristic, ArgUnitShape};
+use crate::command::{ArgHeuristic, ArgUnitShape, ArgWeightDirection};
 use amazeing::tiled::heuristics::*;
+use amazeing::tiled::node::WeightDirection;
 use amazeing::tiled::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
@@ -20,6 +21,15 @@ impl ArgHeuristic {
             ArgHeuristic::Chebyshev => chebyshev_heuristic,
             ArgHeuristic::Octile => octile_heuristic,
             ArgHeuristic::Dijkstra => dijkstra_heuristic,
+        }
+    }
+}
+
+impl ArgWeightDirection {
+    pub fn as_weight_direction(&self) -> WeightDirection {
+        match self {
+            ArgWeightDirection::Forward => WeightDirection::Forward,
+            ArgWeightDirection::Backward => WeightDirection::Backward,
         }
     }
 }

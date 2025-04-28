@@ -171,40 +171,89 @@ impl Node {
     }
 }
 
+pub trait DNodeWeighted: Ord {
+    fn new(node: Node, cost: u32, heu_cost: u32) -> Self;
+    fn node(&self) -> Node;
+    fn cost(&self) -> u32;
+    fn heu_cost(&self) -> u32;
+}
+
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub(crate) struct DNodeWeighted {
+pub struct DNodeWeightedForward {
     pub(crate) node: Node,
     pub(crate) cost: u32,
     pub(crate) heu_cost: u32,
 }
 
-impl PartialOrd<Self> for DNodeWeighted {
+impl PartialOrd<Self> for DNodeWeightedForward {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl Ord for DNodeWeighted {
+impl Ord for DNodeWeightedForward {
     fn cmp(&self, other: &Self) -> Ordering {
         other.heu_cost.cmp(&self.heu_cost)
     }
 }
 
+impl DNodeWeighted for DNodeWeightedForward {
+    fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
+        Self { node, cost, heu_cost }
+    }
+
+    fn node(&self) -> Node {
+        self.node
+    }
+
+    fn cost(&self) -> u32 {
+        self.cost
+    }
+
+    fn heu_cost(&self) -> u32 {
+        self.heu_cost
+    }
+}
+
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub(crate) struct DNodeWeightedReverse {
+pub struct DNodeWeightedBackward {
     pub(crate) node: Node,
     pub(crate) cost: u32,
     pub(crate) heu_cost: u32,
 }
 
-impl PartialOrd<Self> for DNodeWeightedReverse {
+impl PartialOrd<Self> for DNodeWeightedBackward {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl Ord for DNodeWeightedReverse {
+impl Ord for DNodeWeightedBackward {
     fn cmp(&self, other: &Self) -> Ordering {
         other.heu_cost.cmp(&self.heu_cost).reverse()
     }
+}
+
+impl DNodeWeighted for DNodeWeightedBackward {
+    fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
+        Self { node, cost, heu_cost }
+    }
+
+    fn node(&self) -> Node {
+        self.node
+    }
+
+    fn cost(&self) -> u32 {
+        self.cost
+    }
+
+    fn heu_cost(&self) -> u32 {
+        self.heu_cost
+    }
+}
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub enum WeightDirection {
+    Forward,
+    Backward,
 }

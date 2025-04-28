@@ -105,6 +105,7 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25
 | Dfs                | Rectangle  | Square     | [![](https://img.youtube.com/vi/iyxUARc2T2g/0.jpg)](https://www.youtube.com/watch?v=iyxUARc2T2g) |
 | Bfs                | Rectangle  | Square     | [![](https://img.youtube.com/vi/st8RLTgAuuE/0.jpg)](https://www.youtube.com/watch?v=st8RLTgAuuE) |
 | Dfs                | Triangle   | Hexagon    | [![](https://img.youtube.com/vi/0c4s49G1RAk/0.jpg)](https://www.youtube.com/watch?v=0c4s49G1RAk) |
+| A* (Manhattan)     | Circle     | Hexagon    | [![](https://img.youtube.com/vi/CZanPMEyYZE/0.jpg)](https://www.youtube.com/shorts/CZanPMEyYZE)  |
 
 ## Solve Maze
 

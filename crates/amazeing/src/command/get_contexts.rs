@@ -37,6 +37,7 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
                     command_args.procedure,
                     command_args.heuristic_function.as_node_heu_fn(),
                     command_args.jumble_factor,
+                    command_args.weight_direction.as_weight_direction(),
                     rows,
                     cols,
                 )),

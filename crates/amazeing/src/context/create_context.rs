@@ -1,5 +1,6 @@
 use crate::command::ArgGenProcedure;
 use amazeing::tiled::NodeHeuFn;
+use amazeing::tiled::node::WeightDirection;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]
@@ -8,6 +9,7 @@ pub struct CreateContext {
     pub(crate) procedure: ArgGenProcedure,
     pub(crate) heuristic: NodeHeuFn,
     pub(crate) jumble_factor: u32,
+    pub(crate) weight_direction: WeightDirection,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
 }
@@ -18,6 +20,7 @@ impl CreateContext {
         procedure: ArgGenProcedure,
         heuristic: NodeHeuFn,
         jumble_factor: u32,
+        weight_direction: WeightDirection,
         rows: usize,
         cols: usize,
     ) -> Self {
@@ -26,6 +29,7 @@ impl CreateContext {
             procedure,
             heuristic,
             jumble_factor,
+            weight_direction,
             rows,
             cols,
         }

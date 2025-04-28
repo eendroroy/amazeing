@@ -2,7 +2,7 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
-use crate::tiled::node::{DNodeWeighted, Node};
+use crate::tiled::node::{DNodeWeightedForward, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 fn traverse(
@@ -57,11 +57,11 @@ fn weighted_traverse(
 
     let capacity = maze.rows() * maze.cols();
 
-    let mut storage: BinaryHeap<DNodeWeighted> = BinaryHeap::with_capacity(capacity);
+    let mut storage: BinaryHeap<DNodeWeightedForward> = BinaryHeap::with_capacity(capacity);
     let mut visited: HashMap<Node, bool> = HashMap::with_capacity(capacity);
     let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
 
-    storage.push(DNodeWeighted {
+    storage.push(DNodeWeightedForward {
         node: source,
         cost: maze[source] as u32,
         heu_cost: maze[source] as u32 + heu(source, destination),
@@ -83,7 +83,7 @@ fn weighted_traverse(
         for next in current.neighbours_open(maze, unit_shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
-                storage.push(DNodeWeighted {
+                storage.push(DNodeWeightedForward {
                     node: next,
                     cost: cost + maze[next] as u32,
                     heu_cost: cost + maze[next] as u32 + heu(next, destination),
