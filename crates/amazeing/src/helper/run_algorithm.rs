@@ -1,5 +1,7 @@
 use crate::command::{ArgGenProcedure, ArgSolveProcedure};
-use amazeing::tiled::{Maze, Node, NodeHeuFn, Tracer, UnitShape};
+use crate::context::CreateContext;
+use amazeing::tiled::node::WeightDirection;
+use amazeing::tiled::{DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, UnitShape};
 
 pub(crate) fn solve_maze(
     maze: &Maze,
@@ -25,22 +27,18 @@ pub(crate) fn generate_maze(
     unit_shape: &UnitShape,
     sources: &[Node],
     destination: Option<Node>,
-    procedure: &ArgGenProcedure,
-    heuristic: NodeHeuFn,
-    jumble_factor: u32,
+    context: &CreateContext,
     tracer: &mut Option<Tracer>,
 ) {
-    match procedure {
+    match context.procedure {
         ArgGenProcedure::Bfs => amazeing::tiled::generator::bfs(maze, unit_shape, sources, tracer),
         ArgGenProcedure::Dfs => amazeing::tiled::generator::dfs(maze, unit_shape, sources, tracer),
-        ArgGenProcedure::AStar => amazeing::tiled::generator::a_star(
-            maze,
-            unit_shape,
-            sources,
-            destination.unwrap(),
-            heuristic,
-            jumble_factor,
-            tracer,
-        ),
+        ArgGenProcedure::AStar => {
+            let a_star_fn = match context.weight_direction {
+                WeightDirection::Backward => amazeing::tiled::generator::a_star::<DNodeWeightedBackward>,
+                _ => amazeing::tiled::generator::a_star::<DNodeWeightedForward>,
+            };
+            a_star_fn(maze, unit_shape, sources, destination.unwrap(), context.heuristic, context.jumble_factor, tracer)
+        }
     }
 }

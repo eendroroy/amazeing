@@ -35,16 +35,7 @@ pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawCo
             && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
         {
             maze = maze_tiles.clone();
-            generate_maze(
-                &mut maze,
-                &draw_context.unit_shape,
-                sources,
-                destination,
-                &context.procedure,
-                context.heuristic,
-                context.jumble_factor,
-                &mut None,
-            );
+            generate_maze(&mut maze, &draw_context.unit_shape, sources, destination, context, &mut None);
         }
 
         if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {

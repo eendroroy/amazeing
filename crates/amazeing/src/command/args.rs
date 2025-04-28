@@ -206,16 +206,16 @@ impl Display for ArgUnitShape {
 pub enum ArgWeightDirection {
     #[clap(alias = "f")]
     Forward,
-    #[clap(alias = "r")]
+    #[clap(alias = "b")]
     #[default]
-    Reversed,
+    Backward,
 }
 
 impl Display for ArgWeightDirection {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ArgWeightDirection::Forward => write!(f, "forward"),
-            ArgWeightDirection::Reversed => write!(f, "reversed"),
+            ArgWeightDirection::Backward => write!(f, "backward"),
         }
     }
 }
