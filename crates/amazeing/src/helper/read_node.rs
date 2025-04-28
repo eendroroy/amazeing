@@ -22,6 +22,7 @@ pub(crate) fn populate_source_destination(
 
 pub(crate) fn add_source(draw_context: &DrawContext, maze: &Maze, sources: &mut Vec<Node>) {
     if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+        println!("{:?}", node);
         if maze[node] != VOID {
             if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
                 if let Some(index) = sources.iter().position(|value| *value == node) {

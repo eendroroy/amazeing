@@ -54,8 +54,12 @@ impl Node {
         }
     }
 
-    pub fn at(&self, row: usize, col: usize) -> Self {
-        Self { row, col, ..*self }
+    pub fn at(&self, row: usize, col: usize) -> Option<Self> {
+        if row >= self.rows || col >= self.cols {
+            None
+        } else {
+            Some(Self { row, col, ..*self })
+        }
     }
 
     pub fn center(&self) -> Self {

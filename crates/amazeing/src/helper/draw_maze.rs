@@ -12,39 +12,40 @@ pub(crate) fn draw_maze(
     (sources, destination): (&Vec<Node>, Option<Node>),
     traversing: bool,
 ) {
-    let mut node = Node::new(maze.rows(), maze.cols());
+    let node = Node::new(maze.rows(), maze.cols());
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            node = node.at(r, c);
-            let rank = if let Some(path) = path { path.get(&node) } else { None };
-            let is_traversed = check_traversed(node, &mut traversed);
-            let color: Color = if sources.contains(&node) {
-                colors.color_source
-            } else if destination.is_some() && destination.unwrap() == node {
-                colors.color_destination
-            } else if path.is_some() && traversing && rank.is_some() {
-                if let Some(ref mut trav) = traversed {
-                    trav[node] = OPEN;
-                }
-                let idx = Rank::MAX - rank.unwrap();
-                if idx < colors.color_visiting_gradient.len() as i32 {
-                    *colors.color_visiting_gradient.get(idx as usize).unwrap()
+            if let Some(node) = node.at(r, c) {
+                let rank = if let Some(path) = path { path.get(&node) } else { None };
+                let is_traversed = check_traversed(node, &mut traversed);
+                let color: Color = if sources.contains(&node) {
+                    colors.color_source
+                } else if destination.is_some() && destination.unwrap() == node {
+                    colors.color_destination
+                } else if path.is_some() && traversing && rank.is_some() {
+                    if let Some(ref mut trav) = traversed {
+                        trav[node] = OPEN;
+                    }
+                    let idx = Rank::MAX - rank.unwrap();
+                    if idx < colors.color_visiting_gradient.len() as i32 {
+                        *colors.color_visiting_gradient.get(idx as usize).unwrap()
+                    } else {
+                        colors.color_visiting
+                    }
+                } else if path.is_some() && rank.is_some() {
+                    colors.color_path
+                } else if is_traversed {
+                    colors.color_traversed
+                } else if maze[node] == OPEN {
+                    colors.color_open
+                } else if maze[node] == BLOCK {
+                    colors.color_block
                 } else {
-                    colors.color_visiting
-                }
-            } else if path.is_some() && rank.is_some() {
-                colors.color_path
-            } else if is_traversed {
-                colors.color_traversed
-            } else if maze[node] == OPEN {
-                colors.color_open
-            } else if maze[node] == BLOCK {
-                colors.color_block
-            } else {
-                colors.color_bg
-            };
+                    colors.color_bg
+                };
 
-            draw_node(draw_ctx, node, color);
+                draw_node(draw_ctx, node, color);
+            }
         }
     }
 }

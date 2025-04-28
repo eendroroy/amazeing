@@ -106,11 +106,13 @@ fn set_circle_triangle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
     let centre = get_centre(draw_ctx.t_vertexes(&node.center()));
     for (r, row) in data.iter_mut().enumerate() {
         for (c, col) in row.iter_mut().enumerate() {
-            let node_pos = get_centre(draw_ctx.t_vertexes(&node.at(r, c)));
-            let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
+            if let Some(node) = node.at(r, c) {
+                let node_pos = get_centre(draw_ctx.t_vertexes(&node));
+                let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
 
-            if distance < centre.0 {
-                *col = BLOCK;
+                if distance < centre.0 {
+                    *col = BLOCK;
+                }
             }
         }
     }
