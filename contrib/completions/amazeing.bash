@@ -132,7 +132,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -v -Z -C -F -h --maze --verbose --zoom --colors --fps --help triangle T rectangle R circle C help"
+            opts="-m -p -H -j -w -v -Z -C -F -h --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help triangle T rectangle R circle C help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -144,6 +144,38 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --procedure)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                -p)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                --heuristic-function)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                -H)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                --jumble-factor)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --weight-direction)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    return 0
+                    ;;
+                -w)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -178,7 +210,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__circle)
-            opts="-u -p -d -m -v -Z -C -F -h --unit-shape --procedure --diameter --maze --verbose --zoom --colors --fps --help"
+            opts="-u -d -m -p -H -j -w -v -Z -C -F -h --unit-shape --diameter --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -190,14 +222,6 @@ _amazeing() {
                     ;;
                 -u)
                     COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
-                    return 0
-                    ;;
-                --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
-                    return 0
-                    ;;
-                -p)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
                     return 0
                     ;;
                 --diameter)
@@ -214,6 +238,38 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --procedure)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                -p)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                --heuristic-function)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                -H)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                --jumble-factor)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --weight-direction)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    return 0
+                    ;;
+                -w)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -318,7 +374,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__rectangle)
-            opts="-u -p -r -c -m -v -Z -C -F -h --unit-shape --procedure --rows --cols --maze --verbose --zoom --colors --fps --help"
+            opts="-u -r -c -m -p -H -j -w -v -Z -C -F -h --unit-shape --rows --cols --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -330,14 +386,6 @@ _amazeing() {
                     ;;
                 -u)
                     COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
-                    return 0
-                    ;;
-                --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
-                    return 0
-                    ;;
-                -p)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
                     return 0
                     ;;
                 --rows)
@@ -362,6 +410,38 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --procedure)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                -p)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                --heuristic-function)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                -H)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                --jumble-factor)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --weight-direction)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    return 0
+                    ;;
+                -w)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -396,7 +476,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__triangle)
-            opts="-u -p -b -m -v -Z -C -F -h --unit-shape --procedure --base --maze --verbose --zoom --colors --fps --help"
+            opts="-u -b -m -p -H -j -w -v -Z -C -F -h --unit-shape --base --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -408,14 +488,6 @@ _amazeing() {
                     ;;
                 -u)
                     COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
-                    return 0
-                    ;;
-                --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
-                    return 0
-                    ;;
-                -p)
-                    COMPREPLY=($(compgen -W "bfs dfs" -- "${cur}"))
                     return 0
                     ;;
                 --base)
@@ -432,6 +504,38 @@ _amazeing() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --procedure)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                -p)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                --heuristic-function)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                -H)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                --jumble-factor)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --weight-direction)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
+                    return 0
+                    ;;
+                -w)
+                    COMPREPLY=($(compgen -W "forward reversed" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)

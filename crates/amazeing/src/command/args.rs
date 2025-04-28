@@ -67,6 +67,28 @@ pub struct CreateArgs {
     #[clap(global = true, long, short)]
     pub maze: Option<PathBuf>,
 
+    /// Maze Generation Procedure
+    #[clap(global = true, long, short, default_value_t = ArgGenProcedure::Dfs)]
+    pub procedure: ArgGenProcedure,
+
+    /// Heuristic function (to use with AStar)
+    #[clap(global = true, long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
+    pub heuristic_function: ArgHeuristic,
+
+    /// Weight randomization factor (to use with AStar)
+    #[clap(
+        global = true,
+        long,
+        short,
+        default_value_t = 0,
+        required_if_eq("procedure", "a-star")
+    )]
+    pub jumble_factor: u32,
+
+    /// Weight direction (ordering) (to use with AStar)
+    #[clap(global = true, long, short, default_value_t = ArgWeightDirection::default(), required_if_eq("procedure", "a-star"))]
+    pub weight_direction: ArgWeightDirection,
+
     /// Show a simulation of the generation process
     #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
@@ -98,10 +120,6 @@ pub struct TriangleArgs {
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
 
-    /// Maze Generation Procedure
-    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
-
     /// Width of base of the triangle
     #[clap(long, short)]
     pub base: usize,
@@ -112,10 +130,6 @@ pub struct RectangleArgs {
     /// Unit shape
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
-
-    /// Maze Generation Procedure
-    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
 
     /// Number of rows
     #[clap(long, short)]
@@ -131,10 +145,6 @@ pub struct CircleArgs {
     /// Unit shape
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
-
-    /// Maze Generation Procedure
-    #[clap(long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
 
     /// Width/Height of the circle
     #[clap(long, short)]
@@ -192,6 +202,24 @@ impl Display for ArgUnitShape {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
+pub enum ArgWeightDirection {
+    #[clap(alias = "f")]
+    Forward,
+    #[clap(alias = "r")]
+    #[default]
+    Reversed,
+}
+
+impl Display for ArgWeightDirection {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgWeightDirection::Forward => write!(f, "forward"),
+            ArgWeightDirection::Reversed => write!(f, "reversed"),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ArgSolveProcedure {
     #[clap(alias = "b")]
@@ -221,6 +249,8 @@ pub enum ArgGenProcedure {
     Bfs,
     #[clap(alias = "d")]
     Dfs,
+    #[clap(alias = "a")]
+    AStar,
 }
 
 impl Display for ArgGenProcedure {
@@ -228,6 +258,7 @@ impl Display for ArgGenProcedure {
         match self {
             ArgGenProcedure::Bfs => write!(f, "bfs"),
             ArgGenProcedure::Dfs => write!(f, "dfs"),
+            ArgGenProcedure::AStar => write!(f, "a-star"),
         }
     }
 }

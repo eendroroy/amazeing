@@ -29,7 +29,7 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
                     *sources.first().unwrap(),
                     destination.unwrap(),
                     &context.procedure,
-                    Some(context.heuristic),
+                    context.heuristic,
                     &mut None,
                 ));
             }

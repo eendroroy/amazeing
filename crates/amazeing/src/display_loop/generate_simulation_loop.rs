@@ -1,8 +1,10 @@
+use crate::command::ArgGenProcedure;
 use crate::context::{ColorContext, CreateContext, DrawContext};
 use crate::helper::{
-    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze, generate_maze_tiles,
+    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze,
+    generate_maze_tiles, populate_destination,
 };
-use amazeing::tiled::{Trace, Tracer};
+use amazeing::tiled::{Node, Trace, Tracer};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
@@ -25,6 +27,7 @@ pub(crate) async fn generate_simulation_loop(
     let mut paused = false;
 
     let sources = &mut vec![];
+    let mut destination: Option<Node> = None;
 
     loop {
         let current_frame_start_time = current_millis();
@@ -46,7 +49,7 @@ pub(crate) async fn generate_simulation_loop(
                 &dummy_maze,
                 Some(&mut traversed),
                 Some(&path),
-                (sources, None),
+                (sources, destination),
                 true,
             );
 
@@ -54,18 +57,32 @@ pub(crate) async fn generate_simulation_loop(
                 paused = !paused;
             }
         } else if trace_complete {
-            draw_maze(draw_context, color_context, &maze, None, None, (sources, None), false);
+            draw_maze(draw_context, color_context, &maze, None, None, (sources, destination), false);
         } else {
-            draw_maze(draw_context, color_context, &traversed, None, None, (sources, None), false);
+            draw_maze(draw_context, color_context, &traversed, None, None, (sources, destination), false);
         }
 
         if !simulating && !trace_complete {
             if is_mouse_button_released(MouseButton::Left) {
                 add_source(draw_context, &maze, sources);
+                if context.procedure == ArgGenProcedure::AStar {
+                    populate_destination(draw_context, &maze, &mut destination)
+                }
             }
 
-            if is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space) {
-                generate_maze(&mut maze, &draw_context.unit_shape, sources, &context.procedure, &mut tracer);
+            if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
+                && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
+            {
+                generate_maze(
+                    &mut maze,
+                    &draw_context.unit_shape,
+                    sources,
+                    destination,
+                    &context.procedure,
+                    context.heuristic,
+                    context.jumble_factor,
+                    &mut tracer,
+                );
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &maze);
                 }

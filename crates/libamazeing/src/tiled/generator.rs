@@ -1,9 +1,10 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::Tracer;
-use super::{Maze, Node, OPEN, UnitShape};
+use super::{Maze, Node, NodeHeuFn, OPEN, UnitShape};
+use crate::tiled::node::DNodeWeightedReverse;
 use rand::prelude::SliceRandom;
 use rand::rng;
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{BTreeMap, BinaryHeap, VecDeque};
 
 pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &mut Option<Tracer>) {
     sources.iter().for_each(|source| {
@@ -76,6 +77,57 @@ pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
 
         if storages.len() == skip_idx.len() {
             break;
+        }
+    }
+}
+
+pub fn a_star(
+    maze: &mut Maze,
+    unit_shape: &UnitShape,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+) {
+    type WNode = DNodeWeightedReverse;
+    sources.iter().for_each(|source| {
+        validate_node(maze, *source);
+    });
+
+    validate_node(maze, destination);
+
+    let capacity = maze.rows() * maze.cols();
+
+    let mut storage: BinaryHeap<WNode> = BinaryHeap::with_capacity(capacity);
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+
+    sources.iter().for_each(|source| {
+        storage.push(WNode {
+            node: *source,
+            cost: maze[*source] as u32,
+            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
+        });
+    });
+
+    while let Some(node) = storage.pop() {
+        let (current, cost, _) = (node.node, node.cost, node.heu_cost);
+
+        let neighbours = current.neighbours_block(maze, unit_shape);
+
+        if neighbours.len() >= unit_shape.sides() - 1 {
+            maze[current] = OPEN;
+            if let Some(trace) = tracer {
+                trace.push(reconstruct_trace_path(current, &parent));
+            }
+            for next in neighbours {
+                parent.insert(next, current);
+                storage.push(WNode {
+                    node: next,
+                    cost: cost + maze[next] as u32,
+                    heu_cost: cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
+                });
+            }
         }
     }
 }
