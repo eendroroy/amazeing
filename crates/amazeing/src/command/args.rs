@@ -198,8 +198,6 @@ pub enum ArgUnitShape {
     #[default]
     #[clap(alias = "h")]
     Hexagon,
-    #[clap(alias = "c")]
-    Circle,
 }
 
 impl Display for ArgUnitShape {
@@ -208,7 +206,6 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Triangle => write!(f, "triangle"),
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
-            ArgUnitShape::Circle => write!(f, "circle"),
         }
     }
 }

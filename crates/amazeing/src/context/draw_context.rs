@@ -17,7 +17,7 @@ pub struct DrawContext {
 impl DrawContext {
     pub fn from(zoom: f32, maze_shape: MazeShape, unit_shape: UnitShape, fps: u8) -> Self {
         let shape_multiplier = match unit_shape {
-            UnitShape::Hexagon | UnitShape::Circle => 0.65,
+            UnitShape::Hexagon => 0.65,
             _ => 1.0,
         };
 
@@ -25,7 +25,7 @@ impl DrawContext {
 
         let (unit_height, unit_width) = match unit_shape {
             UnitShape::Triangle => (size * 0.5 * (PI / 3.).tan(), size),
-            UnitShape::Hexagon | UnitShape::Circle => (((PI / 6.).sin() + 1.0) * size, (PI / 6.).cos() * size * 2.0),
+            UnitShape::Hexagon => (((PI / 6.).sin() + 1.0) * size, (PI / 6.).cos() * size * 2.0),
             UnitShape::Square => (size, size),
         };
 
@@ -52,12 +52,12 @@ impl DrawContext {
                 let height = (self.margin * 2. + blocks_height / 2.) as u32;
                 (width, height)
             }
-            (UnitShape::Square, _) | (UnitShape::Hexagon | UnitShape::Circle, MazeShape::Triangle) => {
+            (UnitShape::Square, _) | (UnitShape::Hexagon, MazeShape::Triangle) => {
                 let width = (self.margin * 2. + blocks_width) as u32;
                 let height = (self.margin * 2. + blocks_height) as u32;
                 (width, height)
             }
-            (UnitShape::Hexagon | UnitShape::Circle, _) => {
+            (UnitShape::Hexagon, _) => {
                 let width = (self.margin * 2. + blocks_width) as u32 + self.unit_width as u32;
                 let height = (self.margin * 2. + blocks_height) as u32;
                 (width, height)
@@ -69,7 +69,7 @@ impl DrawContext {
         match self.unit_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
             UnitShape::Square => self.margin + node.col as f32 * (self.size + self.border),
-            UnitShape::Hexagon | UnitShape::Circle => {
+            UnitShape::Hexagon => {
                 (self.margin + self.size + (node.col as f32 * self.unit_width) + self.border * node.col as f32)
                     + self.s(node.row)
             }
@@ -80,7 +80,7 @@ impl DrawContext {
         match self.unit_shape {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
             UnitShape::Square => self.margin + node.row as f32 * (self.size + self.border),
-            UnitShape::Hexagon | UnitShape::Circle => {
+            UnitShape::Hexagon => {
                 self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
             }
         }
