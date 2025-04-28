@@ -13,25 +13,36 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
 
     let mut amz_ctx = match amazeing_args.command {
         ArgCommand::Create(command_args) => {
-            let (procedure, rows, cols) = match command_args.maze_shape {
+            let (rows, cols) = match command_args.maze_shape {
                 ArgMazeShape::Triangle(shape_args) => {
                     maze_shape = MazeShape::Triangle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
-                    (shape_args.procedure, shape_args.base, shape_args.base)
+                    (shape_args.base, shape_args.base)
                 }
                 ArgMazeShape::Rectangle(shape_args) => {
                     maze_shape = MazeShape::Rectangle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
-                    (shape_args.procedure, shape_args.rows, shape_args.cols)
+                    (shape_args.rows, shape_args.cols)
                 }
                 ArgMazeShape::Circle(shape_args) => {
                     maze_shape = MazeShape::Circle;
                     unit_shape = shape_args.unit_shape.as_unit_shape();
-                    (shape_args.procedure, shape_args.diameter, shape_args.diameter)
+                    (shape_args.diameter, shape_args.diameter)
                 }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);
-            (Some(CreateContext::from(command_args.maze.clone(), procedure, rows, cols)), None, None)
+            (
+                Some(CreateContext::from(
+                    command_args.maze.clone(),
+                    command_args.procedure,
+                    command_args.heuristic_function.as_node_heu_fn(),
+                    command_args.jumble_factor,
+                    rows,
+                    cols,
+                )),
+                None,
+                None,
+            )
         }
         ArgCommand::View(sub_args) => {
             let loaded_maze = load_maze_from_file(sub_args.maze.as_path());

@@ -1,32 +1,50 @@
+use crate::command::ArgGenProcedure;
 use crate::context::{ColorContext, CreateContext, DrawContext};
 use crate::helper::{
-    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze, generate_maze_tiles,
+    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze,
+    generate_maze_tiles, populate_destination,
 };
+use amazeing::tiled::Node;
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(context: &CreateContext, draw_context: &DrawContext, color_context: &ColorContext) {
     let maze_tiles = generate_maze_tiles(context.rows, context.cols, draw_context);
     let mut maze = maze_tiles.clone();
     let sources = &mut vec![];
+    let mut destination: Option<Node> = None;
 
     loop {
         let current_frame_start_time = current_millis();
 
         clear_background(color_context.color_bg);
 
-        draw_maze(draw_context, color_context, &maze, None, None, (sources, None), false);
+        draw_maze(draw_context, color_context, &maze, None, None, (sources, destination), false);
 
         if is_mouse_button_released(MouseButton::Left) {
             add_source(draw_context, &maze, sources);
+            if context.procedure == ArgGenProcedure::AStar {
+                populate_destination(draw_context, &maze, &mut destination)
+            }
         }
 
         if is_key_pressed(KeyCode::Q) {
             break;
         }
 
-        if !sources.is_empty() && is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space) {
+        if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
+            && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
+        {
             maze = maze_tiles.clone();
-            generate_maze(&mut maze, &draw_context.unit_shape, sources, &context.procedure, &mut None);
+            generate_maze(
+                &mut maze,
+                &draw_context.unit_shape,
+                sources,
+                destination,
+                &context.procedure,
+                context.heuristic,
+                context.jumble_factor,
+                &mut None,
+            );
         }
 
         if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {

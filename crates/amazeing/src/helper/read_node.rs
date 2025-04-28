@@ -19,15 +19,22 @@ pub(crate) fn populate_source_destination(
         }
     }
 }
+pub(crate) fn populate_destination(draw_context: &DrawContext, maze: &Maze, destination: &mut Option<Node>) {
+    if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+        if maze[node] != VOID && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
+            *destination = Some(node);
+        }
+    }
+}
 
 pub(crate) fn add_source(draw_context: &DrawContext, maze: &Maze, sources: &mut Vec<Node>) {
     if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
-        if maze[node] != VOID {
-            if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+        if maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
+            if sources.contains(&node) {
                 if let Some(index) = sources.iter().position(|value| *value == node) {
                     sources.swap_remove(index);
                 }
-            } else if !sources.contains(&node) {
+            } else {
                 sources.push(node);
             }
         }

@@ -1,4 +1,5 @@
 use crate::tiled::{BLOCK, Maze, OPEN, UnitShape};
+use std::cmp::Ordering;
 use std::ops::{Add, Sub};
 
 #[derive(Default, Debug, Copy, Clone, PartialOrd, PartialEq, Eq, Hash, Ord)]
@@ -167,5 +168,43 @@ impl Node {
             .into_iter()
             .filter(|p| maze[*p] == BLOCK)
             .collect()
+    }
+}
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub(crate) struct DNodeWeighted {
+    pub(crate) node: Node,
+    pub(crate) cost: u32,
+    pub(crate) heu_cost: u32,
+}
+
+impl PartialOrd<Self> for DNodeWeighted {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for DNodeWeighted {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.heu_cost.cmp(&self.heu_cost)
+    }
+}
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub(crate) struct DNodeWeightedReverse {
+    pub(crate) node: Node,
+    pub(crate) cost: u32,
+    pub(crate) heu_cost: u32,
+}
+
+impl PartialOrd<Self> for DNodeWeightedReverse {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for DNodeWeightedReverse {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.heu_cost.cmp(&self.heu_cost).reverse()
     }
 }

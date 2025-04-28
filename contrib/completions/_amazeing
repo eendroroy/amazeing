@@ -38,6 +38,14 @@ _amazeing() {
 _arguments "${_arguments_options[@]}" : \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -62,12 +70,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -84,12 +98,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -106,14 +126,20 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -130,14 +156,20 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -154,12 +186,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -176,12 +214,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -234,6 +278,14 @@ esac
 _arguments "${_arguments_options[@]}" : \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -258,12 +310,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -280,12 +338,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -302,14 +366,20 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -326,14 +396,20 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -350,12 +426,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -372,12 +454,18 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit shape]:UnitShape:(triangle square hexagon)' \
 '--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon)' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward reversed)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \

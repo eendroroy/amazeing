@@ -2,28 +2,8 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
-use crate::tiled::node::Node;
-use std::cmp::Ordering;
+use crate::tiled::node::{DNodeWeighted, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
-
-#[derive(Debug, Clone, Eq, PartialEq)]
-struct DNodeWeighted {
-    pub(crate) node: Node,
-    pub(crate) cost: u32,
-    pub(crate) heu_cost: u32,
-}
-
-impl PartialOrd<Self> for DNodeWeighted {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
-impl Ord for DNodeWeighted {
-    fn cmp(&self, other: &Self) -> Ordering {
-        other.heu_cost.cmp(&self.heu_cost)
-    }
-}
 
 fn traverse(
     maze: &Maze,
