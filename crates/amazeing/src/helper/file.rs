@@ -27,10 +27,12 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            file.write_all(format!("{: >2}", maze[node.at(r, c)]).as_bytes())
-                .expect("Could not write to file");
-            if c < maze.cols() - 1 {
-                file.write_all(" ".as_bytes()).expect("Could not write to file");
+            if let Some(node) = node.at(r, c) {
+                file.write_all(format!("{: >2}", maze[node]).as_bytes())
+                    .expect("Could not write to file");
+                if c < maze.cols() - 1 {
+                    file.write_all(" ".as_bytes()).expect("Could not write to file");
+                }
             }
         }
         if r < maze.rows() - 1 {

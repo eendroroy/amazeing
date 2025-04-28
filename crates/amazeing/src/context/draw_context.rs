@@ -43,19 +43,25 @@ impl DrawContext {
 
     pub fn screen_size(&self, rows: usize, cols: usize) -> (u32, u32) {
         let (blocks_width, blocks_height) = (
-            cols as f32 * self.unit_width + (cols as f32 - 1.) * self.border,
-            rows as f32 * self.unit_height + (rows as f32 - 1.) * self.border,
+            cols as f32 * (self.unit_width + self.border) - self.border,
+            rows as f32 * (self.unit_height + self.border) - self.border,
         );
-        match self.unit_shape {
-            UnitShape::Triangle => (
-                (self.margin * 2. + blocks_width + self.size / 2.) as u32,
-                (self.margin * 2. + blocks_height / 2.) as u32,
-            ),
-            UnitShape::Square => ((self.margin * 2. + blocks_width) as u32, (self.margin * 2. + blocks_height) as u32),
-            UnitShape::Hexagon | UnitShape::Circle => (
-                (self.margin * 2. + blocks_width) as u32 + self.unit_width as u32,
-                (self.margin * 2. + blocks_height) as u32,
-            ),
+        match (self.unit_shape, self.maze_shape) {
+            (UnitShape::Triangle, _) => {
+                let width = (self.margin * 2. + blocks_width + self.size / 2.) as u32;
+                let height = (self.margin * 2. + blocks_height / 2.) as u32;
+                (width, height)
+            }
+            (UnitShape::Square, _) | (UnitShape::Hexagon | UnitShape::Circle, MazeShape::Triangle) => {
+                let width = (self.margin * 2. + blocks_width) as u32;
+                let height = (self.margin * 2. + blocks_height) as u32;
+                (width, height)
+            }
+            (UnitShape::Hexagon | UnitShape::Circle, _) => {
+                let width = (self.margin * 2. + blocks_width) as u32 + self.unit_width as u32;
+                let height = (self.margin * 2. + blocks_height) as u32;
+                (width, height)
+            }
         }
     }
 

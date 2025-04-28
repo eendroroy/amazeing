@@ -10,26 +10,29 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Option<N
 
     match ctx.unit_shape {
         UnitShape::Triangle => {
-            let node = node.at(m(my, ctx.unit_height) * 2, m(mx, ctx.unit_width));
-            if point_in_triangle(ctx.t_vertexes(&node), (mx, my)) {
-                Some(node)
-            } else {
-                let neighbours = node.surroundings();
+            if let Some(node) = node.at(m(my, ctx.unit_height) * 2, m(mx, ctx.unit_width)) {
+                if point_in_triangle(ctx.t_vertexes(&node), (mx, my)) {
+                    Some(node)
+                } else {
+                    let neighbours = node.surroundings();
 
-                let o_node = neighbours
-                    .iter()
-                    .filter(|&n| point_in_triangle(ctx.t_vertexes(n), (mx, my)))
-                    .collect::<Vec<&Node>>()
-                    .first()
-                    .cloned();
-                if let Some(&node) = o_node { Some(node) } else { None }
+                    let o_node = neighbours
+                        .iter()
+                        .filter(|&n| point_in_triangle(ctx.t_vertexes(n), (mx, my)))
+                        .collect::<Vec<&Node>>()
+                        .first()
+                        .cloned();
+                    if let Some(&node) = o_node { Some(node) } else { None }
+                }
+            } else {
+                None
             }
         }
-        UnitShape::Square => Some(node.at(m(my, ctx.size), m(mx, ctx.size))),
+        UnitShape::Square => node.at(m(my, ctx.size), m(mx, ctx.size)),
         UnitShape::Hexagon | UnitShape::Circle => {
             let r = m(my, ctx.unit_height);
             let c = m(mx - ctx.s(r), ctx.unit_width);
-            Some(node.at(r, c))
+            node.at(r, c)
         }
     }
 }
