@@ -9,16 +9,14 @@ pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawConte
         match draw_ctx.unit_shape {
             UnitShape::Triangle => set_triangle_triangle_perimeter(&mut data),
             UnitShape::Square => set_triangle_square_perimeter(&mut data),
-            UnitShape::Hexagon => set_triangle_hexagon_circle_perimeter(&mut data),
-            UnitShape::Circle => set_triangle_hexagon_circle_perimeter(&mut data),
+            UnitShape::Hexagon => set_triangle_hexagon_perimeter(&mut data),
         }
     } else if draw_ctx.maze_shape == MazeShape::Circle {
         data = vec![vec![VOID; cols]; rows];
         match draw_ctx.unit_shape {
             UnitShape::Triangle => set_circle_triangle_perimeter(&mut data, draw_ctx),
             UnitShape::Square => set_circle_square_perimeter(&mut data),
-            UnitShape::Hexagon => set_circle_hexagon_circle_perimeter(&mut data, draw_ctx),
-            UnitShape::Circle => set_circle_hexagon_circle_perimeter(&mut data, draw_ctx),
+            UnitShape::Hexagon => set_circle_hexagon_perimeter(&mut data, draw_ctx),
         }
     } else {
         data = vec![vec![BLOCK; cols]; rows]
@@ -36,7 +34,7 @@ fn set_triangle_square_perimeter(data: &mut MazeData) {
     }
 }
 
-fn set_triangle_hexagon_circle_perimeter(data: &mut MazeData) {
+fn set_triangle_hexagon_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre_column = cols.div_ceil(2);
     for (r, row) in data.iter_mut().enumerate() {
@@ -77,7 +75,7 @@ fn set_circle_square_perimeter(data: &mut MazeData) {
     }
 }
 
-fn set_circle_hexagon_circle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
+fn set_circle_hexagon_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
     let rows: usize = data.len() - 1;
     let cols: usize = data.first().unwrap().len() - 1;
     let centre = (((rows as f32) * draw_ctx.unit_height) / 2., ((cols as f32 - 0.5) * draw_ctx.unit_width) / 2.);

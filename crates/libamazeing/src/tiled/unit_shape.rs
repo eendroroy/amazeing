@@ -7,7 +7,6 @@ pub enum UnitShape {
     Square,
     #[default]
     Hexagon,
-    Circle,
 }
 
 impl UnitShape {
@@ -16,7 +15,6 @@ impl UnitShape {
             UnitShape::Triangle => "triangle",
             UnitShape::Square => "square",
             UnitShape::Hexagon => "hexagon",
-            UnitShape::Circle => "circle",
         }
     }
 
@@ -25,7 +23,6 @@ impl UnitShape {
             UnitShape::Triangle => 3,
             UnitShape::Square => 4,
             UnitShape::Hexagon => 6,
-            UnitShape::Circle => 6,
         }
     }
 }
@@ -37,7 +34,6 @@ impl FromStr for UnitShape {
             "triangle" => Ok(UnitShape::Triangle),
             "square" => Ok(UnitShape::Square),
             "hexagon" => Ok(UnitShape::Hexagon),
-            "circle" => Ok(UnitShape::Circle),
             _ => Err(format!("Unrecognized UnitShape: {}", s)),
         }
     }

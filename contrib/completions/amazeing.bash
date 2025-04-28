@@ -197,11 +197,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --procedure)
@@ -351,11 +351,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --procedure)
@@ -429,11 +429,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --procedure)
@@ -499,11 +499,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon circle" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
                     return 0
                     ;;
                 --procedure)
