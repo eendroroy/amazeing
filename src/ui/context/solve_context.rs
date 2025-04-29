@@ -1,5 +1,5 @@
-use crate::_lib::tiled::{Maze, NodeHeuFn};
 use crate::command::ArgSolveProcedure;
+use crate::core::tiled::{Maze, NodeHeuFn};
 
 #[derive(Debug, Clone)]
 pub struct SolveContext {

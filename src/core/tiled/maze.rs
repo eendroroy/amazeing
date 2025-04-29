@@ -1,5 +1,5 @@
-use crate::_lib::tiled::node::Node;
-use crate::_lib::tiled::{MazeData, MazeShape, UnitShape};
+use crate::core::tiled::node::Node;
+use crate::core::tiled::{MazeData, MazeShape, UnitShape};
 use std::ops::{Index, IndexMut};
 
 #[derive(Default, Debug, Clone)]

@@ -1,12 +1,10 @@
-mod _lib;
 mod command;
-mod context;
-mod display_loop;
-mod helper;
+mod core;
+mod ui;
 
 use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
-use crate::display_loop::{
+use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
 use clap::Parser;

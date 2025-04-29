@@ -1,6 +1,6 @@
-use crate::_lib::tiled::{BLOCK, Maze, Node, Trace, Tracer};
-use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{current_millis, delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
+use crate::core::tiled::{BLOCK, Maze, Node, Trace, Tracer};
+use crate::ui::context::{ColorContext, DrawContext, SolveContext};
+use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 

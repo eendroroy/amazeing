@@ -1,5 +1,5 @@
-use crate::context::ColorScheme;
-use crate::helper::gradient;
+use crate::ui::context::ColorScheme;
+use crate::ui::helper::gradient;
 use macroquad::prelude::Color;
 
 #[derive(Debug, Clone)]

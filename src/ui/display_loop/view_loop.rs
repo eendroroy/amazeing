@@ -1,5 +1,5 @@
-use crate::context::{ColorContext, DrawContext, ViewContext};
-use crate::helper::{current_millis, delay_till_next_frame, draw_maze};
+use crate::ui::context::{ColorContext, DrawContext, ViewContext};
+use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze};
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {

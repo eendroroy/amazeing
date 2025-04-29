@@ -1,4 +1,4 @@
-use crate::_lib::tiled::{Maze, MazeData, MazeShape, Node, UnitShape};
+use crate::core::tiled::{Maze, MazeData, MazeShape, Node, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;

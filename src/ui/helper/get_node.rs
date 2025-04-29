@@ -1,5 +1,5 @@
-use crate::_lib::tiled::{Node, UnitShape};
-use crate::context::DrawContext;
+use crate::core::tiled::{Node, UnitShape};
+use crate::ui::context::DrawContext;
 use macroquad::input::mouse_position;
 use macroquad::math::Vec2;
 

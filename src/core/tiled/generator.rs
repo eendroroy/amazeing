@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::Tracer;
 use super::{Maze, Node, NodeHeuFn, OPEN, UnitShape};
-use crate::_lib::tiled::node::DNodeWeighted;
+use crate::core::tiled::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, VecDeque};

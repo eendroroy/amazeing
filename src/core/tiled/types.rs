@@ -1,4 +1,4 @@
-use crate::_lib::tiled::node::Node;
+use crate::core::tiled::node::Node;
 use std::collections::{HashMap, VecDeque};
 
 pub type MazeData = Vec<Vec<i8>>;

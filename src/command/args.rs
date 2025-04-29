@@ -39,7 +39,7 @@ pub struct AmazeingArgs {
     pub fps: u8,
 }
 
-/// {bin-name} amazeing create
+/// {ui-name} amazeing create
 #[derive(Debug, Clone, PartialEq, Subcommand)]
 pub enum ArgCommand {
     /// Create a Maze

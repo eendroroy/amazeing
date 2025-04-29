@@ -1,6 +1,6 @@
-use crate::_lib::tiled::{Node, Trace};
-use crate::context::{ColorContext, DrawContext, SolveContext};
-use crate::helper::{
+use crate::core::tiled::{Node, Trace};
+use crate::ui::context::{ColorContext, DrawContext, SolveContext};
+use crate::ui::helper::{
     current_millis, delay_till_next_frame, draw_maze, path_to_trace, populate_source_destination, solve_maze,
 };
 use macroquad::prelude::*;
