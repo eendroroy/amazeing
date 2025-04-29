@@ -52,10 +52,9 @@ impl DrawContext {
                 (screen_width + self.unit_width / 2. + self.border) as u32,
                 ((blocks_height + borders_height) / 2. + margin_height) as u32,
             ),
-            (MazeShape::Circle, UnitShape::Hexagon) => (
-                (screen_width + self.unit_width + self.border) as u32,
-                screen_height as u32,
-            ),
+            (MazeShape::Circle, UnitShape::Hexagon) => {
+                ((screen_width + self.unit_width + self.border) as u32, screen_height as u32)
+            }
             _ => (screen_width as u32, screen_height as u32),
         }
     }
