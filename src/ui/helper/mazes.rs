@@ -4,28 +4,23 @@ use macroquad::math::Vec2;
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
     let mut data: MazeData;
-    if draw_ctx.maze_shape == MazeShape::Triangle {
-        data = vec![vec![VOID; cols]; rows];
-        match draw_ctx.unit_shape {
-            UnitShape::Triangle => set_triangle_triangle_perimeter(&mut data),
-            UnitShape::Square | UnitShape::Octagon => set_triangle_square_perimeter(&mut data),
-            UnitShape::Hexagon => set_triangle_hexagon_perimeter(&mut data),
+    data = vec![vec![VOID; cols]; rows];
+    match (draw_ctx.maze_shape, draw_ctx.unit_shape) {
+        (MazeShape::Triangle, UnitShape::Triangle) => set_triangle_triangle_perimeter(&mut data),
+        (MazeShape::Triangle, UnitShape::Square | UnitShape::Octagon) => {
+            set_triangle_square_octagon_perimeter(&mut data)
         }
-    } else if draw_ctx.maze_shape == MazeShape::Circle {
-        data = vec![vec![VOID; cols]; rows];
-        match draw_ctx.unit_shape {
-            UnitShape::Triangle => set_circle_triangle_perimeter(&mut data, draw_ctx),
-            UnitShape::Square | UnitShape::Octagon => set_circle_square_perimeter(&mut data),
-            UnitShape::Hexagon => set_circle_hexagon_perimeter(&mut data, draw_ctx),
-        }
-    } else {
-        data = vec![vec![BLOCK; cols]; rows]
+        (MazeShape::Triangle, UnitShape::Hexagon) => set_triangle_hexagon_perimeter(&mut data),
+        (MazeShape::Circle, UnitShape::Triangle) => set_circle_triangle_perimeter(&mut data, draw_ctx),
+        (MazeShape::Circle, UnitShape::Square | UnitShape::Octagon) => set_circle_square_octagon_perimeter(&mut data),
+        (MazeShape::Circle, UnitShape::Hexagon) => set_circle_hexagon_perimeter(&mut data, draw_ctx),
+        _ => data = vec![vec![BLOCK; cols]; rows],
     }
 
     Maze::from(draw_ctx.maze_shape, draw_ctx.unit_shape, data)
 }
 
-fn set_triangle_square_perimeter(data: &mut MazeData) {
+fn set_triangle_square_octagon_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre_column = cols.div_ceil(2) - 1;
     for (r, row) in data.iter_mut().enumerate() {
@@ -62,7 +57,7 @@ fn set_triangle_triangle_perimeter(data: &mut MazeData) {
     }
 }
 
-fn set_circle_square_perimeter(data: &mut MazeData) {
+fn set_circle_square_octagon_perimeter(data: &mut MazeData) {
     let cols: usize = data.first().unwrap().len();
     let centre = cols.div_ceil(2) as isize - 1;
     for (r, row) in data.iter_mut().enumerate() {

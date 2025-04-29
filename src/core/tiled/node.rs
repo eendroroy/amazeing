@@ -65,8 +65,8 @@ impl Node {
 
     pub fn center(&self) -> Self {
         Self {
-            row: self.row / 2,
-            col: self.col / 2,
+            row: self.rows / 2,
+            col: self.cols / 2,
             ..*self
         }
     }
