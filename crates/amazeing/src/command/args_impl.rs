@@ -9,6 +9,7 @@ impl ArgUnitShape {
             ArgUnitShape::Triangle => UnitShape::Triangle,
             ArgUnitShape::Square => UnitShape::Square,
             ArgUnitShape::Hexagon => UnitShape::Hexagon,
+            ArgUnitShape::Octagon => UnitShape::Octagon,
         }
     }
 }

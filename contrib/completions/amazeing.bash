@@ -217,11 +217,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 --diameter)
@@ -381,11 +381,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 --rows)
@@ -483,11 +483,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
                     return 0
                     ;;
                 --base)

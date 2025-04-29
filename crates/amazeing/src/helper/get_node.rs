@@ -28,7 +28,7 @@ pub(crate) fn get_node_from_mouse_pos(ctx: &DrawContext, node: Node) -> Option<N
                 None
             }
         }
-        UnitShape::Square => node.at(m(my, ctx.size), m(mx, ctx.size)),
+        UnitShape::Square | UnitShape::Octagon => node.at(m(my, ctx.unit_height), m(mx, ctx.unit_width)),
         UnitShape::Hexagon => {
             let r = m(my, ctx.unit_height);
             let c = m(mx - ctx.s(r), ctx.unit_width);

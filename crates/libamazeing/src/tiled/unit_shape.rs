@@ -7,6 +7,7 @@ pub enum UnitShape {
     Square,
     #[default]
     Hexagon,
+    Octagon,
 }
 
 impl UnitShape {
@@ -15,6 +16,7 @@ impl UnitShape {
             UnitShape::Triangle => "triangle",
             UnitShape::Square => "square",
             UnitShape::Hexagon => "hexagon",
+            UnitShape::Octagon => "octagon",
         }
     }
 
@@ -23,6 +25,7 @@ impl UnitShape {
             UnitShape::Triangle => 3,
             UnitShape::Square => 4,
             UnitShape::Hexagon => 6,
+            UnitShape::Octagon => 4,
         }
     }
 }

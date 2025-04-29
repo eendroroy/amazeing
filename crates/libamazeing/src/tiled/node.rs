@@ -128,7 +128,7 @@ impl Node {
                 3 => vec![Node::up, Node::down, Node::left_up],
                 _ => unreachable!(),
             },
-            UnitShape::Square => vec![Node::right, Node::down, Node::left, Node::up],
+            UnitShape::Square | UnitShape::Octagon => vec![Node::right, Node::down, Node::left, Node::up],
             UnitShape::Hexagon => {
                 if self.row % 2 == 0 {
                     vec![

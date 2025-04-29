@@ -1,6 +1,6 @@
 use crate::context::{ColorContext, DrawContext};
 use amazeing::tiled::{BLOCK, Maze, Node, OPEN, Rank, Trace, UnitShape};
-use macroquad::prelude::{BLANK, Color, draw_rectangle};
+use macroquad::prelude::{BLANK, Color, draw_poly, draw_rectangle};
 use macroquad::shapes::{draw_hexagon, draw_triangle};
 
 pub(crate) fn draw_maze(
@@ -62,5 +62,6 @@ fn draw_node(ctx: &DrawContext, node: Node, color: Color) {
         }
         UnitShape::Square => draw_rectangle(ctx.x(node), ctx.y(node), ctx.size, ctx.size, color),
         UnitShape::Hexagon => draw_hexagon(ctx.x(node), ctx.y(node), ctx.size, 0., true, BLANK, color),
+        UnitShape::Octagon => draw_poly(ctx.x(node), ctx.y(node), 8, ctx.size / 2., 360. / 16., color),
     }
 }

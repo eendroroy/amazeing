@@ -8,14 +8,14 @@ pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawConte
         data = vec![vec![VOID; cols]; rows];
         match draw_ctx.unit_shape {
             UnitShape::Triangle => set_triangle_triangle_perimeter(&mut data),
-            UnitShape::Square => set_triangle_square_perimeter(&mut data),
+            UnitShape::Square | UnitShape::Octagon => set_triangle_square_perimeter(&mut data),
             UnitShape::Hexagon => set_triangle_hexagon_perimeter(&mut data),
         }
     } else if draw_ctx.maze_shape == MazeShape::Circle {
         data = vec![vec![VOID; cols]; rows];
         match draw_ctx.unit_shape {
             UnitShape::Triangle => set_circle_triangle_perimeter(&mut data, draw_ctx),
-            UnitShape::Square => set_circle_square_perimeter(&mut data),
+            UnitShape::Square | UnitShape::Octagon => set_circle_square_perimeter(&mut data),
             UnitShape::Hexagon => set_circle_hexagon_perimeter(&mut data, draw_ctx),
         }
     } else {
