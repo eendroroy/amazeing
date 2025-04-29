@@ -27,6 +27,7 @@ impl DrawContext {
             UnitShape::Triangle => (size * 0.5 * (PI / 3.).tan(), size),
             UnitShape::Hexagon => (((PI / 6.).sin() + 1.0) * size, (PI / 6.).cos() * size * 2.0),
             UnitShape::Square => (size, size),
+            UnitShape::Octagon => (size, size),
         };
 
         Self {
@@ -52,7 +53,7 @@ impl DrawContext {
                 let height = (self.margin * 2. + blocks_height / 2.) as u32;
                 (width, height)
             }
-            (UnitShape::Square, _) | (UnitShape::Hexagon, MazeShape::Triangle) => {
+            (UnitShape::Square | UnitShape::Octagon, _) | (UnitShape::Hexagon, MazeShape::Triangle) => {
                 let width = (self.margin * 2. + blocks_width) as u32;
                 let height = (self.margin * 2. + blocks_height) as u32;
                 (width, height)
@@ -70,8 +71,15 @@ impl DrawContext {
             UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
             UnitShape::Square => self.margin + node.col as f32 * (self.size + self.border),
             UnitShape::Hexagon => {
-                (self.margin + self.size + (node.col as f32 * self.unit_width) + self.border * node.col as f32)
+                self.margin
+                    + self.size
+                    + (node.col as f32 * self.unit_width)
+                    + self.border * node.col as f32
                     + self.s(node.row)
+            }
+            UnitShape::Octagon => {
+                self.margin + self.size + (node.col as f32 * self.unit_width) + self.border * node.col as f32
+                    - self.unit_width / 2.
             }
         }
     }
@@ -82,6 +90,10 @@ impl DrawContext {
             UnitShape::Square => self.margin + node.row as f32 * (self.size + self.border),
             UnitShape::Hexagon => {
                 self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
+            }
+            UnitShape::Octagon => {
+                self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
+                    - self.unit_height / 2.
             }
         }
     }
