@@ -26,8 +26,8 @@ make install # this will install shell-completions
 - Create
     - `G`/`<Space>` - (Re)Generate Maze
     - Additional action in simulation mode (`--verbose`/`-v`):
-        - `LeftClick` - Add Source
-        - `Shift`+`LeftClick` - Remove Source
+        - `LeftClick` - Add/Remove Source
+        - `Shift`+`LeftClick` - Set Destination
         - `S`/`<Space>` - Start Simulation
         - `<Space>` - Start/Pause/Resume Simulation
 
