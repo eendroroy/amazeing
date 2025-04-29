@@ -120,8 +120,6 @@ amazeing S -m bfs_21_21.maze -p bfs -v -F 25
 
 [Color scheme generator](assets/scheme-generator.html)
 
-<iframe src="assets/scheme-generator.html" width="100%" height="920px"></iframe>
-
 ## License
 
 This project is licensed under the [GNU AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html).
