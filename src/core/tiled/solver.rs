@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::maze::Maze;
 use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
-use crate::_lib::tiled::node::{DNodeWeightedForward, Node};
+use crate::core::tiled::node::{DNodeWeightedForward, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 fn traverse(

@@ -1,6 +1,6 @@
-use crate::_lib::tiled::{Maze, Node, OPEN, VOID};
-use crate::context::DrawContext;
-use crate::helper::get_node_from_mouse_pos;
+use crate::core::tiled::{Maze, Node, OPEN, VOID};
+use crate::ui::context::DrawContext;
+use crate::ui::helper::get_node_from_mouse_pos;
 use macroquad::input::{KeyCode, is_key_down};
 
 pub(crate) fn populate_source_destination(

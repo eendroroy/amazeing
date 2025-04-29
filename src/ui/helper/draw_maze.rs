@@ -1,5 +1,5 @@
-use crate::_lib::tiled::{BLOCK, Maze, Node, OPEN, Rank, Trace, UnitShape};
-use crate::context::{ColorContext, DrawContext};
+use crate::core::tiled::{BLOCK, Maze, Node, OPEN, Rank, Trace, UnitShape};
+use crate::ui::context::{ColorContext, DrawContext};
 use macroquad::prelude::{BLANK, Color, draw_poly, draw_rectangle};
 use macroquad::shapes::{draw_hexagon, draw_triangle};
 

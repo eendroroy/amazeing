@@ -1,5 +1,5 @@
-use crate::_lib::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
-use crate::context::DrawContext;
+use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
+use crate::ui::context::DrawContext;
 use macroquad::math::Vec2;
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {

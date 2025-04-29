@@ -1,6 +1,6 @@
-use crate::_lib::tiled::NodeHeuFn;
-use crate::_lib::tiled::node::WeightDirection;
 use crate::command::ArgGenProcedure;
+use crate::core::tiled::NodeHeuFn;
+use crate::core::tiled::node::WeightDirection;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]

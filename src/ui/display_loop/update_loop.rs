@@ -1,6 +1,6 @@
-use crate::_lib::tiled::{BLOCK, Node, OPEN};
-use crate::context::{ColorContext, DrawContext, ViewContext};
-use crate::helper::{current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
+use crate::core::tiled::{BLOCK, Node, OPEN};
+use crate::ui::context::{ColorContext, DrawContext, ViewContext};
+use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {

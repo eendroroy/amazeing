@@ -1,4 +1,4 @@
-use crate::_lib::tiled::{MazeShape, Node, UnitShape};
+use crate::core::tiled::{MazeShape, Node, UnitShape};
 use macroquad::prelude::Vec2;
 use std::f32::consts::PI;
 

@@ -1,4 +1,4 @@
-use crate::_lib::tiled::{BLOCK, Maze, OPEN, UnitShape};
+use crate::core::tiled::{BLOCK, Maze, OPEN, UnitShape};
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
 

@@ -1,4 +1,4 @@
-use crate::helper::current_millis;
+use crate::ui::helper::current_millis;
 
 pub(crate) fn delay_till_next_frame(current_frame_start_time: u128, fps: f32) {
     let current_frame_time = (current_millis() - current_frame_start_time) as f32;

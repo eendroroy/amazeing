@@ -1,7 +1,7 @@
-use crate::_lib::tiled::Node;
 use crate::command::ArgGenProcedure;
-use crate::context::{ColorContext, CreateContext, DrawContext};
-use crate::helper::{
+use crate::core::tiled::Node;
+use crate::ui::context::{ColorContext, CreateContext, DrawContext};
+use crate::ui::helper::{
     add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze,
     generate_maze_tiles, populate_destination,
 };

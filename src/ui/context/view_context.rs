@@ -1,4 +1,4 @@
-use crate::_lib::tiled::Maze;
+use crate::core::tiled::Maze;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]

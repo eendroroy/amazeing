@@ -1,4 +1,4 @@
-use crate::_lib::tiled::{Node, Trace};
+use crate::core::tiled::{Node, Trace};
 
 pub(crate) fn path_to_trace(path: Vec<Node>) -> Trace {
     let mut rank = i32::MAX;

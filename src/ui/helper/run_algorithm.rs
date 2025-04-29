@@ -1,9 +1,9 @@
-use crate::_lib::tiled::node::WeightDirection;
-use crate::_lib::tiled::{
+use crate::command::{ArgGenProcedure, ArgSolveProcedure};
+use crate::core::tiled::node::WeightDirection;
+use crate::core::tiled::{
     DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, UnitShape, generator, solver,
 };
-use crate::command::{ArgGenProcedure, ArgSolveProcedure};
-use crate::context::CreateContext;
+use crate::ui::context::CreateContext;
 
 pub(crate) fn solve_maze(
     maze: &Maze,

@@ -1,4 +1,4 @@
-use crate::_lib::tiled::node::Node;
+use crate::core::tiled::node::Node;
 
 pub fn manhattan_heuristic(node: Node, goal: Node) -> u32 {
     let ((x1, y1), (x2, y2)) = get_points(node, goal);
