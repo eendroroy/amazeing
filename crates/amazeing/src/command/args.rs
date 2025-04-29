@@ -226,9 +226,7 @@ pub enum ArgSolveProcedure {
     Bfs,
     #[clap(alias = "d")]
     Dfs,
-    #[clap(alias = "dj")]
-    Dijkstra,
-    #[clap(alias = "as")]
+    #[clap(alias = "a")]
     AStar,
 }
 
@@ -237,7 +235,6 @@ impl Display for ArgSolveProcedure {
         match self {
             ArgSolveProcedure::Bfs => write!(f, "bfs"),
             ArgSolveProcedure::Dfs => write!(f, "dfs"),
-            ArgSolveProcedure::Dijkstra => write!(f, "dijkstra"),
             ArgSolveProcedure::AStar => write!(f, "a-star"),
         }
     }

@@ -1,5 +1,4 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
-use super::heuristics::dijkstra_heuristic;
 use super::maze::Maze;
 use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
 use crate::tiled::node::{DNodeWeightedForward, Node};
@@ -118,16 +117,6 @@ pub fn dfs(
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
 
     traverse(maze, unit_shape, source, destination, push, pop, tracer)
-}
-
-pub fn dijkstra(
-    maze: &Maze,
-    unit_shape: &UnitShape,
-    source: Node,
-    destination: Node,
-    tracer: &mut Option<Tracer>,
-) -> Vec<Node> {
-    weighted_traverse(maze, unit_shape, source, destination, dijkstra_heuristic, tracer)
 }
 
 pub fn a_star(
