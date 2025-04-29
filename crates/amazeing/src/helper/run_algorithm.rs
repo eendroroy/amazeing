@@ -15,7 +15,6 @@ pub(crate) fn solve_maze(
     match procedure {
         ArgSolveProcedure::Bfs => amazeing::tiled::solver::bfs(maze, unit_shape, source, destination, tracer),
         ArgSolveProcedure::Dfs => amazeing::tiled::solver::dfs(maze, unit_shape, source, destination, tracer),
-        ArgSolveProcedure::Dijkstra => amazeing::tiled::solver::dijkstra(maze, unit_shape, source, destination, tracer),
         ArgSolveProcedure::AStar => {
             amazeing::tiled::solver::a_star(maze, unit_shape, source, destination, heuristic, tracer)
         }

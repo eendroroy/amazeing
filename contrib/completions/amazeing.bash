@@ -697,11 +697,11 @@ _amazeing() {
                     return 0
                     ;;
                 --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs dijkstra a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 -p)
-                    COMPREPLY=($(compgen -W "bfs dfs dijkstra a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 --heuristic-function)
