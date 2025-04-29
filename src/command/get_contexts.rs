@@ -72,7 +72,7 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
     let dr_ctx = DrawContext::from(amazeing_args.zoom, maze_shape, unit_shape, amazeing_args.fps);
 
     if let Some(ref mut c_ctx) = amz_ctx.0 {
-        if maze_shape == MazeShape::Triangle {
+        if [MazeShape::Triangle, MazeShape::Circle].contains(&maze_shape) {
             if c_ctx.rows % 2 == 0 {
                 c_ctx.rows += 1;
                 c_ctx.cols += 1;
