@@ -76,17 +76,11 @@ pub struct CreateArgs {
     pub heuristic_function: ArgHeuristic,
 
     /// Weight randomization factor (to use with AStar)
-    #[clap(
-        global = true,
-        long,
-        short,
-        default_value_t = 0,
-        required_if_eq("procedure", "a-star")
-    )]
+    #[clap(global = true, long, short, default_value_t = 2)]
     pub jumble_factor: u32,
 
     /// Weight direction (ordering) (to use with AStar)
-    #[clap(global = true, long, short, default_value_t = ArgWeightDirection::default(), required_if_eq("procedure", "a-star"))]
+    #[clap(global = true, long, short, default_value_t = ArgWeightDirection::default())]
     pub weight_direction: ArgWeightDirection,
 
     /// Show a simulation of the generation process
