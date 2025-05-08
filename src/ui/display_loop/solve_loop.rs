@@ -1,29 +1,54 @@
-use crate::core::tiled::{Node, Trace};
+use crate::core::tiled::{Node, OPEN};
 use crate::ui::context::{ColorContext, DrawContext, SolveContext};
-use crate::ui::helper::{
-    current_millis, delay_till_next_frame, draw_maze, path_to_trace, populate_source_destination, solve_maze,
-};
+use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
+use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
-use std::collections::HashMap;
 
-pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContext, color_context: &ColorContext) {
+pub(crate) async fn solve_loop(
+    shapes: &mut MazeMesh,
+    context: &SolveContext,
+    draw_context: &DrawContext,
+    colors: &ColorContext,
+) {
     let maze = &context.maze;
-    let mut current_path: Trace = HashMap::new();
     let sources = &mut vec![];
     let mut destination: Option<Node> = None;
+    let mut path: Vec<Node> = vec![];
 
     loop {
         let current_frame_start_time = current_millis();
 
-        clear_background(color_context.color_bg);
+        clear_background(colors.color_bg);
 
-        draw_maze(draw_context, color_context, maze, None, Some(&current_path), (sources, destination), false);
+        shapes.draw();
 
         if is_mouse_button_pressed(MouseButton::Left) {
-            populate_source_destination(draw_context, maze, sources, &mut destination);
+            if let Some(node) = shapes.clicked_on(mouse_position()) {
+                if maze[node] == OPEN {
+                    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                        if let Some(dest) = destination {
+                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_open)
+                        }
+                        destination = Some(node);
+                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_destination)
+                    } else {
+                        if let Some(source) = sources.first() {
+                            shapes[*source] = shapes.shape_factory.shape(source.row, source.col, colors.color_open)
+                        }
+                        *sources = vec![node];
+                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                    }
+                }
+            }
 
             if !sources.is_empty() && destination.is_some() {
-                current_path = path_to_trace(solve_maze(
+                path.iter().for_each(|node| {
+                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
+                        shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_open)
+                    }
+                });
+
+                path = solve_maze(
                     maze,
                     &draw_context.unit_shape,
                     *sources.first().unwrap(),
@@ -31,7 +56,13 @@ pub(crate) async fn solve_loop(context: &SolveContext, draw_context: &DrawContex
                     &context.procedure,
                     context.heuristic,
                     &mut None,
-                ));
+                );
+
+                path.iter().for_each(|node| {
+                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
+                        shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_path)
+                    }
+                })
             }
         }
 

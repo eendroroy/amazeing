@@ -6,6 +6,7 @@ use std::f32::consts::PI;
 pub struct DrawContext {
     pub(crate) margin: f32,
     pub(crate) border: f32,
+    pub(crate) zoom: f32,
     pub(crate) size: f32,
     pub(crate) maze_shape: MazeShape,
     pub(crate) unit_shape: UnitShape,
@@ -26,6 +27,7 @@ impl DrawContext {
         Self {
             margin,
             border,
+            zoom,
             size,
             maze_shape,
             unit_shape,
@@ -42,7 +44,6 @@ impl DrawContext {
 
         let (screen_width, screen_height) =
             (blocks_width + borders_width + margin_width, blocks_height + borders_height + margin_height);
-        println!("screen_width: {}, screen_height: {}", screen_width, screen_height);
 
         match (self.maze_shape, self.unit_shape) {
             (MazeShape::Rectangle, UnitShape::Hexagon) => {
