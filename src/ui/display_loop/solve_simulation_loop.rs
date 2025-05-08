@@ -1,4 +1,4 @@
-use crate::core::tiled::{Node, OPEN, Rank, Trace, Tracer};
+use crate::core::tiled::{Node, OPEN, Trace, Tracer};
 use crate::ui::context::{ColorContext, DrawContext, SolveContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
 use crate::ui::shape::maze_mesh::MazeMesh;
@@ -34,11 +34,9 @@ pub(crate) async fn solve_simulation_loop(
 
         if simulating {
             if !paused && !trace_complete {
-                current_path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                        shapes[*node.0] = shapes
-                            .shape_factory
-                            .shape(node.0.row, node.0.col, colors.color_traversed)
+                current_path.iter().for_each(|(node, _)| {
+                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
+                        shapes.update_color(*node, colors.color_traversed)
                     }
                 });
                 current_path = trace.get(trace_index).unwrap().clone();
@@ -47,20 +45,13 @@ pub(crate) async fn solve_simulation_loop(
                     trace_complete = true;
                     current_path.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_path)
+                            shapes.update_color(*node.0, colors.color_path)
                         }
                     });
                 } else {
                     current_path.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            shapes[*node.0] = shapes.shape_factory.shape(
-                                node.0.row,
-                                node.0.col,
-                                *colors
-                                    .color_visiting_gradient
-                                    .get((Rank::MAX - node.1) as usize)
-                                    .unwrap_or(&colors.color_visiting),
-                            )
+                            shapes.update_color(*node.0, *colors.shed_color(node.1).unwrap_or(&colors.color_visiting))
                         }
                     });
                 }
@@ -75,17 +66,17 @@ pub(crate) async fn solve_simulation_loop(
             if let Some(node) = shapes.clicked_on(mouse_position()) {
                 if context.maze[node] == OPEN {
                     if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                        if let Some(dest) = destination {
-                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_open)
+                        if let Some(node) = destination {
+                            shapes.update_color(node, colors.color_open)
                         }
                         destination = Some(node);
-                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_destination)
+                        shapes.update_color(node, colors.color_destination)
                     } else {
-                        if let Some(source) = sources.first() {
-                            shapes[*source] = shapes.shape_factory.shape(source.row, source.col, colors.color_open)
+                        if let Some(node) = sources.first() {
+                            shapes.update_color(*node, colors.color_open)
                         }
                         *sources = vec![node];
-                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                        shapes.update_color(node, colors.color_source)
                     }
                 }
             }

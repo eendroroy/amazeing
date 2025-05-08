@@ -46,6 +46,6 @@ pub(crate) trait ShapeFactory: Send + Sync {
     }
 }
 
-pub(crate) const MARGIN: f32 = 15.;
+pub(crate) const MARGIN: f32 = 10.;
 pub(crate) const BORDER: f32 = 2.;
-pub(crate) const RADIUS: f32 = 25.;
+pub(crate) const RADIUS: f32 = 15.;

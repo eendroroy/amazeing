@@ -1,3 +1,4 @@
+use crate::core::tiled::Rank;
 use crate::ui::context::ColorScheme;
 use crate::ui::helper::gradient;
 use macroquad::prelude::Color;
@@ -46,5 +47,9 @@ impl ColorContext {
             color_destination: Color::from_hex(scheme.color_destination),
             color_traversed: Color::from_hex(scheme.color_traversed),
         }
+    }
+
+    pub fn shed_color(&self, rank: &Rank) -> Option<&Color> {
+        self.color_visiting_gradient.get((Rank::MAX - rank) as usize)
     }
 }
