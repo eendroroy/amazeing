@@ -28,7 +28,7 @@ pub(crate) async fn update_loop(
 
             if let Some(node) = shapes.clicked_on(mouse_position()) {
                 maze[node] = value;
-                shapes[node] = shapes.shape_factory.shape(node.row, node.col, color)
+                shapes.update_color(node, color)
             }
         }
 

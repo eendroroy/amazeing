@@ -21,32 +21,28 @@ pub(crate) fn convert_to_maze_shape(
         UnitShape::Octagon => Box::new(OctagonShapeFactory::new(draw_context.zoom)),
     };
 
-    (
-        shape_factory.dimension(maze.rows(), maze.cols()),
-        MazeMesh {
-            meshes: maze
-                .data
+    let meshes = maze
+        .data
+        .iter()
+        .enumerate()
+        .map(|(row, row_data)| {
+            row_data
                 .iter()
                 .enumerate()
-                .map(|(row, row_data)| {
-                    row_data
-                        .iter()
-                        .enumerate()
-                        .map(|(col, &cell)| {
-                            let color = match cell {
-                                data if data == OPEN => color_context.color_open,
-                                data if data == BLOCK => color_context.color_block,
-                                data if data == VOID => color_context.color_bg,
-                                _ => color_context.color_bg,
-                            };
-                            shape_factory.shape(row, col, color)
-                        })
-                        .collect::<Vec<Mesh>>()
+                .map(|(col, &cell)| {
+                    let color = match cell {
+                        data if data == OPEN => color_context.color_open,
+                        data if data == BLOCK => color_context.color_block,
+                        data if data == VOID => color_context.color_bg,
+                        _ => color_context.color_bg,
+                    };
+                    shape_factory.shape(row, col, color)
                 })
-                .collect::<Vec<Vec<Mesh>>>(),
-            shape_factory,
-        },
-    )
+                .collect::<Vec<Mesh>>()
+        })
+        .collect::<Vec<Vec<Mesh>>>();
+
+    (shape_factory.dimension(maze.rows(), maze.cols()), MazeMesh { meshes })
 }
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {

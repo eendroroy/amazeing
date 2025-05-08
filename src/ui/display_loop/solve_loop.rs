@@ -26,17 +26,17 @@ pub(crate) async fn solve_loop(
             if let Some(node) = shapes.clicked_on(mouse_position()) {
                 if maze[node] == OPEN {
                     if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                        if let Some(dest) = destination {
-                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_open)
+                        if let Some(node) = destination {
+                            shapes.update_color(node, colors.color_open)
                         }
                         destination = Some(node);
-                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_destination)
+                        shapes.update_color(node, colors.color_destination)
                     } else {
-                        if let Some(source) = sources.first() {
-                            shapes[*source] = shapes.shape_factory.shape(source.row, source.col, colors.color_open)
+                        if let Some(node) = sources.first() {
+                            shapes.update_color(*node, colors.color_open)
                         }
                         *sources = vec![node];
-                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                        shapes.update_color(node, colors.color_source)
                     }
                 }
             }
@@ -44,7 +44,7 @@ pub(crate) async fn solve_loop(
             if !sources.is_empty() && destination.is_some() {
                 path.iter().for_each(|node| {
                     if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
-                        shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_open)
+                        shapes.update_color(*node, colors.color_open)
                     }
                 });
 
@@ -60,7 +60,7 @@ pub(crate) async fn solve_loop(
 
                 path.iter().for_each(|node| {
                     if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
-                        shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_path)
+                        shapes.update_color(*node, colors.color_path)
                     }
                 })
             }

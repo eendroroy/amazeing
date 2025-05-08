@@ -1,11 +1,10 @@
 use crate::core::tiled::Node;
-use crate::ui::shape::ShapeFactory;
 use macroquad::models::{Mesh, draw_mesh};
+use macroquad::prelude::Color;
 use std::ops::{Index, IndexMut};
 
 pub(crate) struct MazeMesh {
     pub(crate) meshes: Vec<Vec<Mesh>>,
-    pub(crate) shape_factory: Box<dyn ShapeFactory>,
 }
 
 impl MazeMesh {
@@ -24,6 +23,13 @@ impl MazeMesh {
 
         // Default return if no mesh contains the point
         None
+    }
+
+    pub(crate) fn update_color(&mut self, node: Node, color: Color) {
+        self[node]
+            .vertices
+            .iter_mut()
+            .for_each(|vertex| vertex.color = color.into())
     }
 
     fn is_point_in_mesh(&self, mesh: &Mesh, x: f32, y: f32) -> bool {

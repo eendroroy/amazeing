@@ -31,19 +31,19 @@ pub(crate) async fn generate_loop(
                     if sources.contains(&node) {
                         if let Some(index) = sources.iter().position(|value| *value == node) {
                             let node = sources.swap_remove(index);
-                            shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_block)
+                            shapes.update_color(node, colors.color_block);
                         }
                     } else {
                         sources.push(node);
-                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                        shapes.update_color(node, colors.color_source);
                     }
                 } else if maze[node] != VOID && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
                     if let Some(dest) = destination {
-                        shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_block)
+                        shapes.update_color(dest, colors.color_block);
                     }
                     destination = Some(node);
                     if let Some(dest) = destination {
-                        shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_destination)
+                        shapes.update_color(dest, colors.color_destination);
                     }
                 }
             }
@@ -61,7 +61,7 @@ pub(crate) async fn generate_loop(
             *shapes = convert_to_maze_shape(maze, draw_context, colors).1;
             sources
                 .iter()
-                .for_each(|node| shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source));
+                .for_each(|node| shapes.update_color(*node, colors.color_source));
             generated = true;
         }
 
