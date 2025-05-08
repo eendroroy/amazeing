@@ -1,27 +1,23 @@
-use crate::core::tiled::{BLOCK, Maze, Node, Trace, Tracer};
+use crate::core::tiled::{Node, OPEN, Rank, Trace, Tracer};
 use crate::ui::context::{ColorContext, DrawContext, SolveContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze, populate_source_destination, solve_maze};
+use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
+use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
 pub(crate) async fn solve_simulation_loop(
+    shapes: &mut MazeMesh,
     context: &SolveContext,
     draw_context: &DrawContext,
-    color_context: &ColorContext,
+    colors: &ColorContext,
 ) {
-    let sources = &mut vec![];
+    let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
     let mut current_path: Trace = HashMap::new();
-
-    let mut traversed = Maze::from(
-        draw_context.maze_shape,
-        draw_context.unit_shape,
-        vec![vec![BLOCK; context.maze.cols()]; context.maze.rows()],
-    );
 
     let mut trace_complete = false;
     let mut simulating = false;
@@ -32,36 +28,67 @@ pub(crate) async fn solve_simulation_loop(
     loop {
         let current_frame_start_time = current_millis();
 
-        clear_background(color_context.color_bg);
+        clear_background(colors.color_bg);
+
+        shapes.draw();
 
         if simulating {
             if !paused && !trace_complete {
+                current_path.iter().for_each(|node| {
+                    if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                        shapes[*node.0] = shapes
+                            .shape_factory
+                            .shape(node.0.row, node.0.col, colors.color_traversed)
+                    }
+                });
                 current_path = trace.get(trace_index).unwrap().clone();
                 trace_index += 1;
                 if trace.len() == trace_index {
                     trace_complete = true;
+                    current_path.iter().for_each(|node| {
+                        if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                            shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_path)
+                        }
+                    });
+                } else {
+                    current_path.iter().for_each(|node| {
+                        if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                            shapes[*node.0] = shapes.shape_factory.shape(
+                                node.0.row,
+                                node.0.col,
+                                *colors
+                                    .color_visiting_gradient
+                                    .get((Rank::MAX - node.1) as usize)
+                                    .unwrap_or(&colors.color_visiting),
+                            )
+                        }
+                    });
                 }
             }
-
-            draw_maze(
-                draw_context,
-                color_context,
-                &context.maze,
-                Some(&mut traversed),
-                Some(&current_path),
-                (sources, destination),
-                !trace_complete,
-            );
 
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;
             }
-        } else {
-            draw_maze(draw_context, color_context, &context.maze, None, None, (sources, destination), false);
         }
 
         if !simulating && is_mouse_button_released(MouseButton::Left) {
-            populate_source_destination(draw_context, &context.maze, sources, &mut destination);
+            if let Some(node) = shapes.clicked_on(mouse_position()) {
+                if context.maze[node] == OPEN {
+                    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                        if let Some(dest) = destination {
+                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_open)
+                        }
+                        destination = Some(node);
+                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_destination)
+                    } else {
+                        if let Some(source) = sources.first() {
+                            shapes[*source] = shapes.shape_factory.shape(source.row, source.col, colors.color_open)
+                        }
+                        *sources = vec![node];
+                        shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                    }
+                }
+            }
         }
 
         if !simulating

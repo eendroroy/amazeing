@@ -1,6 +1,53 @@
-use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
-use crate::ui::context::DrawContext;
+use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, OPEN, UnitShape, VOID};
+use crate::ui::context::{ColorContext, DrawContext};
+use crate::ui::shape::ShapeFactory;
+use crate::ui::shape::hexagon::HexagonShapeFactory;
+use crate::ui::shape::maze_mesh::MazeMesh;
+use crate::ui::shape::octagon::OctagonShapeFactory;
+use crate::ui::shape::square::SquareShapeFactory;
+use crate::ui::shape::triangle::TriangleShapeFactory;
 use macroquad::math::Vec2;
+use macroquad::models::Mesh;
+
+pub(crate) fn convert_to_maze_shape(
+    maze: &Maze,
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
+) -> ((u32, u32), MazeMesh) {
+    let shape_factory: Box<dyn ShapeFactory> = match draw_context.unit_shape {
+        UnitShape::Triangle => Box::new(TriangleShapeFactory::new(draw_context.zoom)),
+        UnitShape::Square => Box::new(SquareShapeFactory::new(draw_context.zoom)),
+        UnitShape::Hexagon => Box::new(HexagonShapeFactory::new(draw_context.zoom)),
+        UnitShape::Octagon => Box::new(OctagonShapeFactory::new(draw_context.zoom)),
+    };
+
+    (
+        shape_factory.dimension(maze.rows(), maze.cols()),
+        MazeMesh {
+            meshes: maze
+                .data
+                .iter()
+                .enumerate()
+                .map(|(row, row_data)| {
+                    row_data
+                        .iter()
+                        .enumerate()
+                        .map(|(col, &cell)| {
+                            let color = match cell {
+                                data if data == OPEN => color_context.color_open,
+                                data if data == BLOCK => color_context.color_block,
+                                data if data == VOID => color_context.color_bg,
+                                _ => color_context.color_bg,
+                            };
+                            shape_factory.shape(row, col, color)
+                        })
+                        .collect::<Vec<Mesh>>()
+                })
+                .collect::<Vec<Vec<Mesh>>>(),
+            shape_factory,
+        },
+    )
+}
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
     let mut data: MazeData;

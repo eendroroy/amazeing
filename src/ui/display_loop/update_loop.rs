@@ -1,9 +1,15 @@
-use crate::core::tiled::{BLOCK, Node, OPEN};
+use crate::core::tiled::{BLOCK, OPEN};
 use crate::ui::context::{ColorContext, DrawContext, ViewContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, get_node_from_mouse_pos};
+use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file};
+use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
 
-pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
+pub(crate) async fn update_loop(
+    shapes: &mut MazeMesh,
+    context: &ViewContext,
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
+) {
     let maze = &mut context.maze.clone();
 
     loop {
@@ -11,17 +17,18 @@ pub(crate) async fn update_loop(context: &ViewContext, draw_context: &DrawContex
 
         clear_background(color_context.color_bg);
 
-        draw_maze(draw_context, color_context, maze, None, None, (&vec![], None), false);
+        shapes.draw();
 
         if is_mouse_button_pressed(MouseButton::Left) {
-            let value = if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                BLOCK
+            let (value, color) = if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                (BLOCK, color_context.color_block)
             } else {
-                OPEN
+                (OPEN, color_context.color_open)
             };
 
-            if let Some(node) = get_node_from_mouse_pos(draw_context, Node::new(maze.rows(), maze.cols())) {
+            if let Some(node) = shapes.clicked_on(mouse_position()) {
                 maze[node] = value;
+                shapes[node] = shapes.shape_factory.shape(node.row, node.col, color)
             }
         }
 

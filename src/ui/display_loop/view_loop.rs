@@ -1,14 +1,20 @@
 use crate::ui::context::{ColorContext, DrawContext, ViewContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, draw_maze};
+use crate::ui::helper::{current_millis, delay_till_next_frame};
+use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
 
-pub(crate) async fn view_loop(context: &ViewContext, draw_context: &DrawContext, color_context: &ColorContext) {
+pub(crate) async fn view_loop(
+    shapes: MazeMesh,
+    context: &ViewContext,
+    draw_context: &DrawContext,
+    color_context: &ColorContext,
+) {
     loop {
         let current_frame_start_time = current_millis();
 
         clear_background(color_context.color_bg);
 
-        draw_maze(draw_context, color_context, &context.maze, None, None, (&vec![], None), false);
+        shapes.draw();
 
         if is_key_pressed(KeyCode::Q) {
             break;

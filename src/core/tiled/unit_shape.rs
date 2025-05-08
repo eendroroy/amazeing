@@ -37,6 +37,7 @@ impl FromStr for UnitShape {
             "triangle" => Ok(UnitShape::Triangle),
             "square" => Ok(UnitShape::Square),
             "hexagon" => Ok(UnitShape::Hexagon),
+            "octagon" => Ok(UnitShape::Octagon),
             _ => Err(format!("Unrecognized UnitShape: {}", s)),
         }
     }

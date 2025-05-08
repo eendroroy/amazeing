@@ -1,3 +1,4 @@
-pub mod context;
-pub mod display_loop;
-pub mod helper;
+pub(crate) mod context;
+pub(crate) mod display_loop;
+pub(crate) mod helper;
+pub(crate) mod shape;

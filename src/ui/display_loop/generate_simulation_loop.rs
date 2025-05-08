@@ -1,17 +1,17 @@
 use crate::command::ArgGenProcedure;
-use crate::core::tiled::{Node, Trace, Tracer};
+use crate::core::tiled::{Maze, Node, Rank, Trace, Tracer, VOID};
 use crate::ui::context::{ColorContext, CreateContext, DrawContext};
-use crate::ui::helper::{
-    add_source, current_millis, delay_till_next_frame, draw_maze, dump_maze_to_file, generate_maze,
-    generate_maze_tiles, populate_destination,
-};
+use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze, generate_maze_tiles};
+use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
 pub(crate) async fn generate_simulation_loop(
+    shapes: &mut MazeMesh,
+    maze: &mut Maze,
     context: &CreateContext,
     draw_context: &DrawContext,
-    color_context: &ColorContext,
+    colors: &ColorContext,
 ) {
     let mut maze = generate_maze_tiles(context.rows, context.cols, draw_context);
     let mut traversed = maze.clone();
@@ -20,53 +20,89 @@ pub(crate) async fn generate_simulation_loop(
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
-    let mut path: Trace = HashMap::new();
+    let mut current_path: Trace = HashMap::new();
 
     let mut trace_complete = false;
     let mut simulating = false;
     let mut paused = false;
 
-    let sources = &mut vec![];
+    let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
     loop {
         let current_frame_start_time = current_millis();
 
-        clear_background(color_context.color_bg);
+        clear_background(colors.color_bg);
+
+        shapes.draw();
 
         if simulating {
             if !paused && !trace_complete {
-                path = trace.remove(0);
+                current_path.iter().for_each(|node| {
+                    if sources.first().unwrap().ne(&node.0)
+                        && (destination.is_none() || destination.unwrap().ne(node.0))
+                    {
+                        shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_open)
+                    }
+                });
+                current_path = trace.remove(0);
                 if trace.is_empty() {
                     trace_complete = true;
                     simulating = false;
+                    current_path.iter().for_each(|node| {
+                        if sources.first().unwrap().ne(&node.0)
+                            && (destination.is_none() || destination.unwrap().ne(node.0))
+                        {
+                            shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_open)
+                        }
+                    });
+                } else {
+                    current_path.iter().for_each(|node| {
+                        if sources.first().unwrap().ne(&node.0)
+                            && (destination.is_none() || destination.unwrap().ne(node.0))
+                        {
+                            shapes[*node.0] = shapes.shape_factory.shape(
+                                node.0.row,
+                                node.0.col,
+                                *colors
+                                    .color_visiting_gradient
+                                    .get((Rank::MAX - node.1) as usize)
+                                    .unwrap_or(&colors.color_visiting),
+                            )
+                        }
+                    });
                 }
             }
-
-            draw_maze(
-                draw_context,
-                color_context,
-                &dummy_maze,
-                Some(&mut traversed),
-                Some(&path),
-                (sources, destination),
-                true,
-            );
 
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;
             }
-        } else if trace_complete {
-            draw_maze(draw_context, color_context, &maze, None, None, (sources, destination), false);
-        } else {
-            draw_maze(draw_context, color_context, &traversed, None, None, (sources, destination), false);
         }
 
         if !simulating && !trace_complete {
             if is_mouse_button_released(MouseButton::Left) {
-                add_source(draw_context, &maze, sources);
-                if context.procedure == ArgGenProcedure::AStar {
-                    populate_destination(draw_context, &maze, &mut destination)
+                if let Some(node) = shapes.clicked_on(mouse_position()) {
+                    if maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
+                        if sources.contains(&node) {
+                            if let Some(index) = sources.iter().position(|value| *value == node) {
+                                let node = sources.swap_remove(index);
+                                shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_block)
+                            }
+                        } else {
+                            sources.push(node);
+                            shapes[node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source)
+                        }
+                    } else if maze[node] != VOID
+                        && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
+                    {
+                        if let Some(dest) = destination {
+                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_block)
+                        }
+                        destination = Some(node);
+                        if let Some(dest) = destination {
+                            shapes[dest] = shapes.shape_factory.shape(dest.row, dest.col, colors.color_destination)
+                        }
+                    }
                 }
             }
 
