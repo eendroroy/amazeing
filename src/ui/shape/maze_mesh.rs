@@ -10,9 +10,7 @@ pub(crate) struct MazeMesh {
 
 impl MazeMesh {
     pub(crate) fn draw(&self) {
-        self.meshes
-            .iter()
-            .for_each(|row| row.iter().for_each(|cell| draw_mesh(&cell)));
+        self.meshes.iter().for_each(|row| row.iter().for_each(draw_mesh));
     }
 
     pub(crate) fn clicked_on(&self, (x, y): (f32, f32)) -> Option<Node> {
