@@ -58,7 +58,7 @@ pub(crate) async fn generate_loop(
             && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
         {
             generate_maze(maze, &draw_context.unit_shape, sources, destination, context, &mut None);
-            *shapes = convert_to_maze_shape(&maze, &draw_context, &colors).1;
+            *shapes = convert_to_maze_shape(maze, draw_context, colors).1;
             sources
                 .iter()
                 .for_each(|node| shapes[*node] = shapes.shape_factory.shape(node.row, node.col, colors.color_source));
@@ -77,7 +77,7 @@ pub(crate) async fn generate_loop(
 
             if is_key_pressed(KeyCode::S) {
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
-                    dump_maze_to_file(&maze_file_path, &maze);
+                    dump_maze_to_file(&maze_file_path, maze);
                 }
             }
         }

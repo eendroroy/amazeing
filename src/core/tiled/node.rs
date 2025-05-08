@@ -103,22 +103,6 @@ impl Node {
         self + (1, 1)
     }
 
-    pub fn surroundings(self) -> Vec<Node> {
-        [
-            Node::right,
-            Node::right_down,
-            Node::right_up,
-            Node::left,
-            Node::left_down,
-            Node::left_up,
-            Node::down,
-            Node::up,
-        ]
-        .iter()
-        .filter_map(|i| i(self))
-        .collect()
-    }
-
     pub fn neighbours(self, unit_shape: &UnitShape) -> Vec<Node> {
         match unit_shape {
             UnitShape::Triangle => match self.row % 4 {

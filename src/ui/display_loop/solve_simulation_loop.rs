@@ -35,7 +35,7 @@ pub(crate) async fn solve_simulation_loop(
         if simulating {
             if !paused && !trace_complete {
                 current_path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                    if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
                         shapes[*node.0] = shapes
                             .shape_factory
                             .shape(node.0.row, node.0.col, colors.color_traversed)
@@ -46,13 +46,13 @@ pub(crate) async fn solve_simulation_loop(
                 if trace.len() == trace_index {
                     trace_complete = true;
                     current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                        if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
                             shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_path)
                         }
                     });
                 } else {
                     current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(&node.0) && destination.unwrap().ne(node.0) {
+                        if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
                             shapes[*node.0] = shapes.shape_factory.shape(
                                 node.0.row,
                                 node.0.col,

@@ -7,7 +7,6 @@ pub struct DrawContext {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) zoom: f32,
-    pub(crate) size: f32,
     pub(crate) maze_shape: MazeShape,
     pub(crate) unit_shape: UnitShape,
     pub(crate) unit_height: f32,
@@ -28,72 +27,12 @@ impl DrawContext {
             margin,
             border,
             zoom,
-            size,
             maze_shape,
             unit_shape,
             unit_height,
             unit_width,
             fps,
         }
-    }
-
-    pub fn screen_size(&self, rows: usize, cols: usize) -> (u32, u32) {
-        let (blocks_width, blocks_height) = (cols as f32 * self.unit_width, rows as f32 * self.unit_height);
-        let (borders_width, borders_height) = ((cols - 1) as f32 * self.border, (rows - 1) as f32 * self.border);
-        let (margin_width, margin_height) = (self.margin * 2., self.margin * 2.);
-
-        let (screen_width, screen_height) =
-            (blocks_width + borders_width + margin_width, blocks_height + borders_height + margin_height);
-
-        match (self.maze_shape, self.unit_shape) {
-            (MazeShape::Rectangle, UnitShape::Hexagon) => {
-                ((screen_width + self.unit_width / 2. + self.border) as u32, screen_height as u32)
-            }
-            (_, UnitShape::Triangle) => (
-                (screen_width + self.unit_width / 2. + self.border) as u32,
-                ((blocks_height + borders_height) / 2. + margin_height) as u32,
-            ),
-            (MazeShape::Circle, UnitShape::Hexagon) => {
-                ((screen_width + self.unit_width + self.border) as u32, screen_height as u32)
-            }
-            _ => (screen_width as u32, screen_height as u32),
-        }
-    }
-
-    pub fn x(&self, node: Node) -> f32 {
-        match self.unit_shape {
-            UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
-            UnitShape::Square => self.margin + node.col as f32 * (self.size + self.border),
-            UnitShape::Hexagon => {
-                self.margin
-                    + self.size
-                    + (node.col as f32 * self.unit_width)
-                    + self.border * node.col as f32
-                    + self.s(node.row)
-            }
-            UnitShape::Octagon => {
-                self.margin + self.size + (node.col as f32 * self.unit_width) + self.border * node.col as f32
-                    - self.unit_width / 2.
-            }
-        }
-    }
-
-    pub fn y(&self, node: Node) -> f32 {
-        match self.unit_shape {
-            UnitShape::Triangle => panic!("method x() not applicable for triangular shape"),
-            UnitShape::Square => self.margin + node.row as f32 * (self.size + self.border),
-            UnitShape::Hexagon => {
-                self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
-            }
-            UnitShape::Octagon => {
-                self.margin + self.size + (node.row as f32 * self.unit_height) + self.border * node.row as f32
-                    - self.unit_height / 2.
-            }
-        }
-    }
-
-    pub fn s(&self, m: usize) -> f32 {
-        if m % 2 == 1 { (self.unit_width + self.border) / 2.0 } else { 0. }
     }
 
     pub fn t_vertexes(&self, node: &Node) -> (Vec2, Vec2, Vec2) {

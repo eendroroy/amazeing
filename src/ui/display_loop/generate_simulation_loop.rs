@@ -1,7 +1,7 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Maze, Node, Rank, Trace, Tracer, VOID};
 use crate::ui::context::{ColorContext, CreateContext, DrawContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze, generate_maze_tiles};
+use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
 use crate::ui::shape::maze_mesh::MazeMesh;
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -13,10 +13,6 @@ pub(crate) async fn generate_simulation_loop(
     draw_context: &DrawContext,
     colors: &ColorContext,
 ) {
-    let mut maze = generate_maze_tiles(context.rows, context.cols, draw_context);
-    let mut traversed = maze.clone();
-    let dummy_maze = maze.clone();
-
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
@@ -39,8 +35,7 @@ pub(crate) async fn generate_simulation_loop(
         if simulating {
             if !paused && !trace_complete {
                 current_path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(&node.0)
-                        && (destination.is_none() || destination.unwrap().ne(node.0))
+                    if sources.first().unwrap().ne(node.0) && (destination.is_none() || destination.unwrap().ne(node.0))
                     {
                         shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_open)
                     }
@@ -50,7 +45,7 @@ pub(crate) async fn generate_simulation_loop(
                     trace_complete = true;
                     simulating = false;
                     current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(&node.0)
+                        if sources.first().unwrap().ne(node.0)
                             && (destination.is_none() || destination.unwrap().ne(node.0))
                         {
                             shapes[*node.0] = shapes.shape_factory.shape(node.0.row, node.0.col, colors.color_open)
@@ -58,7 +53,7 @@ pub(crate) async fn generate_simulation_loop(
                     });
                 } else {
                     current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(&node.0)
+                        if sources.first().unwrap().ne(node.0)
                             && (destination.is_none() || destination.unwrap().ne(node.0))
                         {
                             shapes[*node.0] = shapes.shape_factory.shape(
@@ -109,9 +104,9 @@ pub(crate) async fn generate_simulation_loop(
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
             {
-                generate_maze(&mut maze, &draw_context.unit_shape, sources, destination, context, &mut tracer);
+                generate_maze(maze, &draw_context.unit_shape, sources, destination, context, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
-                    dump_maze_to_file(&maze_file_path, &maze);
+                    dump_maze_to_file(&maze_file_path, maze);
                 }
                 trace = tracer.clone().unwrap();
                 simulating = true;
