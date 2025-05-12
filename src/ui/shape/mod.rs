@@ -9,7 +9,7 @@ pub(crate) mod octagon;
 pub(crate) mod square;
 pub(crate) mod triangle;
 
-pub(crate) trait ShapeFactory: Send + Sync {
+pub(crate) trait UnitShapeFactory: Send + Sync {
     fn new(zoom: f32) -> Self
     where
         Self: Sized;

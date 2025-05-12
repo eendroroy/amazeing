@@ -1,10 +1,10 @@
-use crate::ui::shape::{BORDER, MARGIN, RADIUS, ShapeFactory};
+use crate::ui::shape::{BORDER, MARGIN, RADIUS, UnitShapeFactory};
 use std::f32::consts::PI;
 
 const SIDES: f32 = 8.;
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct OctagonShapeFactory {
+pub(crate) struct OctagonUnitShapeFactory {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) radius: f32,
@@ -12,7 +12,7 @@ pub(crate) struct OctagonShapeFactory {
     pub(crate) height: f32,
 }
 
-impl ShapeFactory for OctagonShapeFactory {
+impl UnitShapeFactory for OctagonUnitShapeFactory {
     fn new(zoom: f32) -> Self {
         let width = (PI / SIDES).cos() * RADIUS * 2. * zoom;
         let height = (PI / SIDES).cos() * RADIUS * 2. * zoom;

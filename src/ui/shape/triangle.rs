@@ -1,10 +1,10 @@
-use crate::ui::shape::{BORDER, MARGIN, RADIUS, ShapeFactory};
+use crate::ui::shape::{BORDER, MARGIN, RADIUS, UnitShapeFactory};
 use std::f32::consts::PI;
 
 const SIDES: f32 = 3.;
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct TriangleShapeFactory {
+pub(crate) struct TriangleUnitShapeFactory {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) radius: f32,
@@ -12,7 +12,7 @@ pub(crate) struct TriangleShapeFactory {
     pub(crate) height: f32,
 }
 
-impl ShapeFactory for TriangleShapeFactory {
+impl UnitShapeFactory for TriangleUnitShapeFactory {
     fn new(zoom: f32) -> Self {
         let width = (PI / SIDES).sin() * RADIUS * 2. * zoom;
         let height = (PI / SIDES).cos() * RADIUS * zoom + RADIUS * zoom;
