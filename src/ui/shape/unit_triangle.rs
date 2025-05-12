@@ -70,13 +70,10 @@ impl UnitShapeFactory for TriangleUnitShapeFactory {
             }
     }
 
-    fn dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
+    fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
-            (self.margin() * 2.0
-                + cols as f32 * self.width()
-                + (cols - 1) as f32 * self.border()
-                + (self.width + self.border) / 2.0) as u32,
-            (self.margin() * 2.0 + rows as f32 * self.height() / 2.0 + (rows / 2) as f32 * self.border()) as u32,
+            (cols as f32 * self.width() + (cols - 1) as f32 * self.border() + (self.width + self.border) / 2.0) as u32,
+            (rows as f32 * self.height() / 2.0 + (rows / 2) as f32 * self.border()) as u32,
         )
     }
 }
