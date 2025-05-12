@@ -1,11 +1,9 @@
 use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, OPEN, UnitShape, VOID};
 use crate::ui::context::{ColorContext, DrawContext};
-use crate::ui::shape::UnitShapeFactory;
-use crate::ui::shape::hexagon::HexagonUnitShapeFactory;
-use crate::ui::shape::maze_mesh::MazeMesh;
-use crate::ui::shape::octagon::OctagonUnitShapeFactory;
-use crate::ui::shape::square::SquareUnitShapeFactory;
-use crate::ui::shape::triangle::TriangleUnitShapeFactory;
+use crate::ui::shape::{
+    HexagonUnitShapeFactory, MazeMesh, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory,
+    UnitShapeFactory,
+};
 use macroquad::math::Vec2;
 use macroquad::models::Mesh;
 

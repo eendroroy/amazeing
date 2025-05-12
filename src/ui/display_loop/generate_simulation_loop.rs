@@ -2,7 +2,7 @@ use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Maze, Node, Trace, Tracer, VOID};
 use crate::ui::context::{ColorContext, CreateContext, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
-use crate::ui::shape::maze_mesh::MazeMesh;
+use crate::ui::shape::MazeMesh;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
