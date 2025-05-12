@@ -1,11 +1,11 @@
 use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, OPEN, UnitShape, VOID};
 use crate::ui::context::{ColorContext, DrawContext};
-use crate::ui::shape::ShapeFactory;
-use crate::ui::shape::hexagon::HexagonShapeFactory;
+use crate::ui::shape::UnitShapeFactory;
+use crate::ui::shape::hexagon::HexagonUnitShapeFactory;
 use crate::ui::shape::maze_mesh::MazeMesh;
-use crate::ui::shape::octagon::OctagonShapeFactory;
-use crate::ui::shape::square::SquareShapeFactory;
-use crate::ui::shape::triangle::TriangleShapeFactory;
+use crate::ui::shape::octagon::OctagonUnitShapeFactory;
+use crate::ui::shape::square::SquareUnitShapeFactory;
+use crate::ui::shape::triangle::TriangleUnitShapeFactory;
 use macroquad::math::Vec2;
 use macroquad::models::Mesh;
 
@@ -14,11 +14,11 @@ pub(crate) fn convert_to_maze_shape(
     draw_context: &DrawContext,
     color_context: &ColorContext,
 ) -> ((u32, u32), MazeMesh) {
-    let shape_factory: Box<dyn ShapeFactory> = match draw_context.unit_shape {
-        UnitShape::Triangle => Box::new(TriangleShapeFactory::new(draw_context.zoom)),
-        UnitShape::Square => Box::new(SquareShapeFactory::new(draw_context.zoom)),
-        UnitShape::Hexagon => Box::new(HexagonShapeFactory::new(draw_context.zoom)),
-        UnitShape::Octagon => Box::new(OctagonShapeFactory::new(draw_context.zoom)),
+    let shape_factory: Box<dyn UnitShapeFactory> = match draw_context.unit_shape {
+        UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(draw_context.zoom)),
+        UnitShape::Square => Box::new(SquareUnitShapeFactory::new(draw_context.zoom)),
+        UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(draw_context.zoom)),
+        UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(draw_context.zoom)),
     };
 
     let meshes = maze

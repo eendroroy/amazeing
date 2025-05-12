@@ -1,10 +1,10 @@
-use crate::ui::shape::{BORDER, MARGIN, RADIUS, ShapeFactory};
+use crate::ui::shape::{BORDER, MARGIN, RADIUS, UnitShapeFactory};
 use std::f32::consts::PI;
 
 const SIDES: f32 = 6.;
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct HexagonShapeFactory {
+pub(crate) struct HexagonUnitShapeFactory {
     pub(crate) margin: f32,
     pub(crate) border: f32,
     pub(crate) radius: f32,
@@ -12,7 +12,7 @@ pub(crate) struct HexagonShapeFactory {
     pub(crate) height: f32,
 }
 
-impl ShapeFactory for HexagonShapeFactory {
+impl UnitShapeFactory for HexagonUnitShapeFactory {
     fn new(zoom: f32) -> Self {
         let width = (PI / SIDES).cos() * RADIUS * zoom * 2.;
         let height = RADIUS * zoom * (1. + (PI / SIDES).sin());
