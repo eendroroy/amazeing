@@ -61,14 +61,10 @@ impl UnitShapeFactory for HexagonUnitShapeFactory {
         self.radius * (1. - (PI / SIDES).sin()) / 2.
     }
 
-    fn dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
+    fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
-            (2. * self.margin()
-                + cols as f32 * self.width()
-                + (cols - 1) as f32 * self.border()
-                + (self.width() + self.border) / 2.) as u32,
-            (2. * self.margin()
-                + rows as f32 * self.height()
+            (cols as f32 * self.width() + (cols - 1) as f32 * self.border() + (self.width() + self.border) / 2.) as u32,
+            (rows as f32 * self.height()
                 + (rows - 1) as f32 * self.border()
                 + (self.radius * (1. - (PI / SIDES).sin()))) as u32,
         )
