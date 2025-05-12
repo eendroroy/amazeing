@@ -1,7 +1,7 @@
 use crate::core::tiled::{Node, OPEN, Trace, Tracer};
 use crate::ui::context::{ColorContext, DrawContext, SolveContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
-use crate::ui::shape::maze_mesh::MazeMesh;
+use crate::ui::shape::MazeMesh;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
