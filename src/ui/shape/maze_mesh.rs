@@ -1,4 +1,5 @@
 use crate::core::tiled::Node;
+use crate::ui::helper::is_point_in_triangle;
 use macroquad::models::{Mesh, draw_mesh};
 use macroquad::prelude::Color;
 use std::ops::{Index, IndexMut};
@@ -33,47 +34,23 @@ impl MazeMesh {
     }
 
     fn is_point_in_mesh(&self, mesh: &Mesh, x: f32, y: f32) -> bool {
-        // Use the shape factory to delegate the point-in-shape test based on shape type
-        let point = (x, y);
-
-        // Extract vertices from the mesh
         let vertices = &mesh.vertices;
         let indices = &mesh.indices;
 
-        // For triangulated meshes, we need to check if the point is inside any of the triangles
         if indices.len() >= 3 {
             for i in (0..indices.len()).step_by(3) {
-                if i + 2 < indices.len() {
-                    let v1 = (vertices[indices[i] as usize].position.x, vertices[indices[i] as usize].position.y);
-                    let v2 =
-                        (vertices[indices[i + 1] as usize].position.x, vertices[indices[i + 1] as usize].position.y);
-                    let v3 =
-                        (vertices[indices[i + 2] as usize].position.x, vertices[indices[i + 2] as usize].position.y);
-
-                    if self.is_point_in_triangle(point, v1, v2, v3) {
-                        return true;
-                    }
+                if i + 2 < indices.len() && is_point_in_triangle(
+                        (x, y),
+                        (vertices[indices[i] as usize].position.x, vertices[indices[i] as usize].position.y),
+                        (vertices[indices[i + 1] as usize].position.x, vertices[indices[i + 1] as usize].position.y),
+                        (vertices[indices[i + 2] as usize].position.x, vertices[indices[i + 2] as usize].position.y),
+                    ) {
+                    return true;
                 }
             }
         }
 
         false
-    }
-
-    fn is_point_in_triangle(&self, p: (f32, f32), v1: (f32, f32), v2: (f32, f32), v3: (f32, f32)) -> bool {
-        // Compute barycentric coordinates
-        let d1 = self.sign(p, v1, v2);
-        let d2 = self.sign(p, v2, v3);
-        let d3 = self.sign(p, v3, v1);
-
-        let has_neg = (d1 < 0.0) || (d2 < 0.0) || (d3 < 0.0);
-        let has_pos = (d1 > 0.0) || (d2 > 0.0) || (d3 > 0.0);
-
-        !(has_neg && has_pos)
-    }
-
-    fn sign(&self, p1: (f32, f32), p2: (f32, f32), p3: (f32, f32)) -> f32 {
-        (p1.0 - p3.0) * (p2.1 - p3.1) - (p2.0 - p3.0) * (p1.1 - p3.1)
     }
 }
 
