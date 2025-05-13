@@ -4,7 +4,7 @@ use crate::ui::helper::gradient;
 use macroquad::prelude::Color;
 
 #[derive(Debug, Clone)]
-pub struct ColorContext {
+pub struct Colors {
     pub(crate) color_bg: Color,
     pub(crate) color_block: Color,
     pub(crate) color_open: Color,
@@ -16,7 +16,7 @@ pub struct ColorContext {
     pub(crate) color_traversed: Color,
 }
 
-impl ColorContext {
+impl Colors {
     pub fn new(steps: usize) -> Self {
         Self {
             color_bg: Color::from_hex(0x00202e),
@@ -49,7 +49,9 @@ impl ColorContext {
         }
     }
 
-    pub fn shed_color(&self, rank: &Rank) -> Option<&Color> {
-        self.color_visiting_gradient.get((Rank::MAX - rank) as usize)
+    pub fn shed_color(&self, rank: &Rank) -> &Color {
+        self.color_visiting_gradient
+            .get((Rank::MAX - rank) as usize)
+            .unwrap_or(&self.color_visiting)
     }
 }

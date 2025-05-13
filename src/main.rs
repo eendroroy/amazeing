@@ -3,11 +3,12 @@ mod core;
 mod ui;
 
 use crate::command::ArgCommand::{Create, Solve, View};
-use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
+use crate::command::{get_contexts, AmazeingArgs, CreateArgs, SolveArgs, ViewArgs};
 use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
-use crate::ui::helper::{convert_to_maze_shape, generate_maze_tiles};
+use crate::ui::helper::generate_maze_tiles;
+use crate::ui::shape::MazeScene;
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
@@ -21,40 +22,40 @@ async fn main() {
         Create(CreateArgs { verbose: false, .. }) => {
             let ctx = amz_ctx.0.unwrap();
             let mut maze = generate_maze_tiles(ctx.rows, ctx.cols, &draw_context);
-            let (dimension, mut shapes) = convert_to_maze_shape(&maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            generate_loop(&mut shapes, &mut maze, &ctx, &draw_context, &color_context).await
+            let mut scene = MazeScene::new(&maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            generate_loop(&mut scene, &mut maze, &ctx, &draw_context, &color_context).await
         }
         Create(CreateArgs { verbose: true, .. }) => {
             let ctx = amz_ctx.0.unwrap();
             let mut maze = generate_maze_tiles(ctx.rows, ctx.cols, &draw_context);
-            let (dimension, mut shapes) = convert_to_maze_shape(&maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            generate_simulation_loop(&mut shapes, &mut maze, &ctx, &draw_context, &color_context).await
+            let mut scene = MazeScene::new(&maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            generate_simulation_loop(&mut scene, &mut maze, &ctx, &draw_context, &color_context).await
         }
         View(ViewArgs { update: false, .. }) => {
             let ctx = amz_ctx.1.unwrap();
-            let (dimension, shapes) = convert_to_maze_shape(&ctx.maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            view_loop(shapes, &ctx, &draw_context, &color_context).await
+            let scene = MazeScene::new(&ctx.maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            view_loop(scene, &ctx, &draw_context, &color_context).await
         }
         View(ViewArgs { update: true, .. }) => {
             let ctx = amz_ctx.1.unwrap();
-            let (dimension, mut shapes) = convert_to_maze_shape(&ctx.maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            update_loop(&mut shapes, &ctx, &draw_context, &color_context).await
+            let mut scene = MazeScene::new(&ctx.maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            update_loop(&mut scene, &ctx, &draw_context, &color_context).await
         }
         Solve(SolveArgs { verbose: false, .. }) => {
             let ctx = amz_ctx.2.unwrap();
-            let (dimension, mut shapes) = convert_to_maze_shape(&ctx.maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            solve_loop(&mut shapes, &ctx, &draw_context, &color_context).await
+            let mut scene = MazeScene::new(&ctx.maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            solve_loop(&mut scene, &ctx, &draw_context, &color_context).await
         }
         Solve(SolveArgs { verbose: true, .. }) => {
             let ctx = amz_ctx.2.unwrap();
-            let (dimension, mut shapes) = convert_to_maze_shape(&ctx.maze, &draw_context, &color_context);
-            set_screen_size(dimension);
-            solve_simulation_loop(&mut shapes, &ctx, &draw_context, &color_context).await
+            let mut scene = MazeScene::new(&ctx.maze, draw_context.unit_shape, draw_context.zoom, &color_context);
+            set_screen_size(scene.dimension);
+            solve_simulation_loop(&mut scene, &ctx, &draw_context, &color_context).await
         }
     }
 }

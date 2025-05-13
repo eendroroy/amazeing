@@ -1,14 +1,14 @@
 use crate::core::tiled::{Node, OPEN};
-use crate::ui::context::{ColorContext, DrawContext, SolveContext};
+use crate::ui::context::{Colors, DrawContext, SolveContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
-use crate::ui::shape::MazeMesh;
+use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn solve_loop(
-    shapes: &mut MazeMesh,
+    shapes: &mut MazeScene,
     context: &SolveContext,
     draw_context: &DrawContext,
-    colors: &ColorContext,
+    colors: &Colors,
 ) {
     let maze = &context.maze;
     let sources = &mut vec![];

@@ -1,14 +1,14 @@
 use crate::core::tiled::{BLOCK, OPEN};
-use crate::ui::context::{ColorContext, DrawContext, ViewContext};
+use crate::ui::context::{Colors, DrawContext, ViewContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file};
-use crate::ui::shape::MazeMesh;
+use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(
-    shapes: &mut MazeMesh,
+    shapes: &mut MazeScene,
     context: &ViewContext,
     draw_context: &DrawContext,
-    color_context: &ColorContext,
+    color_context: &Colors,
 ) {
     let maze = &mut context.maze.clone();
 
