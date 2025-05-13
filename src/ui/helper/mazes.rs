@@ -1,7 +1,5 @@
-use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
+use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, UnitShape, VOID};
 use crate::ui::context::DrawContext;
-use crate::ui::shape::UnitShapeFactory;
-use macroquad::math::Vec2;
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
     let mut data: MazeData;
@@ -91,23 +89,24 @@ fn set_circle_hexagon_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
     }
 }
 
-fn set_circle_triangle_perimeter(data: &mut MazeData, draw_ctx: &DrawContext) {
-    fn get_centre(v: (Vec2, Vec2, Vec2)) -> (f32, f32) {
-        ((v.0.x + v.1.x + v.2.x) / 3., (v.0.y + v.1.y + v.2.y) / 3.)
-    }
-
-    let node = Node::new(data.len() - 1, data.first().unwrap().len() - 1);
-    let centre = get_centre(draw_ctx.t_vertexes(&node.center()));
-    for (r, row) in data.iter_mut().enumerate() {
-        for (c, col) in row.iter_mut().enumerate() {
-            if let Some(node) = node.at(r, c) {
-                let node_pos = get_centre(draw_ctx.t_vertexes(&node));
-                let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
-
-                if distance < centre.0 {
-                    *col = BLOCK;
-                }
-            }
-        }
-    }
+fn set_circle_triangle_perimeter(_data: &mut MazeData, _draw_ctx: &DrawContext) {
+    unimplemented!()
+    // fn get_centre(v: (Vec2, Vec2, Vec2)) -> (f32, f32) {
+    //     ((v.0.x + v.1.x + v.2.x) / 3., (v.0.y + v.1.y + v.2.y) / 3.)
+    // }
+    //
+    // let node = Node::new(data.len() - 1, data.first().unwrap().len() - 1);
+    // let centre = get_centre(draw_ctx.t_vertexes(&node.center()));
+    // for (r, row) in data.iter_mut().enumerate() {
+    //     for (c, col) in row.iter_mut().enumerate() {
+    //         if let Some(node) = node.at(r, c) {
+    //             let node_pos = get_centre(draw_ctx.t_vertexes(&node));
+    //             let distance = ((node_pos.0 - centre.0).powf(2.) + (node_pos.1 - centre.1).powf(2.)).sqrt();
+    //
+    //             if distance < centre.0 {
+    //                 *col = BLOCK;
+    //             }
+    //         }
+    //     }
+    // }
 }

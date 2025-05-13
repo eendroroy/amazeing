@@ -63,14 +63,6 @@ impl Node {
         }
     }
 
-    pub fn center(&self) -> Self {
-        Self {
-            row: self.rows / 2,
-            col: self.cols / 2,
-            ..*self
-        }
-    }
-
     pub fn left(self) -> Option<Self> {
         self - (0, 1)
     }
