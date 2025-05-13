@@ -167,7 +167,7 @@ pub struct SolveArgs {
     pub procedure: ArgSolveProcedure,
 
     /// Heuristic function (to use with AStar)
-    #[clap(long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
+    #[clap(long, short = 'H', default_value_t = ArgHeuristic::default(), required_if_eq("procedure", "a-star"))]
     pub heuristic_function: ArgHeuristic,
 
     /// Show a simulation of the solving process
@@ -217,10 +217,11 @@ impl Display for ArgWeightDirection {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgSolveProcedure {
     #[clap(alias = "b")]
     Bfs,
+    #[default]
     #[clap(alias = "d")]
     Dfs,
     #[clap(alias = "a")]
@@ -237,10 +238,11 @@ impl Display for ArgSolveProcedure {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgGenProcedure {
     #[clap(alias = "b")]
     Bfs,
+    #[default]
     #[clap(alias = "d")]
     Dfs,
     #[clap(alias = "a")]
@@ -257,7 +259,7 @@ impl Display for ArgGenProcedure {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, ValueEnum)]
+#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum ArgHeuristic {
     #[clap(alias = "m")]
     Manhattan,
@@ -267,6 +269,7 @@ pub enum ArgHeuristic {
     Chebyshev,
     #[clap(alias = "o")]
     Octile,
+    #[default]
     #[clap(alias = "dj")]
     Dijkstra,
 }

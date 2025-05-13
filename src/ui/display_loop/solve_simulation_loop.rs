@@ -1,5 +1,5 @@
-use crate::core::tiled::{Node, Trace, Tracer, OPEN};
-use crate::ui::context::{Colors, DrawContext, SolveContext};
+use crate::core::tiled::{Node, OPEN, Trace, Tracer};
+use crate::ui::context::{AmazeingContext, Colors, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
 use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 pub(crate) async fn solve_simulation_loop(
     shapes: &mut MazeScene,
-    context: &SolveContext,
+    context: &AmazeingContext,
     draw_context: &DrawContext,
     colors: &Colors,
 ) {
@@ -92,7 +92,7 @@ pub(crate) async fn solve_simulation_loop(
                 &draw_context.unit_shape,
                 *sources.first().unwrap(),
                 destination.unwrap(),
-                &context.procedure.clone(),
+                &context.solve_procedure.clone(),
                 context.heuristic,
                 &mut tracer,
             );

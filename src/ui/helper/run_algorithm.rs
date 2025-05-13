@@ -3,7 +3,7 @@ use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
     DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, UnitShape, generator, solver,
 };
-use crate::ui::context::CreateContext;
+use crate::ui::context::AmazeingContext;
 
 pub(crate) fn solve_maze(
     maze: &Maze,
@@ -26,10 +26,10 @@ pub(crate) fn generate_maze(
     unit_shape: &UnitShape,
     sources: &[Node],
     destination: Option<Node>,
-    context: &CreateContext,
+    context: &AmazeingContext,
     tracer: &mut Option<Tracer>,
 ) {
-    match context.procedure {
+    match context.generation_procedure {
         ArgGenProcedure::Bfs => generator::bfs(maze, unit_shape, sources, tracer),
         ArgGenProcedure::Dfs => generator::dfs(maze, unit_shape, sources, tracer),
         ArgGenProcedure::AStar => {
