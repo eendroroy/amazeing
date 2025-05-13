@@ -1,18 +1,16 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Maze, Node, VOID};
-use crate::ui::context::{ColorContext, CreateContext, DrawContext};
-use crate::ui::helper::{
-    convert_to_maze_shape, current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze,
-};
-use crate::ui::shape::MazeMesh;
+use crate::ui::context::{Colors, CreateContext, DrawContext};
+use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
+use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn generate_loop(
-    shapes: &mut MazeMesh,
+    shapes: &mut MazeScene,
     maze: &mut Maze,
     context: &CreateContext,
     draw_context: &DrawContext,
-    colors: &ColorContext,
+    colors: &Colors,
 ) {
     let sources = &mut vec![];
     let mut destination: Option<Node> = None;
@@ -58,7 +56,7 @@ pub(crate) async fn generate_loop(
             && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
         {
             generate_maze(maze, &draw_context.unit_shape, sources, destination, context, &mut None);
-            *shapes = convert_to_maze_shape(maze, draw_context, colors).1;
+            *shapes = MazeScene::new(maze, draw_context.unit_shape, draw_context.zoom, colors);
             sources
                 .iter()
                 .for_each(|node| shapes.update_color(*node, colors.color_source));

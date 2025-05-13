@@ -1,17 +1,17 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Maze, Node, Trace, Tracer, VOID};
-use crate::ui::context::{ColorContext, CreateContext, DrawContext};
+use crate::ui::context::{Colors, CreateContext, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
-use crate::ui::shape::MazeMesh;
+use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
 pub(crate) async fn generate_simulation_loop(
-    shapes: &mut MazeMesh,
+    shapes: &mut MazeScene,
     maze: &mut Maze,
     context: &CreateContext,
     draw_context: &DrawContext,
-    colors: &ColorContext,
+    colors: &Colors,
 ) {
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
@@ -56,7 +56,7 @@ pub(crate) async fn generate_simulation_loop(
                         if sources.first().unwrap().ne(node.0)
                             && (destination.is_none() || destination.unwrap().ne(node.0))
                         {
-                            shapes.update_color(*node.0, *colors.shed_color(node.1).unwrap_or(&colors.color_visiting))
+                            shapes.update_color(*node.0, *colors.shed_color(node.1))
                         }
                     });
                 }

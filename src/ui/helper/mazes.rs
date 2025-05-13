@@ -1,47 +1,7 @@
-use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, OPEN, UnitShape, VOID};
-use crate::ui::context::{ColorContext, DrawContext};
-use crate::ui::shape::{
-    HexagonUnitShapeFactory, MazeMesh, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory,
-    UnitShapeFactory,
-};
+use crate::core::tiled::{Maze, MazeData, MazeShape, Node, UnitShape, BLOCK, VOID};
+use crate::ui::context::DrawContext;
+use crate::ui::shape::UnitShapeFactory;
 use macroquad::math::Vec2;
-use macroquad::models::Mesh;
-
-pub(crate) fn convert_to_maze_shape(
-    maze: &Maze,
-    draw_context: &DrawContext,
-    color_context: &ColorContext,
-) -> ((u32, u32), MazeMesh) {
-    let shape_factory: Box<dyn UnitShapeFactory> = match draw_context.unit_shape {
-        UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(draw_context.zoom)),
-        UnitShape::Square => Box::new(SquareUnitShapeFactory::new(draw_context.zoom)),
-        UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(draw_context.zoom)),
-        UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(draw_context.zoom)),
-    };
-
-    let meshes = maze
-        .data
-        .iter()
-        .enumerate()
-        .map(|(row, row_data)| {
-            row_data
-                .iter()
-                .enumerate()
-                .map(|(col, &cell)| {
-                    let color = match cell {
-                        data if data == OPEN => color_context.color_open,
-                        data if data == BLOCK => color_context.color_block,
-                        data if data == VOID => color_context.color_bg,
-                        _ => color_context.color_bg,
-                    };
-                    shape_factory.shape(row, col, color)
-                })
-                .collect::<Vec<Mesh>>()
-        })
-        .collect::<Vec<Vec<Mesh>>>();
-
-    (shape_factory.dimension(maze.rows(), maze.cols()), MazeMesh { meshes })
-}
 
 pub(crate) fn generate_maze_tiles(rows: usize, cols: usize, draw_ctx: &DrawContext) -> Maze {
     let mut data: MazeData;

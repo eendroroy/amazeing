@@ -1,9 +1,9 @@
 use crate::command::{AmazeingArgs, ArgCommand, ArgMazeShape};
 use crate::core::tiled::{MazeShape, UnitShape};
-use crate::ui::context::{ColorContext, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
+use crate::ui::context::{Colors, ColorScheme, CreateContext, DrawContext, SolveContext, ViewContext};
 use crate::ui::helper::load_maze_from_file;
 
-type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, ColorContext);
+type GetContextRet = ((Option<CreateContext>, Option<ViewContext>, Option<SolveContext>), DrawContext, Colors);
 static GRADIENT_STEPS: fn(usize, usize) -> usize = |r, c| ((r + c) as f32 * 0.25).clamp(8., 64.) as usize;
 
 pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
@@ -95,9 +95,9 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> GetContextRet {
     }
 
     let colors = if let Some(path) = amazeing_args.colors {
-        ColorContext::from(ColorScheme::from(path.as_path()), gradient_steps)
+        Colors::from(ColorScheme::from(path.as_path()), gradient_steps)
     } else {
-        ColorContext::new(gradient_steps)
+        Colors::new(gradient_steps)
     };
 
     (amz_ctx, dr_ctx, colors)

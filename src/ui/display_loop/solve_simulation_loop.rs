@@ -1,15 +1,15 @@
-use crate::core::tiled::{Node, OPEN, Trace, Tracer};
-use crate::ui::context::{ColorContext, DrawContext, SolveContext};
+use crate::core::tiled::{Node, Trace, Tracer, OPEN};
+use crate::ui::context::{Colors, DrawContext, SolveContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
-use crate::ui::shape::MazeMesh;
+use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
 pub(crate) async fn solve_simulation_loop(
-    shapes: &mut MazeMesh,
+    shapes: &mut MazeScene,
     context: &SolveContext,
     draw_context: &DrawContext,
-    colors: &ColorContext,
+    colors: &Colors,
 ) {
     let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
@@ -17,7 +17,7 @@ pub(crate) async fn solve_simulation_loop(
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
-    let mut current_path: Trace = HashMap::new();
+    let mut current_trace: Trace = HashMap::new();
 
     let mut trace_complete = false;
     let mut simulating = false;
@@ -34,24 +34,24 @@ pub(crate) async fn solve_simulation_loop(
 
         if simulating {
             if !paused && !trace_complete {
-                current_path.iter().for_each(|(node, _)| {
+                current_trace.iter().for_each(|(node, _)| {
                     if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
                         shapes.update_color(*node, colors.color_traversed)
                     }
                 });
-                current_path = trace.get(trace_index).unwrap().clone();
+                current_trace = trace.get(trace_index).unwrap().clone();
                 trace_index += 1;
                 if trace.len() == trace_index {
                     trace_complete = true;
-                    current_path.iter().for_each(|node| {
+                    current_trace.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
                             shapes.update_color(*node.0, colors.color_path)
                         }
                     });
                 } else {
-                    current_path.iter().for_each(|node| {
+                    current_trace.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            shapes.update_color(*node.0, *colors.shed_color(node.1).unwrap_or(&colors.color_visiting))
+                            shapes.update_color(*node.0, *colors.shed_color(node.1))
                         }
                     });
                 }
