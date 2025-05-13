@@ -1,6 +1,6 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Maze, Node, VOID};
-use crate::ui::context::{Colors, CreateContext, DrawContext};
+use crate::ui::context::{AmazeingContext, Colors, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
 use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
@@ -8,7 +8,7 @@ use macroquad::prelude::*;
 pub(crate) async fn generate_loop(
     shapes: &mut MazeScene,
     maze: &mut Maze,
-    context: &CreateContext,
+    context: &AmazeingContext,
     draw_context: &DrawContext,
     colors: &Colors,
 ) {
@@ -53,7 +53,7 @@ pub(crate) async fn generate_loop(
 
         if !generated
             && (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-            && (context.procedure != ArgGenProcedure::AStar || destination.is_some())
+            && (context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
         {
             generate_maze(maze, &draw_context.unit_shape, sources, destination, context, &mut None);
             *shapes = MazeScene::new(maze, draw_context.unit_shape, draw_context.zoom, colors);

@@ -1,12 +1,12 @@
 use crate::core::tiled::{BLOCK, OPEN};
-use crate::ui::context::{Colors, DrawContext, ViewContext};
+use crate::ui::context::{AmazeingContext, Colors, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file};
 use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(
     shapes: &mut MazeScene,
-    context: &ViewContext,
+    context: &AmazeingContext,
     draw_context: &DrawContext,
     color_context: &Colors,
 ) {
@@ -38,7 +38,9 @@ pub(crate) async fn update_loop(
             }
 
             if is_key_pressed(KeyCode::S) {
-                dump_maze_to_file(&context.maze_file_path, maze);
+                if let Some(path) = context.maze_file_path.clone() {
+                    dump_maze_to_file(path.as_path(), maze);
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-use crate::core::tiled::{Maze, MazeData, MazeShape, Node, UnitShape, BLOCK, VOID};
+use crate::core::tiled::{BLOCK, Maze, MazeData, MazeShape, Node, UnitShape, VOID};
 use crate::ui::context::DrawContext;
 use crate::ui::shape::UnitShapeFactory;
 use macroquad::math::Vec2;

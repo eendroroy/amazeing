@@ -1,11 +1,11 @@
-use crate::ui::context::{Colors, DrawContext, ViewContext};
+use crate::ui::context::{AmazeingContext, Colors, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame};
 use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(
     shapes: MazeScene,
-    context: &ViewContext,
+    context: &AmazeingContext,
     draw_context: &DrawContext,
     color_context: &Colors,
 ) {
