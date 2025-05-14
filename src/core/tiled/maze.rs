@@ -10,6 +10,13 @@ pub struct Maze {
 }
 
 impl Maze {
+    pub fn new(maze_shape: MazeShape, unit_shape: UnitShape, rows: usize, cols: usize, default: i8) -> Self {
+        Self {
+            maze_shape,
+            unit_shape,
+            data: vec![vec![default; cols]; rows],
+        }
+    }
     pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: MazeData) -> Self {
         Self {
             maze_shape,

@@ -1,5 +1,5 @@
 use crate::command::{AmazeingArgs, ArgCommand, ArgMazeShape};
-use crate::core::tiled::{BLOCK, Maze, MazeShape, UnitShape};
+use crate::core::tiled::{Maze, MazeShape, UnitShape, BLOCK};
 use crate::ui::context::{AmazeingContext, AmazingCommandType, ColorScheme, Colors, DrawContext};
 use crate::ui::helper::load_maze_from_file;
 
@@ -28,6 +28,11 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> (AmazeingContext, Dra
                     unit_shape = shape_args.unit_shape.as_unit_shape();
                     (shape_args.diameter, shape_args.diameter)
                 }
+                ArgMazeShape::Hexagon(shape_args) => {
+                    maze_shape = MazeShape::Hexagon;
+                    unit_shape = shape_args.unit_shape.as_unit_shape();
+                    (shape_args.diameter, shape_args.diameter)
+                }
             };
             gradient_steps = GRADIENT_STEPS(rows, cols);
 
@@ -38,8 +43,7 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> (AmazeingContext, Dra
                 command_args.heuristic_function.as_node_heu_fn(),
                 command_args.jumble_factor,
                 command_args.weight_direction.as_weight_direction(),
-                rows,
-                cols,
+                (rows, cols),
             )
         }
         ArgCommand::View(sub_args) => {

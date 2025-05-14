@@ -36,6 +36,9 @@ _amazeing() {
             amazeing__create,C)
                 cmd="amazeing__create__circle"
                 ;;
+            amazeing__create,H)
+                cmd="amazeing__create__hexagon"
+                ;;
             amazeing__create,R)
                 cmd="amazeing__create__rectangle"
                 ;;
@@ -48,6 +51,9 @@ _amazeing() {
             amazeing__create,help)
                 cmd="amazeing__create__help"
                 ;;
+            amazeing__create,hexagon)
+                cmd="amazeing__create__hexagon"
+                ;;
             amazeing__create,rectangle)
                 cmd="amazeing__create__rectangle"
                 ;;
@@ -59,6 +65,9 @@ _amazeing() {
                 ;;
             amazeing__create__help,help)
                 cmd="amazeing__create__help__help"
+                ;;
+            amazeing__create__help,hexagon)
+                cmd="amazeing__create__help__hexagon"
                 ;;
             amazeing__create__help,rectangle)
                 cmd="amazeing__create__help__rectangle"
@@ -80,6 +89,9 @@ _amazeing() {
                 ;;
             amazeing__help__create,circle)
                 cmd="amazeing__help__create__circle"
+                ;;
+            amazeing__help__create,hexagon)
+                cmd="amazeing__help__create__hexagon"
                 ;;
             amazeing__help__create,rectangle)
                 cmd="amazeing__help__create__rectangle"
@@ -132,7 +144,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-m -p -H -j -w -v -Z -C -F -h --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help triangle T rectangle R circle C help"
+            opts="-m -p -H -j -w -v -Z -C -F -h --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help triangle T rectangle R hexagon H circle C help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -304,7 +316,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__help)
-            opts="triangle rectangle circle help"
+            opts="triangle rectangle hexagon circle help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -345,6 +357,20 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        amazeing__create__help__hexagon)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         amazeing__create__help__rectangle)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
@@ -366,6 +392,100 @@ _amazeing() {
                 return 0
             fi
             case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__create__hexagon)
+            opts="-u -d -m -p -H -j -w -v -Z -C -F -h --unit-shape --diameter --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --unit-shape)
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
+                    return 0
+                    ;;
+                -u)
+                    COMPREPLY=($(compgen -W "triangle square hexagon octagon" -- "${cur}"))
+                    return 0
+                    ;;
+                --diameter)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -d)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --maze)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -m)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --procedure)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                -p)
+                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    return 0
+                    ;;
+                --heuristic-function)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                -H)
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    return 0
+                    ;;
+                --jumble-factor)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --weight-direction)
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
+                    return 0
+                    ;;
+                -w)
+                    COMPREPLY=($(compgen -W "forward backward" -- "${cur}"))
+                    return 0
+                    ;;
+                --zoom)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -Z)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --colors)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -C)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --fps)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -F)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -584,7 +704,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__help__create)
-            opts="triangle rectangle circle"
+            opts="triangle rectangle hexagon circle"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -598,6 +718,20 @@ _amazeing() {
             return 0
             ;;
         amazeing__help__create__circle)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        amazeing__help__create__hexagon)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )

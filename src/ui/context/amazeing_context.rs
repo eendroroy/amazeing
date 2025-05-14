@@ -32,8 +32,7 @@ impl AmazeingContext {
         heuristic: NodeHeuFn,
         jumble_factor: u32,
         weight_direction: WeightDirection,
-        rows: usize,
-        cols: usize,
+        (rows, cols): (usize, usize),
     ) -> Self {
         Self {
             maze,

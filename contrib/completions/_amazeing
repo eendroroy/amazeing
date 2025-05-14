@@ -182,6 +182,62 @@ _arguments "${_arguments_options[@]}" : \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
+(hexagon)
+_arguments "${_arguments_options[@]}" : \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'-d+[Width/Height of the circle]:DIAMETER:_default' \
+'--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'-Z+[Display size (zoom)]:ZOOM:_default' \
+'--zoom=[Display size (zoom)]:ZOOM:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(H)
+_arguments "${_arguments_options[@]}" : \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'-d+[Width/Height of the circle]:DIAMETER:_default' \
+'--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'-Z+[Display size (zoom)]:ZOOM:_default' \
+'--zoom=[Display size (zoom)]:ZOOM:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
@@ -255,6 +311,10 @@ _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (rectangle)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(hexagon)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
@@ -422,6 +482,62 @@ _arguments "${_arguments_options[@]}" : \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
+(hexagon)
+_arguments "${_arguments_options[@]}" : \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'-d+[Width/Height of the circle]:DIAMETER:_default' \
+'--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'-Z+[Display size (zoom)]:ZOOM:_default' \
+'--zoom=[Display size (zoom)]:ZOOM:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(H)
+_arguments "${_arguments_options[@]}" : \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'-d+[Width/Height of the circle]:DIAMETER:_default' \
+'--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-m+[File path to dump Maze data]:MAZE:_files' \
+'--maze=[File path to dump Maze data]:MAZE:_files' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
+'-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'--jumble-factor=[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
+'-w+[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
+'-Z+[Display size (zoom)]:ZOOM:_default' \
+'--zoom=[Display size (zoom)]:ZOOM:_default' \
+'-C+[Color file (.toml) path]:Colors.toml:_files' \
+'--colors=[Color file (.toml) path]:Colors.toml:_files' \
+'-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'-v[Show a simulation of the generation process]' \
+'--verbose[Show a simulation of the generation process]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
 '-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
@@ -495,6 +611,10 @@ _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (rectangle)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(hexagon)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
@@ -618,6 +738,10 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
+(hexagon)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
@@ -667,6 +791,8 @@ _amazeing__create_commands() {
 'T:' \
 'rectangle:' \
 'R:' \
+'hexagon:' \
+'H:' \
 'circle:' \
 'C:' \
 'help:Print this message or the help of the given subcommand(s)' \
@@ -683,6 +809,7 @@ _amazeing__create__help_commands() {
     local commands; commands=(
 'triangle:' \
 'rectangle:' \
+'hexagon:' \
 'circle:' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -698,6 +825,11 @@ _amazeing__create__help__help_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing create help help commands' commands "$@"
 }
+(( $+functions[_amazeing__create__help__hexagon_commands] )) ||
+_amazeing__create__help__hexagon_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing create help hexagon commands' commands "$@"
+}
 (( $+functions[_amazeing__create__help__rectangle_commands] )) ||
 _amazeing__create__help__rectangle_commands() {
     local commands; commands=()
@@ -707,6 +839,11 @@ _amazeing__create__help__rectangle_commands() {
 _amazeing__create__help__triangle_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing create help triangle commands' commands "$@"
+}
+(( $+functions[_amazeing__create__hexagon_commands] )) ||
+_amazeing__create__hexagon_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing create hexagon commands' commands "$@"
 }
 (( $+functions[_amazeing__create__rectangle_commands] )) ||
 _amazeing__create__rectangle_commands() {
@@ -733,6 +870,7 @@ _amazeing__help__create_commands() {
     local commands; commands=(
 'triangle:' \
 'rectangle:' \
+'hexagon:' \
 'circle:' \
     )
     _describe -t commands 'amazeing help create commands' commands "$@"
@@ -741,6 +879,11 @@ _amazeing__help__create_commands() {
 _amazeing__help__create__circle_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing help create circle commands' commands "$@"
+}
+(( $+functions[_amazeing__help__create__hexagon_commands] )) ||
+_amazeing__help__create__hexagon_commands() {
+    local commands; commands=()
+    _describe -t commands 'amazeing help create hexagon commands' commands "$@"
 }
 (( $+functions[_amazeing__help__create__rectangle_commands] )) ||
 _amazeing__help__create__rectangle_commands() {
