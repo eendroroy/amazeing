@@ -4,7 +4,6 @@ mod ui;
 
 use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
-use crate::core::tiled::{Maze, VOID};
 use crate::ui::component::scene::MazeScene;
 use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
@@ -17,7 +16,7 @@ use macroquad::prelude::Conf;
 #[macroquad::main(window_config())]
 async fn main() {
     let args = AmazeingArgs::parse();
-    let (amazeing_context, colors) = get_contexts(args.clone());
+    let (context, colors) = get_contexts(args.clone());
 
     match args.command.clone() {
         Create(CreateArgs {
@@ -26,12 +25,18 @@ async fn main() {
             unit_shape,
             ..
         }) => {
-            let maze =
-                Maze::new(maze_shape.shape(), unit_shape.shape(), amazeing_context.rows, amazeing_context.cols, VOID);
-            let mut scene = MazeScene::new(&maze, args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_dimension(
+                maze_shape.shape(),
+                unit_shape.shape(),
+                context.rows,
+                context.cols,
+                args.zoom,
+                args.fps,
+                &colors,
+            );
             scene.set_bound(YELLOW);
             set_screen_size(scene.dimension);
-            generate_loop(&mut scene, &amazeing_context, &colors).await
+            generate_loop(&mut scene, &context, &colors).await
         }
         Create(CreateArgs {
             verbose: true,
@@ -39,32 +44,38 @@ async fn main() {
             unit_shape,
             ..
         }) => {
-            let maze =
-                Maze::new(maze_shape.shape(), unit_shape.shape(), amazeing_context.rows, amazeing_context.cols, VOID);
-            let mut scene = MazeScene::new(&maze, args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_dimension(
+                maze_shape.shape(),
+                unit_shape.shape(),
+                context.rows,
+                context.cols,
+                args.zoom,
+                args.fps,
+                &colors,
+            );
             scene.set_bound(YELLOW);
             set_screen_size(scene.dimension);
-            generate_simulation_loop(&mut scene, &amazeing_context, &colors).await
+            generate_simulation_loop(&mut scene, &context, &colors).await
         }
         View(ViewArgs { update: false, .. }) => {
-            let scene = MazeScene::new(&amazeing_context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
             set_screen_size(scene.dimension);
             view_loop(scene, &colors).await
         }
         View(ViewArgs { update: true, .. }) => {
-            let mut scene = MazeScene::new(&amazeing_context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
             set_screen_size(scene.dimension);
-            update_loop(&mut scene, &amazeing_context, &colors).await
+            update_loop(&mut scene, &context, &colors).await
         }
         Solve(SolveArgs { verbose: false, .. }) => {
-            let mut scene = MazeScene::new(&amazeing_context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
             set_screen_size(scene.dimension);
-            solve_loop(&mut scene, &amazeing_context, &colors).await
+            solve_loop(&mut scene, &context, &colors).await
         }
         Solve(SolveArgs { verbose: true, .. }) => {
-            let mut scene = MazeScene::new(&amazeing_context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
             set_screen_size(scene.dimension);
-            solve_simulation_loop(&mut scene, &amazeing_context, &colors).await
+            solve_simulation_loop(&mut scene, &context, &colors).await
         }
     }
 }
