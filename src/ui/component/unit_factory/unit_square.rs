@@ -15,8 +15,8 @@ pub(crate) struct SquareUnitShapeFactory {
 
 impl UnitShapeFactory for SquareUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let width = (PI / SIDES).cos() * RADIUS * 2. * zoom;
-        let height = (PI / SIDES).cos() * RADIUS * 2. * zoom;
+        let width = (PI / SIDES).sin() * RADIUS * 2. * zoom;
+        let height = (PI / SIDES).sin() * RADIUS * 2. * zoom;
 
         Self {
             margin: MARGIN * zoom,

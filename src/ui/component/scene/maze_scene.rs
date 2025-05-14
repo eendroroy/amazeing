@@ -6,10 +6,10 @@ use crate::ui::component::unit_factory::{
 };
 use crate::ui::context::Colors;
 use crate::ui::helper::{current_millis, is_point_in_triangle};
-use macroquad::color::YELLOW;
-use macroquad::models::{Mesh, draw_mesh};
+use macroquad::prelude::YELLOW;
+use macroquad::prelude::draw_line;
 use macroquad::prelude::{Color, Vertex, vec2, vec3};
-use macroquad::shapes::draw_line;
+use macroquad::prelude::{Mesh, draw_mesh};
 use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
 
@@ -22,17 +22,11 @@ pub(crate) struct MazeScene {
     pub(crate) rows: usize,
     pub(crate) cols: usize,
     pub(crate) fps: f32,
+    pub(crate) shape_factory: Box<dyn UnitShapeFactory>,
 }
 
 impl MazeScene {
-    pub(crate) fn new(maze: &Maze, zoom: f32, fps: f32, colors: &Colors) -> Self {
-        let shape_factory: Box<dyn UnitShapeFactory> = match maze.unit_shape {
-            UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
-            UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
-            UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
-            UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(zoom)),
-        };
-
+    fn new_from(maze: &Maze, fps: f32, colors: &Colors, shape_factory: Box<dyn UnitShapeFactory>) -> Self {
         let meshes = maze
             .data
             .iter()
@@ -63,7 +57,27 @@ impl MazeScene {
             rows: maze.rows(),
             cols: maze.cols(),
             fps,
+            shape_factory,
         }
+    }
+
+    pub(crate) fn new_from_maze(maze: &Maze, zoom: f32, fps: f32, colors: &Colors) -> Self {
+        let shape_factory = MazeScene::shape_factory(maze.unit_shape, zoom);
+        MazeScene::new_from(maze, fps, colors, shape_factory)
+    }
+
+    pub(crate) fn new_from_dimension(
+        maze_shape: MazeShape,
+        unit_shape: UnitShape,
+        rows: usize,
+        cols: usize,
+        zoom: f32,
+        fps: f32,
+        colors: &Colors,
+    ) -> Self {
+        let shape_factory = MazeScene::shape_factory(unit_shape, zoom);
+        let (m_rows, m_cols) = MazeScene::adjust_dimension(maze_shape, unit_shape, rows, cols, &shape_factory);
+        MazeScene::new_from(&Maze::new(maze_shape, unit_shape, m_rows, m_cols, VOID), fps, colors, shape_factory)
     }
 
     pub(crate) fn update(&mut self) {
@@ -102,29 +116,30 @@ impl MazeScene {
     }
 
     pub(crate) fn set_bound(&mut self, color: Color) {
-        self.bound = Some(match self.maze.maze_shape {
-            MazeShape::Triangle => Mesh {
+        self.bound = Some(match (self.maze.maze_shape, self.maze.unit_shape) {
+            // TODO: (MazeShape::Triangle, UnitShape::Triangle)
+            (MazeShape::Triangle, _) => Mesh {
                 #[rustfmt::skip]
                 vertices: vec![
-                    Vertex::new2(vec3((self.dimension.0 / 2) as f32 - MARGIN, MARGIN                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32  - MARGIN     , self.dimension.1 as f32 - MARGIN, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(MARGIN                                , self.dimension.1 as f32 - MARGIN, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3((self.dimension.0 / 2) as f32         , MARGIN * 0.5                          , 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN * 0.5, self.dimension.1 as f32 - MARGIN * 0.5, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(MARGIN * 0.5                          , self.dimension.1 as f32 - MARGIN * 0.5, 0.), vec2(0., 0.), color),
                 ],
                 indices: vec![0, 1, 2],
                 texture: None,
             },
-            MazeShape::Rectangle => Mesh {
+            (MazeShape::Rectangle, _) => Mesh {
                 #[rustfmt::skip]
                 vertices: vec![
-                    Vertex::new2(vec3(MARGIN                          , MARGIN                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN, MARGIN                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN, self.dimension.1 as f32 - MARGIN, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(MARGIN                          , self.dimension.1 as f32 - MARGIN, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(MARGIN - 1.                          , MARGIN - 1.                          , 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN + 1., MARGIN - 1.                          , 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN + 1., self.dimension.1 as f32 - MARGIN + 1., 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(MARGIN - 1.                          , self.dimension.1 as f32 - MARGIN + 1., 0.), vec2(0., 0.), color),
                 ],
                 indices: vec![0, 1, 2, 0, 2, 3],
                 texture: None,
             },
-            MazeShape::Circle | MazeShape::Hexagon => {
+            (MazeShape::Circle | MazeShape::Hexagon, _) => {
                 let sides = self.maze.maze_shape.sides();
                 let radius = self.dimension.0 as f32 / 2.0 - MARGIN;
                 let (x0, y0) = ((self.dimension.0 / 2) as f32, (self.dimension.1 / 2) as f32);
@@ -169,7 +184,6 @@ impl MazeScene {
 
     pub(crate) fn draw_bound(&self) {
         if let Some(bound) = &self.bound {
-            // draw_mesh(bound);
             for i in 0..bound.vertices.len() {
                 if i < bound.vertices.len() - 1 {
                     draw_line(
@@ -222,6 +236,15 @@ impl MazeScene {
             std::thread::sleep(std::time::Duration::from_millis(time_to_sleep as u64));
         }
         // println!("Min: {}ms | Current: {}ms | Sleep: {}ms", minimum_frame_time, current_frame_time, time_to_sleep);
+    }
+
+    fn shape_factory(unit_shape: UnitShape, zoom: f32) -> Box<dyn UnitShapeFactory> {
+        match unit_shape {
+            UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
+            UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
+            UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
+            UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(zoom)),
+        }
     }
 
     fn is_point_in_mesh(&self, mesh: &Mesh, x: f32, y: f32) -> bool {
@@ -288,6 +311,25 @@ impl MazeScene {
         }
 
         false
+    }
+
+    fn adjust_dimension(
+        maze_shape: MazeShape,
+        unit_shape: UnitShape,
+        rows: usize,
+        cols: usize,
+        factory: &Box<dyn UnitShapeFactory>,
+    ) -> (usize, usize) {
+        match (maze_shape, unit_shape) {
+            (MazeShape::Rectangle, UnitShape::Triangle) => (rows * 2 + 1, cols),
+            (MazeShape::Triangle, UnitShape::Triangle) => (rows * 2, if cols % 2 == 0 { cols + 1 } else { cols }),
+            (MazeShape::Triangle, _) => (rows, if cols % 2 == 0 { cols + 1 } else { cols }),
+            (MazeShape::Circle, UnitShape::Triangle) => {
+                ((cols as f32 * factory.width() / factory.height()) as usize * 2, cols)
+            }
+            (MazeShape::Circle, _) => ((cols as f32 * factory.width() / factory.height()) as usize, cols),
+            (_, _) => (rows, cols),
+        }
     }
 }
 
