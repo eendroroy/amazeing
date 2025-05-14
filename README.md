@@ -49,12 +49,12 @@ make install # this will install shell-completions
 
 ```shell
 # generate 21x21 maze using BFS - single source
-amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-shape square
+amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-component square
 # short
 amazeing C R -m bfs_21_21.maze -_r 21 -c 21 -s 10,10 -p bfs -U square
 
 # simulate - multi source
-amazeing create rectangle --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
+amazeing create rectangle --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-component hexagonal
 # short
 amazeing C R -_r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 ```
@@ -63,12 +63,12 @@ amazeing C R -_r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
 
 ```shell
 # generate 21x21 maze using BFS - multi source
-amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-shape sqaure
+amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-component sqaure
 # short
 amazeing C R -m bfs_21_21.maze -_r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
 
 # simulate - multi source
-amazeing create rectangle --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-shape hexagonal
+amazeing create rectangle --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-component hexagonal
 # short
 amazeing C R -_r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
 ```

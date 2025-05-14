@@ -1,10 +1,10 @@
 use crate::core::tiled::{BLOCK, Maze, Node, OPEN, UnitShape, VOID};
-use crate::ui::context::Colors;
-use crate::ui::helper::is_point_in_triangle;
-use crate::ui::shape::{
+use crate::ui::component::unit_factory::{
     HexagonUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory,
     UnitShapeFactory,
 };
+use crate::ui::context::Colors;
+use crate::ui::helper::is_point_in_triangle;
 use macroquad::models::{Mesh, draw_mesh};
 use macroquad::prelude::Color;
 use std::ops::{Index, IndexMut};

@@ -1,6 +1,6 @@
-use crate::ui::shape::create_mesh::create_mesh;
 use macroquad::color::Color;
 use macroquad::models::Mesh;
+use crate::ui::component::helper::create_mesh;
 
 pub(crate) trait UnitShapeFactory: Send + Sync {
     fn new(zoom: f32) -> Self

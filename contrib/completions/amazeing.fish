@@ -60,7 +60,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "circle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "C"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -82,7 +82,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -104,7 +104,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -127,7 +127,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -150,7 +150,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -172,7 +172,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -222,7 +222,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "circle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "C"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -244,7 +244,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -266,7 +266,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -289,7 +289,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -312,7 +312,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"
@@ -334,7 +334,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
 octagon\t''"

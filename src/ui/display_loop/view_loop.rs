@@ -1,6 +1,6 @@
+use crate::ui::component::scene::MazeScene;
 use crate::ui::context::{AmazeingContext, Colors, DrawContext};
 use crate::ui::helper::{current_millis, delay_till_next_frame};
-use crate::ui::shape::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(
