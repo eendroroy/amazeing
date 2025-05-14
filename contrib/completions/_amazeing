@@ -68,8 +68,8 @@ _arguments "${_arguments_options[@]}" : \
         case $line[1] in
             (triangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -96,8 +96,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (T)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -124,8 +124,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (rectangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
@@ -154,8 +154,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (R)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
@@ -184,8 +184,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -212,8 +212,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -308,8 +308,8 @@ _arguments "${_arguments_options[@]}" : \
         case $line[1] in
             (triangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -336,8 +336,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (T)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -364,8 +364,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (rectangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
@@ -394,8 +394,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (R)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
@@ -424,8 +424,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
@@ -452,8 +452,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
 '-m+[File path to dump Maze data]:MAZE:_files' \

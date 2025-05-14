@@ -55,7 +55,7 @@ pub enum ArgCommand {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CreateArgs {
-    /// Maze shape
+    /// Maze component
     #[clap(subcommand)]
     pub maze_shape: ArgMazeShape,
 
@@ -110,7 +110,7 @@ impl Display for ArgMazeShape {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct TriangleArgs {
-    /// Unit shape
+    /// Unit component
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
 
@@ -121,7 +121,7 @@ pub struct TriangleArgs {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct RectangleArgs {
-    /// Unit shape
+    /// Unit component
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
 
@@ -136,7 +136,7 @@ pub struct RectangleArgs {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CircleArgs {
-    /// Unit shape
+    /// Unit component
     #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
 

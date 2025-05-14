@@ -1,4 +1,5 @@
-use crate::ui::shape::{BORDER, MARGIN, RADIUS, UnitShapeFactory};
+use crate::ui::component::unit_factory::UnitShapeFactory;
+use crate::ui::component::{BORDER, MARGIN, RADIUS};
 use std::f32::consts::PI;
 
 const SIDES: f32 = 3.;

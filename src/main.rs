@@ -4,11 +4,11 @@ mod ui;
 
 use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
+use crate::ui::component::scene::MazeScene;
 use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
 use crate::ui::helper::generate_maze_tiles;
-use crate::ui::shape::MazeScene;
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
