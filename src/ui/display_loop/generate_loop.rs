@@ -16,7 +16,10 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingConte
         clear_background(colors.color_bg);
 
         scene.draw();
-        scene.draw_bound();
+
+        if context.show_perimeter {
+            scene.draw_bound();
+        }
 
         if !generated && is_mouse_button_released(MouseButton::Left) {
             if let Some(node) = scene.clicked_on(mouse_position()) {

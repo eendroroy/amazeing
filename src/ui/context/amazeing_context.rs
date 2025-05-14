@@ -14,17 +14,17 @@ pub struct AmazeingContext {
     pub(crate) weight_direction: WeightDirection,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+    pub(crate) show_perimeter: bool,
 }
 
 impl AmazeingContext {
     pub fn create_context(
         maze: Option<Maze>,
         maze_file_path: Option<PathBuf>,
-        generation_procedure: ArgGenProcedure,
-        heuristic: NodeHeuFn,
-        jumble_factor: u32,
-        weight_direction: WeightDirection,
+        (generation_procedure, heuristic): (ArgGenProcedure, NodeHeuFn),
+        (jumble_factor, weight_direction): (u32, WeightDirection),
         (rows, cols): (usize, usize),
+        draw_perimeter: bool,
     ) -> Self {
         Self {
             maze,
@@ -36,6 +36,7 @@ impl AmazeingContext {
             weight_direction,
             rows,
             cols,
+            show_perimeter: draw_perimeter,
         }
     }
 
@@ -50,10 +51,11 @@ impl AmazeingContext {
             rows: maze.rows(),
             cols: maze.cols(),
             maze: Some(maze),
+            show_perimeter: false,
         }
     }
 
-    pub fn solve_context(maze: Maze, solve_procedure: ArgSolveProcedure, heuristic: NodeHeuFn) -> Self {
+    pub fn solve_context(maze: Maze, (solve_procedure, heuristic): (ArgSolveProcedure, NodeHeuFn)) -> Self {
         Self {
             maze_file_path: None,
             generation_procedure: ArgGenProcedure::default(),
@@ -64,6 +66,7 @@ impl AmazeingContext {
             rows: maze.rows(),
             cols: maze.cols(),
             maze: Some(maze),
+            show_perimeter: false,
         }
     }
 }

@@ -21,11 +21,10 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> (AmazeingContext, Col
             AmazeingContext::create_context(
                 None,
                 command_args.maze,
-                command_args.procedure,
-                command_args.heuristic_function.heuristic(),
-                command_args.jumble_factor,
-                command_args.weight_direction.direction(),
+                (command_args.procedure, command_args.heuristic_function.heuristic()),
+                (command_args.jumble_factor, command_args.weight_direction.direction()),
                 (rows, cols),
+                command_args.show_perimeter,
             )
         }
         ArgCommand::View(sub_args) => {
@@ -36,7 +35,7 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> (AmazeingContext, Col
         ArgCommand::Solve(sub_args) => {
             let loaded_maze = load_maze_from_file(sub_args.maze.as_path());
             gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
-            AmazeingContext::solve_context(loaded_maze, sub_args.procedure, sub_args.heuristic_function.heuristic())
+            AmazeingContext::solve_context(loaded_maze, (sub_args.procedure, sub_args.heuristic_function.heuristic()))
         }
     };
 
