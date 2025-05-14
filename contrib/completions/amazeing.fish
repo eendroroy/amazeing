@@ -36,30 +36,32 @@ complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "V" -d 'View a Maz
 complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "solve" -d 'Solve a Maze'
 complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "S" -d 'Solve a Maze'
 complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
 a-star\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s v -l verbose -d 'Show a simulation of the generation process'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "triangle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "T"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "rectangle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "R"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "circle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "C"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "triangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "T"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "rectangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "R"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "hexagon"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "H"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "circle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "C"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
@@ -150,6 +152,50 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
+square\t''
+hexagon\t''
+octagon\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s d -l diameter -d 'Width/Height of the circle' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+dfs\t''
+a-star\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+euclidean\t''
+chebyshev\t''
+octile\t''
+dijkstra\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+backward\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
+square\t''
+hexagon\t''
+octagon\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s d -l diameter -d 'Width/Height of the circle' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+dfs\t''
+a-star\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+euclidean\t''
+chebyshev\t''
+octile\t''
+dijkstra\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+backward\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
@@ -196,32 +242,35 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from help" -f -a "triangle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from help" -f -a "rectangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from help" -f -a "hexagon"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from help" -f -a "circle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
 a-star\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
 chebyshev\t''
 octile\t''
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s v -l verbose -d 'Show a simulation of the generation process'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "triangle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "T"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "rectangle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "R"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "circle"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "C"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "triangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "T"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "rectangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "R"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "hexagon"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "H"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "circle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "C"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
@@ -312,6 +361,50 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
+square\t''
+hexagon\t''
+octagon\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s d -l diameter -d 'Width/Height of the circle' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+dfs\t''
+a-star\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+euclidean\t''
+chebyshev\t''
+octile\t''
+dijkstra\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+backward\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
+square\t''
+hexagon\t''
+octagon\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s d -l diameter -d 'Width/Height of the circle' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
+dfs\t''
+a-star\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
+euclidean\t''
+chebyshev\t''
+octile\t''
+dijkstra\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
+backward\t''"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s C -l colors -d 'Color file (.toml) path' -r -F
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s v -l verbose -d 'Show a simulation of the generation process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit component' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
@@ -358,6 +451,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from help" -f -a "triangle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from help" -f -a "rectangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from help" -f -a "hexagon"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from help" -f -a "circle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
@@ -406,4 +500,5 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_s
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and __fish_seen_subcommand_from create" -f -a "triangle"
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and __fish_seen_subcommand_from create" -f -a "rectangle"
+complete -c amazeing -n "__fish_amazeing_using_subcommand help; and __fish_seen_subcommand_from create" -f -a "hexagon"
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and __fish_seen_subcommand_from create" -f -a "circle"

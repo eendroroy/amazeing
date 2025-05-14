@@ -6,6 +6,7 @@ pub enum MazeShape {
     Triangle,
     #[default]
     Rectangle,
+    Hexagon,
     Circle,
 }
 
@@ -14,7 +15,17 @@ impl MazeShape {
         match self {
             MazeShape::Triangle => "triangle",
             MazeShape::Rectangle => "rectangle",
+            MazeShape::Hexagon => "hexagon",
             MazeShape::Circle => "circle",
+        }
+    }
+
+    pub fn sides(&self) -> u8 {
+        match self {
+            MazeShape::Triangle => 3,
+            MazeShape::Rectangle => 4,
+            MazeShape::Hexagon => 6,
+            MazeShape::Circle => 50,
         }
     }
 }
@@ -31,6 +42,7 @@ impl FromStr for MazeShape {
         match s {
             "triangle" => Ok(MazeShape::Triangle),
             "rectangle" => Ok(MazeShape::Rectangle),
+            "hexagon" => Ok(MazeShape::Hexagon),
             "circle" => Ok(MazeShape::Circle),
             _ => Err(format!("Unrecognized MazeShape: {}", s)),
         }

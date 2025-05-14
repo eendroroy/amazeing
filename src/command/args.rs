@@ -94,6 +94,8 @@ pub enum ArgMazeShape {
     Triangle(TriangleArgs),
     #[clap(visible_alias = "R")]
     Rectangle(RectangleArgs),
+    #[clap(visible_alias = "H")]
+    Hexagon(CircleArgs),
     #[clap(visible_alias = "C")]
     Circle(CircleArgs),
 }
@@ -103,6 +105,7 @@ impl Display for ArgMazeShape {
         match self {
             ArgMazeShape::Triangle(_) => write!(f, "triangle"),
             ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
+            ArgMazeShape::Hexagon(_) => write!(f, "hexagon"),
             ArgMazeShape::Circle(_) => write!(f, "circle"),
         }
     }
