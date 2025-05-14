@@ -24,8 +24,11 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
 
         clear_background(colors.color_bg);
 
-        scene.draw_bound();
         scene.draw();
+
+        if context.show_perimeter {
+            scene.draw_bound();
+        }
 
         if simulating {
             if !paused && !trace_complete {
