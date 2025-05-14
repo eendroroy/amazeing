@@ -36,6 +36,8 @@ _amazeing() {
         case $line[1] in
             (create)
 _arguments "${_arguments_options[@]}" : \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -54,6 +56,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 ":: :_amazeing__create_commands" \
@@ -68,10 +72,10 @@ _arguments "${_arguments_options[@]}" : \
         case $line[1] in
             (triangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -90,16 +94,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (T)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -118,18 +124,20 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (rectangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -148,18 +156,20 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (R)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -178,16 +188,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (hexagon)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -206,16 +218,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (H)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -234,16 +248,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -262,16 +278,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -290,6 +308,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
@@ -336,6 +356,8 @@ esac
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -354,6 +376,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 ":: :_amazeing__create_commands" \
@@ -368,10 +392,10 @@ _arguments "${_arguments_options[@]}" : \
         case $line[1] in
             (triangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -390,16 +414,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (T)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-b+[Width of base of the triangle]:BASE:_default' \
 '--base=[Width of base of the triangle]:BASE:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -418,18 +444,20 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (rectangle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -448,18 +476,20 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (R)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-r+[Number of rows]:ROWS:_default' \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -478,16 +508,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (hexagon)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -506,16 +538,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (H)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -534,16 +568,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (circle)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -562,16 +598,18 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit component]:UnitShape:(triangle square hexagon octagon)' \
-'--unit-shape=[Unit component]:UnitShape:(triangle square hexagon octagon)' \
 '-d+[Width/Height of the circle]:DIAMETER:_default' \
 '--diameter=[Width/Height of the circle]:DIAMETER:_default' \
+'-u+[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon octagon)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
@@ -590,6 +628,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 && ret=0

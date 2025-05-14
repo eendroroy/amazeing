@@ -1,12 +1,12 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::Tracer;
-use super::{Maze, Node, NodeHeuFn, OPEN, UnitShape};
+use super::{Maze, Node, NodeHeuFn, OPEN};
 use crate::core::tiled::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, VecDeque};
 
-pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &mut Option<Tracer>) {
+pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -19,9 +19,9 @@ pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
     });
 
     while let Some(current) = storage.pop() {
-        let neighbours = current.neighbours_block(maze, unit_shape);
+        let neighbours = current.neighbours_block(maze, &maze.unit_shape);
 
-        if neighbours.len() >= unit_shape.sides() - 1 {
+        if neighbours.len() >= &maze.unit_shape.sides() - 1 {
             maze[current] = OPEN;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));
@@ -36,7 +36,7 @@ pub fn bfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
     }
 }
 
-pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &mut Option<Tracer>) {
+pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -58,8 +58,8 @@ pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
         storages.iter_mut().enumerate().for_each(|(idx, storage)| {
             if skip_idx.contains(&idx) {
             } else if let Some(current) = storage.pop_back() {
-                let mut neighbours = current.neighbours_block(maze, unit_shape);
-                if neighbours.len() >= unit_shape.sides() - 1 {
+                let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
+                if neighbours.len() >= &maze.unit_shape.sides() - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = OPEN;
                     if let Some(trace) = tracer {
@@ -83,7 +83,6 @@ pub fn dfs(maze: &mut Maze, unit_shape: &UnitShape, sources: &[Node], tracer: &m
 
 pub fn a_star<T: DNodeWeighted>(
     maze: &mut Maze,
-    unit_shape: &UnitShape,
     sources: &[Node],
     destination: Node,
     heu: NodeHeuFn,
@@ -110,9 +109,9 @@ pub fn a_star<T: DNodeWeighted>(
     while let Some(node) = storage.pop() {
         let (current, cost, _) = (node.node(), node.cost(), node.heu_cost());
 
-        let neighbours = current.neighbours_block(maze, unit_shape);
+        let neighbours = current.neighbours_block(maze, &maze.unit_shape);
 
-        if neighbours.len() >= unit_shape.sides() - 1 {
+        if neighbours.len() >= &maze.unit_shape.sides() - 1 {
             maze[current] = OPEN;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));

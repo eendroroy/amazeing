@@ -1,17 +1,12 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Node, Trace, Tracer, VOID};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::context::{AmazeingContext, Colors, DrawContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
+use crate::ui::context::{AmazeingContext, Colors};
+use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
-pub(crate) async fn generate_simulation_loop(
-    scene: &mut MazeScene,
-    context: &AmazeingContext,
-    draw_context: &DrawContext,
-    colors: &Colors,
-) {
+pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &AmazeingContext, colors: &Colors) {
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
@@ -97,7 +92,7 @@ pub(crate) async fn generate_simulation_loop(
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
             {
-                generate_maze(&mut scene.maze, &draw_context.unit_shape, sources, destination, context, &mut tracer);
+                generate_maze(&mut scene.maze, sources, destination, context, &mut tracer);
                 if let Some(maze_file_path) = context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &scene.maze);
                 }
@@ -114,7 +109,7 @@ pub(crate) async fn generate_simulation_loop(
             break;
         }
 
-        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
+        scene.delay_till_next_frame(current_frame_start_time);
 
         next_frame().await
     }
