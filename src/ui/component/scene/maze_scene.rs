@@ -5,7 +5,7 @@ use crate::ui::component::unit_factory::{
     UnitShapeFactory,
 };
 use crate::ui::context::Colors;
-use crate::ui::helper::is_point_in_triangle;
+use crate::ui::helper::{current_millis, is_point_in_triangle};
 use macroquad::color::YELLOW;
 use macroquad::models::{Mesh, draw_mesh};
 use macroquad::prelude::{Color, Vertex, vec2, vec3};
@@ -21,11 +21,12 @@ pub(crate) struct MazeScene {
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+    pub(crate) fps: f32,
 }
 
 impl MazeScene {
-    pub(crate) fn new(maze: &Maze, unit_shape: UnitShape, zoom: f32, colors: &Colors) -> Self {
-        let shape_factory: Box<dyn UnitShapeFactory> = match unit_shape {
+    pub(crate) fn new(maze: &Maze, zoom: f32, fps: f32, colors: &Colors) -> Self {
+        let shape_factory: Box<dyn UnitShapeFactory> = match maze.unit_shape {
             UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
             UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
             UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
@@ -61,6 +62,7 @@ impl MazeScene {
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
+            fps,
         }
     }
 
@@ -99,8 +101,8 @@ impl MazeScene {
         }
     }
 
-    pub(crate) fn set_bound(&mut self, maze_shape: MazeShape, color: Color) {
-        self.bound = Some(match maze_shape {
+    pub(crate) fn set_bound(&mut self, color: Color) {
+        self.bound = Some(match self.maze.maze_shape {
             MazeShape::Triangle => Mesh {
                 #[rustfmt::skip]
                 vertices: vec![
@@ -123,7 +125,7 @@ impl MazeScene {
                 texture: None,
             },
             MazeShape::Circle | MazeShape::Hexagon => {
-                let sides = maze_shape.sides();
+                let sides = self.maze.maze_shape.sides();
                 let radius = self.dimension.0 as f32 / 2.0 - MARGIN;
                 let (x0, y0) = ((self.dimension.0 / 2) as f32, (self.dimension.1 / 2) as f32);
                 let mut vertices = Vec::<Vertex>::with_capacity(sides as usize);
@@ -208,6 +210,18 @@ impl MazeScene {
             .vertices
             .iter_mut()
             .for_each(|vertex| vertex.color = color.into())
+    }
+
+    pub(crate) fn delay_till_next_frame(&self, current_frame_start_time: u128) {
+        let current_frame_time = (current_millis() - current_frame_start_time) as f32;
+        let minimum_frame_time = (1. / self.fps) * 1000.;
+        #[allow(unused_assignments)]
+        let mut time_to_sleep: f32 = 0.;
+        if current_frame_time < minimum_frame_time {
+            time_to_sleep = minimum_frame_time - current_frame_time;
+            std::thread::sleep(std::time::Duration::from_millis(time_to_sleep as u64));
+        }
+        // println!("Min: {}ms | Current: {}ms | Sleep: {}ms", minimum_frame_time, current_frame_time, time_to_sleep);
     }
 
     fn is_point_in_mesh(&self, mesh: &Mesh, x: f32, y: f32) -> bool {

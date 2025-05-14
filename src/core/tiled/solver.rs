@@ -1,12 +1,11 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::maze::Maze;
-use super::{NodeHeuFn, Pop, Push, Tracer, UnitShape};
+use super::{NodeHeuFn, Pop, Push, Tracer};
 use crate::core::tiled::node::{DNodeWeightedForward, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 fn traverse(
     maze: &Maze,
-    unit_shape: &UnitShape,
     source: Node,
     destination: Node,
     push: Push,
@@ -33,7 +32,7 @@ fn traverse(
             return path;
         }
 
-        for next in current.neighbours_open(maze, unit_shape) {
+        for next in current.neighbours_open(maze, &maze.unit_shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 push(storage, next);
@@ -46,7 +45,6 @@ fn traverse(
 
 fn weighted_traverse(
     maze: &Maze,
-    unit_shape: &UnitShape,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
@@ -79,7 +77,7 @@ fn weighted_traverse(
             return path;
         }
 
-        for next in current.neighbours_open(maze, unit_shape) {
+        for next in current.neighbours_open(maze, &maze.unit_shape) {
             if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
                 parent.insert(next, current);
                 storage.push(DNodeWeightedForward {
@@ -94,38 +92,19 @@ fn weighted_traverse(
     Vec::new()
 }
 
-pub fn bfs(
-    maze: &Maze,
-    unit_shape: &UnitShape,
-    source: Node,
-    destination: Node,
-    tracer: &mut Option<Tracer>,
-) -> Vec<Node> {
+pub fn bfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_front();
-    traverse(maze, unit_shape, source, destination, push, pop, tracer)
+    traverse(maze, source, destination, push, pop, tracer)
 }
 
-pub fn dfs(
-    maze: &Maze,
-    unit_shape: &UnitShape,
-    source: Node,
-    destination: Node,
-    tracer: &mut Option<Tracer>,
-) -> Vec<Node> {
+pub fn dfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
 
-    traverse(maze, unit_shape, source, destination, push, pop, tracer)
+    traverse(maze, source, destination, push, pop, tracer)
 }
 
-pub fn a_star(
-    maze: &Maze,
-    unit_shape: &UnitShape,
-    source: Node,
-    destination: Node,
-    heu: NodeHeuFn,
-    tracer: &mut Option<Tracer>,
-) -> Vec<Node> {
-    weighted_traverse(maze, unit_shape, source, destination, heu, tracer)
+pub fn a_star(maze: &Maze, source: Node, destination: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    weighted_traverse(maze, source, destination, heu, tracer)
 }

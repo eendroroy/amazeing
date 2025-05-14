@@ -1,10 +1,21 @@
-use crate::command::{ArgHeuristic, ArgUnitShape, ArgWeightDirection};
+use crate::command::{ArgHeuristic, ArgMazeShape, ArgUnitShape, ArgWeightDirection};
 use crate::core::tiled::heuristics::*;
 use crate::core::tiled::node::WeightDirection;
-use crate::core::tiled::{NodeHeuFn, UnitShape};
+use crate::core::tiled::{MazeShape, NodeHeuFn, UnitShape};
+
+impl ArgMazeShape {
+    pub fn shape(&self) -> MazeShape {
+        match self {
+            ArgMazeShape::Triangle(_) => MazeShape::Triangle,
+            ArgMazeShape::Rectangle(_) => MazeShape::Rectangle,
+            ArgMazeShape::Hexagon(_) => MazeShape::Hexagon,
+            ArgMazeShape::Circle(_) => MazeShape::Circle,
+        }
+    }
+}
 
 impl ArgUnitShape {
-    pub fn as_unit_shape(&self) -> UnitShape {
+    pub fn shape(&self) -> UnitShape {
         match self {
             ArgUnitShape::Triangle => UnitShape::Triangle,
             ArgUnitShape::Square => UnitShape::Square,
@@ -15,7 +26,7 @@ impl ArgUnitShape {
 }
 
 impl ArgHeuristic {
-    pub fn as_node_heu_fn(&self) -> NodeHeuFn {
+    pub fn heuristic(&self) -> NodeHeuFn {
         match self {
             ArgHeuristic::Manhattan => manhattan_heuristic,
             ArgHeuristic::Euclidean => euclidean_heuristic,
@@ -27,7 +38,7 @@ impl ArgHeuristic {
 }
 
 impl ArgWeightDirection {
-    pub fn as_weight_direction(&self) -> WeightDirection {
+    pub fn direction(&self) -> WeightDirection {
         match self {
             ArgWeightDirection::Forward => WeightDirection::Forward,
             ArgWeightDirection::Backward => WeightDirection::Backward,

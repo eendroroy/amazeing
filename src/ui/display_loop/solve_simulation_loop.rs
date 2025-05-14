@@ -1,16 +1,11 @@
 use crate::core::tiled::{Node, OPEN, Trace, Tracer};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::context::{AmazeingContext, Colors, DrawContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, solve_maze};
+use crate::ui::context::{AmazeingContext, Colors};
+use crate::ui::helper::{current_millis, solve_maze};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
-pub(crate) async fn solve_simulation_loop(
-    shapes: &mut MazeScene,
-    context: &AmazeingContext,
-    draw_context: &DrawContext,
-    colors: &Colors,
-) {
+pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene, context: &AmazeingContext, colors: &Colors) {
     let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
@@ -30,13 +25,13 @@ pub(crate) async fn solve_simulation_loop(
 
         clear_background(colors.color_bg);
 
-        shapes.draw();
+        scene.draw();
 
         if simulating {
             if !paused && !trace_complete {
                 current_trace.iter().for_each(|(node, _)| {
                     if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
-                        shapes.update_color(*node, colors.color_traversed)
+                        scene.update_color(*node, colors.color_traversed)
                     }
                 });
                 current_trace = trace.get(trace_index).unwrap().clone();
@@ -45,13 +40,13 @@ pub(crate) async fn solve_simulation_loop(
                     trace_complete = true;
                     current_trace.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            shapes.update_color(*node.0, colors.color_path)
+                            scene.update_color(*node.0, colors.color_path)
                         }
                     });
                 } else {
                     current_trace.iter().for_each(|node| {
                         if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            shapes.update_color(*node.0, *colors.shed_color(node.1))
+                            scene.update_color(*node.0, *colors.shed_color(node.1))
                         }
                     });
                 }
@@ -63,20 +58,20 @@ pub(crate) async fn solve_simulation_loop(
         }
 
         if !simulating && is_mouse_button_released(MouseButton::Left) {
-            if let Some(node) = shapes.clicked_on(mouse_position()) {
-                if context.maze[node] == OPEN {
+            if let Some(node) = scene.clicked_on(mouse_position()) {
+                if scene.maze[node] == OPEN {
                     if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
                         if let Some(node) = destination {
-                            shapes.update_color(node, colors.color_open)
+                            scene.update_color(node, colors.color_open)
                         }
                         destination = Some(node);
-                        shapes.update_color(node, colors.color_destination)
+                        scene.update_color(node, colors.color_destination)
                     } else {
                         if let Some(node) = sources.first() {
-                            shapes.update_color(*node, colors.color_open)
+                            scene.update_color(*node, colors.color_open)
                         }
                         *sources = vec![node];
-                        shapes.update_color(node, colors.color_source)
+                        scene.update_color(node, colors.color_source)
                     }
                 }
             }
@@ -88,8 +83,7 @@ pub(crate) async fn solve_simulation_loop(
             && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
             solve_maze(
-                &context.maze,
-                &draw_context.unit_shape,
+                &scene.maze,
                 *sources.first().unwrap(),
                 destination.unwrap(),
                 &context.solve_procedure.clone(),
@@ -104,8 +98,8 @@ pub(crate) async fn solve_simulation_loop(
             get_screen_data().export_png(&format!(
                 "maze_{}_{}_{}.png",
                 current_millis(),
-                context.maze.rows(),
-                context.maze.cols()
+                scene.maze.rows(),
+                scene.maze.cols()
             ));
         }
 
@@ -113,7 +107,7 @@ pub(crate) async fn solve_simulation_loop(
             break;
         }
 
-        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
+        scene.delay_till_next_frame(current_frame_start_time);
 
         next_frame().await
     }

@@ -35,8 +35,8 @@ pub struct AmazeingArgs {
     pub colors: Option<PathBuf>,
 
     /// Frame rate per second (controls simulation speed)
-    #[clap(global = true, long, short = 'F', display_order = 103, default_value_t = 60)]
-    pub fps: u8,
+    #[clap(global = true, long, short = 'F', display_order = 103, default_value_t = 60.)]
+    pub fps: f32,
 }
 
 /// {ui-name} amazeing create
@@ -55,9 +55,13 @@ pub enum ArgCommand {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CreateArgs {
-    /// Maze component
+    /// Maze shape
     #[clap(subcommand)]
     pub maze_shape: ArgMazeShape,
+
+    /// Unit shape
+    #[clap(global = true, long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
+    pub unit_shape: ArgUnitShape,
 
     /// File path to dump Maze data
     ///
@@ -86,6 +90,10 @@ pub struct CreateArgs {
     /// Show a simulation of the generation process
     #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
+
+    /// Draw maze bound (perimeter)
+    #[clap(global = true, long, short = 'P', default_value_t = false)]
+    pub show_perimeter: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
@@ -113,10 +121,6 @@ impl Display for ArgMazeShape {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct TriangleArgs {
-    /// Unit component
-    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
-    pub unit_shape: ArgUnitShape,
-
     /// Width of base of the triangle
     #[clap(long, short)]
     pub base: usize,
@@ -124,10 +128,6 @@ pub struct TriangleArgs {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct RectangleArgs {
-    /// Unit component
-    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
-    pub unit_shape: ArgUnitShape,
-
     /// Number of rows
     #[clap(long, short)]
     pub rows: usize,
@@ -139,10 +139,6 @@ pub struct RectangleArgs {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CircleArgs {
-    /// Unit component
-    #[clap(long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
-    pub unit_shape: ArgUnitShape,
-
     /// Width/Height of the circle
     #[clap(long, short)]
     pub diameter: usize,

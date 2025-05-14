@@ -1,16 +1,11 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Node, VOID};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::context::{AmazeingContext, Colors, DrawContext};
-use crate::ui::helper::{current_millis, delay_till_next_frame, dump_maze_to_file, generate_maze};
+use crate::ui::context::{AmazeingContext, Colors};
+use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze};
 use macroquad::prelude::*;
 
-pub(crate) async fn generate_loop(
-    scene: &mut MazeScene,
-    context: &AmazeingContext,
-    draw_context: &DrawContext,
-    colors: &Colors,
-) {
+pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingContext, colors: &Colors) {
     let sources = &mut vec![];
     let mut destination: Option<Node> = None;
     let mut generated = false;
@@ -57,7 +52,7 @@ pub(crate) async fn generate_loop(
             && (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
             && (context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
         {
-            generate_maze(&mut scene.maze, &draw_context.unit_shape, sources, destination, context, &mut None);
+            generate_maze(&mut scene.maze, sources, destination, context, &mut None);
             scene.update();
             sources
                 .iter()
@@ -82,7 +77,7 @@ pub(crate) async fn generate_loop(
             }
         }
 
-        delay_till_next_frame(current_frame_start_time, draw_context.fps as f32);
+        scene.delay_till_next_frame(current_frame_start_time);
 
         next_frame().await
     }

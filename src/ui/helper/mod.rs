@@ -8,6 +8,5 @@ mod time;
 pub(crate) use bound::*;
 pub(crate) use color_gradient::*;
 pub(crate) use file::*;
-pub(crate) use frame_rate::*;
 pub(crate) use run_algorithm::*;
 pub(crate) use time::*;
