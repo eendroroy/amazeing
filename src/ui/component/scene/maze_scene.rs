@@ -6,11 +6,7 @@ use crate::ui::component::unit_factory::{
 };
 use crate::ui::context::{AmazeingContext, Colors};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
-use macroquad::prelude::YELLOW;
-use macroquad::prelude::draw_line;
-use macroquad::prelude::{Color, Vertex, vec2, vec3};
-use macroquad::prelude::{Mesh, draw_mesh};
-use macroquad::window::clear_background;
+use macroquad::prelude::{Color, Mesh, Vertex, YELLOW, clear_background, draw_line, draw_mesh, vec2, vec3};
 use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
 
@@ -184,7 +180,7 @@ impl MazeScene {
             }
         }
     }
-    
+
     pub(crate) fn clear_and_draw(&self) {
         clear_background(self.colors.color_bg);
         self.draw();
@@ -229,7 +225,7 @@ impl MazeScene {
         for (row_idx, row) in self.meshes.iter().enumerate() {
             for (col_idx, mesh) in row.iter().enumerate() {
                 if self.is_point_in_mesh(mesh, x, y) {
-                    return Node::new(self.meshes.len() - 1, row.len() - 1).at(row_idx, col_idx);
+                    return Node::new(self.meshes.len(), row.len()).at(row_idx, col_idx);
                 }
             }
         }
