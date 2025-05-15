@@ -17,12 +17,11 @@ pub(crate) struct MazeScene {
     pub(crate) meshes: Vec<Vec<Mesh>>,
     pub(crate) maze: Maze,
     pub(crate) colors: Colors,
-    pub(crate) dimension: (u32, u32),
+    pub(crate) wh: (u32, u32),
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
     pub(crate) fps: f32,
-    pub(crate) shape_factory: Box<dyn UnitShapeFactory>,
 }
 
 impl MazeScene {
@@ -52,12 +51,11 @@ impl MazeScene {
             meshes,
             maze: maze.clone(),
             colors: colors.clone(),
-            dimension: shape_factory.dimension(maze.rows(), maze.cols()),
+            wh: shape_factory.wh_for(maze.rows(), maze.cols()),
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
             fps,
-            shape_factory,
         }
     }
 
@@ -77,7 +75,7 @@ impl MazeScene {
     ) -> Self {
         let shape_factory = MazeScene::shape_factory(unit_shape, zoom);
         let (m_rows, m_cols) = MazeScene::adjust_dimension(maze_shape, unit_shape, rows, cols, &shape_factory);
-        MazeScene::new_from(&Maze::new(maze_shape, unit_shape, m_rows, m_cols, VOID), fps, colors, shape_factory)
+        MazeScene::new_from(&Maze::new_void(maze_shape, unit_shape, m_rows, m_cols), fps, colors, shape_factory)
     }
 
     pub(crate) fn update(&mut self) {
@@ -116,33 +114,33 @@ impl MazeScene {
     }
 
     pub(crate) fn set_bound(&mut self, color: Color) {
+        let (x_min, x_mid, x_max) = (MARGIN * 0.5, (self.wh.0 / 2) as f32, self.wh.0 as f32 - MARGIN * 0.5);
+        let (y_min, y_mid, y_max) = (MARGIN * 0.5, (self.wh.1 / 2) as f32, self.wh.1 as f32 - MARGIN * 0.5);
         self.bound = Some(match (self.maze.maze_shape, self.maze.unit_shape) {
             // TODO: (MazeShape::Triangle, UnitShape::Triangle)
             (MazeShape::Triangle, _) => Mesh {
-                #[rustfmt::skip]
                 vertices: vec![
-                    Vertex::new2(vec3((self.dimension.0 / 2) as f32         , MARGIN * 0.5                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN * 0.5, self.dimension.1 as f32 - MARGIN * 0.5, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(MARGIN * 0.5                          , self.dimension.1 as f32 - MARGIN * 0.5, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_mid, y_min, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), color),
                 ],
                 indices: vec![0, 1, 2],
                 texture: None,
             },
             (MazeShape::Rectangle, _) => Mesh {
-                #[rustfmt::skip]
                 vertices: vec![
-                    Vertex::new2(vec3(MARGIN - 1.                          , MARGIN - 1.                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN + 1., MARGIN - 1.                          , 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(self.dimension.0 as f32 - MARGIN + 1., self.dimension.1 as f32 - MARGIN + 1., 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(MARGIN - 1.                          , self.dimension.1 as f32 - MARGIN + 1., 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_min, y_min, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_max, y_min, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), color),
                 ],
                 indices: vec![0, 1, 2, 0, 2, 3],
                 texture: None,
             },
             (MazeShape::Circle | MazeShape::Hexagon, _) => {
                 let sides = self.maze.maze_shape.sides();
-                let radius = self.dimension.0 as f32 / 2.0 - MARGIN;
-                let (x0, y0) = ((self.dimension.0 / 2) as f32, (self.dimension.1 / 2) as f32);
+                let radius = self.wh.0 as f32 / 2.0 - MARGIN;
+                let (x0, y0) = (x_mid, y_mid);
                 let mut vertices = Vec::<Vertex>::with_capacity(sides as usize);
                 let mut indices = vec![];
                 for i in 0..sides {
@@ -324,10 +322,8 @@ impl MazeScene {
             (MazeShape::Rectangle, UnitShape::Triangle) => (rows * 2 + 1, cols),
             (MazeShape::Triangle, UnitShape::Triangle) => (rows * 2, if cols % 2 == 0 { cols + 1 } else { cols }),
             (MazeShape::Triangle, _) => (rows, if cols % 2 == 0 { cols + 1 } else { cols }),
-            (MazeShape::Circle, UnitShape::Triangle) => {
-                ((cols as f32 * factory.width() / factory.height()) as usize * 2, cols)
-            }
-            (MazeShape::Circle, _) => ((cols as f32 * factory.width() / factory.height()) as usize, cols),
+            (MazeShape::Circle, UnitShape::Triangle) => ((cols as f32 * factory.w() / factory.h()) as usize * 2, cols),
+            (MazeShape::Circle, _) => ((cols as f32 * factory.w() / factory.h()) as usize, cols),
             (_, _) => (rows, cols),
         }
     }
