@@ -1,7 +1,6 @@
 mod bound;
 mod color_gradient;
 mod file;
-mod frame_rate;
 mod run_algorithm;
 mod time;
 
