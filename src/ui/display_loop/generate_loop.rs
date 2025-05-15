@@ -14,8 +14,6 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
 
         scene.clear_and_draw();
 
-        scene.draw_bound();
-
         if !generated && is_mouse_button_released(MouseButton::Left) {
             if let Some(node) = scene.clicked_on(mouse_position()) {
                 if scene.maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {

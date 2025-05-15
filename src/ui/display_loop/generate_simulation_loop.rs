@@ -22,7 +22,6 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         let current_frame_start_time = current_millis();
 
         scene.clear_and_draw();
-        scene.draw_bound();
 
         if simulating {
             if !paused && !trace_complete {
