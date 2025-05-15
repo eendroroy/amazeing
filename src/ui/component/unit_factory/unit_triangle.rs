@@ -6,45 +6,45 @@ const SIDES: f32 = 3.;
 
 #[derive(Debug, Copy, Clone)]
 pub(crate) struct TriangleUnitShapeFactory {
-    pub(crate) margin: f32,
-    pub(crate) border: f32,
-    pub(crate) radius: f32,
-    pub(crate) width: f32,
-    pub(crate) height: f32,
+    pub(crate) m: f32,
+    pub(crate) b: f32,
+    pub(crate) r: f32,
+    pub(crate) w: f32,
+    pub(crate) h: f32,
 }
 
 impl UnitShapeFactory for TriangleUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let width = (PI / SIDES).sin() * RADIUS * 2. * zoom;
-        let height = (PI / SIDES).cos() * RADIUS * zoom + RADIUS * zoom;
+        let w = (PI / SIDES).sin() * RADIUS * 2. * zoom;
+        let h = (PI / SIDES).cos() * RADIUS * zoom + RADIUS * zoom;
 
         Self {
-            margin: MARGIN * zoom,
-            border: BORDER * zoom,
-            radius: RADIUS * zoom,
-            width,
-            height,
+            m: MARGIN * zoom,
+            b: BORDER * zoom,
+            r: RADIUS * zoom,
+            w,
+            h,
         }
     }
 
-    fn margin(&self) -> f32 {
-        self.margin
+    fn m(&self) -> f32 {
+        self.m
     }
 
-    fn border(&self) -> f32 {
-        self.border
+    fn b(&self) -> f32 {
+        self.b
     }
 
-    fn radius(&self) -> f32 {
-        self.radius
+    fn r(&self) -> f32 {
+        self.r
     }
 
-    fn width(&self) -> f32 {
-        self.width
+    fn w(&self) -> f32 {
+        self.w
     }
 
-    fn height(&self) -> f32 {
-        self.height
+    fn h(&self) -> f32 {
+        self.h
     }
 
     fn sides(&self) -> f32 {
@@ -57,24 +57,24 @@ impl UnitShapeFactory for TriangleUnitShapeFactory {
 
     fn xs(&self, r: usize, _c: usize) -> f32 {
         match r % 4 {
-            1 | 2 => (self.width + self.border) / 2.,
+            1 | 2 => (self.w + self.b) / 2.,
             _ => 0.,
         }
     }
 
     fn ys(&self, r: usize, _c: usize) -> f32 {
-        -1. * (r / 2) as f32 * (self.height + self.border)
+        -1. * (r / 2) as f32 * (self.h + self.b)
             + match r % 2 {
-                0 => -(self.height - self.radius - self.border) / 2.,
-                1 => (self.height - self.radius) / 2. - self.height,
+                0 => -(self.h - self.r - self.b) / 2.,
+                1 => (self.h - self.r) / 2. - self.h,
                 _ => 0.,
             }
     }
 
     fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
-            (cols as f32 * self.width() + (cols - 1) as f32 * self.border() + (self.width + self.border) / 2.0) as u32,
-            (rows as f32 * self.height() / 2.0 + (rows / 2) as f32 * self.border()) as u32,
+            (cols as f32 * self.w() + (cols - 1) as f32 * self.b() + (self.w + self.b) / 2.0) as u32,
+            (rows as f32 * self.h() / 2.0 + (rows / 2) as f32 * self.b()) as u32,
         )
     }
 }

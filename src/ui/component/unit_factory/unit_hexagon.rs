@@ -6,44 +6,44 @@ const SIDES: f32 = 6.;
 
 #[derive(Debug, Copy, Clone)]
 pub(crate) struct HexagonUnitShapeFactory {
-    pub(crate) margin: f32,
-    pub(crate) border: f32,
-    pub(crate) radius: f32,
-    pub(crate) width: f32,
-    pub(crate) height: f32,
+    pub(crate) m: f32,
+    pub(crate) b: f32,
+    pub(crate) r: f32,
+    pub(crate) w: f32,
+    pub(crate) h: f32,
 }
 
 impl UnitShapeFactory for HexagonUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let width = (PI / SIDES).cos() * RADIUS * zoom * 2.;
-        let height = RADIUS * zoom * (1. + (PI / SIDES).sin());
+        let w = (PI / SIDES).cos() * RADIUS * zoom * 2.;
+        let h = RADIUS * zoom * (1. + (PI / SIDES).sin());
         Self {
-            margin: MARGIN * zoom,
-            border: BORDER * zoom,
-            radius: RADIUS * zoom,
-            width,
-            height,
+            m: MARGIN * zoom,
+            b: BORDER * zoom,
+            r: RADIUS * zoom,
+            w,
+            h,
         }
     }
 
-    fn margin(&self) -> f32 {
-        self.margin
+    fn m(&self) -> f32 {
+        self.m
     }
 
-    fn border(&self) -> f32 {
-        self.border
+    fn b(&self) -> f32 {
+        self.b
     }
 
-    fn radius(&self) -> f32 {
-        self.radius
+    fn r(&self) -> f32 {
+        self.r
     }
 
-    fn width(&self) -> f32 {
-        self.width
+    fn w(&self) -> f32 {
+        self.w
     }
 
-    fn height(&self) -> f32 {
-        self.height
+    fn h(&self) -> f32 {
+        self.h
     }
 
     fn sides(&self) -> f32 {
@@ -55,19 +55,17 @@ impl UnitShapeFactory for HexagonUnitShapeFactory {
     }
 
     fn xs(&self, r: usize, _c: usize) -> f32 {
-        if r % 2 == 1 { (self.width + self.border) / 2. } else { 0. }
+        if r % 2 == 1 { (self.w + self.b) / 2. } else { 0. }
     }
 
     fn ys(&self, _r: usize, _c: usize) -> f32 {
-        self.radius * (1. - (PI / SIDES).sin()) / 2.
+        self.r * (1. - (PI / SIDES).sin()) / 2.
     }
 
     fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
-            (cols as f32 * self.width() + (cols - 1) as f32 * self.border() + (self.width() + self.border) / 2.) as u32,
-            (rows as f32 * self.height()
-                + (rows - 1) as f32 * self.border()
-                + (self.radius * (1. - (PI / SIDES).sin()))) as u32,
+            (cols as f32 * self.w() + (cols - 1) as f32 * self.b() + (self.w() + self.b) / 2.) as u32,
+            (rows as f32 * self.h() + (rows - 1) as f32 * self.b() + (self.r * (1. - (PI / SIDES).sin()))) as u32,
         )
     }
 }

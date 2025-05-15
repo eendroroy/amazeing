@@ -6,45 +6,45 @@ const SIDES: f32 = 4.;
 
 #[derive(Debug, Copy, Clone)]
 pub(crate) struct SquareUnitShapeFactory {
-    pub(crate) margin: f32,
-    pub(crate) border: f32,
-    pub(crate) radius: f32,
-    pub(crate) width: f32,
-    pub(crate) height: f32,
+    pub(crate) m: f32,
+    pub(crate) b: f32,
+    pub(crate) r: f32,
+    pub(crate) w: f32,
+    pub(crate) h: f32,
 }
 
 impl UnitShapeFactory for SquareUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let width = (PI / SIDES).sin() * RADIUS * 2. * zoom;
-        let height = (PI / SIDES).sin() * RADIUS * 2. * zoom;
+        let w = (PI / SIDES).sin() * RADIUS * 2. * zoom;
+        let h = (PI / SIDES).sin() * RADIUS * 2. * zoom;
 
         Self {
-            margin: MARGIN * zoom,
-            border: BORDER * zoom,
-            radius: RADIUS * zoom,
-            width,
-            height,
+            m: MARGIN * zoom,
+            b: BORDER * zoom,
+            r: RADIUS * zoom,
+            w,
+            h,
         }
     }
 
-    fn margin(&self) -> f32 {
-        self.margin
+    fn m(&self) -> f32 {
+        self.m
     }
 
-    fn border(&self) -> f32 {
-        self.border
+    fn b(&self) -> f32 {
+        self.b
     }
 
-    fn radius(&self) -> f32 {
-        self.radius
+    fn r(&self) -> f32 {
+        self.r
     }
 
-    fn width(&self) -> f32 {
-        self.width
+    fn w(&self) -> f32 {
+        self.w
     }
 
-    fn height(&self) -> f32 {
-        self.height
+    fn h(&self) -> f32 {
+        self.h
     }
 
     fn sides(&self) -> f32 {

@@ -1,5 +1,5 @@
 use crate::core::tiled::node::Node;
-use crate::core::tiled::{MazeData, MazeShape, UnitShape};
+use crate::core::tiled::{MazeData, MazeShape, UnitShape, VOID};
 use std::ops::{Index, IndexMut};
 
 #[derive(Default, Debug, Clone)]
@@ -17,6 +17,10 @@ impl Maze {
             data: vec![vec![default; cols]; rows],
         }
     }
+    pub fn new_void(maze_shape: MazeShape, unit_shape: UnitShape, rows: usize, cols: usize) -> Self {
+        Maze::new(maze_shape, unit_shape, rows, cols, VOID)
+    }
+
     pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: MazeData) -> Self {
         Self {
             maze_shape,
