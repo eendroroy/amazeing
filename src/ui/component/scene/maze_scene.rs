@@ -184,14 +184,15 @@ impl MazeScene {
             }
         }
     }
+    
+    pub(crate) fn clear_and_draw(&self) {
+        clear_background(self.colors.color_bg);
+        self.draw();
+        self.draw_bound();
+    }
 
     pub(crate) fn draw(&self) {
         self.meshes.iter().for_each(|row| row.iter().for_each(draw_mesh));
-    }
-
-    pub(crate) fn clear_and_draw(&self) {
-        clear_background(self.colors.color_bg);
-        self.draw()
     }
 
     pub(crate) fn draw_bound(&self) {
