@@ -25,18 +25,10 @@ async fn main() {
             unit_shape,
             ..
         }) => {
-            let mut scene = MazeScene::new_from_dimension(
-                maze_shape.shape(),
-                unit_shape.shape(),
-                context.rows,
-                context.cols,
-                args.zoom,
-                args.fps,
-                &colors,
-            );
+            let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
             scene.set_bound(YELLOW);
             set_screen_size(scene.wh);
-            generate_loop(&mut scene, &context, &colors).await
+            generate_loop(&mut scene).await
         }
         Create(CreateArgs {
             verbose: true,
@@ -44,38 +36,30 @@ async fn main() {
             unit_shape,
             ..
         }) => {
-            let mut scene = MazeScene::new_from_dimension(
-                maze_shape.shape(),
-                unit_shape.shape(),
-                context.rows,
-                context.cols,
-                args.zoom,
-                args.fps,
-                &colors,
-            );
+            let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
             scene.set_bound(YELLOW);
             set_screen_size(scene.wh);
-            generate_simulation_loop(&mut scene, &context, &colors).await
+            generate_simulation_loop(&mut scene).await
         }
         View(ViewArgs { update: false, .. }) => {
-            let scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
             set_screen_size(scene.wh);
-            view_loop(scene, &colors).await
+            view_loop(scene).await
         }
         View(ViewArgs { update: true, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
             set_screen_size(scene.wh);
-            update_loop(&mut scene, &context, &colors).await
+            update_loop(&mut scene).await
         }
         Solve(SolveArgs { verbose: false, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
             set_screen_size(scene.wh);
-            solve_loop(&mut scene, &context, &colors).await
+            solve_loop(&mut scene).await
         }
         Solve(SolveArgs { verbose: true, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), args.zoom, args.fps, &colors);
+            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
             set_screen_size(scene.wh);
-            solve_simulation_loop(&mut scene, &context, &colors).await
+            solve_simulation_loop(&mut scene).await
         }
     }
 }

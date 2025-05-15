@@ -1,11 +1,10 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Node, VOID};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::context::{AmazeingContext, Colors};
-use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze};
+use crate::ui::helper::{current_millis, generate_maze, save_maze, take_a_snap};
 use macroquad::prelude::*;
 
-pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingContext, colors: &Colors) {
+pub(crate) async fn generate_loop(scene: &mut MazeScene) {
     let sources = &mut vec![];
     let mut destination: Option<Node> = None;
     let mut generated = false;
@@ -13,13 +12,9 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingConte
     loop {
         let current_frame_start_time = current_millis();
 
-        clear_background(colors.color_bg);
+        scene.clear_and_draw();
 
-        scene.draw();
-
-        if context.show_perimeter {
-            scene.draw_bound();
-        }
+        scene.draw_bound();
 
         if !generated && is_mouse_button_released(MouseButton::Left) {
             if let Some(node) = scene.clicked_on(mouse_position()) {
@@ -27,21 +22,21 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingConte
                     if sources.contains(&node) {
                         if let Some(index) = sources.iter().position(|value| *value == node) {
                             let node = sources.swap_remove(index);
-                            scene.update_color(node, colors.color_block);
+                            scene.display_block(node);
                         }
                     } else {
                         sources.push(node);
-                        scene.update_color(node, colors.color_source);
+                        scene.display_source(node);
                     }
                 } else if scene.maze[node] != VOID
                     && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
                 {
                     if let Some(dest) = destination {
-                        scene.update_color(dest, colors.color_block);
+                        scene.display_block(dest);
                     }
                     destination = Some(node);
                     if let Some(dest) = destination {
-                        scene.update_color(dest, colors.color_destination);
+                        scene.display_destination(dest);
                     }
                 }
             }
@@ -53,32 +48,16 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene, context: &AmazeingConte
 
         if !generated
             && (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-            && (context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
+            && (scene.context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
         {
-            generate_maze(&mut scene.maze, sources, destination, context, &mut None);
+            generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut None);
             scene.update();
-            sources
-                .iter()
-                .for_each(|node| scene.update_color(*node, colors.color_source));
+            sources.iter().for_each(|node| scene.display_source(*node));
             generated = true;
         }
 
-        if is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl) {
-            if is_key_pressed(KeyCode::I) {
-                get_screen_data().export_png(&format!(
-                    "maze_{}_{}_{}.png",
-                    current_millis(),
-                    context.rows,
-                    context.cols
-                ));
-            }
-
-            if is_key_pressed(KeyCode::S) {
-                if let Some(maze_file_path) = context.maze_file_path.clone() {
-                    dump_maze_to_file(&maze_file_path, &scene.maze);
-                }
-            }
-        }
+        take_a_snap(scene);
+        save_maze(scene);
 
         scene.delay_till_next_frame(current_frame_start_time);
 

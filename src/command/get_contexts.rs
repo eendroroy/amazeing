@@ -19,23 +19,26 @@ pub(crate) fn get_contexts(amazeing_args: AmazeingArgs) -> (AmazeingContext, Col
             gradient_steps = GRADIENT_STEPS(rows, cols);
 
             AmazeingContext::create_context(
-                None,
-                command_args.maze,
+                (None, command_args.maze),
                 (command_args.procedure, command_args.heuristic_function.heuristic()),
                 (command_args.jumble_factor, command_args.weight_direction.direction()),
                 (rows, cols),
-                command_args.show_perimeter,
+                (amazeing_args.zoom, amazeing_args.fps, command_args.show_perimeter),
             )
         }
         ArgCommand::View(sub_args) => {
             let loaded_maze = load_maze_from_file(sub_args.maze.as_path());
             gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
-            AmazeingContext::view_context(loaded_maze, sub_args.maze.clone())
+            AmazeingContext::view_context((loaded_maze, sub_args.maze.clone()), (amazeing_args.zoom, amazeing_args.fps))
         }
         ArgCommand::Solve(sub_args) => {
             let loaded_maze = load_maze_from_file(sub_args.maze.as_path());
             gradient_steps = GRADIENT_STEPS(loaded_maze.rows(), loaded_maze.cols());
-            AmazeingContext::solve_context(loaded_maze, (sub_args.procedure, sub_args.heuristic_function.heuristic()))
+            AmazeingContext::solve_context(
+                loaded_maze,
+                (sub_args.procedure, sub_args.heuristic_function.heuristic()),
+                (amazeing_args.zoom, amazeing_args.fps),
+            )
         }
     };
 
