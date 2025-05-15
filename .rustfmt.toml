@@ -1,6 +1,39 @@
+# Defaults
+# array_width = 60
+# attr_fn_like_width = 70
+# chain_width = 60
+# disable_all_formatting = false
+# edition = "2015"
+# fn_call_width = 60
+# fn_params_layout = "Tall"
+# force_explicit_abi = true
+# hard_tabs = false
+# match_arm_leading_pipes = "Never"
+# match_block_trailing_comma = false
+# max_width = 100
+# merge_derives = true
+# newline_style = "Auto"
+# remove_nested_parens = true
+# reorder_imports = true
+# reorder_modules = true
+# short_array_element_width_threshold = 10
+# single_line_if_else_max_width = 50
+# single_line_let_else_max_width = 50
+# struct_lit_width = 18
+# struct_variant_width = 35
+# tab_spaces = 4
+# use_field_init_shorthand = false
+# use_small_heuristics = "Default"
+# use_try_shorthand = false
+
+# Customization
 edition = "2024"
 style_edition = "2024"
 max_width = 120
 fn_call_width = 120
+array_width = 100
+attr_fn_like_width = 100
+chain_width = 80
 single_line_if_else_max_width = 75
 single_line_let_else_max_width = 75
+struct_lit_width = 30
