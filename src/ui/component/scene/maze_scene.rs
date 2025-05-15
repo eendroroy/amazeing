@@ -233,18 +233,12 @@ impl MazeScene {
     }
 
     pub(crate) fn update_node(&mut self, node: Node, value: i8, color: Color) {
-        self[node]
-            .vertices
-            .iter_mut()
-            .for_each(|vertex| vertex.color = color.into());
+        self[node].vertices.iter_mut().for_each(|vertex| vertex.color = color.into());
         self.maze[node] = value;
     }
 
     pub(crate) fn update_color(&mut self, node: Node, color: Color) {
-        self[node]
-            .vertices
-            .iter_mut()
-            .for_each(|vertex| vertex.color = color.into())
+        self[node].vertices.iter_mut().for_each(|vertex| vertex.color = color.into())
     }
 
     #[allow(dead_code)]

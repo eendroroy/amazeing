@@ -22,11 +22,7 @@ impl Maze {
     }
 
     pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: MazeData) -> Self {
-        Self {
-            maze_shape,
-            unit_shape,
-            data,
-        }
+        Self { maze_shape, unit_shape, data }
     }
 
     pub fn rows(&self) -> usize {

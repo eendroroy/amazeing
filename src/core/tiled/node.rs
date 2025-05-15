@@ -107,23 +107,9 @@ impl Node {
             UnitShape::Square | UnitShape::Octagon => vec![Node::right, Node::down, Node::left, Node::up],
             UnitShape::Hexagon => {
                 if self.row % 2 == 0 {
-                    vec![
-                        Node::right,
-                        Node::down,
-                        Node::left_down,
-                        Node::left,
-                        Node::left_up,
-                        Node::up,
-                    ]
+                    vec![Node::right, Node::down, Node::left_down, Node::left, Node::left_up, Node::up]
                 } else {
-                    vec![
-                        Node::right,
-                        Node::right_down,
-                        Node::down,
-                        Node::left,
-                        Node::up,
-                        Node::right_up,
-                    ]
+                    vec![Node::right, Node::right_down, Node::down, Node::left, Node::up, Node::right_up]
                 }
             }
         }
@@ -133,17 +119,11 @@ impl Node {
     }
 
     pub fn neighbours_open(self, maze: &Maze, unit_shape: &UnitShape) -> Vec<Node> {
-        self.neighbours(unit_shape)
-            .into_iter()
-            .filter(|p| maze[*p] == OPEN)
-            .collect()
+        self.neighbours(unit_shape).into_iter().filter(|p| maze[*p] == OPEN).collect()
     }
 
     pub fn neighbours_block(self, maze: &Maze, unit_shape: &UnitShape) -> Vec<Node> {
-        self.neighbours(unit_shape)
-            .into_iter()
-            .filter(|p| maze[*p] == BLOCK)
-            .collect()
+        self.neighbours(unit_shape).into_iter().filter(|p| maze[*p] == BLOCK).collect()
     }
 }
 
