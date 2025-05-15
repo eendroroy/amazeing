@@ -21,6 +21,8 @@ _amazeing() {
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
 '--help[Print help (see more with '\''--help'\'')]' \
 '-V[Print version]' \
@@ -686,6 +688,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
@@ -702,6 +706,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-u[View and update]' \
 '--update[View and update]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
@@ -722,6 +728,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
@@ -742,6 +750,8 @@ _arguments "${_arguments_options[@]}" : \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
+'-P[Draw maze bound (perimeter)]' \
+'--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0

@@ -3,6 +3,13 @@ use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{Maze, NodeHeuFn};
 use std::path::PathBuf;
 
+#[derive(Debug, Clone, PartialEq)]
+pub(crate) enum ContextType {
+    Create,
+    View,
+    Solve,
+}
+
 #[derive(Debug, Clone)]
 pub struct AmazeingContext {
     pub(crate) maze: Option<Maze>,
@@ -17,6 +24,7 @@ pub struct AmazeingContext {
     pub(crate) zoom: f32,
     pub(crate) fps: f32,
     pub(crate) show_perimeter: bool,
+    pub(crate) context_type: ContextType,
 }
 
 impl AmazeingContext {
@@ -25,7 +33,7 @@ impl AmazeingContext {
         (generation_procedure, heuristic): (ArgGenProcedure, NodeHeuFn),
         (jumble_factor, weight_direction): (u32, WeightDirection),
         (rows, cols): (usize, usize),
-        (zoom, fps, draw_perimeter): (f32, f32, bool),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
     ) -> Self {
         Self {
             maze,
@@ -39,11 +47,15 @@ impl AmazeingContext {
             cols,
             zoom,
             fps,
-            show_perimeter: draw_perimeter,
+            show_perimeter,
+            context_type: ContextType::Create,
         }
     }
 
-    pub(crate) fn view_context((maze, maze_file_path): (Maze, PathBuf), (zoom, fps): (f32, f32)) -> Self {
+    pub(crate) fn view_context(
+        (maze, maze_file_path): (Maze, PathBuf),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
+    ) -> Self {
         Self {
             maze_file_path: Some(maze_file_path),
             generation_procedure: ArgGenProcedure::default(),
@@ -56,14 +68,15 @@ impl AmazeingContext {
             maze: Some(maze),
             zoom,
             fps,
-            show_perimeter: false,
+            show_perimeter,
+            context_type: ContextType::View,
         }
     }
 
     pub fn solve_context(
         maze: Maze,
         (solve_procedure, heuristic): (ArgSolveProcedure, NodeHeuFn),
-        (zoom, fps): (f32, f32),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
     ) -> Self {
         Self {
             maze_file_path: None,
@@ -77,7 +90,8 @@ impl AmazeingContext {
             maze: Some(maze),
             zoom,
             fps,
-            show_perimeter: false,
+            show_perimeter,
+            context_type: ContextType::Solve,
         }
     }
 }

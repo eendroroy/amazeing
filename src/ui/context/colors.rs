@@ -16,6 +16,7 @@ pub struct Colors {
     pub(crate) color_source: Color,
     pub(crate) color_destination: Color,
     pub(crate) color_traversed: Color,
+    pub(crate) color_perimeter: Color,
 }
 
 impl Colors {
@@ -30,6 +31,7 @@ impl Colors {
             color_source: Color::from_hex(0xffa600),
             color_destination: Color::from_hex(0xffa600),
             color_traversed: Color::from_hex(0xcfa093),
+            color_perimeter: Color::from_hex(0xc9c982),
         }
     }
 
@@ -48,6 +50,7 @@ impl Colors {
             color_source: Color::from_hex(scheme.color_source),
             color_destination: Color::from_hex(scheme.color_destination),
             color_traversed: Color::from_hex(scheme.color_traversed),
+            color_perimeter: Color::from_hex(scheme.color_perimeter),
         }
     }
 
@@ -69,6 +72,7 @@ pub(crate) struct ColorScheme {
     pub(crate) color_source: u32,
     pub(crate) color_destination: u32,
     pub(crate) color_traversed: u32,
+    pub(crate) color_perimeter: u32,
 }
 
 impl ColorScheme {
