@@ -1,12 +1,11 @@
 use crate::command::ArgGenProcedure;
 use crate::core::tiled::{Node, Trace, Tracer, VOID};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::context::{AmazeingContext, Colors};
-use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze};
+use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze, take_a_snap};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 
-pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &AmazeingContext, colors: &Colors) {
+pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
     let mut trace: Tracer = vec![];
     let mut tracer: Option<Tracer> = Some(vec![]);
 
@@ -22,20 +21,15 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
     loop {
         let current_frame_start_time = current_millis();
 
-        clear_background(colors.color_bg);
-
-        scene.draw();
-
-        if context.show_perimeter {
-            scene.draw_bound();
-        }
+        scene.clear_and_draw();
+        scene.draw_bound();
 
         if simulating {
             if !paused && !trace_complete {
                 current_path.iter().for_each(|node| {
                     if sources.first().unwrap().ne(node.0) && (destination.is_none() || destination.unwrap().ne(node.0))
                     {
-                        scene.update_color(*node.0, colors.color_open)
+                        scene.display_open(*node.0)
                     }
                 });
                 current_path = trace.remove(0);
@@ -46,7 +40,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
                         if sources.first().unwrap().ne(node.0)
                             && (destination.is_none() || destination.unwrap().ne(node.0))
                         {
-                            scene.update_color(*node.0, colors.color_open)
+                            scene.display_open(*node.0)
                         }
                     });
                 } else {
@@ -54,7 +48,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
                         if sources.first().unwrap().ne(node.0)
                             && (destination.is_none() || destination.unwrap().ne(node.0))
                         {
-                            scene.update_color(*node.0, *colors.shed_color(node.1))
+                            scene.display_visiting_gradient(*node.0, node.1)
                         }
                     });
                 }
@@ -74,29 +68,29 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
                         if sources.contains(&node) {
                             if let Some(index) = sources.iter().position(|value| *value == node) {
                                 let node = sources.swap_remove(index);
-                                scene.update_color(node, colors.color_block)
+                                scene.display_block(node)
                             }
                         } else {
                             sources.push(node);
-                            scene.update_color(node, colors.color_source)
+                            scene.display_source(node)
                         }
                     } else if scene.maze[node] != VOID
                         && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
                     {
                         if let Some(node) = destination {
-                            scene.update_color(node, colors.color_block)
+                            scene.display_block(node)
                         }
                         destination = Some(node);
-                        scene.update_color(node, colors.color_destination)
+                        scene.display_destination(node)
                     }
                 }
             }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-                && (context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
+                && (scene.context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
             {
-                generate_maze(&mut scene.maze, sources, destination, context, &mut tracer);
-                if let Some(maze_file_path) = context.maze_file_path.clone() {
+                generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut tracer);
+                if let Some(maze_file_path) = scene.context.maze_file_path.clone() {
                     dump_maze_to_file(&maze_file_path, &scene.maze);
                 }
                 trace = tracer.clone().unwrap();
@@ -104,9 +98,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene, context: &Am
             }
         }
 
-        if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::I) {
-            get_screen_data().export_png(&format!("maze_{}_{}_{}.png", current_millis(), context.rows, context.cols));
-        }
+        take_a_snap(scene);
 
         if is_key_pressed(KeyCode::Q) {
             break;

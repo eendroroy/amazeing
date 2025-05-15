@@ -14,17 +14,18 @@ pub struct AmazeingContext {
     pub(crate) weight_direction: WeightDirection,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+    pub(crate) zoom: f32,
+    pub(crate) fps: f32,
     pub(crate) show_perimeter: bool,
 }
 
 impl AmazeingContext {
     pub fn create_context(
-        maze: Option<Maze>,
-        maze_file_path: Option<PathBuf>,
+        (maze, maze_file_path): (Option<Maze>, Option<PathBuf>),
         (generation_procedure, heuristic): (ArgGenProcedure, NodeHeuFn),
         (jumble_factor, weight_direction): (u32, WeightDirection),
         (rows, cols): (usize, usize),
-        draw_perimeter: bool,
+        (zoom, fps, draw_perimeter): (f32, f32, bool),
     ) -> Self {
         Self {
             maze,
@@ -36,11 +37,13 @@ impl AmazeingContext {
             weight_direction,
             rows,
             cols,
+            zoom,
+            fps,
             show_perimeter: draw_perimeter,
         }
     }
 
-    pub(crate) fn view_context(maze: Maze, maze_file_path: PathBuf) -> Self {
+    pub(crate) fn view_context((maze, maze_file_path): (Maze, PathBuf), (zoom, fps): (f32, f32)) -> Self {
         Self {
             maze_file_path: Some(maze_file_path),
             generation_procedure: ArgGenProcedure::default(),
@@ -51,11 +54,17 @@ impl AmazeingContext {
             rows: maze.rows(),
             cols: maze.cols(),
             maze: Some(maze),
+            zoom,
+            fps,
             show_perimeter: false,
         }
     }
 
-    pub fn solve_context(maze: Maze, (solve_procedure, heuristic): (ArgSolveProcedure, NodeHeuFn)) -> Self {
+    pub fn solve_context(
+        maze: Maze,
+        (solve_procedure, heuristic): (ArgSolveProcedure, NodeHeuFn),
+        (zoom, fps): (f32, f32),
+    ) -> Self {
         Self {
             maze_file_path: None,
             generation_procedure: ArgGenProcedure::default(),
@@ -66,6 +75,8 @@ impl AmazeingContext {
             rows: maze.rows(),
             cols: maze.cols(),
             maze: Some(maze),
+            zoom,
+            fps,
             show_perimeter: false,
         }
     }

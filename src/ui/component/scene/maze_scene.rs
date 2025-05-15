@@ -1,19 +1,21 @@
-use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, OPEN, UnitShape, VOID};
+use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, OPEN, Rank, UnitShape, VOID};
 use crate::ui::component::MARGIN;
 use crate::ui::component::unit_factory::{
     HexagonUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory,
     UnitShapeFactory,
 };
-use crate::ui::context::Colors;
+use crate::ui::context::{AmazeingContext, Colors};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
 use macroquad::prelude::YELLOW;
 use macroquad::prelude::draw_line;
 use macroquad::prelude::{Color, Vertex, vec2, vec3};
 use macroquad::prelude::{Mesh, draw_mesh};
+use macroquad::window::clear_background;
 use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
 
 pub(crate) struct MazeScene {
+    pub(crate) context: AmazeingContext,
     pub(crate) meshes: Vec<Vec<Mesh>>,
     pub(crate) maze: Maze,
     pub(crate) colors: Colors,
@@ -21,11 +23,15 @@ pub(crate) struct MazeScene {
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
-    pub(crate) fps: f32,
 }
 
 impl MazeScene {
-    fn new_from(maze: &Maze, fps: f32, colors: &Colors, shape_factory: Box<dyn UnitShapeFactory>) -> Self {
+    fn new_from(
+        maze: &Maze,
+        context: AmazeingContext,
+        colors: &Colors,
+        shape_factory: Box<dyn UnitShapeFactory>,
+    ) -> Self {
         let meshes = maze
             .data
             .iter()
@@ -48,6 +54,7 @@ impl MazeScene {
             .collect::<Vec<Vec<Mesh>>>();
 
         Self {
+            context,
             meshes,
             maze: maze.clone(),
             colors: colors.clone(),
@@ -55,27 +62,29 @@ impl MazeScene {
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
-            fps,
         }
     }
 
-    pub(crate) fn new_from_maze(maze: &Maze, zoom: f32, fps: f32, colors: &Colors) -> Self {
-        let shape_factory = MazeScene::shape_factory(maze.unit_shape, zoom);
-        MazeScene::new_from(maze, fps, colors, shape_factory)
+    pub(crate) fn new_from_maze(maze: &Maze, context: &AmazeingContext, colors: &Colors) -> Self {
+        let shape_factory = MazeScene::shape_factory(maze.unit_shape, context.zoom);
+        MazeScene::new_from(maze, context.clone(), colors, shape_factory)
     }
 
     pub(crate) fn new_from_dimension(
         maze_shape: MazeShape,
         unit_shape: UnitShape,
-        rows: usize,
-        cols: usize,
-        zoom: f32,
-        fps: f32,
+        context: &AmazeingContext,
         colors: &Colors,
     ) -> Self {
-        let shape_factory = MazeScene::shape_factory(unit_shape, zoom);
-        let (m_rows, m_cols) = MazeScene::adjust_dimension(maze_shape, unit_shape, rows, cols, &shape_factory);
-        MazeScene::new_from(&Maze::new_void(maze_shape, unit_shape, m_rows, m_cols), fps, colors, shape_factory)
+        let shape_factory = MazeScene::shape_factory(unit_shape, context.zoom);
+        let (m_rows, m_cols) =
+            MazeScene::adjust_dimension(maze_shape, unit_shape, context.rows, context.cols, &shape_factory);
+        MazeScene::new_from(
+            &Maze::new_void(maze_shape, unit_shape, m_rows, m_cols),
+            context.clone(),
+            colors,
+            shape_factory,
+        )
     }
 
     pub(crate) fn update(&mut self) {
@@ -180,7 +189,16 @@ impl MazeScene {
         self.meshes.iter().for_each(|row| row.iter().for_each(draw_mesh));
     }
 
+    pub(crate) fn clear_and_draw(&self) {
+        clear_background(self.colors.color_bg);
+        self.draw()
+    }
+
     pub(crate) fn draw_bound(&self) {
+        if !self.context.show_perimeter {
+            return;
+        }
+
         if let Some(bound) = &self.bound {
             for i in 0..bound.vertices.len() {
                 if i < bound.vertices.len() - 1 {
@@ -217,6 +235,14 @@ impl MazeScene {
         None
     }
 
+    pub(crate) fn update_node(&mut self, node: Node, value: i8, color: Color) {
+        self[node]
+            .vertices
+            .iter_mut()
+            .for_each(|vertex| vertex.color = color.into());
+        self.maze[node] = value;
+    }
+
     pub(crate) fn update_color(&mut self, node: Node, color: Color) {
         self[node]
             .vertices
@@ -224,9 +250,47 @@ impl MazeScene {
             .for_each(|vertex| vertex.color = color.into())
     }
 
+    #[allow(dead_code)]
+    pub(crate) fn display_void(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_bg)
+    }
+
+    pub(crate) fn display_block(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_block)
+    }
+
+    pub(crate) fn display_open(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_open)
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn display_visiting(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_visiting)
+    }
+
+    pub(crate) fn display_visiting_gradient(&mut self, node: Node, rank: &Rank) {
+        self.update_color(node, *self.colors.shed_color(rank))
+    }
+
+    pub(crate) fn display_path(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_path)
+    }
+
+    pub(crate) fn display_source(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_source)
+    }
+
+    pub(crate) fn display_destination(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_destination)
+    }
+
+    pub(crate) fn display_traversed(&mut self, node: Node) {
+        self.update_color(node, self.colors.color_traversed)
+    }
+
     pub(crate) fn delay_till_next_frame(&self, current_frame_start_time: u128) {
         let current_frame_time = (current_millis() - current_frame_start_time) as f32;
-        let minimum_frame_time = (1. / self.fps) * 1000.;
+        let minimum_frame_time = (1. / self.context.fps) * 1000.;
         #[allow(unused_assignments)]
         let mut time_to_sleep: f32 = 0.;
         if current_frame_time < minimum_frame_time {
@@ -311,6 +375,7 @@ impl MazeScene {
         false
     }
 
+    #[allow(clippy::borrowed_box)]
     fn adjust_dimension(
         maze_shape: MazeShape,
         unit_shape: UnitShape,
