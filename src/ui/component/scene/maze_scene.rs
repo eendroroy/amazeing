@@ -1,12 +1,12 @@
 use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, OPEN, Rank, UnitShape, VOID};
-use crate::ui::component::MARGIN;
 use crate::ui::component::unit_factory::{
     HexagonUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory,
     UnitShapeFactory,
 };
-use crate::ui::context::{AmazeingContext, Colors};
+use crate::ui::component::{BORDER, MARGIN};
+use crate::ui::context::{AmazeingContext, Colors, ContextType};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
-use macroquad::prelude::{Color, Mesh, Vertex, YELLOW, clear_background, draw_line, draw_mesh, vec2, vec3};
+use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
 use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
 
@@ -49,7 +49,7 @@ impl MazeScene {
             })
             .collect::<Vec<Vec<Mesh>>>();
 
-        Self {
+        let mut scene = Self {
             context,
             meshes,
             maze: maze.clone(),
@@ -58,7 +58,13 @@ impl MazeScene {
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
+        };
+
+        if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
+            scene.set_bound();
         }
+
+        scene
     }
 
     pub(crate) fn new_from_maze(maze: &Maze, context: &AmazeingContext, colors: &Colors) -> Self {
@@ -81,6 +87,14 @@ impl MazeScene {
             colors,
             shape_factory,
         )
+    }
+
+    pub(crate) fn w(&self) -> u32 {
+        self.wh.0
+    }
+
+    pub(crate) fn h(&self) -> u32 {
+        self.wh.1
     }
 
     pub(crate) fn update(&mut self) {
@@ -118,26 +132,26 @@ impl MazeScene {
         }
     }
 
-    pub(crate) fn set_bound(&mut self, color: Color) {
-        let (x_min, x_mid, x_max) = (MARGIN * 0.5, (self.wh.0 / 2) as f32, self.wh.0 as f32 - MARGIN * 0.5);
-        let (y_min, y_mid, y_max) = (MARGIN * 0.5, (self.wh.1 / 2) as f32, self.wh.1 as f32 - MARGIN * 0.5);
+    pub(crate) fn set_bound(&mut self) {
+        let (x_min, x_mid, x_max) = (MARGIN - BORDER, (self.w() / 2) as f32, self.w() as f32 - MARGIN + BORDER);
+        let (y_min, y_mid, y_max) = (MARGIN - BORDER, (self.h() / 2) as f32, self.h() as f32 - MARGIN + BORDER);
         self.bound = Some(match (self.maze.maze_shape, self.maze.unit_shape) {
             // TODO: (MazeShape::Triangle, UnitShape::Triangle)
             (MazeShape::Triangle, _) => Mesh {
                 vertices: vec![
-                    Vertex::new2(vec3(x_mid, y_min, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_mid, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
                 ],
                 indices: vec![0, 1, 2],
                 texture: None,
             },
             (MazeShape::Rectangle, _) => Mesh {
                 vertices: vec![
-                    Vertex::new2(vec3(x_min, y_min, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(x_max, y_min, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), color),
-                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), color),
+                    Vertex::new2(vec3(x_min, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                    Vertex::new2(vec3(x_max, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
                 ],
                 indices: vec![0, 1, 2, 0, 2, 3],
                 texture: None,
@@ -151,8 +165,8 @@ impl MazeScene {
                 for i in 0..sides {
                     let rx = (i as f32 / sides as f32 * PI * 2.).cos();
                     let ry = (i as f32 / sides as f32 * PI * 2.).sin();
-
-                    let vertex = Vertex::new(x0 + radius * rx, y0 + radius * ry, 0., rx, ry, color);
+                    let vertex =
+                        Vertex::new(x0 + radius * rx, y0 + radius * ry, 0., rx, ry, self.colors.color_perimeter);
 
                     vertices.push(vertex);
 
@@ -169,13 +183,15 @@ impl MazeScene {
             }
         });
 
-        let node = Node::new(self.rows, self.cols);
+        if self.context.context_type == ContextType::Create {
+            let node = Node::new(self.rows, self.cols);
 
-        for r in 0..self.rows {
-            for c in 0..self.cols {
-                if self.is_mesh_in_bound(&self.meshes[r][c]) {
-                    self.update_color(node.at(r, c).unwrap(), self.colors.color_block);
-                    self.maze[node.at(r, c).unwrap()] = BLOCK;
+            for r in 0..self.rows {
+                for c in 0..self.cols {
+                    if self.is_mesh_in_bound(&self.meshes[r][c]) {
+                        self.update_color(node.at(r, c).unwrap(), self.colors.color_block);
+                        self.maze[node.at(r, c).unwrap()] = BLOCK;
+                    }
                 }
             }
         }
@@ -205,7 +221,7 @@ impl MazeScene {
                         bound.vertices[i + 1].position.x,
                         bound.vertices[i + 1].position.y,
                         1.,
-                        YELLOW,
+                        self.colors.color_perimeter,
                     )
                 } else {
                     draw_line(
@@ -214,7 +230,7 @@ impl MazeScene {
                         bound.vertices[0].position.x,
                         bound.vertices[0].position.y,
                         1.,
-                        YELLOW,
+                        self.colors.color_perimeter,
                     )
                 }
             }

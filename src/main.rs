@@ -9,7 +9,6 @@ use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
 use clap::Parser;
-use macroquad::color::YELLOW;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
 
@@ -26,7 +25,6 @@ async fn main() {
             ..
         }) => {
             let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
-            scene.set_bound(YELLOW);
             set_screen_size(scene.wh);
             generate_loop(&mut scene).await
         }
@@ -37,7 +35,6 @@ async fn main() {
             ..
         }) => {
             let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
-            scene.set_bound(YELLOW);
             set_screen_size(scene.wh);
             generate_simulation_loop(&mut scene).await
         }

@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_amazeing_global_optspecs
-	string join \n Z/zoom= C/colors= F/fps= h/help V/version
+	string join \n Z/zoom= C/colors= F/fps= P/show-perimeter h/help V/version
 end
 
 function __fish_amazeing_needs_command
@@ -27,6 +27,7 @@ end
 complete -c amazeing -n "__fish_amazeing_needs_command" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_needs_command" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_needs_command" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
+complete -c amazeing -n "__fish_amazeing_needs_command" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_needs_command" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_needs_command" -s V -l version -d 'Print version'
 complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "create" -d 'Create a Maze'
@@ -485,12 +486,14 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s Z -l zoom -d 
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
+complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s u -l update -d 'View and update'
+complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
@@ -505,6 +508,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -d 'Show a simulation of the solving process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
@@ -519,6 +523,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Di
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -d 'Show a simulation of the solving process'
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "create" -d 'Create a Maze'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "view" -d 'View a Maze'

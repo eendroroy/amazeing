@@ -106,7 +106,7 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-Z -C -F -h -V --zoom --colors --fps --help --version create C view V solve S help"
+            opts="-Z -C -F -P -h -V --zoom --colors --fps --show-perimeter --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -144,7 +144,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create)
-            opts="-u -m -p -H -j -w -v -P -Z -C -F -h --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --show-perimeter --zoom --colors --fps --help triangle T rectangle R hexagon H circle C help"
+            opts="-u -m -p -H -j -w -v -Z -C -F -P -h --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help triangle T rectangle R hexagon H circle C help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -230,7 +230,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__circle)
-            opts="-d -u -m -p -H -j -w -v -P -Z -C -F -h --diameter --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --show-perimeter --zoom --colors --fps --help"
+            opts="-d -u -m -p -H -j -w -v -Z -C -F -P -h --diameter --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -408,7 +408,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__hexagon)
-            opts="-d -u -m -p -H -j -w -v -P -Z -C -F -h --diameter --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --show-perimeter --zoom --colors --fps --help"
+            opts="-d -u -m -p -H -j -w -v -Z -C -F -P -h --diameter --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -502,7 +502,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__rectangle)
-            opts="-r -c -u -m -p -H -j -w -v -P -Z -C -F -h --rows --cols --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --show-perimeter --zoom --colors --fps --help"
+            opts="-r -c -u -m -p -H -j -w -v -Z -C -F -P -h --rows --cols --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -604,7 +604,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__create__triangle)
-            opts="-b -u -m -p -H -j -w -v -P -Z -C -F -h --base --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --show-perimeter --zoom --colors --fps --help"
+            opts="-b -u -m -p -H -j -w -v -Z -C -F -P -h --base --unit-shape --maze --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -824,7 +824,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__solve)
-            opts="-m -p -H -v -Z -C -F -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --help"
+            opts="-m -p -H -v -Z -C -F -P -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -886,7 +886,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__view)
-            opts="-m -u -Z -C -F -h --maze --update --zoom --colors --fps --help"
+            opts="-m -u -Z -C -F -P -h --maze --update --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

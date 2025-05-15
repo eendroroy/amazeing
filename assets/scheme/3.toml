@@ -7,3 +7,4 @@ color_path = 0xeaed0c
 color_source = 0xff0026
 color_destination = 0x00ff40
 color_traversed = 0x9683a5
+color_perimeter = 0x9683a5

@@ -37,6 +37,10 @@ pub struct AmazeingArgs {
     /// Frame rate per second (controls simulation speed)
     #[clap(global = true, long, short = 'F', display_order = 103, default_value_t = 60.)]
     pub fps: f32,
+
+    /// Draw maze bound (perimeter)
+    #[clap(global = true, long, short = 'P', display_order = 103, default_value_t = false)]
+    pub show_perimeter: bool,
 }
 
 /// {ui-name} amazeing create
@@ -90,10 +94,6 @@ pub struct CreateArgs {
     /// Show a simulation of the generation process
     #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
-
-    /// Draw maze bound (perimeter)
-    #[clap(global = true, long, short = 'P', default_value_t = false)]
-    pub show_perimeter: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Subcommand)]
