@@ -269,7 +269,7 @@ pub enum ArgHeuristic {
     #[clap(alias = "o")]
     Octile,
     #[default]
-    #[clap(alias = "dj")]
+    #[clap(alias = "d")]
     Dijkstra,
 }
 
