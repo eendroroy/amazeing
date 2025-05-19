@@ -1,5 +1,6 @@
 use crate::ui::component::unit_factory::UnitShapeFactory;
 use crate::ui::component::{BORDER, MARGIN, RADIUS};
+use crate::utility::IsEvenOdd;
 use std::f32::consts::PI;
 
 const SIDES: f32 = 3.;
@@ -15,15 +16,12 @@ pub(crate) struct TriangleUnitShapeFactory {
 
 impl UnitShapeFactory for TriangleUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let w = (PI / SIDES).sin() * RADIUS * 2. * zoom;
-        let h = (PI / SIDES).cos() * RADIUS * zoom + RADIUS * zoom;
-
         Self {
             m: MARGIN * zoom,
             b: BORDER * zoom,
             r: RADIUS * zoom,
-            w,
-            h,
+            w: (PI / SIDES).sin() * RADIUS * 2. * zoom,
+            h: (PI / SIDES).cos() * RADIUS * zoom + RADIUS * zoom,
         }
     }
 
@@ -64,10 +62,9 @@ impl UnitShapeFactory for TriangleUnitShapeFactory {
 
     fn ys(&self, r: usize, _c: usize) -> f32 {
         -1. * (r / 2) as f32 * (self.h + self.b)
-            + match r % 2 {
-                0 => -(self.h - self.r - self.b) / 2.,
-                1 => (self.h - self.r) / 2. - self.h,
-                _ => 0.,
+            + match r.is_even() {
+                true => -(self.h - self.r - self.b) / 2.,
+                false => (self.h - self.r) / 2. - self.h,
             }
     }
 

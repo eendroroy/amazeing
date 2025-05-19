@@ -15,15 +15,14 @@ pub(crate) struct OctagonUnitShapeFactory {
 
 impl UnitShapeFactory for OctagonUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let width = (PI / SIDES).cos() * RADIUS * 2. * zoom;
-        let height = (PI / SIDES).cos() * RADIUS * 2. * zoom;
+        let d = (PI / SIDES).cos() * RADIUS * 2. * zoom;
 
         Self {
             m: MARGIN * zoom,
             b: BORDER * zoom,
             r: RADIUS * zoom,
-            w: width,
-            h: height,
+            w: d,
+            h: d,
         }
     }
 

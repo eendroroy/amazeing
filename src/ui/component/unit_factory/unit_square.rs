@@ -15,15 +15,14 @@ pub(crate) struct SquareUnitShapeFactory {
 
 impl UnitShapeFactory for SquareUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let w = (PI / SIDES).sin() * RADIUS * 2. * zoom;
-        let h = (PI / SIDES).sin() * RADIUS * 2. * zoom;
+        let d = (PI / SIDES).sin() * RADIUS * 2. * zoom;
 
         Self {
             m: MARGIN * zoom,
             b: BORDER * zoom,
             r: RADIUS * zoom,
-            w,
-            h,
+            w: d,
+            h: d,
         }
     }
 

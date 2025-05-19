@@ -2,6 +2,7 @@ use crate::ui::component::helper::create_mesh;
 use macroquad::color::Color;
 use macroquad::models::Mesh;
 
+#[allow(dead_code)]
 pub(crate) trait UnitShapeFactory: Send + Sync {
     fn new(zoom: f32) -> Self
     where
@@ -13,11 +14,22 @@ pub(crate) trait UnitShapeFactory: Send + Sync {
     fn w(&self) -> f32;
     fn h(&self) -> f32;
 
+    fn mbr(&self) -> (f32, f32, f32) {
+        (self.m(), self.b(), self.r())
+    }
+
+    fn wh(&self) -> (f32, f32) {
+        (self.w(), self.h())
+    }
+
     fn sides(&self) -> f32;
     fn rotation(&self, r: usize, c: usize) -> f32;
 
     fn xs(&self, r: usize, c: usize) -> f32;
     fn ys(&self, r: usize, c: usize) -> f32;
+    fn xys(&self, r: usize, c: usize) -> (f32, f32) {
+        (self.xs(r, c), self.ys(r, c))
+    }
 
     fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
@@ -31,15 +43,7 @@ pub(crate) trait UnitShapeFactory: Send + Sync {
         ((2. * self.m() + inner_dimension.0 as f32) as u32, (2. * self.m() + inner_dimension.1 as f32) as u32)
     }
 
-    fn shape(&self, r: usize, c: usize, color: Color) -> Mesh {
-        create_mesh(
-            (self.m(), self.b(), self.r()),
-            (self.w(), self.h()),
-            self.sides() as u8,
-            self.rotation(r, c),
-            (r, c),
-            (self.xs(r, c), self.ys(r, c)),
-            color,
-        )
+    fn shape(&self, r: usize, c: usize, _rows: usize, _cols: usize, color: Color) -> Mesh {
+        create_mesh(self.mbr(), self.wh(), self.sides() as u8, self.rotation(r, c), (r, c), self.xys(r, c), color)
     }
 }
