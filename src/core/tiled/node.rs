@@ -1,4 +1,5 @@
-use crate::core::tiled::{BLOCK, Maze, OPEN, UnitShape};
+use crate::core::tiled::{Maze, UnitShape, BLOCK, OPEN};
+use crate::utility::IsDivisible;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
 
@@ -63,53 +64,60 @@ impl Node {
         }
     }
 
-    pub fn left(self) -> Option<Self> {
-        self - (0, 1)
+    pub fn left(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n - (0, steps))
     }
 
-    pub fn right(self) -> Option<Self> {
-        self + (0, 1)
+    pub fn right(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n + (0, steps))
     }
 
-    pub fn up(self) -> Option<Self> {
-        self - (1, 0)
+    pub fn up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n - (steps, 0))
     }
 
-    pub fn down(self) -> Option<Self> {
-        self + (1, 0)
+    pub fn down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n + (steps, 0))
     }
 
-    pub fn left_up(self) -> Option<Self> {
-        self - (1, 1)
+    pub fn left_up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n - (steps, steps))
     }
 
-    pub fn left_down(self) -> Option<Self> {
-        if let Some(data) = self + (1, 0) { data - (0, 1) } else { None }
+    pub fn left_down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| if let Some(data) = n + (steps, 0) { data - (0, steps) } else { None })
     }
 
-    pub fn right_up(self) -> Option<Self> {
-        if let Some(data) = self - (1, 0) { data + (0, 1) } else { None }
+    pub fn right_up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| if let Some(data) = n - (steps, 0) { data + (0, steps) } else { None })
     }
 
-    pub fn right_down(self) -> Option<Self> {
-        self + (1, 1)
+    pub fn right_down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
+        Box::new(move |n| n + (steps, steps))
     }
 
     pub fn neighbours(self, unit_shape: &UnitShape) -> Vec<Node> {
         match unit_shape {
             UnitShape::Triangle => match self.row % 4 {
-                0 => vec![Node::down, Node::left_down, Node::up],
-                1 => vec![Node::right_up, Node::down, Node::up],
-                2 => vec![Node::right_down, Node::down, Node::up],
-                3 => vec![Node::up, Node::down, Node::left_up],
+                0 => vec![self.down(1), self.left_down(1), self.up(1)],
+                1 => vec![self.right_up(1), self.down(1), self.up(1)],
+                2 => vec![self.right_down(1), self.down(1), self.up(1)],
+                3 => vec![self.up(1), self.down(1), self.left_up(1)],
                 _ => unreachable!(),
             },
-            UnitShape::Square | UnitShape::Octagon => vec![Node::right, Node::down, Node::left, Node::up],
+            UnitShape::Square | UnitShape::Octagon => vec![self.right(1), self.down(1), self.left(1), self.up(1)],
             UnitShape::Hexagon => {
-                if self.row % 2 == 0 {
-                    vec![Node::right, Node::down, Node::left_down, Node::left, Node::left_up, Node::up]
+                if self.row.is_even() {
+                    vec![self.right(1), self.down(1), self.left_down(1), self.left(1), self.left_up(1), self.up(1)]
                 } else {
-                    vec![Node::right, Node::right_down, Node::down, Node::left, Node::up, Node::right_up]
+                    vec![self.right(1), self.right_down(1), self.down(1), self.left(1), self.up(1), self.right_up(1)]
+                }
+            }
+            UnitShape::Octagon2 => {
+                if self.row.is_odd() {
+                    vec![]
+                } else {
+                    vec![]
                 }
             }
         }
