@@ -1,6 +1,7 @@
 mod command;
 mod core;
 mod ui;
+mod utility;
 
 use crate::command::ArgCommand::{Create, Solve, View};
 use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};

@@ -1,5 +1,6 @@
 use crate::ui::component::unit_factory::UnitShapeFactory;
 use crate::ui::component::{BORDER, MARGIN, RADIUS};
+use crate::utility::IsEvenOdd;
 use std::f32::consts::PI;
 
 const SIDES: f32 = 6.;
@@ -15,14 +16,12 @@ pub(crate) struct HexagonUnitShapeFactory {
 
 impl UnitShapeFactory for HexagonUnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let w = (PI / SIDES).cos() * RADIUS * zoom * 2.;
-        let h = RADIUS * zoom * (1. + (PI / SIDES).sin());
         Self {
             m: MARGIN * zoom,
             b: BORDER * zoom,
             r: RADIUS * zoom,
-            w,
-            h,
+            w: (PI / SIDES).cos() * RADIUS * zoom * 2.,
+            h: RADIUS * zoom * (1. + (PI / SIDES).sin()),
         }
     }
 
@@ -55,7 +54,7 @@ impl UnitShapeFactory for HexagonUnitShapeFactory {
     }
 
     fn xs(&self, r: usize, _c: usize) -> f32 {
-        if r % 2 == 1 { (self.w + self.b) / 2. } else { 0. }
+        if r.is_odd() { (self.w + self.b) / 2. } else { 0. }
     }
 
     fn ys(&self, _r: usize, _c: usize) -> f32 {

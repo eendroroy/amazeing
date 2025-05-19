@@ -6,6 +6,7 @@ use crate::ui::component::unit_factory::{
 use crate::ui::component::{BORDER, MARGIN};
 use crate::ui::context::{AmazeingContext, Colors, ContextType};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
+use crate::utility::IsEvenOdd;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
 use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
@@ -28,6 +29,7 @@ impl MazeScene {
         colors: &Colors,
         shape_factory: Box<dyn UnitShapeFactory>,
     ) -> Self {
+        let (rows, cols) = (maze.rows(), maze.cols());
         let meshes = maze
             .data
             .iter()
@@ -43,7 +45,7 @@ impl MazeScene {
                             VOID => colors.color_bg,
                             _ => colors.color_bg,
                         };
-                        shape_factory.shape(row, col, color)
+                        shape_factory.shape(row, col, rows, cols, color)
                     })
                     .collect::<Vec<Mesh>>()
             })
@@ -391,9 +393,9 @@ impl MazeScene {
         factory: &Box<dyn UnitShapeFactory>,
     ) -> (usize, usize) {
         match (maze_shape, unit_shape) {
-            (MazeShape::Rectangle, UnitShape::Triangle) => (rows * 2 + 1, cols),
-            (MazeShape::Triangle, UnitShape::Triangle) => (rows * 2, if cols % 2 == 0 { cols + 1 } else { cols }),
-            (MazeShape::Triangle, _) => (rows, if cols % 2 == 0 { cols + 1 } else { cols }),
+            (MazeShape::Rectangle, UnitShape::Triangle) => ((rows * 2).odd_floor(), cols),
+            (MazeShape::Triangle, UnitShape::Triangle) => (rows * 2, cols.odd_ceil()),
+            (MazeShape::Triangle, _) => (rows, cols.odd_ceil()),
             (MazeShape::Circle, UnitShape::Triangle) => ((cols as f32 * factory.w() / factory.h()) as usize * 2, cols),
             (MazeShape::Circle, _) => ((cols as f32 * factory.w() / factory.h()) as usize, cols),
             (_, _) => (rows, cols),
