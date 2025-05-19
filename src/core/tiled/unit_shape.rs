@@ -31,7 +31,7 @@ impl UnitShape {
             UnitShape::Hexagon => 6,
             UnitShape::Octagon => 4,
             UnitShape::Octagon2 => {
-                if node.row.is_odd() {
+                if node.row.is_even() {
                     8
                 } else {
                     4
@@ -49,6 +49,7 @@ impl FromStr for UnitShape {
             "square" => Ok(UnitShape::Square),
             "hexagon" => Ok(UnitShape::Hexagon),
             "octagon" => Ok(UnitShape::Octagon),
+            "octagon2" => Ok(UnitShape::Octagon2),
             _ => Err(format!("Unrecognized UnitShape: {}", s)),
         }
     }

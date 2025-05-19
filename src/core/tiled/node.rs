@@ -1,4 +1,4 @@
-use crate::core::tiled::{BLOCK, Maze, OPEN, UnitShape};
+use crate::core::tiled::{Maze, UnitShape, BLOCK, OPEN};
 use crate::utility::IsDivisible;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
@@ -114,10 +114,19 @@ impl Node {
                 }
             }
             UnitShape::Octagon2 => {
-                if self.row.is_odd() {
-                    vec![]
+                if self.row.is_even() {
+                    vec![
+                        self.right(1),
+                        self.down(1),
+                        self.down(2),
+                        self.left_down(1),
+                        self.left(1),
+                        self.left_up(1),
+                        self.up(2),
+                        self.up(1),
+                    ]
                 } else {
-                    vec![]
+                    vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
                 }
             }
         }
