@@ -22,7 +22,7 @@ pub(crate) struct Octagon2UnitShapeFactory {
 impl UnitShapeFactory for Octagon2UnitShapeFactory {
     fn new(zoom: f32) -> Self {
         let d = (PI / SIDES_O).cos() * RADIUS * 2. * zoom;
-        let r_s = RADIUS * zoom - (PI / SIDES_O).sin() * RADIUS * zoom - BORDER * zoom;
+        let r_s = RADIUS * zoom - (PI / SIDES_O).sin() * RADIUS * zoom - BORDER * zoom / 2.;
 
         Self {
             m: MARGIN * zoom,
@@ -63,17 +63,16 @@ impl UnitShapeFactory for Octagon2UnitShapeFactory {
     }
 
     fn xs(&self, r: usize, _c: usize) -> f32 {
-        if r.is_odd() { self.r_o - self.b / 2. } else { 0. }
+        if r.is_odd() { (self.r_o - self.r_s) * 2. } else { 0. }
     }
 
     fn ys(&self, r: usize, _c: usize) -> f32 {
-        -(self.r_o - self.b) * r as f32 + if r.is_odd() { -(self.r_s / 2. - self.b * 4.) } else { 0.0 }
+        -(self.h + self.b) * (r / 2) as f32 + if r.is_odd() { -(self.h + self.b) / 2. } else { 0.0 }
     }
 
     fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
         (
             (cols as f32 * self.w() + (cols - 1) as f32 * self.b()) as u32,
-            // (rows as f32 * self.h() + (rows - 1) as f32 * self.b()) as u32,
             (rows.div_ceil(2) as f32 * self.h() + (rows.div_ceil(2) - 1) as f32 * self.b()) as u32,
         )
     }

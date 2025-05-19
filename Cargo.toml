@@ -1,6 +1,6 @@
 [package]
 name = "amazeing"
-version = "0.7.1"
+version = "0.7.2"
 authors = ["indrajit"]
 edition = "2024"
 rust-version = "1.87.0"
