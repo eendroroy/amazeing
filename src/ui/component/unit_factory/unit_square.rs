@@ -46,7 +46,7 @@ impl UnitShapeFactory for SquareUnitShapeFactory {
         self.h
     }
 
-    fn sides(&self) -> f32 {
+    fn sides(&self, _r: usize, _c: usize) -> f32 {
         SIDES
     }
 

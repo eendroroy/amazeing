@@ -1,6 +1,6 @@
 use crate::ui::component::unit_factory::UnitShapeFactory;
 use crate::ui::component::{BORDER, MARGIN, RADIUS};
-use crate::utility::IsEvenOdd;
+use crate::utility::IsDivisible;
 use std::f32::consts::PI;
 
 const SIDES: f32 = 6.;
@@ -45,7 +45,7 @@ impl UnitShapeFactory for HexagonUnitShapeFactory {
         self.h
     }
 
-    fn sides(&self) -> f32 {
+    fn sides(&self, _r: usize, _c: usize) -> f32 {
         SIDES
     }
 
