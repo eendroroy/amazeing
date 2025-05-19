@@ -1,4 +1,4 @@
-use crate::core::tiled::{Maze, UnitShape, BLOCK, OPEN};
+use crate::core::tiled::{BLOCK, Maze, OPEN, UnitShape};
 use crate::utility::IsDivisible;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
