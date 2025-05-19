@@ -21,7 +21,7 @@ pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
     while let Some(current) = storage.pop() {
         let neighbours = current.neighbours_block(maze, &maze.unit_shape);
 
-        if neighbours.len() >= &maze.unit_shape.sides() - 1 {
+        if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
             maze[current] = OPEN;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));
@@ -59,7 +59,7 @@ pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
             if skip_idx.contains(&idx) {
             } else if let Some(current) = storage.pop_back() {
                 let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
-                if neighbours.len() >= &maze.unit_shape.sides() - 1 {
+                if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = OPEN;
                     if let Some(trace) = tracer {
@@ -111,7 +111,7 @@ pub fn a_star<T: DNodeWeighted>(
 
         let neighbours = current.neighbours_block(maze, &maze.unit_shape);
 
-        if neighbours.len() >= &maze.unit_shape.sides() - 1 {
+        if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
             maze[current] = OPEN;
             if let Some(trace) = tracer {
                 trace.push(reconstruct_trace_path(current, &parent));

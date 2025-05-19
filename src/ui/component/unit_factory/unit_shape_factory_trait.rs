@@ -22,7 +22,7 @@ pub(crate) trait UnitShapeFactory: Send + Sync {
         (self.w(), self.h())
     }
 
-    fn sides(&self) -> f32;
+    fn sides(&self, r: usize, c: usize) -> f32;
     fn rotation(&self, r: usize, c: usize) -> f32;
 
     fn xs(&self, r: usize, c: usize) -> f32;
@@ -44,6 +44,6 @@ pub(crate) trait UnitShapeFactory: Send + Sync {
     }
 
     fn shape(&self, r: usize, c: usize, _rows: usize, _cols: usize, color: Color) -> Mesh {
-        create_mesh(self.mbr(), self.wh(), self.sides() as u8, self.rotation(r, c), (r, c), self.xys(r, c), color)
+        create_mesh(self.mbr(), self.wh(), self.sides(r, c) as u8, self.rotation(r, c), (r, c), self.xys(r, c), color)
     }
 }
