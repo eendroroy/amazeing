@@ -6,30 +6,31 @@ use macroquad::color::Color;
 use macroquad::models::Mesh;
 use std::f32::consts::PI;
 
-const SIDES_ODD: f32 = 8.;
-const SIDES_EVEN: f32 = 4.;
+const SIDES_O: f32 = 8.;
+const SIDES_S: f32 = 4.;
 
 #[derive(Debug, Copy, Clone)]
 pub(crate) struct Octagon2UnitShapeFactory {
     pub(crate) m: f32,
     pub(crate) b: f32,
-    pub(crate) r: f32,
-    pub(crate) w_o: f32,
-    pub(crate) h_o: f32,
-    pub(crate) w_s: f32,
-    pub(crate) h_s: f32,
+    pub(crate) r_o: f32,
+    pub(crate) r_s: f32,
+    pub(crate) w: f32,
+    pub(crate) h: f32,
 }
 
 impl UnitShapeFactory for Octagon2UnitShapeFactory {
     fn new(zoom: f32) -> Self {
-        let d = (PI / SIDES_ODD).cos() * RADIUS * 2. * zoom;
+        let d = (PI / SIDES_O).cos() * RADIUS * 2. * zoom;
+        let r_s = RADIUS * zoom - (PI / SIDES_O).sin() * RADIUS * zoom - BORDER * zoom;
 
         Self {
             m: MARGIN * zoom,
             b: BORDER * zoom,
-            r: RADIUS * zoom,
-            w_o: d,
-            h_o: d,
+            r_o: RADIUS * zoom,
+            r_s,
+            w: d,
+            h: d,
         }
     }
 
@@ -42,54 +43,50 @@ impl UnitShapeFactory for Octagon2UnitShapeFactory {
     }
 
     fn r(&self) -> f32 {
-        self.r
+        self.r_o
     }
 
     fn w(&self) -> f32 {
-        self.w_o
+        self.w
     }
 
     fn h(&self) -> f32 {
-        self.h_o
+        self.h
     }
 
     fn sides(&self, r: usize, _c: usize) -> f32 {
-        if r.is_odd() { SIDES_ODD } else { SIDES_EVEN }
+        if r.is_even() { SIDES_O } else { SIDES_S }
     }
 
     fn rotation(&self, r: usize, _c: usize) -> f32 {
-        if r.is_odd() { 180. / SIDES_ODD } else { 0. }
+        if r.is_even() { 180. / SIDES_O } else { 0. }
     }
 
-    fn xs(&self, _r: usize, _c: usize) -> f32 {
-        0.
+    fn xs(&self, r: usize, _c: usize) -> f32 {
+        if r.is_odd() { self.r_o - self.b / 2. } else { 0. }
     }
 
-    fn ys(&self, _r: usize, _c: usize) -> f32 {
-        0.
+    fn ys(&self, r: usize, _c: usize) -> f32 {
+        -(self.r_o - self.b) * r as f32 + if r.is_odd() { -(self.r_s / 2. - self.b * 4.) } else { 0.0 }
+    }
+
+    fn inner_dimension(&self, rows: usize, cols: usize) -> (u32, u32) {
+        (
+            (cols as f32 * self.w() + (cols - 1) as f32 * self.b()) as u32,
+            // (rows as f32 * self.h() + (rows - 1) as f32 * self.b()) as u32,
+            (rows.div_ceil(2) as f32 * self.h() + (rows.div_ceil(2) - 1) as f32 * self.b()) as u32,
+        )
     }
 
     fn shape(&self, r: usize, c: usize, _rows: usize, _cols: usize, color: Color) -> Mesh {
-        if r.is_even() {
-            create_mesh(
-                self.mbr(),
-                self.wh(),
-                self.sides(r, c) as u8,
-                self.rotation(r, c),
-                (r, c),
-                self.xys(r, c),
-                color,
-            )
-        } else {
-            create_mesh(
-                self.mbr(),
-                (self.w_s, self.h_s),
-                self.sides(r, c) as u8,
-                self.rotation(r, c),
-                (r, c),
-                self.xys(r, c),
-                color,
-            )
-        }
+        create_mesh(
+            if r.is_even() { self.mbr() } else { (self.m, self.b, self.r_s) },
+            self.wh(),
+            self.sides(r, c) as u8,
+            self.rotation(r, c),
+            (r, c),
+            self.xys(r, c),
+            color,
+        )
     }
 }
