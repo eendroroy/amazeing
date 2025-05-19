@@ -185,6 +185,8 @@ pub enum ArgUnitShape {
     Hexagon,
     #[clap(alias = "o")]
     Octagon,
+    #[clap(alias = "o2")]
+    Octagon2,
 }
 
 impl Display for ArgUnitShape {
@@ -194,6 +196,7 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
             ArgUnitShape::Octagon => write!(f, "octagon"),
+            ArgUnitShape::Octagon2 => write!(f, "octagon2"),
         }
     }
 }
