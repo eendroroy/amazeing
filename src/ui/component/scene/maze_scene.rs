@@ -1,8 +1,5 @@
 use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, OPEN, Rank, UnitShape, VOID};
-use crate::ui::component::unit_factory::{
-    HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory,
-    TriangleUnitShapeFactory, UnitShapeFactory,
-};
+use crate::ui::component::unit_factory::{HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory};
 use crate::ui::component::{BORDER, MARGIN};
 use crate::ui::context::{AmazeingContext, Colors, ContextType};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
@@ -314,6 +311,7 @@ impl MazeScene {
             UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
             UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
             UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
+            UnitShape::HexagonRectangle =>  Box::new(HexagonRectangleUnitShapeFactory::new(zoom)),
             UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(zoom)),
             UnitShape::OctagonSquare => Box::new(OctagonSquareUnitShapeFactory::new(zoom)),
         }

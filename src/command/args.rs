@@ -183,6 +183,8 @@ pub enum ArgUnitShape {
     #[default]
     #[clap(alias = "h")]
     Hexagon,
+    #[clap(alias = "hr")]
+    HexagonRectangle,
     #[clap(alias = "o")]
     Octagon,
     #[clap(alias = "os")]
@@ -195,6 +197,7 @@ impl Display for ArgUnitShape {
             ArgUnitShape::Triangle => write!(f, "triangle"),
             ArgUnitShape::Square => write!(f, "square"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
+            ArgUnitShape::HexagonRectangle => write!(f, "hexagon-rectangle"),
             ArgUnitShape::Octagon => write!(f, "octagon"),
             ArgUnitShape::OctagonSquare => write!(f, "octagon-square"),
         }

@@ -155,11 +155,11 @@ _amazeing() {
             fi
             case "${prev}" in
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 --maze)
@@ -249,11 +249,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 --maze)
@@ -427,11 +427,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 --maze)
@@ -529,11 +529,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 --maze)
@@ -623,11 +623,11 @@ _amazeing() {
                     return 0
                     ;;
                 --unit-shape)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 -u)
-                    COMPREPLY=($(compgen -W "triangle square hexagon octagon octagon-square" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "triangle square hexagon hexagon-rectangle octagon octagon-square" -- "${cur}"))
                     return 0
                     ;;
                 --maze)
