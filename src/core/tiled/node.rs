@@ -113,7 +113,7 @@ impl Node {
                     vec![self.right(1), self.right_down(1), self.down(1), self.left(1), self.up(1), self.right_up(1)]
                 }
             }
-            UnitShape::Octagon2 => {
+            UnitShape::OctagonSquare => {
                 if self.row.is_even() {
                     vec![
                         self.right(1),

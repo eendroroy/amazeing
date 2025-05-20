@@ -41,7 +41,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -74,7 +74,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -98,7 +98,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -123,7 +123,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -148,7 +148,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -172,7 +172,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -196,7 +196,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -220,7 +220,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -244,7 +244,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -272,7 +272,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -305,7 +305,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -329,7 +329,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -354,7 +354,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -379,7 +379,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -403,7 +403,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -427,7 +427,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -451,7 +451,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -475,7 +475,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 square\t''
 hexagon\t''
 octagon\t''
-octagon2\t''"
+octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s m -l maze -d 'File path to dump Maze data' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''

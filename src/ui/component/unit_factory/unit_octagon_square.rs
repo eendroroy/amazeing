@@ -10,7 +10,7 @@ const SIDES_O: f32 = 8.;
 const SIDES_S: f32 = 4.;
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct Octagon2UnitShapeFactory {
+pub(crate) struct OctagonSquareUnitShapeFactory {
     pub(crate) m: f32,
     pub(crate) b: f32,
     pub(crate) r_o: f32,
@@ -19,7 +19,7 @@ pub(crate) struct Octagon2UnitShapeFactory {
     pub(crate) h: f32,
 }
 
-impl UnitShapeFactory for Octagon2UnitShapeFactory {
+impl UnitShapeFactory for OctagonSquareUnitShapeFactory {
     fn new(zoom: f32) -> Self {
         let d = (PI / SIDES_O).cos() * RADIUS * 2. * zoom;
         let r_s = RADIUS * zoom - (PI / SIDES_O).sin() * RADIUS * zoom - BORDER * zoom / 2.;
