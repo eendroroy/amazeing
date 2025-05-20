@@ -21,7 +21,7 @@ impl ArgUnitShape {
             ArgUnitShape::Square => UnitShape::Square,
             ArgUnitShape::Hexagon => UnitShape::Hexagon,
             ArgUnitShape::Octagon => UnitShape::Octagon,
-            ArgUnitShape::Octagon2 => UnitShape::Octagon2,
+            ArgUnitShape::OctagonSquare => UnitShape::OctagonSquare,
         }
     }
 }
