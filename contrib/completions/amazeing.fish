@@ -40,6 +40,7 @@ complete -c amazeing -n "__fish_amazeing_needs_command" -f -a "help" -d 'Print t
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -73,6 +74,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from triangle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -97,6 +99,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from T" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -122,6 +125,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from rectangle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -147,6 +151,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from R" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -171,6 +176,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -195,6 +201,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -219,6 +226,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from circle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -243,6 +251,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_seen_subcommand_from C" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -271,6 +280,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create; and __fish_see
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and not __fish_seen_subcommand_from triangle T rectangle R hexagon H circle C help" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -304,6 +314,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from triangle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -328,6 +339,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from T" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -353,6 +365,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from rectangle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -378,6 +391,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from R" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -402,6 +416,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from hexagon" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -426,6 +441,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from H" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -450,6 +466,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from circle" -s m -l maze -d 'File path to dump Maze data' -r -F
@@ -474,6 +491,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_sub
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s u -l unit-shape -d 'Unit shape' -r -f -a "triangle\t''
 square\t''
 hexagon\t''
+hexagon-rectangle\t''
 octagon\t''
 octagon-square\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C; and __fish_seen_subcommand_from C" -s m -l maze -d 'File path to dump Maze data' -r -F

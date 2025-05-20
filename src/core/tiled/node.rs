@@ -129,6 +129,20 @@ impl Node {
                     vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
                 }
             }
+            UnitShape::HexagonRectangle => {
+                if self.row.is_even() {
+                    vec![
+                        self.right(1),
+                        self.down(1),
+                        self.left_down(1),
+                        self.left(1),
+                        self.left_up(1),
+                        self.up(1),
+                    ]
+                } else {
+                    vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
+                }
+            }
         }
         .iter()
         .filter_map(|i| i(self))

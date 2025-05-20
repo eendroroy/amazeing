@@ -9,6 +9,7 @@ pub enum UnitShape {
     Square,
     #[default]
     Hexagon,
+    HexagonRectangle,
     Octagon,
     OctagonSquare,
 }
@@ -19,6 +20,7 @@ impl UnitShape {
             UnitShape::Triangle => "triangle",
             UnitShape::Square => "square",
             UnitShape::Hexagon => "hexagon",
+            UnitShape::HexagonRectangle => "hexagon-rectangle",
             UnitShape::Octagon => "octagon",
             UnitShape::OctagonSquare => "octagon-square",
         }
@@ -29,6 +31,13 @@ impl UnitShape {
             UnitShape::Triangle => 3,
             UnitShape::Square => 4,
             UnitShape::Hexagon => 6,
+            UnitShape::HexagonRectangle => {
+                if node.row.is_even() {
+                    6
+                } else {
+                    4
+                }
+            }
             UnitShape::Octagon => 4,
             UnitShape::OctagonSquare => {
                 if node.row.is_even() {
@@ -48,6 +57,7 @@ impl FromStr for UnitShape {
             "triangle" => Ok(UnitShape::Triangle),
             "square" => Ok(UnitShape::Square),
             "hexagon" => Ok(UnitShape::Hexagon),
+            "hexagon-rectangle" => Ok(UnitShape::HexagonRectangle),
             "octagon" => Ok(UnitShape::Octagon),
             "octagon-square" => Ok(UnitShape::OctagonSquare),
             _ => Err(format!("Unrecognized UnitShape: {}", s)),
