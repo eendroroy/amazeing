@@ -1,14 +1,39 @@
-use crate::core::tiled::{Maze, UnitShape, BLOCK, OPEN};
+use crate::core::tiled::{BLOCK, Maze, OPEN, UnitShape};
 use crate::utility::IsDivisible;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
+
+#[derive(Debug, Copy, Clone)]
+pub(crate) struct NodeFactory {
+    pub rows: usize,
+    pub cols: usize,
+}
+
+impl NodeFactory {
+    pub fn new(rows: usize, cols: usize) -> Self {
+        Self { rows, cols }
+    }
+
+    pub fn at(&self, row: usize, col: usize) -> Option<Node> {
+        if row >= self.rows || col >= self.cols {
+            None
+        } else {
+            Some(Node {
+                row,
+                col,
+                rows: self.rows,
+                cols: self.cols,
+            })
+        }
+    }
+}
 
 #[derive(Default, Debug, Copy, Clone, PartialOrd, PartialEq, Eq, Hash, Ord)]
 pub struct Node {
     pub row: usize,
     pub col: usize,
-    pub rows: usize,
-    pub cols: usize,
+    rows: usize,
+    cols: usize,
 }
 
 impl Add<(usize, usize)> for Node {
@@ -48,22 +73,6 @@ impl Sub<(usize, usize)> for Node {
 }
 
 impl Node {
-    pub fn new(rows: usize, cols: usize) -> Self {
-        Self {
-            rows,
-            cols,
-            ..Default::default()
-        }
-    }
-
-    pub fn at(&self, row: usize, col: usize) -> Option<Self> {
-        if row >= self.rows || col >= self.cols {
-            None
-        } else {
-            Some(Self { row, col, ..*self })
-        }
-    }
-
     pub fn left(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
         Box::new(move |n| n - (0, steps))
     }
@@ -131,14 +140,7 @@ impl Node {
             }
             UnitShape::HexagonRectangle => {
                 if self.row.is_even() {
-                    vec![
-                        self.right(1),
-                        self.down(1),
-                        self.left_down(1),
-                        self.left(1),
-                        self.left_up(1),
-                        self.up(1),
-                    ]
+                    vec![self.right(1), self.down(1), self.left_down(1), self.left(1), self.left_up(1), self.up(1)]
                 } else {
                     vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
                 }

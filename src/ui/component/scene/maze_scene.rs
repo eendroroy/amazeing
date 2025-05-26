@@ -1,5 +1,8 @@
-use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, OPEN, Rank, UnitShape, VOID};
-use crate::ui::component::unit_factory::{HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory};
+use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
+use crate::ui::component::unit_factory::{
+    HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
+    SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
+};
 use crate::ui::component::{BORDER, MARGIN};
 use crate::ui::context::{AmazeingContext, Colors, ContextType};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
@@ -97,7 +100,7 @@ impl MazeScene {
     }
 
     pub(crate) fn update(&mut self) {
-        let node = Node::new(self.rows, self.cols);
+        let node_factory = NodeFactory::new(self.rows, self.cols);
         let color_open = self.colors.color_open;
         let color_block = self.colors.color_block;
         let color_bg = self.colors.color_bg;
@@ -119,7 +122,7 @@ impl MazeScene {
                             VOID => color_bg,
                             _ => color_bg,
                         };
-                        (node.at(row, col).unwrap(), color)
+                        (node_factory.at(row, col).unwrap(), color)
                     })
                     .collect::<Vec<_>>()
             })
@@ -183,13 +186,13 @@ impl MazeScene {
         });
 
         if self.context.context_type == ContextType::Create {
-            let node = Node::new(self.rows, self.cols);
+            let node_factory = NodeFactory::new(self.rows, self.cols);
 
             for r in 0..self.rows {
                 for c in 0..self.cols {
                     if self.is_mesh_in_bound(&self.meshes[r][c]) {
-                        self.update_color(node.at(r, c).unwrap(), self.colors.color_block);
-                        self.maze[node.at(r, c).unwrap()] = BLOCK;
+                        self.update_color(node_factory.at(r, c).unwrap(), self.colors.color_block);
+                        self.maze[node_factory.at(r, c).unwrap()] = BLOCK;
                     }
                 }
             }
@@ -240,7 +243,7 @@ impl MazeScene {
         for (row_idx, row) in self.meshes.iter().enumerate() {
             for (col_idx, mesh) in row.iter().enumerate() {
                 if self.is_point_in_mesh(mesh, x, y) {
-                    return Node::new(self.meshes.len(), row.len()).at(row_idx, col_idx);
+                    return NodeFactory::new(self.meshes.len(), row.len()).at(row_idx, col_idx);
                 }
             }
         }
@@ -311,7 +314,7 @@ impl MazeScene {
             UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
             UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
             UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
-            UnitShape::HexagonRectangle =>  Box::new(HexagonRectangleUnitShapeFactory::new(zoom)),
+            UnitShape::HexagonRectangle => Box::new(HexagonRectangleUnitShapeFactory::new(zoom)),
             UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(zoom)),
             UnitShape::OctagonSquare => Box::new(OctagonSquareUnitShapeFactory::new(zoom)),
         }
