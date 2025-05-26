@@ -1,4 +1,4 @@
-use crate::core::tiled::{Maze, MazeData, MazeShape, Node, UnitShape};
+use crate::core::tiled::{Maze, MazeData, MazeShape, NodeFactory, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -23,11 +23,11 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
     file.write_all(format!("{}\n", maze.unit_shape).as_bytes())
         .expect("Could not write to file");
 
-    let node = Node::new(maze.rows(), maze.cols());
+    let node_factory = NodeFactory::new(maze.rows(), maze.cols());
 
     for r in 0..maze.rows() {
         for c in 0..maze.cols() {
-            if let Some(node) = node.at(r, c) {
+            if let Some(node) = node_factory.at(r, c) {
                 file.write_all(format!("{: >2}", maze[node]).as_bytes())
                     .expect("Could not write to file");
                 if c < maze.cols() - 1 {
