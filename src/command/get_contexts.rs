@@ -1,5 +1,4 @@
-use crate::command::{AmazeingArgs, ArgCommand, ArgMazeShape};
-use crate::ui::context::{AmazeingContext, ColorScheme, Colors};
+use crate::command::{AmazeingArgs, AmazeingContext, ArgCommand, ArgMazeShape, ColorScheme, Colors};
 use crate::ui::helper::load_maze_from_file;
 
 macro_rules! gradient_steps {
