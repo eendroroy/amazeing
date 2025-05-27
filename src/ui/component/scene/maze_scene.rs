@@ -1,10 +1,10 @@
+use crate::command::{AmazeingContext, Colors, ContextType};
 use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
 use crate::ui::component::unit_factory::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
 };
 use crate::ui::component::{BORDER, MARGIN};
-use crate::ui::context::{AmazeingContext, Colors, ContextType};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
 use crate::utility::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};

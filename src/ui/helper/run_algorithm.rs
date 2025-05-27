@@ -1,9 +1,8 @@
-use crate::command::{ArgGenProcedure, ArgSolveProcedure};
+use crate::command::{AmazeingContext, ArgGenProcedure, ArgSolveProcedure};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
     DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, generator, solver,
 };
-use crate::ui::context::AmazeingContext;
 
 pub(crate) fn solve_maze(
     maze: &Maze,
