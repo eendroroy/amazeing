@@ -20,6 +20,7 @@ pub(crate) struct MazeScene {
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+    pub(crate) shape_factory: Box<dyn UnitShapeFactory>,
 }
 
 impl MazeScene {
@@ -60,6 +61,7 @@ impl MazeScene {
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
+            shape_factory,
         };
 
         if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
@@ -139,6 +141,23 @@ impl MazeScene {
         let (y_min, y_mid, y_max) = (MARGIN - BORDER, (self.h() / 2) as f32, self.h() as f32 - MARGIN + BORDER);
         self.bound = Some(match (self.maze.maze_shape, self.maze.unit_shape) {
             // TODO: (MazeShape::Triangle, UnitShape::Triangle)
+            (MazeShape::Triangle, UnitShape::Hexagon) => Mesh {
+                vertices: vec![
+                    Vertex::new2(
+                        vec3(x_mid - self.shape_factory.w() / 4., y_min, 0.),
+                        vec2(0., 0.),
+                        self.colors.color_perimeter,
+                    ),
+                    Vertex::new2(
+                        vec3(x_max - self.shape_factory.w() / 4., y_max, 0.),
+                        vec2(0., 0.),
+                        self.colors.color_perimeter,
+                    ),
+                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                ],
+                indices: vec![0, 1, 2],
+                texture: None,
+            },
             (MazeShape::Triangle, _) => Mesh {
                 vertices: vec![
                     Vertex::new2(vec3(x_mid, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
