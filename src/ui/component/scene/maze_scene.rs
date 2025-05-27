@@ -415,9 +415,13 @@ impl MazeScene {
     ) -> (usize, usize) {
         match (maze_shape, unit_shape) {
             (MazeShape::Rectangle, UnitShape::Triangle) => ((rows * 2).odd_floor(), cols),
-            (MazeShape::Triangle, UnitShape::Triangle) => (rows * 2, cols.odd_ceil()),
+            (MazeShape::Triangle, UnitShape::Triangle | UnitShape::OctagonSquare | UnitShape::HexagonRectangle) => {
+                (rows * 2, cols.odd_ceil())
+            }
             (MazeShape::Triangle, _) => (rows, cols.odd_ceil()),
-            (MazeShape::Circle, UnitShape::Triangle) => ((cols as f32 * factory.w() / factory.h()) as usize * 2, cols),
+            (MazeShape::Circle, UnitShape::Triangle | UnitShape::HexagonRectangle) => {
+                ((cols as f32 * factory.w() / factory.h()) as usize * 2, cols)
+            }
             (MazeShape::Circle, _) => ((cols as f32 * factory.w() / factory.h()) as usize, cols),
             (_, _) => (rows, cols),
         }
