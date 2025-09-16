@@ -76,8 +76,8 @@ pub struct CreateArgs {
     pub maze: Option<PathBuf>,
 
     /// Maze Generation Procedure
-    #[clap(global = true, long, short, default_value_t = ArgGenProcedure::Dfs)]
-    pub procedure: ArgGenProcedure,
+    #[clap(global = true, long, short, default_value_t = ArgProcedure::Dfs)]
+    pub procedure: ArgProcedure,
 
     /// Heuristic function (to use with AStar)
     #[clap(global = true, long, short = 'H', default_value_t = ArgHeuristic::Dijkstra, required_if_eq("procedure", "a-star"))]
@@ -162,8 +162,8 @@ pub struct SolveArgs {
     pub maze: PathBuf,
 
     /// Maze Solving Procedure
-    #[clap(long, short, default_value_t = ArgSolveProcedure::Dfs)]
-    pub procedure: ArgSolveProcedure,
+    #[clap(long, short, default_value_t = ArgProcedure::Dfs)]
+    pub procedure: ArgProcedure,
 
     /// Heuristic function (to use with AStar)
     #[clap(long, short = 'H', default_value_t = ArgHeuristic::default(), required_if_eq("procedure", "a-star"))]
@@ -223,7 +223,7 @@ impl Display for ArgWeightDirection {
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
-pub enum ArgSolveProcedure {
+pub enum ArgProcedure {
     #[clap(alias = "b")]
     Bfs,
     #[default]
@@ -233,33 +233,12 @@ pub enum ArgSolveProcedure {
     AStar,
 }
 
-impl Display for ArgSolveProcedure {
+impl Display for ArgProcedure {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ArgSolveProcedure::Bfs => write!(f, "bfs"),
-            ArgSolveProcedure::Dfs => write!(f, "dfs"),
-            ArgSolveProcedure::AStar => write!(f, "a-star"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
-pub enum ArgGenProcedure {
-    #[clap(alias = "b")]
-    Bfs,
-    #[default]
-    #[clap(alias = "d")]
-    Dfs,
-    #[clap(alias = "a")]
-    AStar,
-}
-
-impl Display for ArgGenProcedure {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ArgGenProcedure::Bfs => write!(f, "bfs"),
-            ArgGenProcedure::Dfs => write!(f, "dfs"),
-            ArgGenProcedure::AStar => write!(f, "a-star"),
+            ArgProcedure::Bfs => write!(f, "bfs"),
+            ArgProcedure::Dfs => write!(f, "dfs"),
+            ArgProcedure::AStar => write!(f, "a-star"),
         }
     }
 }

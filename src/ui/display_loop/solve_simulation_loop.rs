@@ -68,7 +68,7 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                 &scene.maze,
                 *source,
                 destination,
-                &scene.context.solve_procedure.clone(),
+                &scene.context.procedure.clone(),
                 scene.context.heuristic,
                 &mut tracer,
             );

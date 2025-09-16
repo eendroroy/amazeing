@@ -29,7 +29,7 @@ pub(crate) async fn solve_loop(scene: &mut MazeScene) {
                     &scene.maze,
                     *sources.first().unwrap(),
                     destination,
-                    &scene.context.solve_procedure,
+                    &scene.context.procedure,
                     scene.context.heuristic,
                     &mut None,
                 );
