@@ -32,9 +32,11 @@ pub(crate) async fn solve_loop(scene: &mut MazeScene) {
                 }
             }
 
-            if !sources.is_empty() && destination.is_some() {
+            if !sources.is_empty()
+                && let Some(destination) = destination
+            {
                 path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
+                    if sources.first().unwrap().ne(node) && destination.ne(node) {
                         scene.display_open(*node)
                     }
                 });
@@ -42,14 +44,14 @@ pub(crate) async fn solve_loop(scene: &mut MazeScene) {
                 path = solve_maze(
                     &scene.maze,
                     *sources.first().unwrap(),
-                    destination.unwrap(),
+                    destination,
                     &scene.context.solve_procedure,
                     scene.context.heuristic,
                     &mut None,
                 );
 
                 path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
+                    if sources.first().unwrap().ne(node) && destination.ne(node) {
                         scene.display_path(*node)
                     }
                 })

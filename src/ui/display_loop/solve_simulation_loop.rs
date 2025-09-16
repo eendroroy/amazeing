@@ -1,4 +1,4 @@
-use crate::core::tiled::{Node, OPEN, Trace, Tracer};
+use crate::core::tiled::{Node, Trace, Tracer, OPEN};
 use crate::ui::component::scene::MazeScene;
 use crate::ui::helper::{current_millis, solve_maze, take_a_snap};
 use macroquad::prelude::*;
@@ -76,13 +76,14 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
 
         if !simulating
             && !sources.is_empty()
-            && destination.is_some()
+            && let Some(source) = sources.first()
+            && let Some(destination) = destination
             && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
             solve_maze(
                 &scene.maze,
-                *sources.first().unwrap(),
-                destination.unwrap(),
+                *source,
+                destination,
                 &scene.context.solve_procedure.clone(),
                 scene.context.heuristic,
                 &mut tracer,

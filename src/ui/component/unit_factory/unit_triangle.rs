@@ -61,7 +61,7 @@ impl UnitShapeFactory for TriangleUnitShapeFactory {
     }
 
     fn ys(&self, r: usize, _c: usize) -> f32 {
-        -1. * (r / 2) as f32 * (self.h + self.b)
+        -((r / 2) as f32) * (self.h + self.b)
             + match r.is_even() {
                 true => -(self.h - self.r - self.b) / 2.,
                 false => (self.h - self.r) / 2. - self.h,
