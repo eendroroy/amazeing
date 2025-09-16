@@ -1,4 +1,4 @@
-use crate::command::ArgGenProcedure;
+use crate::command::ArgProcedure;
 use crate::core::tiled::{Node, VOID};
 use crate::ui::component::scene::MazeScene;
 use crate::ui::helper::{current_millis, generate_maze, save_maze, take_a_snap};
@@ -46,7 +46,7 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
 
         if !generated
             && (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-            && (scene.context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
+            && (scene.context.procedure != ArgProcedure::AStar || destination.is_some())
         {
             generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut None);
             scene.update();

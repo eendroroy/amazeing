@@ -1,4 +1,4 @@
-use crate::command::ArgGenProcedure;
+use crate::command::ArgProcedure;
 use crate::core::tiled::{Node, Trace, Tracer, VOID};
 use crate::ui::component::scene::MazeScene;
 use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze, take_a_snap};
@@ -86,7 +86,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-                && (scene.context.generation_procedure != ArgGenProcedure::AStar || destination.is_some())
+                && (scene.context.procedure != ArgProcedure::AStar || destination.is_some())
             {
                 generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut tracer);
                 if let Some(maze_file_path) = scene.context.maze_file_path.clone() {

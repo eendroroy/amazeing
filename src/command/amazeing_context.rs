@@ -1,4 +1,4 @@
-use crate::command::{ArgGenProcedure, ArgHeuristic, ArgSolveProcedure, ArgWeightDirection};
+use crate::command::{ArgHeuristic, ArgProcedure, ArgWeightDirection};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{Maze, NodeHeuFn, Rank};
 use crate::ui::helper::gradient;
@@ -18,8 +18,7 @@ pub(crate) enum ContextType {
 pub struct AmazeingContext {
     pub(crate) maze: Option<Maze>,
     pub(crate) maze_file_path: Option<PathBuf>,
-    pub(crate) generation_procedure: ArgGenProcedure,
-    pub(crate) solve_procedure: ArgSolveProcedure,
+    pub(crate) procedure: ArgProcedure,
     pub(crate) heuristic: NodeHeuFn,
     pub(crate) jumble_factor: u32,
     pub(crate) weight_direction: WeightDirection,
@@ -34,7 +33,7 @@ pub struct AmazeingContext {
 impl AmazeingContext {
     pub fn create_context(
         (maze, maze_file_path): (Option<Maze>, Option<PathBuf>),
-        (generation_procedure, heuristic): (ArgGenProcedure, NodeHeuFn),
+        (procedure, heuristic): (ArgProcedure, NodeHeuFn),
         (jumble_factor, weight_direction): (u32, WeightDirection),
         (rows, cols): (usize, usize),
         (zoom, fps, show_perimeter): (f32, f32, bool),
@@ -42,8 +41,7 @@ impl AmazeingContext {
         Self {
             maze,
             maze_file_path,
-            generation_procedure,
-            solve_procedure: Default::default(),
+            procedure,
             heuristic,
             jumble_factor,
             weight_direction,
@@ -62,8 +60,7 @@ impl AmazeingContext {
     ) -> Self {
         Self {
             maze_file_path: Some(maze_file_path),
-            generation_procedure: ArgGenProcedure::default(),
-            solve_procedure: ArgSolveProcedure::default(),
+            procedure: ArgProcedure::default(),
             heuristic: ArgHeuristic::default().heuristic(),
             jumble_factor: 0,
             weight_direction: ArgWeightDirection::default().direction(),
@@ -79,13 +76,12 @@ impl AmazeingContext {
 
     pub fn solve_context(
         maze: Maze,
-        (solve_procedure, heuristic): (ArgSolveProcedure, NodeHeuFn),
+        (procedure, heuristic): (ArgProcedure, NodeHeuFn),
         (zoom, fps, show_perimeter): (f32, f32, bool),
     ) -> Self {
         Self {
             maze_file_path: None,
-            generation_procedure: ArgGenProcedure::default(),
-            solve_procedure,
+            procedure,
             heuristic,
             jumble_factor: 0,
             weight_direction: ArgWeightDirection::default().direction(),
