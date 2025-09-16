@@ -1,6 +1,6 @@
-use crate::core::tiled::{Node, OPEN};
+use crate::core::tiled::Node;
 use crate::ui::component::scene::MazeScene;
-use crate::ui::helper::{current_millis, solve_maze, take_a_snap};
+use crate::ui::helper::{current_millis, handle_mouse_click, solve_maze, take_a_snap};
 use macroquad::prelude::*;
 
 pub(crate) async fn solve_loop(scene: &mut MazeScene) {
@@ -14,23 +14,7 @@ pub(crate) async fn solve_loop(scene: &mut MazeScene) {
         scene.clear_and_draw();
 
         if is_mouse_button_pressed(MouseButton::Left) {
-            if let Some(node) = scene.clicked_on(mouse_position()) {
-                if scene.maze[node] == OPEN {
-                    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
-                        if let Some(node) = destination {
-                            scene.display_open(node)
-                        }
-                        destination = Some(node);
-                        scene.display_destination(node)
-                    } else {
-                        if let Some(node) = sources.first() {
-                            scene.display_open(*node)
-                        }
-                        *sources = vec![node];
-                        scene.display_source(node)
-                    }
-                }
-            }
+            handle_mouse_click(scene, sources, &mut destination, mouse_position());
 
             if !sources.is_empty()
                 && let Some(destination) = destination
