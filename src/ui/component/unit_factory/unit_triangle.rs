@@ -50,7 +50,7 @@ impl UnitShapeFactory for TriangleUnitShapeFactory {
     }
 
     fn rotation(&self, r: usize, _c: usize) -> f32 {
-        if r % 2 == 0 { 90. } else { -90. }
+        if r.is_multiple_of(2) { 90. } else { -90. }
     }
 
     fn xs(&self, r: usize, _c: usize) -> f32 {
