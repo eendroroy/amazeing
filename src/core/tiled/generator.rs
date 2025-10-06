@@ -46,20 +46,23 @@ pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
     let mut storages: Vec<VecDeque<Node>> = sources
         .iter()
         .map(|source| {
-            let mut storage = VecDeque::<Node>::new();
+            let mut storage = VecDeque::with_capacity(maze.unit_shape.sides(*source));
             storage.push_back(*source);
             storage
         })
         .collect();
 
-    let mut skip_idx = vec![];
+    let mut skip_idx = vec![false; storages.len()];
+    let mut finished = 0;
 
-    loop {
-        storages.iter_mut().enumerate().for_each(|(idx, storage)| {
-            if skip_idx.contains(&idx) {
-            } else if let Some(current) = storage.pop_back() {
+    while finished < storages.len() {
+        for (idx, storage) in storages.iter_mut().enumerate() {
+            if skip_idx[idx] {
+                continue;
+            }
+            if let Some(current) = storage.pop_back() {
                 let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
-                if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
+                if neighbours.len() >= maze.unit_shape.sides(current) - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = OPEN;
                     if let Some(trace) = tracer {
@@ -71,12 +74,9 @@ pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
                     }
                 }
             } else {
-                skip_idx.push(idx);
+                skip_idx[idx] = true;
+                finished += 1;
             }
-        });
-
-        if storages.len() == skip_idx.len() {
-            break;
         }
     }
 }
