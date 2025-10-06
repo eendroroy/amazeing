@@ -4,60 +4,83 @@ mod ui;
 mod utility;
 
 use crate::command::ArgCommand::{Create, Solve, View};
-use crate::command::{AmazeingArgs, CreateArgs, SolveArgs, ViewArgs, get_contexts};
+use crate::command::{AmazeingArgs, AmazeingContext, ColorScheme, Colors};
 use crate::ui::component::scene::MazeScene;
 use crate::ui::display_loop::{
     generate_loop, generate_simulation_loop, solve_loop, solve_simulation_loop, update_loop, view_loop,
 };
+use crate::ui::helper::load_maze_from_file;
 use clap::Parser;
 use macroquad::miniquad::window::set_window_size;
 use macroquad::prelude::Conf;
+use std::path::PathBuf;
+
+macro_rules! gradient_steps {
+    ($r:expr, $c:expr) => {
+        ((($r + $c) as f32 * 0.25).clamp(8., 64.) as usize)
+    };
+}
 
 #[macroquad::main(window_config())]
 async fn main() {
-    let args = AmazeingArgs::parse();
-    let (context, colors) = get_contexts(args.clone());
+    let amazeing_args = AmazeingArgs::parse();
 
-    match args.command.clone() {
-        Create(CreateArgs {
-            verbose: false,
-            maze_shape,
-            unit_shape,
-            ..
-        }) => {
-            let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
+    match amazeing_args.command.clone() {
+        Create(args) => {
+            let context = AmazeingContext::create_context(
+                (None, args.maze),
+                (args.procedure, args.heuristic_function.heuristic()),
+                (args.jumble_factor, args.weight_direction.direction()),
+                args.maze_shape.dimension(),
+                (amazeing_args.zoom, amazeing_args.fps, amazeing_args.show_perimeter),
+            );
+            let mut scene = MazeScene::new_from_dimension(
+                args.maze_shape.shape(),
+                args.unit_shape.shape(),
+                &context,
+                &get_colors(context.rows, context.cols, amazeing_args.colors),
+            );
             set_screen_size(scene.wh);
-            generate_loop(&mut scene).await
+            if args.verbose {
+                generate_simulation_loop(&mut scene).await
+            } else {
+                generate_loop(&mut scene).await
+            }
         }
-        Create(CreateArgs {
-            verbose: true,
-            maze_shape,
-            unit_shape,
-            ..
-        }) => {
-            let mut scene = MazeScene::new_from_dimension(maze_shape.shape(), unit_shape.shape(), &context, &colors);
+        View(args) => {
+            let context = AmazeingContext::view_context(
+                (load_maze_from_file(args.maze.as_path()), args.maze.clone()),
+                (amazeing_args.zoom, amazeing_args.fps, amazeing_args.show_perimeter),
+            );
+            let mut scene = MazeScene::new_from_maze(
+                &context.maze.clone().unwrap(),
+                &context,
+                &get_colors(context.rows, context.cols, amazeing_args.colors),
+            );
             set_screen_size(scene.wh);
-            generate_simulation_loop(&mut scene).await
+            if args.update {
+                update_loop(&mut scene).await
+            } else {
+                view_loop(scene).await
+            }
         }
-        View(ViewArgs { update: false, .. }) => {
-            let scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
+        Solve(args) => {
+            let context = AmazeingContext::solve_context(
+                load_maze_from_file(args.maze.as_path()),
+                (args.procedure, args.heuristic_function.heuristic()),
+                (amazeing_args.zoom, amazeing_args.fps, amazeing_args.show_perimeter),
+            );
+            let mut scene = MazeScene::new_from_maze(
+                &context.maze.clone().unwrap(),
+                &context,
+                &get_colors(context.rows, context.cols, amazeing_args.colors),
+            );
             set_screen_size(scene.wh);
-            view_loop(scene).await
-        }
-        View(ViewArgs { update: true, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
-            set_screen_size(scene.wh);
-            update_loop(&mut scene).await
-        }
-        Solve(SolveArgs { verbose: false, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
-            set_screen_size(scene.wh);
-            solve_loop(&mut scene).await
-        }
-        Solve(SolveArgs { verbose: true, .. }) => {
-            let mut scene = MazeScene::new_from_maze(&context.maze.clone().unwrap(), &context, &colors);
-            set_screen_size(scene.wh);
-            solve_simulation_loop(&mut scene).await
+            if args.verbose {
+                solve_simulation_loop(&mut scene).await
+            } else {
+                solve_loop(&mut scene).await
+            }
         }
     }
 }
@@ -74,4 +97,13 @@ fn window_config() -> Conf {
 
 fn set_screen_size((width, height): (u32, u32)) {
     set_window_size(width, height + 30);
+}
+
+fn get_colors(rows: usize, cols: usize, scheme_path: Option<PathBuf>) -> Colors {
+    let gradient_steps: usize = gradient_steps![rows, cols];
+    if let Some(path) = scheme_path {
+        Colors::from(ColorScheme::from(path.as_path()), gradient_steps)
+    } else {
+        Colors::new(gradient_steps)
+    }
 }

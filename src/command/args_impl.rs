@@ -12,6 +12,15 @@ impl ArgMazeShape {
             ArgMazeShape::Circle(_) => MazeShape::Circle,
         }
     }
+
+    pub fn dimension(&self) -> (usize, usize) {
+        match self {
+            ArgMazeShape::Triangle(args) => (args.base, args.base),
+            ArgMazeShape::Rectangle(args) => (args.rows, args.cols),
+            ArgMazeShape::Hexagon(args) => (args.diameter, args.diameter),
+            ArgMazeShape::Circle(args) => (args.diameter, args.diameter),
+        }
+    }
 }
 
 impl ArgUnitShape {
