@@ -1,3 +1,4 @@
+use std::time::Instant;
 use crate::command::{AmazeingContext, ArgProcedure};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
@@ -26,6 +27,7 @@ pub(crate) fn generate_maze(
     context: &AmazeingContext,
     tracer: &mut Option<Tracer>,
 ) {
+    let start = Instant::now();
     match context.procedure {
         ArgProcedure::Bfs => generator::bfs(maze, sources, tracer),
         ArgProcedure::Dfs => generator::dfs(maze, sources, tracer),
@@ -37,4 +39,6 @@ pub(crate) fn generate_maze(
             a_star_fn(maze, sources, destination.unwrap(), context.heuristic, context.jumble_factor, tracer)
         }
     }
+    let duration = start.elapsed();
+    println!("generated {} maze in {:?}", sources.len(), duration);
 }
