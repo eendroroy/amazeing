@@ -32,15 +32,20 @@ pub(crate) fn reconstruct_path(destination: Node, parent: &BTreeMap<Node, Node>)
 }
 
 pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, Node>) -> Trace {
-    let mut rank = Rank::MAX;
-    let mut path = HashMap::<Node, i32>::new();
-    let mut current_node = destination;
-    while parent.contains_key(&current_node) {
-        path.insert(current_node, rank);
-        rank -= 1;
-        current_node = parent[&current_node];
+    let mut nodes = Vec::with_capacity(parent.len() + 1);
+    let mut current = destination;
+    nodes.push(current);
+    while let Some(&next) = parent.get(&current) {
+        current = next;
+        nodes.push(current);
     }
-    path.insert(current_node, rank);
+
+    let mut path = HashMap::with_capacity(nodes.len());
+    let mut rank = Rank::MAX;
+    for &node in &nodes {
+        path.insert(node, rank);
+        rank -= 1;
+    }
     path
 }
 
