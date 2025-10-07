@@ -1,9 +1,9 @@
-use std::time::Instant;
 use crate::command::{AmazeingContext, ArgProcedure};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
-    DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, generator, solver,
+    generator, solver, DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer,
 };
+use std::time::Instant;
 
 pub(crate) fn solve_maze(
     maze: &Maze,
@@ -13,11 +13,14 @@ pub(crate) fn solve_maze(
     heuristic: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
-    match procedure {
+    let start = Instant::now();
+    let solution = match procedure {
         ArgProcedure::Bfs => solver::bfs(maze, source, destination, tracer),
         ArgProcedure::Dfs => solver::dfs(maze, source, destination, tracer),
         ArgProcedure::AStar => solver::a_star(maze, source, destination, heuristic, tracer),
-    }
+    };
+    println!("Solved maze in {:?}", start.elapsed());
+    solution
 }
 
 pub(crate) fn generate_maze(
@@ -39,6 +42,5 @@ pub(crate) fn generate_maze(
             a_star_fn(maze, sources, destination.unwrap(), context.heuristic, context.jumble_factor, tracer)
         }
     }
-    let duration = start.elapsed();
-    println!("generated {} maze in {:?}", sources.len(), duration);
+    println!("generated {} maze in {:?}", sources.len(), start.elapsed());
 }
