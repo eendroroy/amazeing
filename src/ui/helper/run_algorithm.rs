@@ -1,7 +1,7 @@
 use crate::command::{AmazeingContext, ArgProcedure};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
-    generator, solver, DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer,
+    DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, generator, solver,
 };
 use std::time::Instant;
 

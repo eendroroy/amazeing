@@ -59,10 +59,6 @@ pub enum ArgCommand {
 
 #[derive(Debug, Clone, PartialEq, Parser)]
 pub struct CreateArgs {
-    /// Maze shape
-    #[clap(subcommand)]
-    pub maze_shape: ArgMazeShape,
-
     /// Unit shape
     #[clap(global = true, long, short, default_value_t = ArgUnitShape::default(), value_name = "UnitShape")]
     pub unit_shape: ArgUnitShape,
@@ -74,6 +70,14 @@ pub struct CreateArgs {
     /// if provided, generated maze will be dumped at path
     #[clap(global = true, long, short)]
     pub maze: Option<PathBuf>,
+
+    /// Number of rows
+    #[clap(long, short)]
+    pub rows: usize,
+
+    /// Number of columns
+    #[clap(long, short)]
+    pub cols: usize,
 
     /// Maze Generation Procedure
     #[clap(global = true, long, short, default_value_t = ArgProcedure::Dfs)]
@@ -94,54 +98,6 @@ pub struct CreateArgs {
     /// Show a simulation of the generation process
     #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Subcommand)]
-pub enum ArgMazeShape {
-    #[clap(visible_alias = "T")]
-    Triangle(TriangleArgs),
-    #[clap(visible_alias = "R")]
-    Rectangle(RectangleArgs),
-    #[clap(visible_alias = "H")]
-    Hexagon(CircleArgs),
-    #[clap(visible_alias = "C")]
-    Circle(CircleArgs),
-}
-
-impl Display for ArgMazeShape {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ArgMazeShape::Triangle(_) => write!(f, "triangle"),
-            ArgMazeShape::Rectangle(_) => write!(f, "rectangle"),
-            ArgMazeShape::Hexagon(_) => write!(f, "hexagon"),
-            ArgMazeShape::Circle(_) => write!(f, "circle"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Parser)]
-pub struct TriangleArgs {
-    /// Width of base of the triangle
-    #[clap(long, short)]
-    pub base: usize,
-}
-
-#[derive(Debug, Clone, PartialEq, Parser)]
-pub struct RectangleArgs {
-    /// Number of rows
-    #[clap(long, short)]
-    pub rows: usize,
-
-    /// Number of columns
-    #[clap(long, short)]
-    pub cols: usize,
-}
-
-#[derive(Debug, Clone, PartialEq, Parser)]
-pub struct CircleArgs {
-    /// Width/Height of the circle
-    #[clap(long, short)]
-    pub diameter: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Parser)]

@@ -1,28 +1,26 @@
 use crate::core::tiled::node::Node;
-use crate::core::tiled::{MazeData, MazeShape, UnitShape, VOID};
+use crate::core::tiled::{MazeData, UnitShape, VOID};
 use std::ops::{Index, IndexMut};
 
 #[derive(Default, Debug, Clone)]
 pub struct Maze {
-    pub maze_shape: MazeShape,
     pub unit_shape: UnitShape,
     pub data: MazeData,
 }
 
 impl Maze {
-    pub fn new(maze_shape: MazeShape, unit_shape: UnitShape, rows: usize, cols: usize, default: i8) -> Self {
+    pub fn new(unit_shape: UnitShape, rows: usize, cols: usize, default: i8) -> Self {
         Self {
-            maze_shape,
             unit_shape,
             data: vec![vec![default; cols]; rows],
         }
     }
-    pub fn new_void(maze_shape: MazeShape, unit_shape: UnitShape, rows: usize, cols: usize) -> Self {
-        Maze::new(maze_shape, unit_shape, rows, cols, VOID)
+    pub fn new_void(unit_shape: UnitShape, rows: usize, cols: usize) -> Self {
+        Maze::new(unit_shape, rows, cols, VOID)
     }
 
-    pub fn from(maze_shape: MazeShape, unit_shape: UnitShape, data: MazeData) -> Self {
-        Self { maze_shape, unit_shape, data }
+    pub fn from(unit_shape: UnitShape, data: MazeData) -> Self {
+        Self { unit_shape, data }
     }
 
     pub fn rows(&self) -> usize {

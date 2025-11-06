@@ -31,11 +31,10 @@ async fn main() {
                 (None, args.maze),
                 (args.procedure, args.heuristic_function.heuristic()),
                 (args.jumble_factor, args.weight_direction.direction()),
-                args.maze_shape.dimension(),
+                (args.rows, args.cols),
                 (amazeing_args.zoom, amazeing_args.fps, amazeing_args.show_perimeter),
             );
             let mut scene = MazeScene::new_from_dimension(
-                args.maze_shape.shape(),
                 args.unit_shape.shape(),
                 &context,
                 &get_colors(context.rows, context.cols, amazeing_args.colors),

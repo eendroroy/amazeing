@@ -14,11 +14,8 @@ Clone the repository and build the project:
 git clone https://github.com/eendroroy/amazeing.git
 cd amazeing
 make install # this will install shell-completions
+amzeing --help
 ```
-
-## Usage
-
-> Run `amazeing --help`
 
 ### Key/Mouse events
 
@@ -42,59 +39,6 @@ make install # this will install shell-completions
     - Additional action in simulation mode (`--verbose`/`-v`):
         - `S`/`<Space>` - Start Simulation
         - `<Space>` - Start/Pause/Resume Simulation
-
-## Example Commands
-
-#### Generate - single source
-
-```shell
-# generate 21x21 maze using BFS - single source
-amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 10,10 --procedure bfs --unit-component square
-# short
-amazeing C R -m bfs_21_21.maze -_r 21 -c 21 -s 10,10 -p bfs -U square
-
-# simulate - multi source
-amazeing create rectangle --rows 21 --cols 21 --source 10,10 --procedure bfs --verbose --fps 25 --unit-component hexagonal
-# short
-amazeing C R -_r 21 -c 21 -s 10,10 -p bfs -v -F 25 -U hexagonal
-```
-
-#### Generate - multi source
-
-```shell
-# generate 21x21 maze using BFS - multi source
-amazeing create rectangle --maze bfs_21_21.maze --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --unit-component sqaure
-# short
-amazeing C R -m bfs_21_21.maze -_r 21 -c 21 -s 7,7 -s 14,14 -p bfs -U square
-
-# simulate - multi source
-amazeing create rectangle --rows 21 --cols 21 --source 7,7 --source 14,14 --procedure bfs --verbose --fps 25 --unit-component hexagonal
-# short
-amazeing C R -_r 21 -c 21 -s 7,7 -s 14,14 -p bfs -v -F 25 -U hexagonal
-```
-
-#### Update
-
-```shell
-# update bfs_21_21.maze
-amazeing view --maze bfs_21_21.maze --update
-# short
-amazeing V -m bfs_21_21.maze -u
-```
-
-#### Solve
-
-```shell
-# solve bfs_21_21.maze
-amazeing solve --maze bfs_21_21.maze --procedure bfs
-# short
-amazeing S -m bfs_21_21.maze -p bfs
-
-# simulate
-amazeing solve --maze bfs_21_21.maze --procedure bfs --verbose --fps 25
-# short
-amazeing S -m bfs_21_21.maze -p bfs -v -F 25
-```
 
 ## Generate Maze
 

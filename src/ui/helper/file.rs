@@ -1,4 +1,4 @@
-use crate::core::tiled::{Maze, MazeData, MazeShape, NodeFactory, UnitShape};
+use crate::core::tiled::{Maze, MazeData, NodeFactory, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -16,9 +16,6 @@ pub(crate) fn dump_maze_to_file(path: &Path, maze: &Maze) {
         .truncate(true)
         .open(path)
         .expect("Could not open file");
-
-    file.write_all(format!("{}\n", maze.maze_shape).as_bytes())
-        .expect("Could not write to file");
 
     file.write_all(format!("{}\n", maze.unit_shape).as_bytes())
         .expect("Could not write to file");
@@ -50,7 +47,6 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
     let mut lines = file_data.split("\n").collect::<Vec<&str>>();
 
     Maze::from(
-        MazeShape::from_str(lines.remove(0)).unwrap_or_else(|e| panic!("{}", e)),
         UnitShape::from_str(lines.remove(0)).unwrap_or_else(|e| panic!("{}", e)),
         lines
             .iter()

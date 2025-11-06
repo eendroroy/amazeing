@@ -1,27 +1,7 @@
-use crate::command::{ArgHeuristic, ArgMazeShape, ArgUnitShape, ArgWeightDirection};
+use crate::command::{ArgHeuristic, ArgUnitShape, ArgWeightDirection};
 use crate::core::tiled::heuristics::*;
 use crate::core::tiled::node::WeightDirection;
-use crate::core::tiled::{MazeShape, NodeHeuFn, UnitShape};
-
-impl ArgMazeShape {
-    pub fn shape(&self) -> MazeShape {
-        match self {
-            ArgMazeShape::Triangle(_) => MazeShape::Triangle,
-            ArgMazeShape::Rectangle(_) => MazeShape::Rectangle,
-            ArgMazeShape::Hexagon(_) => MazeShape::Hexagon,
-            ArgMazeShape::Circle(_) => MazeShape::Circle,
-        }
-    }
-
-    pub fn dimension(&self) -> (usize, usize) {
-        match self {
-            ArgMazeShape::Triangle(args) => (args.base, args.base),
-            ArgMazeShape::Rectangle(args) => (args.rows, args.cols),
-            ArgMazeShape::Hexagon(args) => (args.diameter, args.diameter),
-            ArgMazeShape::Circle(args) => (args.diameter, args.diameter),
-        }
-    }
-}
+use crate::core::tiled::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
     pub fn shape(&self) -> UnitShape {

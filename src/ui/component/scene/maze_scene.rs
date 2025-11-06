@@ -1,5 +1,5 @@
 use crate::command::{AmazeingContext, Colors, ContextType};
-use crate::core::tiled::{BLOCK, Maze, MazeShape, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
+use crate::core::tiled::{BLOCK, Maze, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
 use crate::ui::component::unit_factory::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
@@ -8,7 +8,6 @@ use crate::ui::component::{BORDER, MARGIN};
 use crate::ui::helper::{current_millis, is_point_in_triangle};
 use crate::utility::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
-use std::f32::consts::PI;
 use std::ops::{Index, IndexMut};
 
 pub(crate) struct MazeScene {
@@ -20,7 +19,6 @@ pub(crate) struct MazeScene {
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
-    pub(crate) shape_factory: Box<dyn UnitShapeFactory>,
 }
 
 impl MazeScene {
@@ -61,7 +59,6 @@ impl MazeScene {
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
-            shape_factory,
         };
 
         if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
@@ -76,21 +73,10 @@ impl MazeScene {
         MazeScene::new_from(maze, context.clone(), colors, shape_factory)
     }
 
-    pub(crate) fn new_from_dimension(
-        maze_shape: MazeShape,
-        unit_shape: UnitShape,
-        context: &AmazeingContext,
-        colors: &Colors,
-    ) -> Self {
+    pub(crate) fn new_from_dimension(unit_shape: UnitShape, context: &AmazeingContext, colors: &Colors) -> Self {
         let shape_factory = MazeScene::shape_factory(unit_shape, context.zoom);
-        let (m_rows, m_cols) =
-            MazeScene::adjust_dimension(maze_shape, unit_shape, context.rows, context.cols, &shape_factory);
-        MazeScene::new_from(
-            &Maze::new_void(maze_shape, unit_shape, m_rows, m_cols),
-            context.clone(),
-            colors,
-            shape_factory,
-        )
+        let (m_rows, m_cols) = MazeScene::adjust_dimension(unit_shape, context.rows, context.cols);
+        MazeScene::new_from(&Maze::new_void(unit_shape, m_rows, m_cols), context.clone(), colors, shape_factory)
     }
 
     pub(crate) fn w(&self) -> u32 {
@@ -137,71 +123,17 @@ impl MazeScene {
     }
 
     pub(crate) fn set_bound(&mut self) {
-        let (x_min, x_mid, x_max) = (MARGIN - BORDER, (self.w() / 2) as f32, self.w() as f32 - MARGIN + BORDER);
-        let (y_min, y_mid, y_max) = (MARGIN - BORDER, (self.h() / 2) as f32, self.h() as f32 - MARGIN + BORDER);
-        self.bound = Some(match (self.maze.maze_shape, self.maze.unit_shape) {
-            // TODO: (MazeShape::Triangle, UnitShape::Triangle)
-            (MazeShape::Triangle, UnitShape::Hexagon) => Mesh {
-                vertices: vec![
-                    Vertex::new2(
-                        vec3(x_mid - self.shape_factory.w() / 4., y_min, 0.),
-                        vec2(0., 0.),
-                        self.colors.color_perimeter,
-                    ),
-                    Vertex::new2(
-                        vec3(x_max - self.shape_factory.w() / 4., y_max, 0.),
-                        vec2(0., 0.),
-                        self.colors.color_perimeter,
-                    ),
-                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                ],
-                indices: vec![0, 1, 2],
-                texture: None,
-            },
-            (MazeShape::Triangle, _) => Mesh {
-                vertices: vec![
-                    Vertex::new2(vec3(x_mid, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                ],
-                indices: vec![0, 1, 2],
-                texture: None,
-            },
-            (MazeShape::Rectangle, _) => Mesh {
-                vertices: vec![
-                    Vertex::new2(vec3(x_min, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                    Vertex::new2(vec3(x_max, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                    Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                    Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
-                ],
-                indices: vec![0, 1, 2, 0, 2, 3],
-                texture: None,
-            },
-            (MazeShape::Circle | MazeShape::Hexagon, _) => {
-                let sides = self.maze.maze_shape.sides();
-                let radius = self.wh.0 as f32 / 2.0 - MARGIN;
-                let (x0, y0) = (x_mid, y_mid);
-                let mut vertices = Vec::<Vertex>::with_capacity(sides as usize);
-                let mut indices = vec![];
-                for i in 0..sides {
-                    let rx = (i as f32 / sides as f32 * PI * 2.).cos();
-                    let ry = (i as f32 / sides as f32 * PI * 2.).sin();
-                    let vertex =
-                        Vertex::new(x0 + radius * rx, y0 + radius * ry, 0., rx, ry, self.colors.color_perimeter);
-
-                    vertices.push(vertex);
-
-                    if i < sides - 2 {
-                        indices.extend_from_slice(&[0, i as u16 + 1, i as u16 + 2]);
-                    }
-                }
-
-                Mesh {
-                    vertices,
-                    indices,
-                    texture: None,
-                }
-            }
+        let (x_min, x_max) = (MARGIN - BORDER, self.w() as f32 - MARGIN + BORDER);
+        let (y_min, y_max) = (MARGIN - BORDER, self.h() as f32 - MARGIN + BORDER);
+        self.bound = Some(Mesh {
+            vertices: vec![
+                Vertex::new2(vec3(x_min, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                Vertex::new2(vec3(x_max, y_min, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                Vertex::new2(vec3(x_max, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
+                Vertex::new2(vec3(x_min, y_max, 0.), vec2(0., 0.), self.colors.color_perimeter),
+            ],
+            indices: vec![0, 1, 2, 0, 2, 3],
+            texture: None,
         });
 
         if self.context.context_type == ContextType::Create {
@@ -406,26 +338,12 @@ impl MazeScene {
     }
 
     #[allow(clippy::borrowed_box)]
-    fn adjust_dimension(
-        maze_shape: MazeShape,
-        unit_shape: UnitShape,
-        rows: usize,
-        cols: usize,
-        factory: &Box<dyn UnitShapeFactory>,
-    ) -> (usize, usize) {
-        match (maze_shape, unit_shape) {
-            (MazeShape::Rectangle, UnitShape::Triangle | UnitShape::HexagonRectangle | UnitShape::OctagonSquare) => {
+    fn adjust_dimension(unit_shape: UnitShape, rows: usize, cols: usize) -> (usize, usize) {
+        match unit_shape {
+            UnitShape::Triangle | UnitShape::HexagonRectangle | UnitShape::OctagonSquare => {
                 ((rows * 2).odd_floor(), cols)
             }
-            (MazeShape::Triangle, UnitShape::Triangle | UnitShape::HexagonRectangle | UnitShape::OctagonSquare) => {
-                (rows * 2, cols.odd_ceil())
-            }
-            (MazeShape::Triangle, _) => (rows, cols.odd_ceil()),
-            (MazeShape::Circle, UnitShape::Triangle | UnitShape::HexagonRectangle | UnitShape::OctagonSquare) => {
-                ((cols as f32 * factory.w() / factory.h()) as usize * 2, cols)
-            }
-            (MazeShape::Circle, _) => ((cols as f32 * factory.w() / factory.h()) as usize, cols),
-            (_, _) => (rows, cols),
+            _ => (rows, cols),
         }
     }
 }
