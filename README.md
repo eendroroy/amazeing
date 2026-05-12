@@ -25,8 +25,9 @@ amzeing --help
     - Additional action in simulation mode (`--verbose`/`-v`):
         - `LeftClick` - Add/Remove Source
         - `Shift`+`LeftClick` - Set Destination
-        - `S`/`<Space>` - Start Simulation
+        - `G`/`<Space>` - Start Simulation
         - `<Space>` - Start/Pause/Resume Simulation
+        - `R` - Restart simulation and reset selection
 
 - View - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
@@ -39,6 +40,7 @@ amzeing --help
     - Additional action in simulation mode (`--verbose`/`-v`):
         - `S`/`<Space>` - Start Simulation
         - `<Space>` - Start/Pause/Resume Simulation
+        - `R` - Restart simulation and reset selection
 
 ## Generate Maze
 

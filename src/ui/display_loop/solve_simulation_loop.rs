@@ -11,6 +11,7 @@ enum SolveEvent {
 }
 
 pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
+    let initial_maze = scene.maze.clone();
     let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
@@ -26,6 +27,18 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         let current_frame_start_time = current_millis();
 
         scene.clear_and_draw();
+
+        if is_key_pressed(KeyCode::R) {
+            scene.maze = initial_maze.clone();
+            scene.update();
+            sources.clear();
+            destination = None;
+            current_trace.clear();
+            solve_events = None;
+            trace_complete = false;
+            simulating = false;
+            paused = false;
+        }
 
         if simulating {
             if !paused && !trace_complete {

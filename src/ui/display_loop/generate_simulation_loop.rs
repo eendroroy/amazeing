@@ -12,6 +12,7 @@ enum GenerationEvent {
 }
 
 pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
+    let initial_maze = scene.maze.clone();
     let mut generation_events: Option<Receiver<GenerationEvent>> = None;
 
     let mut current_path: Trace = HashMap::new();
@@ -27,6 +28,18 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         let current_frame_start_time = current_millis();
 
         scene.clear_and_draw();
+
+        if is_key_pressed(KeyCode::R) {
+            scene.maze = initial_maze.clone();
+            scene.update();
+            sources.clear();
+            destination = None;
+            current_path.clear();
+            generation_events = None;
+            trace_complete = false;
+            simulating = false;
+            paused = false;
+        }
 
         if simulating {
             if is_key_pressed(KeyCode::Space) {
