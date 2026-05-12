@@ -1,0 +1,28 @@
+use crate::app::shared::{get_colors, set_screen_size};
+use crate::cli::{AmazeingArgs, AmazeingContext, CreateArgs};
+use crate::render::component::scene::MazeScene;
+use crate::render::display_loop::{generate_loop, generate_simulation_loop};
+
+pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
+    let context = AmazeingContext::create_context(
+        (None, args.maze),
+        (args.procedure, args.heuristic_function.heuristic()),
+        (args.jumble_factor, args.weight_direction.direction()),
+        (args.rows, args.cols),
+        (global.zoom, global.fps, global.show_perimeter),
+    );
+
+    let mut scene = MazeScene::new_from_dimension(
+        args.unit_shape.shape(),
+        &context,
+        &get_colors(context.rows, context.cols, global.colors.as_ref()),
+    );
+
+    set_screen_size(scene.wh);
+    if args.verbose {
+        generate_simulation_loop(&mut scene).await
+    } else {
+        generate_loop(&mut scene).await
+    }
+}
+

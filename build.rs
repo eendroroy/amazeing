@@ -2,7 +2,7 @@ use crate::args::AmazeingArgs;
 use clap::CommandFactory;
 use clap_complete::shells::{Bash, Fish, Zsh};
 
-#[path = "src/command/args.rs"]
+#[path = "src/cli/args.rs"]
 mod args;
 
 fn main() {
