@@ -1,5 +1,5 @@
 use super::helper::{reconstruct_trace_path, validate_node};
-use super::types::Tracer;
+use super::types::{Trace, Tracer};
 use super::{Maze, Node, NodeHeuFn, OPEN};
 use crate::core::tiled::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
@@ -7,6 +7,16 @@ use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, VecDeque};
 
 pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
+    let mut noop = |_| {};
+    bfs_emit(maze, sources, tracer, &mut noop);
+}
+
+pub fn bfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)) {
+    let mut tracer = None;
+    bfs_emit(maze, sources, &mut tracer, emit);
+}
+
+fn bfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -23,9 +33,11 @@ pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
 
         if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
             maze[current] = OPEN;
+            let step = reconstruct_trace_path(current, &parent);
             if let Some(trace) = tracer {
-                trace.push(reconstruct_trace_path(current, &parent));
+                trace.push(step.clone());
             }
+            emit(step);
             for next in neighbours {
                 parent.insert(next, current);
                 storage.push(next);
@@ -37,6 +49,16 @@ pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
 }
 
 pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
+    let mut noop = |_| {};
+    dfs_emit(maze, sources, tracer, &mut noop);
+}
+
+pub fn dfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)) {
+    let mut tracer = None;
+    dfs_emit(maze, sources, &mut tracer, emit);
+}
+
+fn dfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -65,9 +87,11 @@ pub fn dfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
                 if neighbours.len() >= maze.unit_shape.sides(current) - 1 {
                     neighbours.shuffle(&mut rng());
                     maze[current] = OPEN;
+                    let step = reconstruct_trace_path(current, &parent);
                     if let Some(trace) = tracer {
-                        trace.push(reconstruct_trace_path(current, &parent));
+                        trace.push(step.clone());
                     }
+                    emit(step);
                     for next in neighbours {
                         parent.insert(next, current);
                         storage.push_back(next);
@@ -88,6 +112,31 @@ pub fn a_star<T: DNodeWeighted>(
     heu: NodeHeuFn,
     jumble_factor: u32,
     tracer: &mut Option<Tracer>,
+) {
+    let mut noop = |_| {};
+    a_star_emit::<T>(maze, sources, destination, heu, jumble_factor, tracer, &mut noop);
+}
+
+pub fn a_star_stream<T: DNodeWeighted>(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut tracer = None;
+    a_star_emit::<T>(maze, sources, destination, heu, jumble_factor, &mut tracer, emit);
+}
+
+fn a_star_emit<T: DNodeWeighted>(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
 ) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
@@ -113,9 +162,11 @@ pub fn a_star<T: DNodeWeighted>(
 
         if neighbours.len() >= &maze.unit_shape.sides(current) - 1 {
             maze[current] = OPEN;
+            let step = reconstruct_trace_path(current, &parent);
             if let Some(trace) = tracer {
-                trace.push(reconstruct_trace_path(current, &parent));
+                trace.push(step.clone());
             }
+            emit(step);
             for next in neighbours {
                 parent.insert(next, current);
                 storage.push(T::new(

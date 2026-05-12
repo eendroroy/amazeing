@@ -1,7 +1,7 @@
 use crate::command::{AmazeingContext, ArgProcedure};
 use crate::core::tiled::node::WeightDirection;
 use crate::core::tiled::{
-    DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Tracer, generator, solver,
+    DNodeWeightedBackward, DNodeWeightedForward, Maze, Node, NodeHeuFn, Trace, Tracer, generator, solver,
 };
 use std::time::Instant;
 
@@ -44,3 +44,26 @@ pub(crate) fn generate_maze(
     }
     println!("generated {} maze in {:?}", sources.len(), start.elapsed());
 }
+
+pub(crate) fn generate_maze_stream(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Option<Node>,
+    context: &AmazeingContext,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let start = Instant::now();
+    match context.procedure {
+        ArgProcedure::Bfs => generator::bfs_stream(maze, sources, emit),
+        ArgProcedure::Dfs => generator::dfs_stream(maze, sources, emit),
+        ArgProcedure::AStar => {
+            let a_star_fn = match context.weight_direction {
+                WeightDirection::Backward => generator::a_star_stream::<DNodeWeightedBackward>,
+                _ => generator::a_star_stream::<DNodeWeightedForward>,
+            };
+            a_star_fn(maze, sources, destination.unwrap(), context.heuristic, context.jumble_factor, emit)
+        }
+    }
+    println!("generated {} maze in {:?}", sources.len(), start.elapsed());
+}
+

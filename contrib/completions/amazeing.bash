@@ -17,37 +17,37 @@ _amazeing() {
                 cmd="amazeing"
                 ;;
             amazeing,C)
-                cmd="amazeing__create"
+                cmd="amazeing__subcmd__create"
                 ;;
             amazeing,S)
-                cmd="amazeing__solve"
+                cmd="amazeing__subcmd__solve"
                 ;;
             amazeing,V)
-                cmd="amazeing__view"
+                cmd="amazeing__subcmd__view"
                 ;;
             amazeing,create)
-                cmd="amazeing__create"
+                cmd="amazeing__subcmd__create"
                 ;;
             amazeing,help)
-                cmd="amazeing__help"
+                cmd="amazeing__subcmd__help"
                 ;;
             amazeing,solve)
-                cmd="amazeing__solve"
+                cmd="amazeing__subcmd__solve"
                 ;;
             amazeing,view)
-                cmd="amazeing__view"
+                cmd="amazeing__subcmd__view"
                 ;;
-            amazeing__help,create)
-                cmd="amazeing__help__create"
+            amazeing__subcmd__help,create)
+                cmd="amazeing__subcmd__help__subcmd__create"
                 ;;
-            amazeing__help,help)
-                cmd="amazeing__help__help"
+            amazeing__subcmd__help,help)
+                cmd="amazeing__subcmd__help__subcmd__help"
                 ;;
-            amazeing__help,solve)
-                cmd="amazeing__help__solve"
+            amazeing__subcmd__help,solve)
+                cmd="amazeing__subcmd__help__subcmd__solve"
                 ;;
-            amazeing__help,view)
-                cmd="amazeing__help__view"
+            amazeing__subcmd__help,view)
+                cmd="amazeing__subcmd__help__subcmd__view"
                 ;;
             *)
                 ;;
@@ -93,7 +93,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__create)
+        amazeing__subcmd__create)
             opts="-u -m -r -c -p -H -j -w -v -Z -C -F -P -h --unit-shape --maze --rows --cols --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -195,7 +195,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__help)
+        amazeing__subcmd__help)
             opts="create view solve help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -209,7 +209,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__help__create)
+        amazeing__subcmd__help__subcmd__create)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -223,7 +223,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__help__help)
+        amazeing__subcmd__help__subcmd__help)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -237,7 +237,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__help__solve)
+        amazeing__subcmd__help__subcmd__solve)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -251,7 +251,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__help__view)
+        amazeing__subcmd__help__subcmd__view)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -265,7 +265,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__solve)
+        amazeing__subcmd__solve)
             opts="-m -p -H -v -Z -C -F -P -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -327,7 +327,7 @@ _amazeing() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        amazeing__view)
+        amazeing__subcmd__view)
             opts="-m -u -Z -C -F -P -h --maze --update --zoom --colors --fps --show-perimeter --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )

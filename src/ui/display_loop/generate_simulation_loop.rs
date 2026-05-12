@@ -1,13 +1,18 @@
 use crate::command::ArgProcedure;
-use crate::core::tiled::{Node, Trace, Tracer, VOID};
+use crate::core::tiled::{Maze, Node, Trace, VOID};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze, take_a_snap};
+use crate::ui::helper::{current_millis, dump_maze_to_file, generate_maze_stream, take_a_snap};
 use macroquad::prelude::*;
 use std::collections::HashMap;
+use std::sync::mpsc::{self, Receiver, TryRecvError};
+
+enum GenerationEvent {
+    Step(Trace),
+    Done(Maze),
+}
 
 pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
-    let mut trace: Tracer = vec![];
-    let mut tracer: Option<Tracer> = Some(vec![]);
+    let mut generation_events: Option<Receiver<GenerationEvent>> = None;
 
     let mut current_path: Trace = HashMap::new();
 
@@ -24,37 +29,59 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         scene.clear_and_draw();
 
         if simulating {
-            if !paused && !trace_complete {
-                current_path.iter().for_each(|node| {
-                    if sources.first().unwrap().ne(node.0) && (destination.is_none() || destination.unwrap().ne(node.0))
-                    {
-                        scene.display_open(*node.0)
-                    }
-                });
-                current_path = trace.remove(0);
-                if trace.is_empty() {
-                    trace_complete = true;
-                    simulating = false;
-                    current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(node.0)
-                            && (destination.is_none() || destination.unwrap().ne(node.0))
-                        {
-                            scene.display_open(*node.0)
-                        }
-                    });
-                } else {
-                    current_path.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(node.0)
-                            && (destination.is_none() || destination.unwrap().ne(node.0))
-                        {
-                            scene.display_visiting_gradient(*node.0, node.1)
-                        }
-                    });
-                }
-            }
-
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;
+            }
+
+            if !paused && !trace_complete && let Some(receiver) = &generation_events {
+                // Process a small burst of frames per render so UI stays responsive.
+                for _ in 0..4 {
+                    match receiver.try_recv() {
+                        Ok(GenerationEvent::Step(step)) => {
+                            current_path.iter().for_each(|(node, _)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
+                                {
+                                    scene.display_open(*node)
+                                }
+                            });
+
+                            current_path = step;
+
+                            current_path.iter().for_each(|(node, rank)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
+                                {
+                                    scene.display_visiting_gradient(*node, rank)
+                                }
+                            });
+                        }
+                        Ok(GenerationEvent::Done(final_maze)) => {
+                            current_path.iter().for_each(|(node, _)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
+                                {
+                                    scene.display_open(*node)
+                                }
+                            });
+                            scene.maze = final_maze;
+                            if let Some(maze_file_path) = scene.context.maze_file_path.clone() {
+                                dump_maze_to_file(&maze_file_path, &scene.maze);
+                            }
+                            trace_complete = true;
+                            simulating = false;
+                            generation_events = None;
+                            break;
+                        }
+                        Err(TryRecvError::Empty) => break,
+                        Err(TryRecvError::Disconnected) => {
+                            trace_complete = true;
+                            simulating = false;
+                            generation_events = None;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -88,12 +115,31 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (scene.context.procedure != ArgProcedure::AStar || destination.is_some())
             {
-                generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut tracer);
-                if let Some(maze_file_path) = scene.context.maze_file_path.clone() {
-                    dump_maze_to_file(&maze_file_path, &scene.maze);
-                }
-                trace = tracer.clone().unwrap();
+                current_path.clear();
+                let mut worker_maze = scene.maze.clone();
+                let worker_sources = sources.clone();
+                let worker_destination = destination;
+                let worker_context = scene.context.clone();
+                let (tx, rx) = mpsc::sync_channel::<GenerationEvent>(512);
+
+                std::thread::spawn(move || {
+                    let tx_step = tx.clone();
+                    let mut emit = move |step: Trace| {
+                        let _ = tx_step.send(GenerationEvent::Step(step));
+                    };
+                    generate_maze_stream(
+                        &mut worker_maze,
+                        &worker_sources,
+                        worker_destination,
+                        &worker_context,
+                        &mut emit,
+                    );
+                    let _ = tx.send(GenerationEvent::Done(worker_maze));
+                });
+
+                generation_events = Some(rx);
                 simulating = true;
+                paused = false;
             }
         }
 

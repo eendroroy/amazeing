@@ -182,7 +182,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_amazeing__help_commands" \
+":: :_amazeing__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -230,13 +230,13 @@ _amazeing_commands() {
     )
     _describe -t commands 'amazeing commands' commands "$@"
 }
-(( $+functions[_amazeing__create_commands] )) ||
-_amazeing__create_commands() {
+(( $+functions[_amazeing__subcmd__create_commands] )) ||
+_amazeing__subcmd__create_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing create commands' commands "$@"
 }
-(( $+functions[_amazeing__help_commands] )) ||
-_amazeing__help_commands() {
+(( $+functions[_amazeing__subcmd__help_commands] )) ||
+_amazeing__subcmd__help_commands() {
     local commands; commands=(
 'create:Create a Maze' \
 'view:View a Maze' \
@@ -245,33 +245,33 @@ _amazeing__help_commands() {
     )
     _describe -t commands 'amazeing help commands' commands "$@"
 }
-(( $+functions[_amazeing__help__create_commands] )) ||
-_amazeing__help__create_commands() {
+(( $+functions[_amazeing__subcmd__help__subcmd__create_commands] )) ||
+_amazeing__subcmd__help__subcmd__create_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing help create commands' commands "$@"
 }
-(( $+functions[_amazeing__help__help_commands] )) ||
-_amazeing__help__help_commands() {
+(( $+functions[_amazeing__subcmd__help__subcmd__help_commands] )) ||
+_amazeing__subcmd__help__subcmd__help_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing help help commands' commands "$@"
 }
-(( $+functions[_amazeing__help__solve_commands] )) ||
-_amazeing__help__solve_commands() {
+(( $+functions[_amazeing__subcmd__help__subcmd__solve_commands] )) ||
+_amazeing__subcmd__help__subcmd__solve_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing help solve commands' commands "$@"
 }
-(( $+functions[_amazeing__help__view_commands] )) ||
-_amazeing__help__view_commands() {
+(( $+functions[_amazeing__subcmd__help__subcmd__view_commands] )) ||
+_amazeing__subcmd__help__subcmd__view_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing help view commands' commands "$@"
 }
-(( $+functions[_amazeing__solve_commands] )) ||
-_amazeing__solve_commands() {
+(( $+functions[_amazeing__subcmd__solve_commands] )) ||
+_amazeing__subcmd__solve_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing solve commands' commands "$@"
 }
-(( $+functions[_amazeing__view_commands] )) ||
-_amazeing__view_commands() {
+(( $+functions[_amazeing__subcmd__view_commands] )) ||
+_amazeing__subcmd__view_commands() {
     local commands; commands=()
     _describe -t commands 'amazeing view commands' commands "$@"
 }
