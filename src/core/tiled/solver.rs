@@ -1,6 +1,6 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::maze::Maze;
-use super::{NodeHeuFn, Pop, Push, Tracer};
+use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::core::tiled::node::{DNodeWeightedForward, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
@@ -11,6 +11,19 @@ fn traverse(
     push: Push,
     pop: Pop,
     tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
+    let mut noop = |_| {};
+    traverse_emit(maze, source, destination, push, pop, tracer, &mut noop)
+}
+
+fn traverse_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    push: Push,
+    pop: Pop,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let storage = &mut VecDeque::new();
     validate(maze, source, destination);
@@ -23,9 +36,11 @@ fn traverse(
     while let Some(current) = pop(storage) {
         visited.insert(current, true);
 
+        let step = reconstruct_trace_path(current, &parent);
         if let Some(trace) = tracer {
-            trace.push(reconstruct_trace_path(current, &parent));
+            trace.push(step.clone());
         }
+        emit(step);
 
         if current == destination {
             let path = reconstruct_path(destination, &parent);
@@ -50,6 +65,18 @@ fn weighted_traverse(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let mut noop = |_| {};
+    weighted_traverse_emit(maze, source, destination, heu, tracer, &mut noop)
+}
+
+fn weighted_traverse_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
     validate(maze, source, destination);
 
     let capacity = maze.rows() * maze.cols();
@@ -68,9 +95,11 @@ fn weighted_traverse(
         let (current, cost, _) = (node.node, node.cost, node.heu_cost);
         visited.insert(current, true);
 
+        let step = reconstruct_trace_path(current, &parent);
         if let Some(trace) = tracer {
-            trace.push(reconstruct_trace_path(current, &parent));
+            trace.push(step.clone());
         }
+        emit(step);
 
         if current == destination {
             let path = reconstruct_path(destination, &parent);
@@ -98,6 +127,13 @@ pub fn bfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tra
     traverse(maze, source, destination, push, pop, tracer)
 }
 
+pub fn bfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
+    let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
+    let pop = |s: &mut VecDeque<Node>| s.pop_front();
+    let mut tracer = None;
+    traverse_emit(maze, source, destination, push, pop, &mut tracer, emit)
+}
+
 pub fn dfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
@@ -105,6 +141,26 @@ pub fn dfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tra
     traverse(maze, source, destination, push, pop, tracer)
 }
 
+pub fn dfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
+    let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
+    let pop = |s: &mut VecDeque<Node>| s.pop_back();
+    let mut tracer = None;
+
+    traverse_emit(maze, source, destination, push, pop, &mut tracer, emit)
+}
+
 pub fn a_star(maze: &Maze, source: Node, destination: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, source, destination, heu, tracer)
 }
+
+pub fn a_star_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let mut tracer = None;
+    weighted_traverse_emit(maze, source, destination, heu, &mut tracer, emit)
+}
+

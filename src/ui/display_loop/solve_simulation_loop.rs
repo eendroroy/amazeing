@@ -1,23 +1,26 @@
-use crate::core::tiled::{Node, Trace, Tracer};
+use crate::core::tiled::{Maze, Node, Trace};
 use crate::ui::component::scene::MazeScene;
-use crate::ui::helper::{current_millis, handle_mouse_click, solve_maze, take_a_snap};
+use crate::ui::helper::{current_millis, handle_mouse_click, solve_maze_stream, take_a_snap};
 use macroquad::prelude::*;
 use std::collections::HashMap;
+use std::sync::mpsc::{self, Receiver, TryRecvError};
+
+enum SolveEvent {
+    Step(Trace),
+    Done(Vec<Node>),
+}
 
 pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
     let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
-    let mut trace: Tracer = vec![];
-    let mut tracer: Option<Tracer> = Some(vec![]);
+    let mut solve_events: Option<Receiver<SolveEvent>> = None;
 
     let mut current_trace: Trace = HashMap::new();
 
     let mut trace_complete = false;
     let mut simulating = false;
     let mut paused = false;
-
-    let mut trace_index = 0;
 
     loop {
         let current_frame_start_time = current_millis();
@@ -26,26 +29,62 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
 
         if simulating {
             if !paused && !trace_complete {
-                current_trace.iter().for_each(|(node, _)| {
-                    if sources.first().unwrap().ne(node) && destination.unwrap().ne(node) {
-                        scene.display_traversed(*node)
+                if let Some(receiver) = &solve_events {
+                    // Process a small burst of frames per render so UI stays responsive.
+                    for _ in 0..4 {
+                        match receiver.try_recv() {
+                            Ok(SolveEvent::Step(step)) => {
+                                current_trace.iter().for_each(|(node, _)| {
+                                    if sources.first().is_none_or(|source| source.ne(node))
+                                        && destination.is_some_and(|d| d.ne(node))
+                                    {
+                                        scene.display_traversed(*node)
+                                    }
+                                });
+
+                                current_trace = step;
+
+                                current_trace.iter().for_each(|(node, rank)| {
+                                    if sources.first().is_none_or(|source| source.ne(node))
+                                        && destination.is_some_and(|d| d.ne(node))
+                                    {
+                                        scene.display_visiting_gradient(*node, rank)
+                                    }
+                                });
+                            }
+                            Ok(SolveEvent::Done(solution)) => {
+                                trace_complete = true;
+                                simulating = false;
+                                solve_events = None;
+
+                                if solution.is_empty() {
+                                    current_trace.iter().for_each(|(node, _)| {
+                                        if sources.first().is_none_or(|source| source.ne(node))
+                                            && destination.is_some_and(|d| d.ne(node))
+                                        {
+                                            scene.display_traversed(*node)
+                                        }
+                                    });
+                                } else {
+                                    solution.iter().for_each(|node| {
+                                        if sources.first().is_none_or(|source| source.ne(node))
+                                            && destination.is_some_and(|d| d.ne(node))
+                                        {
+                                            scene.display_path(*node)
+                                        }
+                                    });
+                                }
+                                break;
+                            }
+                            Err(TryRecvError::Empty) => break,
+                            Err(TryRecvError::Disconnected) => {
+                                trace_complete = true;
+                                simulating = false;
+                                solve_events = None;
+                                break;
+                            }
+                        }
                     }
-                });
-                current_trace = trace.get(trace_index).unwrap().clone();
-                trace_index += 1;
-                if trace.len() == trace_index {
-                    trace_complete = true;
-                    current_trace.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            scene.display_path(*node.0)
-                        }
-                    });
-                } else {
-                    current_trace.iter().for_each(|node| {
-                        if sources.first().unwrap().ne(node.0) && destination.unwrap().ne(node.0) {
-                            scene.display_visiting_gradient(*node.0, node.1)
-                        }
-                    });
                 }
             }
 
@@ -64,16 +103,33 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             && let Some(destination) = destination
             && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
-            solve_maze(
-                &scene.maze,
-                *source,
-                destination,
-                &scene.context.procedure.clone(),
-                scene.context.heuristic,
-                &mut tracer,
-            );
+            current_trace.clear();
+            let worker_maze: Maze = scene.maze.clone();
+            let worker_source = *source;
+            let worker_destination = destination;
+            let worker_procedure = scene.context.procedure.clone();
+            let worker_heuristic = scene.context.heuristic;
+            let (tx, rx) = mpsc::sync_channel::<SolveEvent>(512);
+
+            std::thread::spawn(move || {
+                let tx_step = tx.clone();
+                let mut emit = move |step: Trace| {
+                    let _ = tx_step.send(SolveEvent::Step(step));
+                };
+                let solution = solve_maze_stream(
+                    &worker_maze,
+                    worker_source,
+                    worker_destination,
+                    &worker_procedure,
+                    worker_heuristic,
+                    &mut emit,
+                );
+                let _ = tx.send(SolveEvent::Done(solution));
+            });
+
+            solve_events = Some(rx);
             simulating = true;
-            trace = tracer.clone().unwrap();
+            paused = false;
         }
 
         take_a_snap(scene);

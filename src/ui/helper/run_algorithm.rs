@@ -23,6 +23,24 @@ pub(crate) fn solve_maze(
     solution
 }
 
+pub(crate) fn solve_maze_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    procedure: &ArgProcedure,
+    heuristic: NodeHeuFn,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let start = Instant::now();
+    let solution = match procedure {
+        ArgProcedure::Bfs => solver::bfs_stream(maze, source, destination, emit),
+        ArgProcedure::Dfs => solver::dfs_stream(maze, source, destination, emit),
+        ArgProcedure::AStar => solver::a_star_stream(maze, source, destination, heuristic, emit),
+    };
+    println!("Solved maze in {:?}", start.elapsed());
+    solution
+}
+
 pub(crate) fn generate_maze(
     maze: &mut Maze,
     sources: &[Node],
