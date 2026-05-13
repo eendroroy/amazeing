@@ -46,7 +46,10 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
 
         if !generated
             && (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-            && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
+            && (!matches!(
+                scene.context.procedure,
+                ArgProcedure::AStar | ArgProcedure::BidirectionalAStart
+            )
                 || destination.is_some())
         {
             generate_maze(&mut scene.maze, sources, destination, &scene.context, &mut None);

@@ -132,6 +132,426 @@ fn prim_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emi
     }
 }
 
+pub fn beam_search(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+) {
+    let mut noop = |_| {};
+    beam_search_emit(maze, sources, destination, heu, jumble_factor, tracer, &mut noop);
+}
+
+pub fn beam_search_stream(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut tracer = None;
+    beam_search_emit(maze, sources, destination, heu, jumble_factor, &mut tracer, emit);
+}
+
+fn beam_search_emit(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) {
+    const BEAM_WIDTH: usize = 16;
+
+    sources.iter().for_each(|source| validate_node(maze, *source));
+    validate_node(maze, destination);
+
+    let mut discovered: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut frontier: Vec<(Node, Node)> = Vec::new();
+
+    for source in sources {
+        discovered.insert(*source, true);
+        maze[*source] = OPEN;
+        let step = reconstruct_trace_path(*source, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        for next in source.neighbours_block(maze, &maze.unit_shape) {
+            frontier.push((next, *source));
+        }
+    }
+
+    while !frontier.is_empty() {
+        let mut candidates: Vec<(Node, Node, u32)> = frontier
+            .iter()
+            .filter(|(node, _)| maze[*node] == BLOCK)
+            .map(|(node, from)| {
+                (
+                    *node,
+                    *from,
+                    heu(*node, destination) + rand::random_range(0..=jumble_factor),
+                )
+            })
+            .collect();
+
+        if candidates.is_empty() {
+            break;
+        }
+
+        candidates.shuffle(&mut rng());
+        candidates.sort_by_key(|(_, _, score)| *score);
+        if candidates.len() > BEAM_WIDTH {
+            candidates.truncate(BEAM_WIDTH);
+        }
+
+        let mut carved_any = false;
+        for (node, from, _) in candidates {
+            if maze[node] != BLOCK {
+                continue;
+            }
+
+            let mut connectors = node.neighbours_open(maze, &maze.unit_shape);
+            if connectors.len() != 1 {
+                continue;
+            }
+
+            let connector = if maze[from] == OPEN {
+                from
+            } else {
+                connectors.swap_remove(0)
+            };
+
+            discovered.insert(node, true);
+            parent.insert(node, connector);
+            maze[node] = OPEN;
+            carved_any = true;
+
+            let step = reconstruct_trace_path(node, &parent);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+
+            for next in node.neighbours_block(maze, &maze.unit_shape) {
+                frontier.push((next, node));
+            }
+        }
+
+        frontier.retain(|(node, _)| maze[*node] == BLOCK);
+        if !carved_any {
+            if let Some(pos) = frontier
+                .iter()
+                .position(|(node, _)| maze[*node] == BLOCK && node.neighbours_open(maze, &maze.unit_shape).len() == 1)
+            {
+                let (node, from) = frontier.swap_remove(pos);
+                let mut connectors = node.neighbours_open(maze, &maze.unit_shape);
+                let connector = if maze[from] == OPEN {
+                    from
+                } else {
+                    connectors.swap_remove(0)
+                };
+
+                discovered.insert(node, true);
+                parent.insert(node, connector);
+                maze[node] = OPEN;
+
+                let step = reconstruct_trace_path(node, &parent);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+
+                for next in node.neighbours_block(maze, &maze.unit_shape) {
+                    frontier.push((next, node));
+                }
+                frontier.retain(|(n, _)| maze[*n] == BLOCK);
+                continue;
+            }
+
+            break;
+        }
+    }
+}
+
+pub fn bidirectional_greedy_best_first(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+) {
+    let mut noop = |_| {};
+    bidirectional_greedy_best_first_emit(maze, sources, destination, heu, jumble_factor, tracer, &mut noop);
+}
+
+pub fn bidirectional_greedy_best_first_stream(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut tracer = None;
+    bidirectional_greedy_best_first_emit(maze, sources, destination, heu, jumble_factor, &mut tracer, emit);
+}
+
+fn bidirectional_greedy_best_first_emit(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) {
+    if sources.is_empty() {
+        return;
+    }
+
+    sources.iter().for_each(|source| validate_node(maze, *source));
+    validate_node(maze, destination);
+
+    let mut forward: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
+    let mut backward: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
+    let mut discovered_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut discovered_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+    let backward_target = sources[rand::random_range(0..sources.len())];
+
+    for source in sources {
+        discovered_f.insert(*source, true);
+        maze[*source] = OPEN;
+        forward.push(DNodeWeightedForward {
+            node: *source,
+            cost: 0,
+            heu_cost: heu(*source, destination) + rand::random_range(0..=jumble_factor),
+        });
+        let step = reconstruct_trace_path(*source, &parent_f);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+    }
+
+    discovered_b.insert(destination, true);
+    maze[destination] = OPEN;
+    backward.push(DNodeWeightedForward {
+        node: destination,
+        cost: 0,
+        heu_cost: heu(destination, backward_target) + rand::random_range(0..=jumble_factor),
+    });
+    let dest_step = reconstruct_trace_path(destination, &parent_b);
+    if let Some(trace) = tracer {
+        trace.push(dest_step.clone());
+    }
+    emit(dest_step);
+
+    while !forward.is_empty() || !backward.is_empty() {
+        if let Some(node) = forward.pop() {
+            let current = node.node;
+            let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
+            neighbours.shuffle(&mut rng());
+            for next in neighbours {
+                if discovered_f.get(&next).is_some_and(|seen| *seen) {
+                    continue;
+                }
+                if next.neighbours_open(maze, &maze.unit_shape).len() != 1 {
+                    continue;
+                }
+
+                discovered_f.insert(next, true);
+                parent_f.insert(next, current);
+                maze[next] = OPEN;
+                forward.push(DNodeWeightedForward {
+                    node: next,
+                    cost: 0,
+                    heu_cost: heu(next, destination) + rand::random_range(0..=jumble_factor),
+                });
+                let step = reconstruct_trace_path(next, &parent_f);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+            }
+        }
+
+        if let Some(node) = backward.pop() {
+            let current = node.node;
+            let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
+            neighbours.shuffle(&mut rng());
+            for next in neighbours {
+                if discovered_b.get(&next).is_some_and(|seen| *seen) {
+                    continue;
+                }
+                if next.neighbours_open(maze, &maze.unit_shape).len() != 1 {
+                    continue;
+                }
+
+                discovered_b.insert(next, true);
+                parent_b.insert(next, current);
+                maze[next] = OPEN;
+                backward.push(DNodeWeightedForward {
+                    node: next,
+                    cost: 0,
+                    heu_cost: heu(next, backward_target) + rand::random_range(0..=jumble_factor),
+                });
+                let step = reconstruct_trace_path(next, &parent_b);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+            }
+        }
+    }
+}
+
+pub fn simulated_annealing_search(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Option<Node>,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) {
+    let mut noop = |_| {};
+    simulated_annealing_search_emit(maze, sources, destination, heu, tracer, &mut noop);
+}
+
+pub fn simulated_annealing_search_stream(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Option<Node>,
+    heu: NodeHeuFn,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut tracer = None;
+    simulated_annealing_search_emit(maze, sources, destination, heu, &mut tracer, emit);
+}
+
+fn simulated_annealing_search_emit(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Option<Node>,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) {
+    if sources.is_empty() {
+        return;
+    }
+    sources.iter().for_each(|source| validate_node(maze, *source));
+    if let Some(dest) = destination {
+        validate_node(maze, dest);
+    }
+
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut walkers = sources.to_vec();
+    let mut temperature = (maze.rows() + maze.cols()).max(2) as f32;
+    let cooling = 0.996f32;
+    let max_steps = maze.rows().saturating_mul(maze.cols()).saturating_mul(256);
+
+    for source in sources {
+        maze[*source] = OPEN;
+        let step = reconstruct_trace_path(*source, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+    }
+
+    for _ in 0..max_steps {
+        for walker in walkers.iter_mut() {
+            let options: Vec<Node> = walker
+                .neighbours(&maze.unit_shape)
+                .into_iter()
+                .filter(|n| maze[*n] != VOID)
+                .collect();
+            if options.is_empty() {
+                continue;
+            }
+
+            let candidate = options[rand::random_range(0..options.len())];
+            let mut accept = true;
+            if let Some(dest) = destination {
+                let current_h = heu(*walker, dest) as f32;
+                let candidate_h = heu(candidate, dest) as f32;
+                let delta = candidate_h - current_h;
+                accept = delta <= 0.0 || rand::random::<f32>() < (-delta / temperature.max(0.001)).exp();
+            }
+
+            if accept {
+                if maze[candidate] == OPEN {
+                    *walker = candidate;
+                    continue;
+                }
+
+                if maze[candidate] == BLOCK && candidate.neighbours_open(maze, &maze.unit_shape).len() == 1 {
+                    parent.insert(candidate, *walker);
+                    maze[candidate] = OPEN;
+                    let step = reconstruct_trace_path(candidate, &parent);
+                    if let Some(trace) = tracer {
+                        trace.push(step.clone());
+                    }
+                    emit(step);
+                    *walker = candidate;
+                }
+            }
+        }
+        temperature *= cooling;
+    }
+
+    // Finish quickly by carving any remaining valid frontier cells.
+    let mut frontier: Vec<Node> = Vec::new();
+    for r in 0..maze.rows() {
+        for c in 0..maze.cols() {
+            let node = NodeFactory::new(maze.rows(), maze.cols())
+                .at(r, c)
+                .expect("indices should be in-bounds");
+            if maze[node] == BLOCK && node.neighbours_open(maze, &maze.unit_shape).len() == 1 {
+                frontier.push(node);
+            }
+        }
+    }
+
+    while !frontier.is_empty() {
+        let idx = rand::random_range(0..frontier.len());
+        let node = frontier.swap_remove(idx);
+        if maze[node] != BLOCK {
+            continue;
+        }
+
+        let mut connectors = node.neighbours_open(maze, &maze.unit_shape);
+        if connectors.len() != 1 {
+            continue;
+        }
+
+        let connector = connectors.swap_remove(0);
+        parent.insert(node, connector);
+        maze[node] = OPEN;
+
+        let step = reconstruct_trace_path(node, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        for next in node.neighbours_block(maze, &maze.unit_shape) {
+            if next.neighbours_open(maze, &maze.unit_shape).len() == 1 {
+                frontier.push(next);
+            }
+        }
+    }
+}
+
 fn dfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
@@ -531,6 +951,18 @@ mod tests {
         assert_eq!(maze_prim[source], OPEN);
         assert!(!trace_prim.unwrap().is_empty());
 
+        let mut maze_sas = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut trace_sas = Some(vec![]);
+        simulated_annealing_search(
+            &mut maze_sas,
+            &[source],
+            None,
+            manhattan_heuristic,
+            &mut trace_sas,
+        );
+        assert_eq!(maze_sas[source], OPEN);
+        assert!(!trace_sas.unwrap().is_empty());
+
         let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut trace_iddfs = Some(vec![]);
         iddfs(&mut maze_iddfs, &[source], &mut trace_iddfs);
@@ -568,5 +1000,43 @@ mod tests {
         bidirectional_a_start_stream(&mut maze_bi, &[source], destination, manhattan_heuristic, 0, &mut emit_bi);
         assert!(bi_steps > 0);
         assert_eq!(maze_bi[source], OPEN);
+
+        let mut maze_beam = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut beam_steps = 0usize;
+        let mut emit_beam = |_| beam_steps += 1;
+        beam_search_stream(
+            &mut maze_beam,
+            &[source],
+            destination,
+            manhattan_heuristic,
+            0,
+            &mut emit_beam,
+        );
+        assert!(beam_steps > 0);
+
+        let mut maze_bi_gbf = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut bi_gbf_steps = 0usize;
+        let mut emit_bi_gbf = |_| bi_gbf_steps += 1;
+        bidirectional_greedy_best_first_stream(
+            &mut maze_bi_gbf,
+            &[source],
+            destination,
+            manhattan_heuristic,
+            0,
+            &mut emit_bi_gbf,
+        );
+        assert!(bi_gbf_steps > 0);
+
+        let mut maze_sas_stream = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut sas_steps = 0usize;
+        let mut emit_sas = |_| sas_steps += 1;
+        simulated_annealing_search_stream(
+            &mut maze_sas_stream,
+            &[source],
+            Some(destination),
+            manhattan_heuristic,
+            &mut emit_sas,
+        );
+        assert!(sas_steps > 0);
     }
 }

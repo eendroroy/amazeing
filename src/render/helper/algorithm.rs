@@ -18,9 +18,16 @@ pub(crate) fn solve_maze(
         ArgProcedure::Bfs => solver::bfs(maze, source, destination, tracer),
         ArgProcedure::Dfs => solver::dfs(maze, source, destination, tracer),
         ArgProcedure::Prim => panic!("Prim is only available for maze generation, not solving."),
+        ArgProcedure::BeamSearch => solver::beam_search(maze, source, destination, heuristic, tracer),
         ArgProcedure::Iddfs => solver::iddfs(maze, source, destination, tracer),
         ArgProcedure::GreedyBestFirst => solver::greedy_best_first(maze, source, destination, heuristic, tracer),
         ArgProcedure::BidirectionalBfs => solver::bidirectional_bfs(maze, source, destination, tracer),
+        ArgProcedure::BidirectionalGreedyBestFirst => {
+            solver::bidirectional_greedy_best_first(maze, source, destination, heuristic, tracer)
+        }
+        ArgProcedure::SimulatedAnnealingSearch => {
+            solver::simulated_annealing_search(maze, source, destination, heuristic, tracer)
+        }
         ArgProcedure::AldousBroder => solver::aldous_broder(maze, source, destination, tracer),
         ArgProcedure::BidirectionalAStart => solver::bidirectional_a_start(maze, source, destination, heuristic, tracer),
         ArgProcedure::AStar => solver::a_star(maze, source, destination, heuristic, tracer),
@@ -42,9 +49,16 @@ pub(crate) fn solve_maze_stream(
         ArgProcedure::Bfs => solver::bfs_stream(maze, source, destination, emit),
         ArgProcedure::Dfs => solver::dfs_stream(maze, source, destination, emit),
         ArgProcedure::Prim => panic!("Prim is only available for maze generation, not solving."),
+        ArgProcedure::BeamSearch => solver::beam_search_stream(maze, source, destination, heuristic, emit),
         ArgProcedure::Iddfs => solver::iddfs_stream(maze, source, destination, emit),
         ArgProcedure::GreedyBestFirst => solver::greedy_best_first_stream(maze, source, destination, heuristic, emit),
         ArgProcedure::BidirectionalBfs => solver::bidirectional_bfs_stream(maze, source, destination, emit),
+        ArgProcedure::BidirectionalGreedyBestFirst => {
+            solver::bidirectional_greedy_best_first_stream(maze, source, destination, heuristic, emit)
+        }
+        ArgProcedure::SimulatedAnnealingSearch => {
+            solver::simulated_annealing_search_stream(maze, source, destination, heuristic, emit)
+        }
         ArgProcedure::AldousBroder => solver::aldous_broder_stream(maze, source, destination, emit),
         ArgProcedure::BidirectionalAStart => {
             solver::bidirectional_a_start_stream(maze, source, destination, heuristic, emit)
@@ -67,12 +81,23 @@ pub(crate) fn generate_maze(
         ArgProcedure::Bfs => generator::bfs(maze, sources, tracer),
         ArgProcedure::Dfs => generator::dfs(maze, sources, tracer),
         ArgProcedure::Prim => generator::prim(maze, sources, tracer),
+        ArgProcedure::BeamSearch => {
+            let target = destination.unwrap_or_else(|| *sources.first().expect("at least one source is required"));
+            generator::beam_search(maze, sources, target, context.heuristic, context.jumble_factor, tracer)
+        }
         ArgProcedure::Iddfs => generator::iddfs(maze, sources, tracer),
         ArgProcedure::GreedyBestFirst => {
             panic!("Greedy Best-First is only available for maze solving, not generation.")
         }
         ArgProcedure::BidirectionalBfs => {
             panic!("Bidirectional BFS is only available for maze solving, not generation.")
+        }
+        ArgProcedure::BidirectionalGreedyBestFirst => {
+            let target = destination.unwrap_or_else(|| *sources.first().expect("at least one source is required"));
+            generator::bidirectional_greedy_best_first(maze, sources, target, context.heuristic, context.jumble_factor, tracer)
+        }
+        ArgProcedure::SimulatedAnnealingSearch => {
+            generator::simulated_annealing_search(maze, sources, destination, context.heuristic, tracer)
         }
         ArgProcedure::AldousBroder => generator::aldous_broder(maze, sources, tracer),
         ArgProcedure::BidirectionalAStart => {
@@ -101,12 +126,30 @@ pub(crate) fn generate_maze_stream(
         ArgProcedure::Bfs => generator::bfs_stream(maze, sources, emit),
         ArgProcedure::Dfs => generator::dfs_stream(maze, sources, emit),
         ArgProcedure::Prim => generator::prim_stream(maze, sources, emit),
+        ArgProcedure::BeamSearch => {
+            let target = destination.unwrap_or_else(|| *sources.first().expect("at least one source is required"));
+            generator::beam_search_stream(maze, sources, target, context.heuristic, context.jumble_factor, emit)
+        }
         ArgProcedure::Iddfs => generator::iddfs_stream(maze, sources, emit),
         ArgProcedure::GreedyBestFirst => {
             panic!("Greedy Best-First is only available for maze solving, not generation.")
         }
         ArgProcedure::BidirectionalBfs => {
             panic!("Bidirectional BFS is only available for maze solving, not generation.")
+        }
+        ArgProcedure::BidirectionalGreedyBestFirst => {
+            let target = destination.unwrap_or_else(|| *sources.first().expect("at least one source is required"));
+            generator::bidirectional_greedy_best_first_stream(
+                maze,
+                sources,
+                target,
+                context.heuristic,
+                context.jumble_factor,
+                emit,
+            )
+        }
+        ArgProcedure::SimulatedAnnealingSearch => {
+            generator::simulated_annealing_search_stream(maze, sources, destination, context.heuristic, emit)
         }
         ArgProcedure::AldousBroder => generator::aldous_broder_stream(maze, sources, emit),
         ArgProcedure::BidirectionalAStart => {
@@ -147,9 +190,12 @@ mod tests {
         for p in [
             ArgProcedure::Bfs,
             ArgProcedure::Dfs,
+            ArgProcedure::BeamSearch,
             ArgProcedure::Iddfs,
             ArgProcedure::GreedyBestFirst,
             ArgProcedure::BidirectionalBfs,
+            ArgProcedure::BidirectionalGreedyBestFirst,
+            ArgProcedure::SimulatedAnnealingSearch,
             ArgProcedure::AldousBroder,
             ArgProcedure::BidirectionalAStart,
             ArgProcedure::AStar,
@@ -205,6 +251,21 @@ mod tests {
         generate_maze_stream(&mut maze_prim, &[source], None, &prim_ctx, &mut |_| {});
         assert_eq!(maze_prim[source], OPEN);
 
+        let mut maze_beam = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let beam_ctx = AmazeingContext::create_context(
+            (None, None),
+            (ArgProcedure::BeamSearch, manhattan_heuristic),
+            (0, ArgWeightDirection::Forward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+        );
+        generate_maze_stream(&mut maze_beam, &[source], Some(destination), &beam_ctx, &mut |_| {});
+        assert_eq!(maze_beam[source], OPEN);
+
+        let mut maze_beam_no_dest = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        generate_maze_stream(&mut maze_beam_no_dest, &[source], None, &beam_ctx, &mut |_| {});
+        assert_eq!(maze_beam_no_dest[source], OPEN);
+
         let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let iddfs_ctx = AmazeingContext::create_context(
             (None, None),
@@ -237,6 +298,28 @@ mod tests {
         );
         generate_maze_stream(&mut maze_bi, &[source], Some(destination), &bi_ctx, &mut |_| {});
         assert_eq!(maze_bi[source], OPEN);
+
+        let mut maze_bi_gbf = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let bi_gbf_ctx = AmazeingContext::create_context(
+            (None, None),
+            (ArgProcedure::BidirectionalGreedyBestFirst, manhattan_heuristic),
+            (0, ArgWeightDirection::Forward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+        );
+        generate_maze_stream(&mut maze_bi_gbf, &[source], Some(destination), &bi_gbf_ctx, &mut |_| {});
+        assert_eq!(maze_bi_gbf[source], OPEN);
+
+        let mut maze_sas = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let sas_ctx = AmazeingContext::create_context(
+            (None, None),
+            (ArgProcedure::SimulatedAnnealingSearch, manhattan_heuristic),
+            (0, ArgWeightDirection::Forward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+        );
+        generate_maze_stream(&mut maze_sas, &[source], Some(destination), &sas_ctx, &mut |_| {});
+        assert_eq!(maze_sas[source], OPEN);
 
         let mut maze_astar = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let astar_ctx = AmazeingContext::create_context(
