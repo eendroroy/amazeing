@@ -4,7 +4,7 @@ use super::{Maze, Node, NodeHeuFn, OPEN};
 use crate::maze::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
-use std::collections::{BTreeMap, BinaryHeap, VecDeque};
+use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 pub fn bfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
     let mut noop = |_| {};
@@ -105,6 +105,73 @@ fn dfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit
     }
 }
 
+pub fn iddfs(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
+    let mut noop = |_| {};
+    iddfs_emit(maze, sources, tracer, &mut noop);
+}
+
+pub fn iddfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)) {
+    let mut tracer = None;
+    iddfs_emit(maze, sources, &mut tracer, emit);
+}
+
+fn iddfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
+    sources.iter().for_each(|source| {
+        validate_node(maze, *source);
+    });
+
+    let max_depth = maze.rows() * maze.cols();
+
+    // Re-run depth-limited DFS with increasing limits to perform iterative deepening.
+    for depth_limit in 0..=max_depth {
+        let mut visited: HashMap<Node, bool> = HashMap::with_capacity(max_depth);
+        let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+
+        for source in sources {
+            iddfs_depth_limited(maze, *source, depth_limit, &mut visited, &mut parent, tracer, emit);
+        }
+    }
+}
+
+fn iddfs_depth_limited(
+    maze: &mut Maze,
+    source: Node,
+    max_depth: usize,
+    visited: &mut HashMap<Node, bool>,
+    parent: &mut BTreeMap<Node, Node>,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut storage: Vec<(Node, usize)> = vec![(source, 0)];
+
+    while let Some((current, depth)) = storage.pop() {
+        if visited.contains_key(&current) && *visited.get(&current).unwrap() {
+            continue;
+        }
+        visited.insert(current, true);
+
+        let mut neighbours = current.neighbours_block(maze, &maze.unit_shape);
+        if neighbours.len() >= maze.unit_shape.sides(current) - 1 {
+            neighbours.shuffle(&mut rng());
+            maze[current] = OPEN;
+            let step = reconstruct_trace_path(current, parent);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+
+            if depth < max_depth {
+                for next in neighbours {
+                    if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+                        parent.insert(next, current);
+                        storage.push((next, depth + 1));
+                    }
+                }
+            }
+        }
+    }
+}
+
 pub fn a_star<T: DNodeWeighted>(
     maze: &mut Maze,
     sources: &[Node],
@@ -200,6 +267,12 @@ mod tests {
         dfs(&mut maze_dfs, &[source], &mut trace_dfs);
         assert_eq!(maze_dfs[source], OPEN);
         assert!(!trace_dfs.unwrap().is_empty());
+
+        let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut trace_iddfs = Some(vec![]);
+        iddfs(&mut maze_iddfs, &[source], &mut trace_iddfs);
+        assert_eq!(maze_iddfs[source], OPEN);
+        assert!(!trace_iddfs.unwrap().is_empty());
     }
 
     #[test]
@@ -217,7 +290,7 @@ mod tests {
         let mut maze_stream = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut steps = 0usize;
         let mut emit = |_| steps += 1;
-        bfs_stream(&mut maze_stream, &[source], &mut emit);
+        iddfs_stream(&mut maze_stream, &[source], &mut emit);
         assert!(steps > 0);
     }
 }

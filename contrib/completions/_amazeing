@@ -46,8 +46,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
@@ -78,8 +78,8 @@ _arguments "${_arguments_options[@]}" : \
 '--rows=[Number of rows]:ROWS:_default' \
 '-c+[Number of columns]:COLS:_default' \
 '--cols=[Number of columns]:COLS:_default' \
-'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
-'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-p+[Maze Generation Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
+'--procedure=[Maze Generation Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-j+[Weight randomization factor (to use with AStar)]:JUMBLE_FACTOR:_default' \
@@ -140,8 +140,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
-'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs a-star)' \
-'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
+'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
@@ -162,8 +162,8 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-m+[Maze file path]:MAZE:_files' \
 '--maze=[Maze file path]:MAZE:_files' \
-'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs a-star)' \
-'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs a-star)' \
+'-p+[Maze Solving Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
+'--procedure=[Maze Solving Procedure]:PROCEDURE:(bfs dfs iddfs a-star)' \
 '-H+[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '--heuristic-function=[Heuristic function (to use with AStar)]:HEURISTIC_FUNCTION:(manhattan euclidean chebyshev octile dijkstra)' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \

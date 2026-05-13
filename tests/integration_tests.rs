@@ -134,12 +134,16 @@ fn all_solver_algorithms_reach_destination() {
     let dfs_path = solver::dfs(&maze, source, destination, &mut None);
     assert!(!dfs_path.is_empty());
 
+    let iddfs_path = solver::iddfs(&maze, source, destination, &mut None);
+    assert!(!iddfs_path.is_empty());
+
     let astar_path = solver::a_star(&maze, source, destination, manhattan_heuristic, &mut None);
     assert!(!astar_path.is_empty());
 
     // All should reach destination
     assert_eq!(bfs_path.last(), Some(&destination));
     assert_eq!(dfs_path.last(), Some(&destination));
+    assert_eq!(iddfs_path.last(), Some(&destination));
     assert_eq!(astar_path.last(), Some(&destination));
 }
 

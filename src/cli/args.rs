@@ -185,6 +185,8 @@ pub enum ArgProcedure {
     #[default]
     #[clap(alias = "d")]
     Dfs,
+    #[clap(alias = "i")]
+    Iddfs,
     #[clap(alias = "a")]
     AStar,
 }
@@ -194,6 +196,7 @@ impl Display for ArgProcedure {
         match self {
             ArgProcedure::Bfs => write!(f, "bfs"),
             ArgProcedure::Dfs => write!(f, "dfs"),
+            ArgProcedure::Iddfs => write!(f, "iddfs"),
             ArgProcedure::AStar => write!(f, "a-star"),
         }
     }

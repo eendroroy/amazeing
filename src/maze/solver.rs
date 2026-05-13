@@ -149,6 +149,86 @@ pub fn dfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn F
     traverse_emit(maze, source, destination, push, pop, &mut tracer, emit)
 }
 
+fn iddfs_depth_limited(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    max_depth: usize,
+    visited: &mut HashMap<Node, bool>,
+    parent: &mut BTreeMap<Node, Node>,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Option<Vec<Node>> {
+    let mut stack: Vec<(Node, usize)> = vec![(source, 0)];
+    let mut found_path: Option<Vec<Node>> = None;
+
+    while let Some((current, depth)) = stack.pop() {
+        if !visited.contains_key(&current) || !(*visited.get(&current).unwrap()) {
+            visited.insert(current, true);
+
+            let step = reconstruct_trace_path(current, parent);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+
+            if current == destination {
+                let path = reconstruct_path(destination, parent);
+                found_path = Some(path);
+                break;
+            }
+
+            if depth < max_depth {
+                for next in current.neighbours_open(maze, &maze.unit_shape) {
+                    if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+                        parent.insert(next, current);
+                        stack.push((next, depth + 1));
+                    }
+                }
+            }
+        }
+    }
+
+    found_path
+}
+
+pub fn iddfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let mut noop = |_| {};
+    iddfs_emit(maze, source, destination, tracer, &mut noop)
+}
+
+pub fn iddfs_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    validate(maze, source, destination);
+
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+
+    // Try increasing depth limits
+    for depth_limit in 0..=(maze.rows() * maze.cols()) {
+        visited.clear();
+        parent.clear();
+
+        if let Some(path) = iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit) {
+            if !path.is_empty() {
+                return path;
+            }
+        }
+    }
+
+    Vec::new()
+}
+
+pub fn iddfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
+    let mut tracer = None;
+    iddfs_emit(maze, source, destination, &mut tracer, emit)
+}
+
 pub fn a_star(maze: &Maze, source: Node, destination: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, source, destination, heu, tracer)
 }
@@ -189,6 +269,10 @@ mod tests {
         assert_eq!(dfs_path.first(), Some(&source));
         assert_eq!(dfs_path.last(), Some(&destination));
 
+        let iddfs_path = iddfs(&maze, source, destination, &mut None);
+        assert_eq!(iddfs_path.first(), Some(&source));
+        assert_eq!(iddfs_path.last(), Some(&destination));
+
         let astar_path = a_star(&maze, source, destination, manhattan_heuristic, &mut None);
         assert_eq!(astar_path.first(), Some(&source));
         assert_eq!(astar_path.last(), Some(&destination));
@@ -211,6 +295,12 @@ mod tests {
         let mut emit_dfs = |_| dfs_steps += 1;
         let path = dfs_stream(&maze, source, destination, &mut emit_dfs);
         assert!(dfs_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut iddfs_steps = 0usize;
+        let mut emit_iddfs = |_| iddfs_steps += 1;
+        let path = iddfs_stream(&maze, source, destination, &mut emit_iddfs);
+        assert!(iddfs_steps > 0);
         assert!(!path.is_empty());
 
         let mut astar_steps = 0usize;

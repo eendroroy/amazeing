@@ -133,11 +133,11 @@ _amazeing() {
                     return 0
                     ;;
                 --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs iddfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 -p)
-                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs iddfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 --heuristic-function)
@@ -281,11 +281,11 @@ _amazeing() {
                     return 0
                     ;;
                 --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs iddfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 -p)
-                    COMPREPLY=($(compgen -W "bfs dfs a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs iddfs a-star" -- "${cur}"))
                     return 0
                     ;;
                 --heuristic-function)
