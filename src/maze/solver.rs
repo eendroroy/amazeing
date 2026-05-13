@@ -4,7 +4,27 @@ use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::maze::node::{DNodeWeightedForward, Node};
 use rand::prelude::SliceRandom;
 use rand::rng;
+use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+struct BiAStarNode {
+    node: Node,
+    cost: u32,
+    heu_cost: u32,
+}
+
+impl PartialOrd<Self> for BiAStarNode {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for BiAStarNode {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.heu_cost.cmp(&self.heu_cost)
+    }
+}
 
 fn traverse(
     maze: &Maze,
@@ -306,6 +326,170 @@ fn aldous_broder_emit(
     Vec::new()
 }
 
+pub fn bidirectional_a_start(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
+    let mut noop = |_| {};
+    bidirectional_a_start_emit(maze, source, destination, heu, tracer, &mut noop)
+}
+
+pub fn bidirectional_a_start_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let mut tracer = None;
+    bidirectional_a_start_emit(maze, source, destination, heu, &mut tracer, emit)
+}
+
+fn bidirectional_a_start_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    validate(maze, source, destination);
+
+    if source == destination {
+        let step = reconstruct_trace_path(source, &BTreeMap::new());
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+        return vec![source];
+    }
+
+    let mut open_f: BinaryHeap<BiAStarNode> = BinaryHeap::new();
+    let mut open_b: BinaryHeap<BiAStarNode> = BinaryHeap::new();
+
+    let mut g_f: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut g_b: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut closed_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut closed_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+
+    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+
+    g_f.insert(source, maze[source] as u32);
+    g_b.insert(destination, maze[destination] as u32);
+
+    open_f.push(BiAStarNode {
+        node: source,
+        cost: maze[source] as u32,
+        heu_cost: maze[source] as u32 + heu(source, destination),
+    });
+    open_b.push(BiAStarNode {
+        node: destination,
+        cost: maze[destination] as u32,
+        heu_cost: maze[destination] as u32 + heu(destination, source),
+    });
+
+    let mut best_meet: Option<Node> = None;
+    let mut best_total_cost = u32::MAX;
+
+    while !open_f.is_empty() && !open_b.is_empty() {
+        if let Some(node) = open_f.pop() {
+            let current = node.node;
+            let cost = node.cost;
+            if g_f.get(&current).is_some_and(|best| cost > *best) {
+                continue;
+            }
+
+            closed_f.insert(current, true);
+            let step = reconstruct_trace_path(current, &parent_f);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+
+            if closed_b.get(&current).is_some_and(|visited| *visited)
+                && let Some(backward_cost) = g_b.get(&current)
+            {
+                let total = cost + *backward_cost;
+                if total < best_total_cost {
+                    best_total_cost = total;
+                    best_meet = Some(current);
+                }
+            }
+
+            for next in current.neighbours_open(maze, &maze.unit_shape) {
+                let tentative = cost + maze[next] as u32;
+                if g_f.get(&next).is_none_or(|best| tentative < *best) {
+                    g_f.insert(next, tentative);
+                    parent_f.insert(next, current);
+                    open_f.push(BiAStarNode {
+                        node: next,
+                        cost: tentative,
+                        heu_cost: tentative + heu(next, destination),
+                    });
+                }
+            }
+        }
+
+        if let Some(node) = open_b.pop() {
+            let current = node.node;
+            let cost = node.cost;
+            if g_b.get(&current).is_some_and(|best| cost > *best) {
+                continue;
+            }
+
+            closed_b.insert(current, true);
+            let step = reconstruct_trace_path(current, &parent_b);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+
+            if closed_f.get(&current).is_some_and(|visited| *visited)
+                && let Some(forward_cost) = g_f.get(&current)
+            {
+                let total = cost + *forward_cost;
+                if total < best_total_cost {
+                    best_total_cost = total;
+                    best_meet = Some(current);
+                }
+            }
+
+            for next in current.neighbours_open(maze, &maze.unit_shape) {
+                let tentative = cost + maze[next] as u32;
+                if g_b.get(&next).is_none_or(|best| tentative < *best) {
+                    g_b.insert(next, tentative);
+                    parent_b.insert(next, current);
+                    open_b.push(BiAStarNode {
+                        node: next,
+                        cost: tentative,
+                        heu_cost: tentative + heu(next, source),
+                    });
+                }
+            }
+        }
+
+        if let Some(meet) = best_meet {
+            let mut path = reconstruct_path(meet, &parent_f);
+
+            let mut tail: Vec<Node> = Vec::new();
+            let mut cursor = meet;
+            while let Some(next) = parent_b.get(&cursor) {
+                tail.push(*next);
+                cursor = *next;
+            }
+
+            path.extend(tail);
+            return path;
+        }
+    }
+
+    Vec::new()
+}
+
 pub fn a_star(maze: &Maze, source: Node, destination: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, source, destination, heu, tracer)
 }
@@ -357,6 +541,10 @@ mod tests {
         let aldous_broder_path = aldous_broder(&maze, source, destination, &mut None);
         assert_eq!(aldous_broder_path.first(), Some(&source));
         assert_eq!(aldous_broder_path.last(), Some(&destination));
+
+        let bi_astar_path = bidirectional_a_start(&maze, source, destination, manhattan_heuristic, &mut None);
+        assert_eq!(bi_astar_path.first(), Some(&source));
+        assert_eq!(bi_astar_path.last(), Some(&destination));
     }
 
     #[test]
@@ -394,6 +582,12 @@ mod tests {
         let mut emit_aldous_broder = |_| aldous_broder_steps += 1;
         let path = aldous_broder_stream(&maze, source, destination, &mut emit_aldous_broder);
         assert!(aldous_broder_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut bi_astar_steps = 0usize;
+        let mut emit_bi_astar = |_| bi_astar_steps += 1;
+        let path = bidirectional_a_start_stream(&maze, source, destination, manhattan_heuristic, &mut emit_bi_astar);
+        assert!(bi_astar_steps > 0);
         assert!(!path.is_empty());
     }
 }

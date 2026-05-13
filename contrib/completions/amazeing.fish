@@ -50,6 +50,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s p -l proced
 dfs\t''
 iddfs\t''
 aldous-broder\t''
+bidirectional-a-start\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -78,6 +79,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s p -l procedure -
 dfs\t''
 iddfs\t''
 aldous-broder\t''
+bidirectional-a-start\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -112,6 +114,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s p -l procedu
 dfs\t''
 iddfs\t''
 aldous-broder\t''
+bidirectional-a-start\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -129,6 +132,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s p -l procedure -
 dfs\t''
 iddfs\t''
 aldous-broder\t''
+bidirectional-a-start\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''

@@ -189,6 +189,8 @@ pub enum ArgProcedure {
     Iddfs,
     #[clap(alias = "ab")]
     AldousBroder,
+    #[clap(alias = "ba")]
+    BidirectionalAStart,
     #[clap(alias = "a")]
     AStar,
 }
@@ -200,6 +202,7 @@ impl Display for ArgProcedure {
             ArgProcedure::Dfs => write!(f, "dfs"),
             ArgProcedure::Iddfs => write!(f, "iddfs"),
             ArgProcedure::AldousBroder => write!(f, "aldous-broder"),
+            ArgProcedure::BidirectionalAStart => write!(f, "bidirectional-a-start"),
             ArgProcedure::AStar => write!(f, "a-star"),
         }
     }
@@ -309,6 +312,26 @@ mod tests {
                 assert_eq!(create.procedure, ArgProcedure::AldousBroder);
             }
             _ => panic!("expected create command"),
+        }
+    }
+
+    #[test]
+    fn parse_solve_with_bidirectional_a_start_procedure() {
+        let parsed = AmazeingArgs::try_parse_from([
+            "amazeing",
+            "solve",
+            "--maze",
+            "assets/maze/001_005_005_square.maze",
+            "--procedure",
+            "bidirectional-a-start",
+        ])
+        .expect("solve args should parse for bidirectional-a-start");
+
+        match parsed.command {
+            ArgCommand::Solve(solve) => {
+                assert_eq!(solve.procedure, ArgProcedure::BidirectionalAStart);
+            }
+            _ => panic!("expected solve command"),
         }
     }
 }

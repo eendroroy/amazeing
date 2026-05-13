@@ -129,7 +129,8 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-                && (scene.context.procedure != ArgProcedure::AStar || destination.is_some())
+                && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
+                    || destination.is_some())
             {
                 current_path.clear();
                 let mut worker_maze = scene.maze.clone();

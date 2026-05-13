@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::{Trace, Tracer};
 use super::{BLOCK, Maze, Node, NodeFactory, NodeHeuFn, OPEN, VOID};
-use crate::maze::node::DNodeWeighted;
+use crate::maze::node::{DNodeWeighted, DNodeWeightedForward};
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
@@ -278,6 +278,107 @@ pub fn a_star_stream<T: DNodeWeighted>(
     a_star_emit::<T>(maze, sources, destination, heu, jumble_factor, &mut tracer, emit);
 }
 
+pub fn bidirectional_a_start(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+) {
+    let mut noop = |_| {};
+    bidirectional_a_start_emit(maze, sources, destination, heu, jumble_factor, tracer, &mut noop);
+}
+
+pub fn bidirectional_a_start_stream(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    emit: &mut dyn FnMut(Trace),
+) {
+    let mut tracer = None;
+    bidirectional_a_start_emit(maze, sources, destination, heu, jumble_factor, &mut tracer, emit);
+}
+
+fn bidirectional_a_start_emit(
+    maze: &mut Maze,
+    sources: &[Node],
+    destination: Node,
+    heu: NodeHeuFn,
+    jumble_factor: u32,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) {
+    sources.iter().for_each(|source| {
+        validate_node(maze, *source);
+    });
+    validate_node(maze, destination);
+
+    let mut forward: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
+    let mut backward: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
+    let mut parent_forward: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut parent_backward: BTreeMap<Node, Node> = BTreeMap::new();
+
+    sources.iter().for_each(|source| {
+        forward.push(DNodeWeightedForward {
+            node: *source,
+            cost: maze[*source] as u32,
+            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
+        });
+    });
+    backward.push(DNodeWeightedForward {
+        node: destination,
+        cost: maze[destination] as u32,
+        heu_cost: maze[destination] as u32 + heu(destination, sources[0]) + rand::random_range(0..=jumble_factor),
+    });
+
+    while !forward.is_empty() || !backward.is_empty() {
+        if let Some(node) = forward.pop() {
+            let (current, cost) = (node.node, node.cost);
+            let neighbours = current.neighbours_block(maze, &maze.unit_shape);
+            if neighbours.len() >= maze.unit_shape.sides(current) - 1 {
+                maze[current] = OPEN;
+                let step = reconstruct_trace_path(current, &parent_forward);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+                for next in neighbours {
+                    parent_forward.insert(next, current);
+                    forward.push(DNodeWeightedForward {
+                        node: next,
+                        cost: cost + maze[next] as u32,
+                        heu_cost: cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
+                    });
+                }
+            }
+        }
+
+        if let Some(node) = backward.pop() {
+            let (current, cost) = (node.node, node.cost);
+            let neighbours = current.neighbours_block(maze, &maze.unit_shape);
+            if neighbours.len() >= maze.unit_shape.sides(current) - 1 {
+                maze[current] = OPEN;
+                let step = reconstruct_trace_path(current, &parent_backward);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+                for next in neighbours {
+                    parent_backward.insert(next, current);
+                    backward.push(DNodeWeightedForward {
+                        node: next,
+                        cost: cost + maze[next] as u32,
+                        heu_cost: cost + maze[next] as u32 + heu(next, sources[0]) + rand::random_range(0..=jumble_factor),
+                    });
+                }
+            }
+        }
+    }
+}
+
 fn a_star_emit<T: DNodeWeighted>(
     maze: &mut Maze,
     sources: &[Node],
@@ -332,7 +433,7 @@ fn a_star_emit<T: DNodeWeighted>(
 mod tests {
     use super::*;
     use crate::maze::heuristics::manhattan_heuristic;
-    use crate::maze::{BLOCK, DNodeWeightedForward, NodeFactory, UnitShape};
+    use crate::maze::{BLOCK, DNodeWeightedForward, NodeFactory, OPEN, UnitShape};
 
     #[test]
     fn bfs_and_dfs_open_source_and_collect_trace() {
@@ -380,5 +481,12 @@ mod tests {
         let mut emit = |_| steps += 1;
         aldous_broder_stream(&mut maze_stream, &[source], &mut emit);
         assert!(steps > 0);
+
+        let mut maze_bi = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut bi_steps = 0usize;
+        let mut emit_bi = |_| bi_steps += 1;
+        bidirectional_a_start_stream(&mut maze_bi, &[source], destination, manhattan_heuristic, 0, &mut emit_bi);
+        assert!(bi_steps > 0);
+        assert_eq!(maze_bi[source], OPEN);
     }
 }

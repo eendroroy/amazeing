@@ -17,7 +17,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
 
     let mut solve_events: Option<Receiver<SolveEvent>> = None;
 
-    let mut current_trace: Trace = HashMap::new();
+    let mut current_trace_from_source: Trace = HashMap::new();
+    let mut current_trace_from_destination: Trace = HashMap::new();
 
     let mut trace_complete = false;
     let mut simulating = false;
@@ -33,7 +34,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             scene.update();
             sources.clear();
             destination = None;
-            current_trace.clear();
+            current_trace_from_source.clear();
+            current_trace_from_destination.clear();
             solve_events = None;
             trace_complete = false;
             simulating = false;
@@ -47,7 +49,15 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                     for _ in 0..4 {
                         match receiver.try_recv() {
                             Ok(SolveEvent::Step(step)) => {
-                                current_trace.iter().for_each(|(node, _)| {
+                                let is_destination_side = destination.is_some_and(|d| step.contains_key(&d));
+
+                                let active_trace = if is_destination_side {
+                                    &mut current_trace_from_destination
+                                } else {
+                                    &mut current_trace_from_source
+                                };
+
+                                active_trace.iter().for_each(|(node, _)| {
                                     if sources.first().is_none_or(|source| source.ne(node))
                                         && destination.is_some_and(|d| d.ne(node))
                                     {
@@ -55,9 +65,9 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                     }
                                 });
 
-                                current_trace = step;
+                                *active_trace = step;
 
-                                current_trace.iter().for_each(|(node, rank)| {
+                                active_trace.iter().for_each(|(node, rank)| {
                                     if sources.first().is_none_or(|source| source.ne(node))
                                         && destination.is_some_and(|d| d.ne(node))
                                     {
@@ -70,14 +80,24 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                 simulating = false;
                                 solve_events = None;
 
+                                current_trace_from_source.iter().for_each(|(node, _)| {
+                                    if sources.first().is_none_or(|source| source.ne(node))
+                                        && destination.is_some_and(|d| d.ne(node))
+                                    {
+                                        scene.display_traversed(*node)
+                                    }
+                                });
+
+                                current_trace_from_destination.iter().for_each(|(node, _)| {
+                                    if sources.first().is_none_or(|source| source.ne(node))
+                                        && destination.is_some_and(|d| d.ne(node))
+                                    {
+                                        scene.display_traversed(*node)
+                                    }
+                                });
+
                                 if solution.is_empty() {
-                                    current_trace.iter().for_each(|(node, _)| {
-                                        if sources.first().is_none_or(|source| source.ne(node))
-                                            && destination.is_some_and(|d| d.ne(node))
-                                        {
-                                            scene.display_traversed(*node)
-                                        }
-                                    });
+                                    // no-op: peaks already flushed to traversed above
                                 } else {
                                     solution.iter().for_each(|node| {
                                         if sources.first().is_none_or(|source| source.ne(node))
@@ -116,7 +136,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             && let Some(destination) = destination
             && (is_key_pressed(KeyCode::S) || is_key_pressed(KeyCode::Space))
         {
-            current_trace.clear();
+            current_trace_from_source.clear();
+            current_trace_from_destination.clear();
             let worker_maze: Maze = scene.maze.clone();
             let worker_source = *source;
             let worker_destination = destination;

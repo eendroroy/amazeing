@@ -82,6 +82,18 @@ fn maze_generation_fills_from_sources() {
     let mut maze_ab = Maze::new(UnitShape::Square, 5, 5, BLOCK);
     generator::aldous_broder(&mut maze_ab, &[source], &mut None);
     assert_eq!(maze_ab[source], OPEN);
+
+    let mut maze_bi = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+    let destination = f.at(4, 4).unwrap();
+    generator::bidirectional_a_start(
+        &mut maze_bi,
+        &[source],
+        destination,
+        amazeing::maze::heuristics::manhattan_heuristic,
+        0,
+        &mut None,
+    );
+    assert_eq!(maze_bi[source], OPEN);
 }
 
 #[test]
@@ -147,12 +159,22 @@ fn all_solver_algorithms_reach_destination() {
     let ab_path = solver::aldous_broder(&maze, source, destination, &mut None);
     assert!(!ab_path.is_empty());
 
+    let bi_astar_path = solver::bidirectional_a_start(
+        &maze,
+        source,
+        destination,
+        manhattan_heuristic,
+        &mut None,
+    );
+    assert!(!bi_astar_path.is_empty());
+
     // All should reach destination
     assert_eq!(bfs_path.last(), Some(&destination));
     assert_eq!(dfs_path.last(), Some(&destination));
     assert_eq!(iddfs_path.last(), Some(&destination));
     assert_eq!(astar_path.last(), Some(&destination));
     assert_eq!(ab_path.last(), Some(&destination));
+    assert_eq!(bi_astar_path.last(), Some(&destination));
 }
 
 #[test]
@@ -174,6 +196,20 @@ fn stream_emission_provides_trace_steps() {
     let mut emit_ab = |_| ab_steps += 1;
     generator::aldous_broder_stream(&mut maze, &[source], &mut emit_ab);
     assert!(ab_steps > 0, "Aldous-Broder stream should emit trace steps");
+
+    let mut maze_bi = Maze::new(UnitShape::Square, 4, 4, BLOCK);
+    let destination = f.at(3, 3).unwrap();
+    let mut bi_steps = 0usize;
+    let mut emit_bi = |_| bi_steps += 1;
+    generator::bidirectional_a_start_stream(
+        &mut maze_bi,
+        &[source],
+        destination,
+        amazeing::maze::heuristics::manhattan_heuristic,
+        0,
+        &mut emit_bi,
+    );
+    assert!(bi_steps > 0, "Bidirectional A* stream should emit trace steps");
 }
 
 #[test]
