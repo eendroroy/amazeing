@@ -48,7 +48,10 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s r -l rows -
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -d 'Number of columns' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
+prim\t''
 iddfs\t''
+greedy-best-first\t''
+bidirectional-bfs\t''
 aldous-broder\t''
 bidirectional-a-start\t''
 a-star\t''"
@@ -77,7 +80,10 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s r -l rows -d 'Nu
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Number of columns' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
+prim\t''
 iddfs\t''
+greedy-best-first\t''
+bidirectional-bfs\t''
 aldous-broder\t''
 bidirectional-a-start\t''
 a-star\t''"
@@ -112,7 +118,10 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s h -l help -d 'Pr
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
+prim\t''
 iddfs\t''
+greedy-best-first\t''
+bidirectional-bfs\t''
 aldous-broder\t''
 bidirectional-a-start\t''
 a-star\t''"
@@ -130,7 +139,10 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s h -l help -d
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
+prim\t''
 iddfs\t''
+greedy-best-first\t''
+bidirectional-bfs\t''
 aldous-broder\t''
 bidirectional-a-start\t''
 a-star\t''"

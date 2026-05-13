@@ -58,6 +58,80 @@ pub fn dfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)
     dfs_emit(maze, sources, &mut tracer, emit);
 }
 
+pub fn prim(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
+    let mut noop = |_| {};
+    prim_emit(maze, sources, tracer, &mut noop);
+}
+
+pub fn prim_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)) {
+    let mut tracer = None;
+    prim_emit(maze, sources, &mut tracer, emit);
+}
+
+fn prim_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
+    if sources.is_empty() {
+        return;
+    }
+
+    sources.iter().for_each(|source| {
+        validate_node(maze, *source);
+    });
+
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut frontier: Vec<(Node, Node)> = Vec::new();
+
+    for source in sources {
+        if visited.get(source).is_some_and(|seen| *seen) {
+            continue;
+        }
+        visited.insert(*source, true);
+        maze[*source] = OPEN;
+
+        let step = reconstruct_trace_path(*source, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        for n in source.neighbours_block(maze, &maze.unit_shape) {
+            frontier.push((n, *source));
+        }
+    }
+
+    while !frontier.is_empty() {
+        let idx = rand::random_range(0..frontier.len());
+        let (current, _from) = frontier.swap_remove(idx);
+
+        if visited.get(&current).is_some_and(|seen| *seen) {
+            continue;
+        }
+
+        let mut connectors = current.neighbours_open(maze, &maze.unit_shape);
+        if connectors.len() != 1 {
+            continue;
+        }
+
+        let connector = connectors.swap_remove(0);
+
+        parent.insert(current, connector);
+        visited.insert(current, true);
+        maze[current] = OPEN;
+
+        let step = reconstruct_trace_path(current, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        for next in current.neighbours_block(maze, &maze.unit_shape) {
+            if visited.get(&next).is_none_or(|seen| !*seen) {
+                frontier.push((next, current));
+            }
+        }
+    }
+}
+
 fn dfs_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
@@ -451,6 +525,12 @@ mod tests {
         assert_eq!(maze_dfs[source], OPEN);
         assert!(!trace_dfs.unwrap().is_empty());
 
+        let mut maze_prim = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut trace_prim = Some(vec![]);
+        prim(&mut maze_prim, &[source], &mut trace_prim);
+        assert_eq!(maze_prim[source], OPEN);
+        assert!(!trace_prim.unwrap().is_empty());
+
         let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut trace_iddfs = Some(vec![]);
         iddfs(&mut maze_iddfs, &[source], &mut trace_iddfs);
@@ -479,7 +559,7 @@ mod tests {
         let mut maze_stream = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut steps = 0usize;
         let mut emit = |_| steps += 1;
-        aldous_broder_stream(&mut maze_stream, &[source], &mut emit);
+        prim_stream(&mut maze_stream, &[source], &mut emit);
         assert!(steps > 0);
 
         let mut maze_bi = Maze::new(UnitShape::Square, 5, 5, BLOCK);

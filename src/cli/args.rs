@@ -185,8 +185,14 @@ pub enum ArgProcedure {
     #[default]
     #[clap(alias = "d")]
     Dfs,
+    #[clap(alias = "p")]
+    Prim,
     #[clap(alias = "i")]
     Iddfs,
+    #[clap(alias = "gbf")]
+    GreedyBestFirst,
+    #[clap(alias = "bb")]
+    BidirectionalBfs,
     #[clap(alias = "ab")]
     AldousBroder,
     #[clap(alias = "ba")]
@@ -200,7 +206,10 @@ impl Display for ArgProcedure {
         match self {
             ArgProcedure::Bfs => write!(f, "bfs"),
             ArgProcedure::Dfs => write!(f, "dfs"),
+            ArgProcedure::Prim => write!(f, "prim"),
             ArgProcedure::Iddfs => write!(f, "iddfs"),
+            ArgProcedure::GreedyBestFirst => write!(f, "greedy-best-first"),
+            ArgProcedure::BidirectionalBfs => write!(f, "bidirectional-bfs"),
             ArgProcedure::AldousBroder => write!(f, "aldous-broder"),
             ArgProcedure::BidirectionalAStart => write!(f, "bidirectional-a-start"),
             ArgProcedure::AStar => write!(f, "a-star"),
@@ -330,6 +339,48 @@ mod tests {
         match parsed.command {
             ArgCommand::Solve(solve) => {
                 assert_eq!(solve.procedure, ArgProcedure::BidirectionalAStart);
+            }
+            _ => panic!("expected solve command"),
+        }
+    }
+
+    #[test]
+    fn parse_create_with_prim_procedure() {
+        let parsed = AmazeingArgs::try_parse_from([
+            "amazeing",
+            "create",
+            "--rows",
+            "9",
+            "--cols",
+            "11",
+            "--procedure",
+            "prim",
+        ])
+        .expect("create args should parse for prim");
+
+        match parsed.command {
+            ArgCommand::Create(create) => {
+                assert_eq!(create.procedure, ArgProcedure::Prim);
+            }
+            _ => panic!("expected create command"),
+        }
+    }
+
+    #[test]
+    fn parse_solve_with_greedy_best_first_procedure() {
+        let parsed = AmazeingArgs::try_parse_from([
+            "amazeing",
+            "solve",
+            "--maze",
+            "assets/maze/001_005_005_square.maze",
+            "--procedure",
+            "greedy-best-first",
+        ])
+        .expect("solve args should parse for greedy-best-first");
+
+        match parsed.command {
+            ArgCommand::Solve(solve) => {
+                assert_eq!(solve.procedure, ArgProcedure::GreedyBestFirst);
             }
             _ => panic!("expected solve command"),
         }

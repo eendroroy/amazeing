@@ -83,6 +83,10 @@ fn maze_generation_fills_from_sources() {
     generator::aldous_broder(&mut maze_ab, &[source], &mut None);
     assert_eq!(maze_ab[source], OPEN);
 
+    let mut maze_prim = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+    generator::prim(&mut maze_prim, &[source], &mut None);
+    assert_eq!(maze_prim[source], OPEN);
+
     let mut maze_bi = Maze::new(UnitShape::Square, 5, 5, BLOCK);
     let destination = f.at(4, 4).unwrap();
     generator::bidirectional_a_start(
@@ -150,8 +154,14 @@ fn all_solver_algorithms_reach_destination() {
     let dfs_path = solver::dfs(&maze, source, destination, &mut None);
     assert!(!dfs_path.is_empty());
 
+    let gbf_path = solver::greedy_best_first(&maze, source, destination, manhattan_heuristic, &mut None);
+    assert!(!gbf_path.is_empty());
+
     let iddfs_path = solver::iddfs(&maze, source, destination, &mut None);
     assert!(!iddfs_path.is_empty());
+
+    let bi_bfs_path = solver::bidirectional_bfs(&maze, source, destination, &mut None);
+    assert!(!bi_bfs_path.is_empty());
 
     let astar_path = solver::a_star(&maze, source, destination, manhattan_heuristic, &mut None);
     assert!(!astar_path.is_empty());
@@ -171,7 +181,9 @@ fn all_solver_algorithms_reach_destination() {
     // All should reach destination
     assert_eq!(bfs_path.last(), Some(&destination));
     assert_eq!(dfs_path.last(), Some(&destination));
+    assert_eq!(gbf_path.last(), Some(&destination));
     assert_eq!(iddfs_path.last(), Some(&destination));
+    assert_eq!(bi_bfs_path.last(), Some(&destination));
     assert_eq!(astar_path.last(), Some(&destination));
     assert_eq!(ab_path.last(), Some(&destination));
     assert_eq!(bi_astar_path.last(), Some(&destination));
@@ -191,6 +203,11 @@ fn stream_emission_provides_trace_steps() {
     generator::bfs_stream(&mut maze, &[source], &mut emit);
     assert!(step_count > 0, "BFS stream should emit trace steps");
     assert_eq!(maze[source], OPEN);
+
+    let mut prim_steps = 0usize;
+    let mut emit_prim = |_| prim_steps += 1;
+    generator::prim_stream(&mut maze, &[source], &mut emit_prim);
+    assert!(prim_steps > 0, "Prim stream should emit trace steps");
 
     let mut ab_steps = 0usize;
     let mut emit_ab = |_| ab_steps += 1;

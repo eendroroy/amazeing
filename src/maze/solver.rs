@@ -171,6 +171,204 @@ pub fn dfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn F
     traverse_emit(maze, source, destination, push, pop, &mut tracer, emit)
 }
 
+pub fn greedy_best_first(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+) -> Vec<Node> {
+    let mut noop = |_| {};
+    greedy_best_first_emit(maze, source, destination, heu, tracer, &mut noop)
+}
+
+pub fn greedy_best_first_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let mut tracer = None;
+    greedy_best_first_emit(maze, source, destination, heu, &mut tracer, emit)
+}
+
+fn greedy_best_first_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    validate(maze, source, destination);
+
+    let mut storage: BinaryHeap<DNodeWeightedForward> = BinaryHeap::with_capacity(maze.rows() * maze.cols());
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut discovered: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+
+    discovered.insert(source, true);
+    storage.push(DNodeWeightedForward {
+        node: source,
+        cost: 0,
+        heu_cost: heu(source, destination),
+    });
+
+    while let Some(node) = storage.pop() {
+        let current = node.node;
+        if visited.get(&current).is_some_and(|v| *v) {
+            continue;
+        }
+
+        visited.insert(current, true);
+        let step = reconstruct_trace_path(current, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        if current == destination {
+            return reconstruct_path(destination, &parent);
+        }
+
+        for next in current.neighbours_open(maze, &maze.unit_shape) {
+            if discovered.get(&next).is_none_or(|seen| !*seen) {
+                discovered.insert(next, true);
+                parent.insert(next, current);
+                storage.push(DNodeWeightedForward {
+                    node: next,
+                    cost: 0,
+                    heu_cost: heu(next, destination),
+                });
+            }
+        }
+    }
+
+    Vec::new()
+}
+
+pub fn bidirectional_bfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let mut noop = |_| {};
+    bidirectional_bfs_emit(maze, source, destination, tracer, &mut noop)
+}
+
+pub fn bidirectional_bfs_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let mut tracer = None;
+    bidirectional_bfs_emit(maze, source, destination, &mut tracer, emit)
+}
+
+fn bidirectional_bfs_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    validate(maze, source, destination);
+
+    if source == destination {
+        let step = reconstruct_trace_path(source, &BTreeMap::new());
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+        return vec![source];
+    }
+
+    let mut queue_f: VecDeque<Node> = VecDeque::new();
+    let mut queue_b: VecDeque<Node> = VecDeque::new();
+
+    let mut visited_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut visited_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+
+    queue_f.push_back(source);
+    queue_b.push_back(destination);
+    visited_f.insert(source, true);
+    visited_b.insert(destination, true);
+
+    let source_step = reconstruct_trace_path(source, &parent_f);
+    if let Some(trace) = tracer {
+        trace.push(source_step.clone());
+    }
+    emit(source_step);
+
+    let destination_step = reconstruct_trace_path(destination, &parent_b);
+    if let Some(trace) = tracer {
+        trace.push(destination_step.clone());
+    }
+    emit(destination_step);
+
+    while !queue_f.is_empty() && !queue_b.is_empty() {
+        let len_f = queue_f.len();
+        for _ in 0..len_f {
+            if let Some(current) = queue_f.pop_front() {
+                for next in current.neighbours_open(maze, &maze.unit_shape) {
+                    if visited_f.get(&next).is_none_or(|seen| !*seen) {
+                        visited_f.insert(next, true);
+                        parent_f.insert(next, current);
+                        queue_f.push_back(next);
+
+                        let step = reconstruct_trace_path(next, &parent_f);
+                        if let Some(trace) = tracer {
+                            trace.push(step.clone());
+                        }
+                        emit(step);
+
+                        if visited_b.get(&next).is_some_and(|seen| *seen) {
+                            let mut path = reconstruct_path(next, &parent_f);
+                            let mut cursor = next;
+                            while let Some(back_parent) = parent_b.get(&cursor) {
+                                path.push(*back_parent);
+                                cursor = *back_parent;
+                            }
+                            return path;
+                        }
+                    }
+                }
+            }
+        }
+
+        let len_b = queue_b.len();
+        for _ in 0..len_b {
+            if let Some(current) = queue_b.pop_front() {
+                for next in current.neighbours_open(maze, &maze.unit_shape) {
+                    if visited_b.get(&next).is_none_or(|seen| !*seen) {
+                        visited_b.insert(next, true);
+                        parent_b.insert(next, current);
+                        queue_b.push_back(next);
+
+                        let step = reconstruct_trace_path(next, &parent_b);
+                        if let Some(trace) = tracer {
+                            trace.push(step.clone());
+                        }
+                        emit(step);
+
+                        if visited_f.get(&next).is_some_and(|seen| *seen) {
+                            let mut path = reconstruct_path(next, &parent_f);
+                            let mut cursor = next;
+                            while let Some(back_parent) = parent_b.get(&cursor) {
+                                path.push(*back_parent);
+                                cursor = *back_parent;
+                            }
+                            return path;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Vec::new()
+}
+
 fn iddfs_depth_limited(
     maze: &Maze,
     source: Node,
@@ -530,9 +728,17 @@ mod tests {
         assert_eq!(dfs_path.first(), Some(&source));
         assert_eq!(dfs_path.last(), Some(&destination));
 
+        let primed_path = greedy_best_first(&maze, source, destination, manhattan_heuristic, &mut None);
+        assert_eq!(primed_path.first(), Some(&source));
+        assert_eq!(primed_path.last(), Some(&destination));
+
         let iddfs_path = iddfs(&maze, source, destination, &mut None);
         assert_eq!(iddfs_path.first(), Some(&source));
         assert_eq!(iddfs_path.last(), Some(&destination));
+
+        let bi_bfs_path = bidirectional_bfs(&maze, source, destination, &mut None);
+        assert_eq!(bi_bfs_path.first(), Some(&source));
+        assert_eq!(bi_bfs_path.last(), Some(&destination));
 
         let astar_path = a_star(&maze, source, destination, manhattan_heuristic, &mut None);
         assert_eq!(astar_path.first(), Some(&source));
@@ -566,6 +772,12 @@ mod tests {
         assert!(dfs_steps > 0);
         assert!(!path.is_empty());
 
+        let mut gbf_steps = 0usize;
+        let mut emit_gbf = |_| gbf_steps += 1;
+        let path = greedy_best_first_stream(&maze, source, destination, manhattan_heuristic, &mut emit_gbf);
+        assert!(gbf_steps > 0);
+        assert!(!path.is_empty());
+
         let mut iddfs_steps = 0usize;
         let mut emit_iddfs = |_| iddfs_steps += 1;
         let path = iddfs_stream(&maze, source, destination, &mut emit_iddfs);
@@ -582,6 +794,12 @@ mod tests {
         let mut emit_aldous_broder = |_| aldous_broder_steps += 1;
         let path = aldous_broder_stream(&maze, source, destination, &mut emit_aldous_broder);
         assert!(aldous_broder_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut bi_bfs_steps = 0usize;
+        let mut emit_bi_bfs = |_| bi_bfs_steps += 1;
+        let path = bidirectional_bfs_stream(&maze, source, destination, &mut emit_bi_bfs);
+        assert!(bi_bfs_steps > 0);
         assert!(!path.is_empty());
 
         let mut bi_astar_steps = 0usize;

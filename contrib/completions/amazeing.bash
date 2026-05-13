@@ -133,11 +133,11 @@ _amazeing() {
                     return 0
                     ;;
                 --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs iddfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs prim iddfs greedy-best-first bidirectional-bfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
                     return 0
                     ;;
                 -p)
-                    COMPREPLY=($(compgen -W "bfs dfs iddfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs prim iddfs greedy-best-first bidirectional-bfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
                     return 0
                     ;;
                 --heuristic-function)
@@ -281,11 +281,11 @@ _amazeing() {
                     return 0
                     ;;
                 --procedure)
-                    COMPREPLY=($(compgen -W "bfs dfs iddfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs prim iddfs greedy-best-first bidirectional-bfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
                     return 0
                     ;;
                 -p)
-                    COMPREPLY=($(compgen -W "bfs dfs iddfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bfs dfs prim iddfs greedy-best-first bidirectional-bfs aldous-broder bidirectional-a-start a-star" -- "${cur}"))
                     return 0
                     ;;
                 --heuristic-function)

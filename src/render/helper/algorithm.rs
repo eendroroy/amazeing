@@ -17,7 +17,10 @@ pub(crate) fn solve_maze(
     let solution = match procedure {
         ArgProcedure::Bfs => solver::bfs(maze, source, destination, tracer),
         ArgProcedure::Dfs => solver::dfs(maze, source, destination, tracer),
+        ArgProcedure::Prim => panic!("Prim is only available for maze generation, not solving."),
         ArgProcedure::Iddfs => solver::iddfs(maze, source, destination, tracer),
+        ArgProcedure::GreedyBestFirst => solver::greedy_best_first(maze, source, destination, heuristic, tracer),
+        ArgProcedure::BidirectionalBfs => solver::bidirectional_bfs(maze, source, destination, tracer),
         ArgProcedure::AldousBroder => solver::aldous_broder(maze, source, destination, tracer),
         ArgProcedure::BidirectionalAStart => solver::bidirectional_a_start(maze, source, destination, heuristic, tracer),
         ArgProcedure::AStar => solver::a_star(maze, source, destination, heuristic, tracer),
@@ -38,7 +41,10 @@ pub(crate) fn solve_maze_stream(
     let solution = match procedure {
         ArgProcedure::Bfs => solver::bfs_stream(maze, source, destination, emit),
         ArgProcedure::Dfs => solver::dfs_stream(maze, source, destination, emit),
+        ArgProcedure::Prim => panic!("Prim is only available for maze generation, not solving."),
         ArgProcedure::Iddfs => solver::iddfs_stream(maze, source, destination, emit),
+        ArgProcedure::GreedyBestFirst => solver::greedy_best_first_stream(maze, source, destination, heuristic, emit),
+        ArgProcedure::BidirectionalBfs => solver::bidirectional_bfs_stream(maze, source, destination, emit),
         ArgProcedure::AldousBroder => solver::aldous_broder_stream(maze, source, destination, emit),
         ArgProcedure::BidirectionalAStart => {
             solver::bidirectional_a_start_stream(maze, source, destination, heuristic, emit)
@@ -60,7 +66,14 @@ pub(crate) fn generate_maze(
     match context.procedure {
         ArgProcedure::Bfs => generator::bfs(maze, sources, tracer),
         ArgProcedure::Dfs => generator::dfs(maze, sources, tracer),
+        ArgProcedure::Prim => generator::prim(maze, sources, tracer),
         ArgProcedure::Iddfs => generator::iddfs(maze, sources, tracer),
+        ArgProcedure::GreedyBestFirst => {
+            panic!("Greedy Best-First is only available for maze solving, not generation.")
+        }
+        ArgProcedure::BidirectionalBfs => {
+            panic!("Bidirectional BFS is only available for maze solving, not generation.")
+        }
         ArgProcedure::AldousBroder => generator::aldous_broder(maze, sources, tracer),
         ArgProcedure::BidirectionalAStart => {
             generator::bidirectional_a_start(maze, sources, destination.unwrap(), context.heuristic, context.jumble_factor, tracer)
@@ -87,7 +100,14 @@ pub(crate) fn generate_maze_stream(
     match context.procedure {
         ArgProcedure::Bfs => generator::bfs_stream(maze, sources, emit),
         ArgProcedure::Dfs => generator::dfs_stream(maze, sources, emit),
+        ArgProcedure::Prim => generator::prim_stream(maze, sources, emit),
         ArgProcedure::Iddfs => generator::iddfs_stream(maze, sources, emit),
+        ArgProcedure::GreedyBestFirst => {
+            panic!("Greedy Best-First is only available for maze solving, not generation.")
+        }
+        ArgProcedure::BidirectionalBfs => {
+            panic!("Bidirectional BFS is only available for maze solving, not generation.")
+        }
         ArgProcedure::AldousBroder => generator::aldous_broder_stream(maze, sources, emit),
         ArgProcedure::BidirectionalAStart => {
             generator::bidirectional_a_start_stream(
@@ -128,6 +148,8 @@ mod tests {
             ArgProcedure::Bfs,
             ArgProcedure::Dfs,
             ArgProcedure::Iddfs,
+            ArgProcedure::GreedyBestFirst,
+            ArgProcedure::BidirectionalBfs,
             ArgProcedure::AldousBroder,
             ArgProcedure::BidirectionalAStart,
             ArgProcedure::AStar,
@@ -171,6 +193,17 @@ mod tests {
         );
         generate_maze_stream(&mut maze_dfs, &[source], None, &dfs_ctx, &mut |_| {});
         assert_eq!(maze_dfs[source], OPEN);
+
+        let mut maze_prim = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let prim_ctx = AmazeingContext::create_context(
+            (None, None),
+            (ArgProcedure::Prim, ArgHeuristic::Dijkstra.heuristic()),
+            (0, ArgWeightDirection::Forward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+        );
+        generate_maze_stream(&mut maze_prim, &[source], None, &prim_ctx, &mut |_| {});
+        assert_eq!(maze_prim[source], OPEN);
 
         let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let iddfs_ctx = AmazeingContext::create_context(
