@@ -2,6 +2,8 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::structure::Maze;
 use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::maze::node::{DNodeWeightedForward, Node};
+use rand::prelude::SliceRandom;
+use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 fn traverse(
@@ -229,6 +231,81 @@ pub fn iddfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn
     iddfs_emit(maze, source, destination, &mut tracer, emit)
 }
 
+pub fn aldous_broder(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let mut noop = |_| {};
+    aldous_broder_emit(maze, source, destination, tracer, &mut noop)
+}
+
+pub fn aldous_broder_stream(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    let mut tracer = None;
+    aldous_broder_emit(maze, source, destination, &mut tracer, emit)
+}
+
+fn aldous_broder_emit(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+) -> Vec<Node> {
+    validate(maze, source, destination);
+
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut current = source;
+
+    visited.insert(source, true);
+
+    let first_step = reconstruct_trace_path(source, &parent);
+    if let Some(trace) = tracer {
+        trace.push(first_step.clone());
+    }
+    emit(first_step);
+
+    if source == destination {
+        return vec![source];
+    }
+
+    let max_steps = maze
+        .rows()
+        .saturating_mul(maze.cols())
+        .saturating_mul(maze.rows())
+        .saturating_mul(maze.cols())
+        .saturating_mul(64);
+
+    for _ in 0..max_steps {
+        let mut options = current.neighbours_open(maze, &maze.unit_shape);
+        if options.is_empty() {
+            return Vec::new();
+        }
+        options.shuffle(&mut rng());
+        let next = options[0];
+
+        if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+            visited.insert(next, true);
+            parent.insert(next, current);
+        }
+
+        current = next;
+        let step = reconstruct_trace_path(current, &parent);
+        if let Some(trace) = tracer {
+            trace.push(step.clone());
+        }
+        emit(step);
+
+        if current == destination {
+            return reconstruct_path(destination, &parent);
+        }
+    }
+
+    Vec::new()
+}
+
 pub fn a_star(maze: &Maze, source: Node, destination: Node, heu: NodeHeuFn, tracer: &mut Option<Tracer>) -> Vec<Node> {
     weighted_traverse(maze, source, destination, heu, tracer)
 }
@@ -276,6 +353,10 @@ mod tests {
         let astar_path = a_star(&maze, source, destination, manhattan_heuristic, &mut None);
         assert_eq!(astar_path.first(), Some(&source));
         assert_eq!(astar_path.last(), Some(&destination));
+
+        let aldous_broder_path = aldous_broder(&maze, source, destination, &mut None);
+        assert_eq!(aldous_broder_path.first(), Some(&source));
+        assert_eq!(aldous_broder_path.last(), Some(&destination));
     }
 
     #[test]
@@ -307,6 +388,12 @@ mod tests {
         let mut emit_astar = |_| astar_steps += 1;
         let path = a_star_stream(&maze, source, destination, manhattan_heuristic, &mut emit_astar);
         assert!(astar_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut aldous_broder_steps = 0usize;
+        let mut emit_aldous_broder = |_| aldous_broder_steps += 1;
+        let path = aldous_broder_stream(&maze, source, destination, &mut emit_aldous_broder);
+        assert!(aldous_broder_steps > 0);
         assert!(!path.is_empty());
     }
 }

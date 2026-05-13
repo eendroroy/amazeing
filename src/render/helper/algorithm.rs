@@ -18,6 +18,7 @@ pub(crate) fn solve_maze(
         ArgProcedure::Bfs => solver::bfs(maze, source, destination, tracer),
         ArgProcedure::Dfs => solver::dfs(maze, source, destination, tracer),
         ArgProcedure::Iddfs => solver::iddfs(maze, source, destination, tracer),
+        ArgProcedure::AldousBroder => solver::aldous_broder(maze, source, destination, tracer),
         ArgProcedure::AStar => solver::a_star(maze, source, destination, heuristic, tracer),
     };
     println!("Solved maze in {:?}", start.elapsed());
@@ -37,6 +38,7 @@ pub(crate) fn solve_maze_stream(
         ArgProcedure::Bfs => solver::bfs_stream(maze, source, destination, emit),
         ArgProcedure::Dfs => solver::dfs_stream(maze, source, destination, emit),
         ArgProcedure::Iddfs => solver::iddfs_stream(maze, source, destination, emit),
+        ArgProcedure::AldousBroder => solver::aldous_broder_stream(maze, source, destination, emit),
         ArgProcedure::AStar => solver::a_star_stream(maze, source, destination, heuristic, emit),
     };
     println!("Solved maze in {:?}", start.elapsed());
@@ -55,6 +57,7 @@ pub(crate) fn generate_maze(
         ArgProcedure::Bfs => generator::bfs(maze, sources, tracer),
         ArgProcedure::Dfs => generator::dfs(maze, sources, tracer),
         ArgProcedure::Iddfs => generator::iddfs(maze, sources, tracer),
+        ArgProcedure::AldousBroder => generator::aldous_broder(maze, sources, tracer),
         ArgProcedure::AStar => {
             let a_star_fn = match context.weight_direction {
                 WeightDirection::Backward => generator::a_star::<DNodeWeightedBackward>,
@@ -78,6 +81,7 @@ pub(crate) fn generate_maze_stream(
         ArgProcedure::Bfs => generator::bfs_stream(maze, sources, emit),
         ArgProcedure::Dfs => generator::dfs_stream(maze, sources, emit),
         ArgProcedure::Iddfs => generator::iddfs_stream(maze, sources, emit),
+        ArgProcedure::AldousBroder => generator::aldous_broder_stream(maze, sources, emit),
         ArgProcedure::AStar => {
             let a_star_fn = match context.weight_direction {
                 WeightDirection::Backward => generator::a_star_stream::<DNodeWeightedBackward>,
@@ -103,7 +107,13 @@ mod tests {
         let s = f.at(0, 0).unwrap();
         let d = f.at(2, 2).unwrap();
 
-        for p in [ArgProcedure::Bfs, ArgProcedure::Dfs, ArgProcedure::Iddfs, ArgProcedure::AStar] {
+        for p in [
+            ArgProcedure::Bfs,
+            ArgProcedure::Dfs,
+            ArgProcedure::Iddfs,
+            ArgProcedure::AldousBroder,
+            ArgProcedure::AStar,
+        ] {
             let path = solve_maze(&maze, s, d, &p, manhattan_heuristic, &mut None);
             assert_eq!(path.first(), Some(&s));
             assert_eq!(path.last(), Some(&d));
@@ -154,6 +164,17 @@ mod tests {
         );
         generate_maze_stream(&mut maze_iddfs, &[source], None, &iddfs_ctx, &mut |_| {});
         assert_eq!(maze_iddfs[source], OPEN);
+
+        let mut maze_ab = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let ab_ctx = AmazeingContext::create_context(
+            (None, None),
+            (ArgProcedure::AldousBroder, ArgHeuristic::Dijkstra.heuristic()),
+            (0, ArgWeightDirection::Forward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+        );
+        generate_maze_stream(&mut maze_ab, &[source], None, &ab_ctx, &mut |_| {});
+        assert_eq!(maze_ab[source], OPEN);
 
         let mut maze_astar = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let astar_ctx = AmazeingContext::create_context(

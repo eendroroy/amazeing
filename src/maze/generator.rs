@@ -1,6 +1,6 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::{Trace, Tracer};
-use super::{Maze, Node, NodeHeuFn, OPEN};
+use super::{BLOCK, Maze, Node, NodeFactory, NodeHeuFn, OPEN, VOID};
 use crate::maze::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
@@ -172,6 +172,88 @@ fn iddfs_depth_limited(
     }
 }
 
+pub fn aldous_broder(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>) {
+    let mut noop = |_| {};
+    aldous_broder_emit(maze, sources, tracer, &mut noop);
+}
+
+pub fn aldous_broder_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)) {
+    let mut tracer = None;
+    aldous_broder_emit(maze, sources, &mut tracer, emit);
+}
+
+fn aldous_broder_emit(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace)) {
+    if sources.is_empty() {
+        return;
+    }
+
+    sources.iter().for_each(|source| validate_node(maze, *source));
+
+    let mut remaining = 0usize;
+    let factory = NodeFactory::new(maze.rows(), maze.cols());
+    for r in 0..maze.rows() {
+        for c in 0..maze.cols() {
+            let node = factory.at(r, c).expect("indices should be in-bounds");
+            if maze[node] == BLOCK {
+                remaining += 1;
+            }
+        }
+    }
+
+    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+
+    let mut walkers = sources.to_vec();
+    walkers.shuffle(&mut rng());
+
+    for source in sources {
+        if !visited.contains_key(source) || !(*visited.get(source).unwrap()) {
+            visited.insert(*source, true);
+            if maze[*source] == BLOCK {
+                maze[*source] = OPEN;
+                remaining = remaining.saturating_sub(1);
+            }
+            let step = reconstruct_trace_path(*source, &parent);
+            if let Some(trace) = tracer {
+                trace.push(step.clone());
+            }
+            emit(step);
+        }
+    }
+
+    while remaining > 0 {
+        for walker in walkers.iter_mut() {
+            let options: Vec<Node> = walker
+                .neighbours(&maze.unit_shape)
+                .into_iter()
+                .filter(|n| maze[*n] != VOID)
+                .collect();
+
+            if options.is_empty() {
+                continue;
+            }
+
+            let next = options[rand::random_range(0..options.len())];
+
+            if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+                parent.insert(next, *walker);
+                visited.insert(next, true);
+                if maze[next] == BLOCK {
+                    maze[next] = OPEN;
+                    remaining = remaining.saturating_sub(1);
+                }
+                let step = reconstruct_trace_path(next, &parent);
+                if let Some(trace) = tracer {
+                    trace.push(step.clone());
+                }
+                emit(step);
+            }
+
+            *walker = next;
+        }
+    }
+}
+
 pub fn a_star<T: DNodeWeighted>(
     maze: &mut Maze,
     sources: &[Node],
@@ -273,6 +355,12 @@ mod tests {
         iddfs(&mut maze_iddfs, &[source], &mut trace_iddfs);
         assert_eq!(maze_iddfs[source], OPEN);
         assert!(!trace_iddfs.unwrap().is_empty());
+
+        let mut maze_ab = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut trace_ab = Some(vec![]);
+        aldous_broder(&mut maze_ab, &[source], &mut trace_ab);
+        assert_eq!(maze_ab[source], OPEN);
+        assert!(!trace_ab.unwrap().is_empty());
     }
 
     #[test]
@@ -290,7 +378,7 @@ mod tests {
         let mut maze_stream = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut steps = 0usize;
         let mut emit = |_| steps += 1;
-        iddfs_stream(&mut maze_stream, &[source], &mut emit);
+        aldous_broder_stream(&mut maze_stream, &[source], &mut emit);
         assert!(steps > 0);
     }
 }

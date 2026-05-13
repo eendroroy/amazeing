@@ -78,6 +78,10 @@ fn maze_generation_fills_from_sources() {
     let neighbors = source.neighbours(&UnitShape::Square);
     let any_opened = neighbors.iter().any(|n| maze[*n] == OPEN);
     assert!(any_opened);
+
+    let mut maze_ab = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+    generator::aldous_broder(&mut maze_ab, &[source], &mut None);
+    assert_eq!(maze_ab[source], OPEN);
 }
 
 #[test]
@@ -140,11 +144,15 @@ fn all_solver_algorithms_reach_destination() {
     let astar_path = solver::a_star(&maze, source, destination, manhattan_heuristic, &mut None);
     assert!(!astar_path.is_empty());
 
+    let ab_path = solver::aldous_broder(&maze, source, destination, &mut None);
+    assert!(!ab_path.is_empty());
+
     // All should reach destination
     assert_eq!(bfs_path.last(), Some(&destination));
     assert_eq!(dfs_path.last(), Some(&destination));
     assert_eq!(iddfs_path.last(), Some(&destination));
     assert_eq!(astar_path.last(), Some(&destination));
+    assert_eq!(ab_path.last(), Some(&destination));
 }
 
 #[test]
@@ -161,6 +169,11 @@ fn stream_emission_provides_trace_steps() {
     generator::bfs_stream(&mut maze, &[source], &mut emit);
     assert!(step_count > 0, "BFS stream should emit trace steps");
     assert_eq!(maze[source], OPEN);
+
+    let mut ab_steps = 0usize;
+    let mut emit_ab = |_| ab_steps += 1;
+    generator::aldous_broder_stream(&mut maze, &[source], &mut emit_ab);
+    assert!(ab_steps > 0, "Aldous-Broder stream should emit trace steps");
 }
 
 #[test]

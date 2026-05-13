@@ -187,6 +187,8 @@ pub enum ArgProcedure {
     Dfs,
     #[clap(alias = "i")]
     Iddfs,
+    #[clap(alias = "ab")]
+    AldousBroder,
     #[clap(alias = "a")]
     AStar,
 }
@@ -197,6 +199,7 @@ impl Display for ArgProcedure {
             ArgProcedure::Bfs => write!(f, "bfs"),
             ArgProcedure::Dfs => write!(f, "dfs"),
             ArgProcedure::Iddfs => write!(f, "iddfs"),
+            ArgProcedure::AldousBroder => write!(f, "aldous-broder"),
             ArgProcedure::AStar => write!(f, "a-star"),
         }
     }
@@ -284,6 +287,28 @@ mod tests {
                 assert_eq!(solve.maze, Path::new("assets/maze/001_005_005_square.maze"));
             }
             _ => panic!("expected solve command"),
+        }
+    }
+
+    #[test]
+    fn parse_create_with_aldous_broder_procedure() {
+        let parsed = AmazeingArgs::try_parse_from([
+            "amazeing",
+            "create",
+            "--rows",
+            "9",
+            "--cols",
+            "11",
+            "--procedure",
+            "aldous-broder",
+        ])
+        .expect("create args should parse for aldous-broder");
+
+        match parsed.command {
+            ArgCommand::Create(create) => {
+                assert_eq!(create.procedure, ArgProcedure::AldousBroder);
+            }
+            _ => panic!("expected create command"),
         }
     }
 }

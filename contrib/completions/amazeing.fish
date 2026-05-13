@@ -49,6 +49,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s c -l cols -
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
 iddfs\t''
+aldous-broder\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -76,6 +77,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s c -l cols -d 'Nu
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s p -l procedure -d 'Maze Generation Procedure' -r -f -a "bfs\t''
 dfs\t''
 iddfs\t''
+aldous-broder\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -109,6 +111,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s m -l maze -d
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
 iddfs\t''
+aldous-broder\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
@@ -125,6 +128,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s m -l maze -d 'Ma
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
 iddfs\t''
+aldous-broder\t''
 a-star\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s H -l heuristic-function -d 'Heuristic function (to use with AStar)' -r -f -a "manhattan\t''
 euclidean\t''
