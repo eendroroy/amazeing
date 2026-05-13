@@ -1,7 +1,7 @@
 use crate::cli::{ArgHeuristic, ArgUnitShape, ArgWeightDirection};
-use crate::maze::tiled::heuristics::*;
-use crate::maze::tiled::node::WeightDirection;
-use crate::maze::tiled::{NodeHeuFn, UnitShape};
+use crate::maze::heuristics::*;
+use crate::maze::node::WeightDirection;
+use crate::maze::{NodeHeuFn, UnitShape};
 
 impl ArgUnitShape {
     pub fn shape(&self) -> UnitShape {

@@ -1,7 +1,7 @@
 use crate::app::shared::{get_colors, set_screen_size};
 use crate::cli::{AmazeingArgs, AmazeingContext, CreateArgs};
-use crate::render::component::scene::MazeScene;
 use crate::render::display_loop::{generate_loop, generate_simulation_loop};
+use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
     let context = AmazeingContext::create_context(
@@ -25,4 +25,3 @@ pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
         generate_loop(&mut scene).await
     }
 }
-

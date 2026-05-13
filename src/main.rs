@@ -15,4 +15,3 @@ fn window_config() -> Conf {
         ..Default::default()
     }
 }
-

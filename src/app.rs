@@ -3,8 +3,8 @@ mod shared;
 mod solve;
 mod view;
 
-use crate::cli::ArgCommand::{Create, Solve, View};
 use crate::cli::AmazeingArgs;
+use crate::cli::ArgCommand::{Create, Solve, View};
 use clap::Parser;
 
 pub async fn run() {
@@ -16,4 +16,3 @@ pub async fn run() {
         Solve(args) => solve::run(&amazeing_args, args).await,
     }
 }
-

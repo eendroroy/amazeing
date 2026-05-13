@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
-use super::maze::Maze;
+use super::structure::Maze;
 use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
-use crate::maze::tiled::node::{DNodeWeightedForward, Node};
+use crate::maze::node::{DNodeWeightedForward, Node};
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
 fn traverse(
@@ -164,3 +164,59 @@ pub fn a_star_stream(
     weighted_traverse_emit(maze, source, destination, heu, &mut tracer, emit)
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::maze::heuristics::manhattan_heuristic;
+    use crate::maze::{NodeFactory, OPEN, UnitShape};
+
+    fn open_grid(rows: usize, cols: usize) -> Maze {
+        Maze::new(UnitShape::Square, rows, cols, OPEN)
+    }
+
+    #[test]
+    fn solver_finds_path_for_all_algorithms() {
+        let maze = open_grid(4, 4);
+        let f = NodeFactory::new(4, 4);
+        let source = f.at(0, 0).unwrap();
+        let destination = f.at(3, 3).unwrap();
+
+        let bfs_path = bfs(&maze, source, destination, &mut None);
+        assert_eq!(bfs_path.first(), Some(&source));
+        assert_eq!(bfs_path.last(), Some(&destination));
+
+        let dfs_path = dfs(&maze, source, destination, &mut None);
+        assert_eq!(dfs_path.first(), Some(&source));
+        assert_eq!(dfs_path.last(), Some(&destination));
+
+        let astar_path = a_star(&maze, source, destination, manhattan_heuristic, &mut None);
+        assert_eq!(astar_path.first(), Some(&source));
+        assert_eq!(astar_path.last(), Some(&destination));
+    }
+
+    #[test]
+    fn stream_variants_emit_trace_steps() {
+        let maze = open_grid(3, 3);
+        let f = NodeFactory::new(3, 3);
+        let source = f.at(0, 0).unwrap();
+        let destination = f.at(2, 2).unwrap();
+
+        let mut bfs_steps = 0usize;
+        let mut emit_bfs = |_| bfs_steps += 1;
+        let path = bfs_stream(&maze, source, destination, &mut emit_bfs);
+        assert!(bfs_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut dfs_steps = 0usize;
+        let mut emit_dfs = |_| dfs_steps += 1;
+        let path = dfs_stream(&maze, source, destination, &mut emit_dfs);
+        assert!(dfs_steps > 0);
+        assert!(!path.is_empty());
+
+        let mut astar_steps = 0usize;
+        let mut emit_astar = |_| astar_steps += 1;
+        let path = a_star_stream(&maze, source, destination, manhattan_heuristic, &mut emit_astar);
+        assert!(astar_steps > 0);
+        assert!(!path.is_empty());
+    }
+}

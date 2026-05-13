@@ -27,3 +27,25 @@ impl IsDivisible for usize {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::IsDivisible;
+
+    #[test]
+    fn parity_checks_work() {
+        assert!(2usize.is_even());
+        assert!(!2usize.is_odd());
+        assert!(!3usize.is_even());
+        assert!(3usize.is_odd());
+    }
+
+    #[test]
+    fn odd_adjustments_work() {
+        assert_eq!(5usize.odd_ceil(), 5);
+        assert_eq!(6usize.odd_ceil(), 7);
+        assert_eq!(0usize.odd_floor(), 1);
+        assert_eq!(8usize.odd_floor(), 7);
+        assert_eq!(9usize.odd_floor(), 9);
+    }
+}

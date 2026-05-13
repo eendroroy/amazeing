@@ -1,6 +1,6 @@
-use crate::render::component::helper::create_mesh;
-use crate::render::component::unit_factory::UnitShapeFactory;
-use crate::render::component::{BORDER, MARGIN, RADIUS};
+use super::mesh::create_mesh;
+use crate::render::unit::UnitShapeFactory;
+use crate::render::{BORDER, MARGIN, RADIUS};
 use crate::util::IsDivisible;
 use macroquad::color::Color;
 use macroquad::math::vec2;

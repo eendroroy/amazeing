@@ -1,6 +1,6 @@
-use crate::maze::tiled::Node;
-use crate::render::component::scene::MazeScene;
+use crate::maze::Node;
 use crate::render::helper::{current_millis, handle_mouse_click, solve_maze, take_a_snap};
+use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn solve_loop(scene: &mut MazeScene) {

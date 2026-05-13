@@ -1,7 +1,7 @@
 use crate::cli::ArgProcedure;
-use crate::maze::tiled::{Maze, Node, Trace, VOID};
-use crate::render::component::scene::MazeScene;
+use crate::maze::{Maze, Node, Trace, VOID};
 use crate::render::helper::{current_millis, dump_maze_to_file, generate_maze_stream, take_a_snap};
+use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
@@ -46,7 +46,10 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 paused = !paused;
             }
 
-            if !paused && !trace_complete && let Some(receiver) = &generation_events {
+            if !paused
+                && !trace_complete
+                && let Some(receiver) = &generation_events
+            {
                 // Process a small burst of frames per render so UI stays responsive.
                 for _ in 0..4 {
                     match receiver.try_recv() {

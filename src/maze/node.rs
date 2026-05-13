@@ -1,10 +1,10 @@
-use crate::maze::tiled::{BLOCK, Maze, OPEN, UnitShape};
+use crate::maze::{BLOCK, Maze, OPEN, UnitShape};
 use crate::util::IsDivisible;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub};
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct NodeFactory {
+pub struct NodeFactory {
     pub rows: usize,
     pub cols: usize,
 }
@@ -245,4 +245,77 @@ impl DNodeWeighted for DNodeWeightedBackward {
 pub enum WeightDirection {
     Forward,
     Backward,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::maze::{BLOCK, Maze, UnitShape};
+    use std::collections::BinaryHeap;
+
+    #[test]
+    fn node_factory_bounds_are_enforced() {
+        let f = NodeFactory::new(2, 3);
+        assert!(f.at(1, 2).is_some());
+        assert!(f.at(2, 0).is_none());
+        assert!(f.at(0, 3).is_none());
+    }
+
+    #[test]
+    fn node_add_and_sub_respect_grid_bounds() {
+        let f = NodeFactory::new(3, 3);
+        let n = f.at(1, 1).unwrap();
+        assert_eq!((n + (1, 1)).unwrap(), f.at(2, 2).unwrap());
+        assert!((n + (2, 0)).is_none());
+        assert_eq!((n - (1, 1)).unwrap(), f.at(0, 0).unwrap());
+        assert!((n - (2, 0)).is_none());
+    }
+
+    #[test]
+    fn neighbours_cover_shape_specific_rules() {
+        let f = NodeFactory::new(5, 5);
+        let center_even = f.at(2, 2).unwrap();
+        let center_odd = f.at(3, 2).unwrap();
+
+        assert_eq!(center_even.neighbours(&UnitShape::Square).len(), 4);
+        assert_eq!(center_even.neighbours(&UnitShape::Octagon).len(), 4);
+        assert_eq!(center_even.neighbours(&UnitShape::Hexagon).len(), 6);
+        assert_eq!(center_odd.neighbours(&UnitShape::Hexagon).len(), 6);
+        assert_eq!(center_even.neighbours(&UnitShape::HexagonRectangle).len(), 6);
+        assert_eq!(center_odd.neighbours(&UnitShape::HexagonRectangle).len(), 4);
+        assert_eq!(center_even.neighbours(&UnitShape::OctagonSquare).len(), 8);
+        assert_eq!(center_odd.neighbours(&UnitShape::OctagonSquare).len(), 4);
+    }
+
+    #[test]
+    fn neighbours_open_and_block_filter_cells() {
+        let mut maze = Maze::new(UnitShape::Square, 3, 3, BLOCK);
+        let f = NodeFactory::new(3, 3);
+        let c = f.at(1, 1).unwrap();
+        maze[f.at(1, 2).unwrap()] = OPEN;
+        maze[f.at(0, 1).unwrap()] = OPEN;
+
+        let open = c.neighbours_open(&maze, &UnitShape::Square);
+        let block = c.neighbours_block(&maze, &UnitShape::Square);
+
+        assert_eq!(open.len(), 2);
+        assert_eq!(block.len(), 2);
+    }
+
+    #[test]
+    fn weighted_node_ordering_works_for_heap() {
+        let f = NodeFactory::new(2, 2);
+        let a = f.at(0, 0).unwrap();
+        let b = f.at(0, 1).unwrap();
+
+        let mut forward = BinaryHeap::new();
+        forward.push(DNodeWeightedForward::new(a, 0, 1));
+        forward.push(DNodeWeightedForward::new(b, 0, 5));
+        assert_eq!(forward.pop().unwrap().heu_cost(), 1);
+
+        let mut backward = BinaryHeap::new();
+        backward.push(DNodeWeightedBackward::new(a, 0, 1));
+        backward.push(DNodeWeightedBackward::new(b, 0, 5));
+        assert_eq!(backward.pop().unwrap().heu_cost(), 5);
+    }
 }

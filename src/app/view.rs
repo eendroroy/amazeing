@@ -1,8 +1,8 @@
 use crate::app::shared::{get_colors, set_screen_size};
 use crate::cli::{AmazeingArgs, AmazeingContext, ViewArgs};
-use crate::render::component::scene::MazeScene;
 use crate::render::display_loop::{update_loop, view_loop};
 use crate::render::helper::load_maze_from_file;
+use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: ViewArgs) {
     let context = AmazeingContext::view_context(
@@ -23,4 +23,3 @@ pub(super) async fn run(global: &AmazeingArgs, args: ViewArgs) {
         view_loop(scene).await
     }
 }
-

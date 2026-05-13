@@ -1,7 +1,7 @@
 use super::helper::{reconstruct_trace_path, validate_node};
 use super::types::{Trace, Tracer};
 use super::{Maze, Node, NodeHeuFn, OPEN};
-use crate::maze::tiled::node::DNodeWeighted;
+use crate::maze::node::DNodeWeighted;
 use rand::prelude::SliceRandom;
 use rand::rng;
 use std::collections::{BTreeMap, BinaryHeap, VecDeque};
@@ -176,5 +176,48 @@ fn a_star_emit<T: DNodeWeighted>(
                 ));
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::maze::heuristics::manhattan_heuristic;
+    use crate::maze::{BLOCK, DNodeWeightedForward, NodeFactory, UnitShape};
+
+    #[test]
+    fn bfs_and_dfs_open_source_and_collect_trace() {
+        let mut maze_bfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut maze_dfs = maze_bfs.clone();
+        let source = NodeFactory::new(5, 5).at(2, 2).unwrap();
+
+        let mut trace_bfs = Some(vec![]);
+        bfs(&mut maze_bfs, &[source], &mut trace_bfs);
+        assert_eq!(maze_bfs[source], OPEN);
+        assert!(!trace_bfs.unwrap().is_empty());
+
+        let mut trace_dfs = Some(vec![]);
+        dfs(&mut maze_dfs, &[source], &mut trace_dfs);
+        assert_eq!(maze_dfs[source], OPEN);
+        assert!(!trace_dfs.unwrap().is_empty());
+    }
+
+    #[test]
+    fn a_star_variants_and_stream_emit_steps() {
+        let mut maze = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let f = NodeFactory::new(5, 5);
+        let source = f.at(2, 2).unwrap();
+        let destination = f.at(4, 4).unwrap();
+
+        let mut trace = Some(vec![]);
+        a_star::<DNodeWeightedForward>(&mut maze, &[source], destination, manhattan_heuristic, 0, &mut trace);
+        assert_eq!(maze[source], OPEN);
+        assert!(!trace.unwrap().is_empty());
+
+        let mut maze_stream = Maze::new(UnitShape::Square, 5, 5, BLOCK);
+        let mut steps = 0usize;
+        let mut emit = |_| steps += 1;
+        bfs_stream(&mut maze_stream, &[source], &mut emit);
+        assert!(steps > 0);
     }
 }

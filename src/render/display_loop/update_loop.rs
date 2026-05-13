@@ -1,6 +1,6 @@
-use crate::maze::tiled::{BLOCK, OPEN};
-use crate::render::component::scene::MazeScene;
+use crate::maze::{BLOCK, OPEN};
 use crate::render::helper::{current_millis, save_maze, take_a_snap};
+use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(scene: &mut MazeScene) {

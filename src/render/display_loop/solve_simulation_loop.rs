@@ -1,6 +1,6 @@
-use crate::maze::tiled::{Maze, Node, Trace};
-use crate::render::component::scene::MazeScene;
+use crate::maze::{Maze, Node, Trace};
 use crate::render::helper::{current_millis, handle_mouse_click, solve_maze_stream, take_a_snap};
+use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};

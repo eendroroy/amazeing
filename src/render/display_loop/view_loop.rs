@@ -1,5 +1,5 @@
-use crate::render::component::scene::MazeScene;
 use crate::render::helper::{current_millis, take_a_snap};
+use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn view_loop(scene: MazeScene) {

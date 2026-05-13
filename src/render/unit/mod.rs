@@ -1,18 +1,20 @@
-mod unit_hexagon;
-mod unit_hexagon_rectangle;
-mod unit_octagon;
-mod unit_octagon_square;
-mod unit_square;
-mod unit_triangle;
+mod hexagon;
+mod hexagon_rect;
+mod mesh;
+mod octagon;
+mod octagon_sq;
+mod square;
+mod triangle;
 
-pub(crate) use unit_hexagon::*;
-pub(crate) use unit_hexagon_rectangle::*;
-pub(crate) use unit_octagon::*;
-pub(crate) use unit_octagon_square::*;
-pub(crate) use unit_square::*;
-pub(crate) use unit_triangle::*;
+pub(crate) use hexagon::HexagonUnitShapeFactory;
+pub(crate) use hexagon_rect::HexagonRectangleUnitShapeFactory;
+pub(crate) use octagon::OctagonUnitShapeFactory;
+pub(crate) use octagon_sq::OctagonSquareUnitShapeFactory;
+pub(crate) use square::SquareUnitShapeFactory;
+pub(crate) use triangle::TriangleUnitShapeFactory;
 
-use crate::render::component::helper::create_mesh;
+use mesh::create_mesh;
+
 use macroquad::color::Color;
 use macroquad::models::Mesh;
 
@@ -53,8 +55,8 @@ pub(crate) trait UnitShapeFactory: Send + Sync {
     }
 
     fn wh_for(&self, rows: usize, cols: usize) -> (u32, u32) {
-        let inner_dimension = self.inner_dimension(rows, cols);
-        ((2. * self.m() + inner_dimension.0 as f32) as u32, (2. * self.m() + inner_dimension.1 as f32) as u32)
+        let (iw, ih) = self.inner_dimension(rows, cols);
+        ((2. * self.m() + iw as f32) as u32, (2. * self.m() + ih as f32) as u32)
     }
 
     fn shape(&self, r: usize, c: usize, _rows: usize, _cols: usize, color: Color) -> Mesh {

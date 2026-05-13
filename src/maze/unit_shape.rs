@@ -1,4 +1,4 @@
-use crate::maze::tiled::Node;
+use crate::maze::Node;
 use crate::util::IsDivisible;
 use std::fmt::Display;
 use std::str::FromStr;
@@ -68,5 +68,40 @@ impl FromStr for UnitShape {
 impl Display for UnitShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.as_str())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::maze::NodeFactory;
+
+    #[test]
+    fn unit_shape_string_roundtrip_works() {
+        for shape in [
+            UnitShape::Triangle,
+            UnitShape::Square,
+            UnitShape::Hexagon,
+            UnitShape::HexagonRectangle,
+            UnitShape::Octagon,
+            UnitShape::OctagonSquare,
+        ] {
+            let s = shape.to_string();
+            assert_eq!(UnitShape::from_str(&s).unwrap(), shape);
+            assert_eq!(shape.as_str(), s);
+        }
+        assert!(UnitShape::from_str("unknown").is_err());
+    }
+
+    #[test]
+    fn variable_side_shapes_depend_on_row_parity() {
+        let f = NodeFactory::new(4, 4);
+        let even = f.at(0, 0).unwrap();
+        let odd = f.at(1, 0).unwrap();
+
+        assert_eq!(UnitShape::HexagonRectangle.sides(even), 6);
+        assert_eq!(UnitShape::HexagonRectangle.sides(odd), 4);
+        assert_eq!(UnitShape::OctagonSquare.sides(even), 8);
+        assert_eq!(UnitShape::OctagonSquare.sides(odd), 4);
     }
 }

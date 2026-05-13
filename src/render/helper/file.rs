@@ -1,4 +1,4 @@
-use crate::maze::tiled::{Maze, MazeData, NodeFactory, UnitShape};
+use crate::maze::{Maze, MazeData, NodeFactory, UnitShape};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -58,4 +58,42 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
             })
             .collect::<MazeData>(),
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::maze::{Maze, NodeFactory, OPEN, UnitShape, VOID};
+
+    fn temp_path(name: &str) -> std::path::PathBuf {
+        let ts = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        std::env::temp_dir().join(format!("{}_{}.maze", name, ts))
+    }
+
+    #[test]
+    fn dump_and_load_roundtrip_preserves_maze() {
+        let mut maze = Maze::new(UnitShape::Square, 2, 3, VOID);
+        let f = NodeFactory::new(2, 3);
+        maze[f.at(0, 0).unwrap()] = OPEN;
+        maze[f.at(1, 2).unwrap()] = OPEN;
+
+        let path = temp_path("amazeing_roundtrip");
+        dump_maze_to_file(&path, &maze);
+        let loaded = load_maze_from_file(&path);
+
+        assert_eq!(loaded.unit_shape, maze.unit_shape);
+        assert_eq!(loaded.data, maze.data);
+
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    #[should_panic]
+    fn load_panics_for_missing_file() {
+        let path = temp_path("amazeing_missing");
+        load_maze_from_file(&path);
+    }
 }
