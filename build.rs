@@ -1,6 +1,6 @@
 use crate::args::AmazeingArgs;
 use clap::CommandFactory;
-use clap_complete::shells::{Bash, Fish, Zsh};
+use clap_complete::shells::{Bash, Elvish, Fish, PowerShell, Zsh};
 
 #[path = "src/cli/args.rs"]
 mod args;
@@ -15,6 +15,8 @@ fn completions(bin_name: &str, out_dir: &str) {
     let command = &mut AmazeingArgs::command();
 
     clap_complete::generate_to(Bash, command, bin_name, out_dir).unwrap();
+    clap_complete::generate_to(Elvish, command, bin_name, out_dir).unwrap();
     clap_complete::generate_to(Fish, command, bin_name, out_dir).unwrap();
+    clap_complete::generate_to(PowerShell, command, bin_name, out_dir).unwrap();
     clap_complete::generate_to(Zsh, command, bin_name, out_dir).unwrap();
 }
