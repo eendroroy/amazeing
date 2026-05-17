@@ -8,6 +8,7 @@ impl ArgUnitShape {
         match self {
             ArgUnitShape::Triangle => UnitShape::Triangle,
             ArgUnitShape::Square => UnitShape::Square,
+            ArgUnitShape::Rhombus => UnitShape::Rhombus,
             ArgUnitShape::Hexagon => UnitShape::Hexagon,
             ArgUnitShape::HexagonRectangle => UnitShape::HexagonRectangle,
             ArgUnitShape::Octagon => UnitShape::Octagon,

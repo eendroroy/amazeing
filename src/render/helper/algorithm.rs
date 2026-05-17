@@ -29,7 +29,9 @@ pub(crate) fn solve_maze(
             solver::simulated_annealing_search(maze, source, destination, heuristic, tracer)
         }
         ArgProcedure::AldousBroder => solver::aldous_broder(maze, source, destination, tracer),
-        ArgProcedure::BidirectionalAStart => solver::bidirectional_a_start(maze, source, destination, heuristic, tracer),
+        ArgProcedure::BidirectionalAStart => {
+            solver::bidirectional_a_start(maze, source, destination, heuristic, tracer)
+        }
         ArgProcedure::AStar => solver::a_star(maze, source, destination, heuristic, tracer),
     };
     println!("Solved maze in {:?}", start.elapsed());
@@ -94,15 +96,27 @@ pub(crate) fn generate_maze(
         }
         ArgProcedure::BidirectionalGreedyBestFirst => {
             let target = destination.unwrap_or_else(|| *sources.first().expect("at least one source is required"));
-            generator::bidirectional_greedy_best_first(maze, sources, target, context.heuristic, context.jumble_factor, tracer)
+            generator::bidirectional_greedy_best_first(
+                maze,
+                sources,
+                target,
+                context.heuristic,
+                context.jumble_factor,
+                tracer,
+            )
         }
         ArgProcedure::SimulatedAnnealingSearch => {
             generator::simulated_annealing_search(maze, sources, destination, context.heuristic, tracer)
         }
         ArgProcedure::AldousBroder => generator::aldous_broder(maze, sources, tracer),
-        ArgProcedure::BidirectionalAStart => {
-            generator::bidirectional_a_start(maze, sources, destination.unwrap(), context.heuristic, context.jumble_factor, tracer)
-        }
+        ArgProcedure::BidirectionalAStart => generator::bidirectional_a_start(
+            maze,
+            sources,
+            destination.unwrap(),
+            context.heuristic,
+            context.jumble_factor,
+            tracer,
+        ),
         ArgProcedure::AStar => {
             let a_star_fn = match context.weight_direction {
                 WeightDirection::Backward => generator::a_star::<DNodeWeightedBackward>,
@@ -152,16 +166,14 @@ pub(crate) fn generate_maze_stream(
             generator::simulated_annealing_search_stream(maze, sources, destination, context.heuristic, emit)
         }
         ArgProcedure::AldousBroder => generator::aldous_broder_stream(maze, sources, emit),
-        ArgProcedure::BidirectionalAStart => {
-            generator::bidirectional_a_start_stream(
-                maze,
-                sources,
-                destination.unwrap(),
-                context.heuristic,
-                context.jumble_factor,
-                emit,
-            )
-        }
+        ArgProcedure::BidirectionalAStart => generator::bidirectional_a_start_stream(
+            maze,
+            sources,
+            destination.unwrap(),
+            context.heuristic,
+            context.jumble_factor,
+            emit,
+        ),
         ArgProcedure::AStar => {
             let a_star_fn = match context.weight_direction {
                 WeightDirection::Backward => generator::a_star_stream::<DNodeWeightedBackward>,

@@ -3,7 +3,7 @@ use crate::maze::{BLOCK, Maze, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
 use crate::render::helper::{current_millis, is_point_in_triangle};
 use crate::render::unit::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
-    SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
+    RhombusUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
 };
 use crate::render::{BORDER, MARGIN};
 use crate::util::IsDivisible;
@@ -264,6 +264,7 @@ impl MazeScene {
         match unit_shape {
             UnitShape::Triangle => Box::new(TriangleUnitShapeFactory::new(zoom)),
             UnitShape::Square => Box::new(SquareUnitShapeFactory::new(zoom)),
+            UnitShape::Rhombus => Box::new(RhombusUnitShapeFactory::new(zoom)),
             UnitShape::Hexagon => Box::new(HexagonUnitShapeFactory::new(zoom)),
             UnitShape::HexagonRectangle => Box::new(HexagonRectangleUnitShapeFactory::new(zoom)),
             UnitShape::Octagon => Box::new(OctagonUnitShapeFactory::new(zoom)),

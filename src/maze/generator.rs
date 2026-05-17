@@ -192,13 +192,7 @@ fn beam_search_emit(
         let mut candidates: Vec<(Node, Node, u32)> = frontier
             .iter()
             .filter(|(node, _)| maze[*node] == BLOCK)
-            .map(|(node, from)| {
-                (
-                    *node,
-                    *from,
-                    heu(*node, destination) + rand::random_range(0..=jumble_factor),
-                )
-            })
+            .map(|(node, from)| (*node, *from, heu(*node, destination) + rand::random_range(0..=jumble_factor)))
             .collect();
 
         if candidates.is_empty() {
@@ -222,11 +216,7 @@ fn beam_search_emit(
                 continue;
             }
 
-            let connector = if maze[from] == OPEN {
-                from
-            } else {
-                connectors.swap_remove(0)
-            };
+            let connector = if maze[from] == OPEN { from } else { connectors.swap_remove(0) };
 
             discovered.insert(node, true);
             parent.insert(node, connector);
@@ -252,11 +242,7 @@ fn beam_search_emit(
             {
                 let (node, from) = frontier.swap_remove(pos);
                 let mut connectors = node.neighbours_open(maze, &maze.unit_shape);
-                let connector = if maze[from] == OPEN {
-                    from
-                } else {
-                    connectors.swap_remove(0)
-                };
+                let connector = if maze[from] == OPEN { from } else { connectors.swap_remove(0) };
 
                 discovered.insert(node, true);
                 parent.insert(node, connector);
@@ -844,7 +830,10 @@ fn bidirectional_a_start_emit(
                     forward.push(DNodeWeightedForward {
                         node: next,
                         cost: cost + maze[next] as u32,
-                        heu_cost: cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
+                        heu_cost: cost
+                            + maze[next] as u32
+                            + heu(next, destination)
+                            + rand::random_range(0..=jumble_factor),
                     });
                 }
             }
@@ -865,7 +854,10 @@ fn bidirectional_a_start_emit(
                     backward.push(DNodeWeightedForward {
                         node: next,
                         cost: cost + maze[next] as u32,
-                        heu_cost: cost + maze[next] as u32 + heu(next, sources[0]) + rand::random_range(0..=jumble_factor),
+                        heu_cost: cost
+                            + maze[next] as u32
+                            + heu(next, sources[0])
+                            + rand::random_range(0..=jumble_factor),
                     });
                 }
             }
@@ -953,13 +945,7 @@ mod tests {
 
         let mut maze_sas = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut trace_sas = Some(vec![]);
-        simulated_annealing_search(
-            &mut maze_sas,
-            &[source],
-            None,
-            manhattan_heuristic,
-            &mut trace_sas,
-        );
+        simulated_annealing_search(&mut maze_sas, &[source], None, manhattan_heuristic, &mut trace_sas);
         assert_eq!(maze_sas[source], OPEN);
         assert!(!trace_sas.unwrap().is_empty());
 
@@ -1004,14 +990,7 @@ mod tests {
         let mut maze_beam = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let mut beam_steps = 0usize;
         let mut emit_beam = |_| beam_steps += 1;
-        beam_search_stream(
-            &mut maze_beam,
-            &[source],
-            destination,
-            manhattan_heuristic,
-            0,
-            &mut emit_beam,
-        );
+        beam_search_stream(&mut maze_beam, &[source], destination, manhattan_heuristic, 0, &mut emit_beam);
         assert!(beam_steps > 0);
 
         let mut maze_bi_gbf = Maze::new(UnitShape::Square, 5, 5, BLOCK);

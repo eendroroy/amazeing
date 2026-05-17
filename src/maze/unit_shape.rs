@@ -7,6 +7,7 @@ use std::str::FromStr;
 pub enum UnitShape {
     Triangle,
     Square,
+    Rhombus,
     #[default]
     Hexagon,
     HexagonRectangle,
@@ -19,6 +20,7 @@ impl UnitShape {
         match self {
             UnitShape::Triangle => "triangle",
             UnitShape::Square => "square",
+            UnitShape::Rhombus => "rhombus",
             UnitShape::Hexagon => "hexagon",
             UnitShape::HexagonRectangle => "hexagon-rectangle",
             UnitShape::Octagon => "octagon",
@@ -30,6 +32,7 @@ impl UnitShape {
         match self {
             UnitShape::Triangle => 3,
             UnitShape::Square => 4,
+            UnitShape::Rhombus => 4,
             UnitShape::Hexagon => 6,
             UnitShape::HexagonRectangle => {
                 if node.row.is_even() {
@@ -56,6 +59,7 @@ impl FromStr for UnitShape {
         match s {
             "triangle" => Ok(UnitShape::Triangle),
             "square" => Ok(UnitShape::Square),
+            "rhombus" => Ok(UnitShape::Rhombus),
             "hexagon" => Ok(UnitShape::Hexagon),
             "hexagon-rectangle" => Ok(UnitShape::HexagonRectangle),
             "octagon" => Ok(UnitShape::Octagon),
@@ -81,6 +85,7 @@ mod tests {
         for shape in [
             UnitShape::Triangle,
             UnitShape::Square,
+            UnitShape::Rhombus,
             UnitShape::Hexagon,
             UnitShape::HexagonRectangle,
             UnitShape::Octagon,
@@ -103,5 +108,7 @@ mod tests {
         assert_eq!(UnitShape::HexagonRectangle.sides(odd), 4);
         assert_eq!(UnitShape::OctagonSquare.sides(even), 8);
         assert_eq!(UnitShape::OctagonSquare.sides(odd), 4);
+        assert_eq!(UnitShape::Rhombus.sides(even), 4);
+        assert_eq!(UnitShape::Rhombus.sides(odd), 4);
     }
 }

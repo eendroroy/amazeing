@@ -136,6 +136,8 @@ pub enum ArgUnitShape {
     Triangle,
     #[clap(alias = "s")]
     Square,
+    #[clap(alias = "r")]
+    Rhombus,
     #[default]
     #[clap(alias = "h")]
     Hexagon,
@@ -152,6 +154,7 @@ impl Display for ArgUnitShape {
         match self {
             ArgUnitShape::Triangle => write!(f, "triangle"),
             ArgUnitShape::Square => write!(f, "square"),
+            ArgUnitShape::Rhombus => write!(f, "rhombus"),
             ArgUnitShape::Hexagon => write!(f, "hexagon"),
             ArgUnitShape::HexagonRectangle => write!(f, "hexagon-rectangle"),
             ArgUnitShape::Octagon => write!(f, "octagon"),
@@ -355,17 +358,9 @@ mod tests {
 
     #[test]
     fn parse_create_with_prim_procedure() {
-        let parsed = AmazeingArgs::try_parse_from([
-            "amazeing",
-            "create",
-            "--rows",
-            "9",
-            "--cols",
-            "11",
-            "--procedure",
-            "prim",
-        ])
-        .expect("create args should parse for prim");
+        let parsed =
+            AmazeingArgs::try_parse_from(["amazeing", "create", "--rows", "9", "--cols", "11", "--procedure", "prim"])
+                .expect("create args should parse for prim");
 
         match parsed.command {
             ArgCommand::Create(create) => {

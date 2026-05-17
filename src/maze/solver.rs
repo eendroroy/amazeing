@@ -716,7 +716,9 @@ pub fn iddfs_emit(
         visited.clear();
         parent.clear();
 
-        if let Some(path) = iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit) {
+        if let Some(path) =
+            iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit)
+        {
             if !path.is_empty() {
                 return path;
             }
@@ -736,12 +738,7 @@ pub fn aldous_broder(maze: &Maze, source: Node, destination: Node, tracer: &mut 
     aldous_broder_emit(maze, source, destination, tracer, &mut noop)
 }
 
-pub fn aldous_broder_stream(
-    maze: &Maze,
-    source: Node,
-    destination: Node,
-    emit: &mut dyn FnMut(Trace),
-) -> Vec<Node> {
+pub fn aldous_broder_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
     let mut tracer = None;
     aldous_broder_emit(maze, source, destination, &mut tracer, emit)
 }
@@ -1104,13 +1101,8 @@ mod tests {
 
         let mut bi_gbf_steps = 0usize;
         let mut emit_bi_gbf = |_| bi_gbf_steps += 1;
-        let path = bidirectional_greedy_best_first_stream(
-            &maze,
-            source,
-            destination,
-            manhattan_heuristic,
-            &mut emit_bi_gbf,
-        );
+        let path =
+            bidirectional_greedy_best_first_stream(&maze, source, destination, manhattan_heuristic, &mut emit_bi_gbf);
         assert!(bi_gbf_steps > 0);
         assert!(!path.is_empty());
 

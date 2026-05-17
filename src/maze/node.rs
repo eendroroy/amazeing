@@ -115,6 +115,13 @@ impl Node {
                 _ => unreachable!(),
             },
             UnitShape::Square | UnitShape::Octagon => vec![self.right(1), self.down(1), self.left(1), self.up(1)],
+            UnitShape::Rhombus => {
+                if self.row.is_even() {
+                    vec![self.down(1), self.left_down(1), self.left_up(1), self.up(1)]
+                } else {
+                    vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
+                }
+            }
             UnitShape::Hexagon => {
                 if self.row.is_even() {
                     vec![self.right(1), self.down(1), self.left_down(1), self.left(1), self.left_up(1), self.up(1)]
@@ -279,12 +286,23 @@ mod tests {
 
         assert_eq!(center_even.neighbours(&UnitShape::Square).len(), 4);
         assert_eq!(center_even.neighbours(&UnitShape::Octagon).len(), 4);
+        assert_eq!(center_even.neighbours(&UnitShape::Rhombus).len(), 4);
+        assert_eq!(center_odd.neighbours(&UnitShape::Rhombus).len(), 4);
         assert_eq!(center_even.neighbours(&UnitShape::Hexagon).len(), 6);
         assert_eq!(center_odd.neighbours(&UnitShape::Hexagon).len(), 6);
         assert_eq!(center_even.neighbours(&UnitShape::HexagonRectangle).len(), 6);
         assert_eq!(center_odd.neighbours(&UnitShape::HexagonRectangle).len(), 4);
         assert_eq!(center_even.neighbours(&UnitShape::OctagonSquare).len(), 8);
         assert_eq!(center_odd.neighbours(&UnitShape::OctagonSquare).len(), 4);
+
+        assert_eq!(
+            center_even.neighbours(&UnitShape::Rhombus),
+            vec![f.at(3, 2).unwrap(), f.at(3, 1).unwrap(), f.at(1, 1).unwrap(), f.at(1, 2).unwrap(),]
+        );
+        assert_eq!(
+            center_odd.neighbours(&UnitShape::Rhombus),
+            vec![f.at(4, 3).unwrap(), f.at(4, 2).unwrap(), f.at(2, 2).unwrap(), f.at(2, 3).unwrap(),]
+        );
     }
 
     #[test]

@@ -129,10 +129,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
-                && (!matches!(
-                    scene.context.procedure,
-                    ArgProcedure::AStar | ArgProcedure::BidirectionalAStart
-                )
+                && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
                     || destination.is_some())
             {
                 current_path.clear();

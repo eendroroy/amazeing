@@ -117,6 +117,7 @@ fn all_maze_shapes_generate_consistently() {
 
     let shapes = [
         UnitShape::Square,
+        UnitShape::Rhombus,
         UnitShape::Triangle,
         UnitShape::Hexagon,
         UnitShape::HexagonRectangle,
@@ -187,13 +188,7 @@ fn all_solver_algorithms_reach_destination() {
     let ab_path = solver::aldous_broder(&maze, source, destination, &mut None);
     assert!(!ab_path.is_empty());
 
-    let bi_astar_path = solver::bidirectional_a_start(
-        &maze,
-        source,
-        destination,
-        manhattan_heuristic,
-        &mut None,
-    );
+    let bi_astar_path = solver::bidirectional_a_start(&maze, source, destination, manhattan_heuristic, &mut None);
     assert!(!bi_astar_path.is_empty());
 
     let sas_path = solver::simulated_annealing_search(&maze, source, destination, manhattan_heuristic, &mut None);
@@ -349,6 +344,9 @@ fn neighborhood_calculations_are_shape_aware() {
 
     let square_neighbors = f.at(2, 2).unwrap().neighbours(&UnitShape::Square);
     assert_eq!(square_neighbors.len(), 4);
+
+    let rhombus_neighbors = f.at(2, 2).unwrap().neighbours(&UnitShape::Rhombus);
+    assert_eq!(rhombus_neighbors.len(), 4);
 
     let hexagon_neighbors = f.at(2, 2).unwrap().neighbours(&UnitShape::Hexagon);
     assert_eq!(hexagon_neighbors.len(), 6);

@@ -3,6 +3,7 @@ mod hexagon_rect;
 mod mesh;
 mod octagon;
 mod octagon_sq;
+mod rhombus;
 mod square;
 mod triangle;
 
@@ -10,6 +11,7 @@ pub(crate) use hexagon::HexagonUnitShapeFactory;
 pub(crate) use hexagon_rect::HexagonRectangleUnitShapeFactory;
 pub(crate) use octagon::OctagonUnitShapeFactory;
 pub(crate) use octagon_sq::OctagonSquareUnitShapeFactory;
+pub(crate) use rhombus::RhombusUnitShapeFactory;
 pub(crate) use square::SquareUnitShapeFactory;
 pub(crate) use triangle::TriangleUnitShapeFactory;
 

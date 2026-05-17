@@ -38,8 +38,8 @@ _amazeing() {
         case $line[1] in
             (create)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon hexagon-rectangle octagon octagon-square)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon hexagon-rectangle octagon octagon-square)' \
+'-u+[Unit shape]:UnitShape:(triangle square rhombus hexagon hexagon-rectangle octagon octagon-square)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square rhombus hexagon hexagon-rectangle octagon octagon-square)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-r+[Number of rows]:ROWS:_default' \
@@ -70,8 +70,8 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (C)
 _arguments "${_arguments_options[@]}" : \
-'-u+[Unit shape]:UnitShape:(triangle square hexagon hexagon-rectangle octagon octagon-square)' \
-'--unit-shape=[Unit shape]:UnitShape:(triangle square hexagon hexagon-rectangle octagon octagon-square)' \
+'-u+[Unit shape]:UnitShape:(triangle square rhombus hexagon hexagon-rectangle octagon octagon-square)' \
+'--unit-shape=[Unit shape]:UnitShape:(triangle square rhombus hexagon hexagon-rectangle octagon octagon-square)' \
 '-m+[File path to dump Maze data]:MAZE:_files' \
 '--maze=[File path to dump Maze data]:MAZE:_files' \
 '-r+[Number of rows]:ROWS:_default' \
