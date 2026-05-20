@@ -239,6 +239,10 @@ pub enum ArgHeuristic {
     Chebyshev,
     #[clap(alias = "o")]
     Octile,
+    /// Exact minimum-step distance for hexagonal (odd-r offset) grids.
+    /// Use this with `--unit-shape hexagon` or `hexagon-rectangle`.
+    #[clap(alias = "x")]
+    Hex,
     #[default]
     #[clap(alias = "d")]
     Dijkstra,
@@ -251,6 +255,7 @@ impl Display for ArgHeuristic {
             ArgHeuristic::Euclidean => write!(f, "euclidean"),
             ArgHeuristic::Chebyshev => write!(f, "chebyshev"),
             ArgHeuristic::Octile => write!(f, "octile"),
+            ArgHeuristic::Hex => write!(f, "hex"),
             ArgHeuristic::Dijkstra => write!(f, "dijkstra"),
         }
     }

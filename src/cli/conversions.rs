@@ -1,5 +1,7 @@
 use crate::cli::{ArgHeuristic, ArgUnitShape, ArgWeightDirection};
-use crate::maze::heuristics::{chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic, octile_heuristic};
+use crate::maze::heuristics::{
+    chebyshev_heuristic, dijkstra_heuristic, euclidean_heuristic, hex_heuristic, manhattan_heuristic, octile_heuristic,
+};
 use crate::maze::node::WeightDirection;
 use crate::maze::{NodeHeuFn, UnitShape};
 
@@ -24,6 +26,7 @@ impl ArgHeuristic {
             ArgHeuristic::Euclidean => euclidean_heuristic,
             ArgHeuristic::Chebyshev => chebyshev_heuristic,
             ArgHeuristic::Octile => octile_heuristic,
+            ArgHeuristic::Hex => hex_heuristic,
             ArgHeuristic::Dijkstra => dijkstra_heuristic,
         }
     }
@@ -37,4 +40,3 @@ impl ArgWeightDirection {
         }
     }
 }
-
