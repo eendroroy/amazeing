@@ -24,11 +24,11 @@ impl Maze {
     }
 
     pub fn rows(&self) -> usize {
-        self.data.iter().len()
+        self.data.len()
     }
 
     pub fn cols(&self) -> usize {
-        self.data.first().unwrap().iter().len()
+        self.data.first().map_or(0, Vec::len)
     }
 }
 

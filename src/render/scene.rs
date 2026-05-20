@@ -249,15 +249,12 @@ impl MazeScene {
     }
 
     pub(crate) fn delay_till_next_frame(&self, current_frame_start_time: u128) {
-        let current_frame_time = (current_millis() - current_frame_start_time) as f32;
-        let minimum_frame_time = (1. / self.context.fps) * 1000.;
-        #[allow(unused_assignments)]
-        let mut time_to_sleep: f32 = 0.;
-        if current_frame_time < minimum_frame_time {
-            time_to_sleep = minimum_frame_time - current_frame_time;
-            std::thread::sleep(std::time::Duration::from_millis(time_to_sleep as u64));
+        let elapsed = (current_millis() - current_frame_start_time) as f32;
+        let minimum_frame_time = 1000. / self.context.fps;
+        if elapsed < minimum_frame_time {
+            let sleep_ms = (minimum_frame_time - elapsed) as u64;
+            std::thread::sleep(std::time::Duration::from_millis(sleep_ms));
         }
-        // println!("Min: {}ms | Current: {}ms | Sleep: {}ms", minimum_frame_time, current_frame_time, time_to_sleep);
     }
 
     fn shape_factory(unit_shape: UnitShape, zoom: f32) -> Box<dyn UnitShapeFactory> {

@@ -4,27 +4,8 @@ use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::maze::node::{DNodeWeightedForward, Node};
 use rand::prelude::SliceRandom;
 use rand::rng;
-use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
 
-#[derive(Debug, Clone, Eq, PartialEq)]
-struct BiAStarNode {
-    node: Node,
-    cost: u32,
-    heu_cost: u32,
-}
-
-impl PartialOrd<Self> for BiAStarNode {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
-impl Ord for BiAStarNode {
-    fn cmp(&self, other: &Self) -> Ordering {
-        other.heu_cost.cmp(&self.heu_cost)
-    }
-}
 
 fn traverse(
     maze: &Maze,
@@ -651,6 +632,8 @@ fn simulated_annealing_search_emit(
     greedy_best_first_emit(maze, source, destination, heu, tracer, emit)
 }
 
+
+#[allow(clippy::too_many_arguments)]
 fn iddfs_depth_limited(
     maze: &Maze,
     source: Node,
@@ -699,7 +682,7 @@ pub fn iddfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<T
     iddfs_emit(maze, source, destination, tracer, &mut noop)
 }
 
-pub fn iddfs_emit(
+fn iddfs_emit(
     maze: &Maze,
     source: Node,
     destination: Node,
@@ -844,8 +827,8 @@ fn bidirectional_a_start_emit(
         return vec![source];
     }
 
-    let mut open_f: BinaryHeap<BiAStarNode> = BinaryHeap::new();
-    let mut open_b: BinaryHeap<BiAStarNode> = BinaryHeap::new();
+    let mut open_f: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
+    let mut open_b: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
 
     let mut g_f: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
     let mut g_b: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
@@ -858,12 +841,12 @@ fn bidirectional_a_start_emit(
     g_f.insert(source, maze[source] as u32);
     g_b.insert(destination, maze[destination] as u32);
 
-    open_f.push(BiAStarNode {
+    open_f.push(DNodeWeightedForward {
         node: source,
         cost: maze[source] as u32,
         heu_cost: maze[source] as u32 + heu(source, destination),
     });
-    open_b.push(BiAStarNode {
+    open_b.push(DNodeWeightedForward {
         node: destination,
         cost: maze[destination] as u32,
         heu_cost: maze[destination] as u32 + heu(destination, source),
@@ -902,7 +885,7 @@ fn bidirectional_a_start_emit(
                 if g_f.get(&next).is_none_or(|best| tentative < *best) {
                     g_f.insert(next, tentative);
                     parent_f.insert(next, current);
-                    open_f.push(BiAStarNode {
+                    open_f.push(DNodeWeightedForward {
                         node: next,
                         cost: tentative,
                         heu_cost: tentative + heu(next, destination),
@@ -940,7 +923,7 @@ fn bidirectional_a_start_emit(
                 if g_b.get(&next).is_none_or(|best| tentative < *best) {
                     g_b.insert(next, tentative);
                     parent_b.insert(next, current);
-                    open_b.push(BiAStarNode {
+                    open_b.push(DNodeWeightedForward {
                         node: next,
                         cost: tentative,
                         heu_cost: tentative + heu(next, source),

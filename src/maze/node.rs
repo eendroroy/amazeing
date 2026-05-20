@@ -18,12 +18,7 @@ impl NodeFactory {
         if row >= self.rows || col >= self.cols {
             None
         } else {
-            Some(Node {
-                row,
-                col,
-                rows: self.rows,
-                cols: self.cols,
-            })
+            Some(Node { row, col, rows: self.rows, cols: self.cols })
         }
     }
 }
@@ -39,19 +34,13 @@ pub struct Node {
 impl Add<(usize, usize)> for Node {
     type Output = Option<Self>;
 
-    fn add(self, rhs: (usize, usize)) -> Self::Output {
-        let row = self.row + rhs.0;
-        let col = self.col + rhs.1;
-
+    fn add(self, (dr, dc): (usize, usize)) -> Self::Output {
+        let row = self.row + dr;
+        let col = self.col + dc;
         if row >= self.rows || col >= self.cols {
             None
         } else {
-            Some(Node {
-                row,
-                col,
-                rows: self.rows,
-                cols: self.cols,
-            })
+            Some(Node { row, col, rows: self.rows, cols: self.cols })
         }
     }
 }
@@ -59,54 +48,35 @@ impl Add<(usize, usize)> for Node {
 impl Sub<(usize, usize)> for Node {
     type Output = Option<Self>;
 
-    fn sub(self, rhs: (usize, usize)) -> Self::Output {
-        if self.row < rhs.0 || self.col < rhs.1 {
+    fn sub(self, (dr, dc): (usize, usize)) -> Self::Output {
+        if self.row < dr || self.col < dc {
             None
         } else {
-            Some(Self {
-                row: self.row - rhs.0,
-                col: self.col - rhs.1,
-                ..self
-            })
+            Some(Self { row: self.row - dr, col: self.col - dc, ..self })
         }
     }
 }
 
 impl Node {
-    pub fn left(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n - (0, steps))
+    #[inline] fn left(self, steps: usize)       -> Option<Self> { self - (0, steps) }
+    #[inline] fn right(self, steps: usize)      -> Option<Self> { self + (0, steps) }
+    #[inline] fn up(self, steps: usize)         -> Option<Self> { self - (steps, 0) }
+    #[inline] fn down(self, steps: usize)       -> Option<Self> { self + (steps, 0) }
+    #[inline] fn left_up(self, steps: usize)    -> Option<Self> { self - (steps, steps) }
+    #[inline] fn right_down(self, steps: usize) -> Option<Self> { self + (steps, steps) }
+
+    #[inline]
+    fn left_down(self, steps: usize) -> Option<Self> {
+        (self + (steps, 0))? - (0, steps)
     }
 
-    pub fn right(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n + (0, steps))
-    }
-
-    pub fn up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n - (steps, 0))
-    }
-
-    pub fn down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n + (steps, 0))
-    }
-
-    pub fn left_up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n - (steps, steps))
-    }
-
-    pub fn left_down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| if let Some(data) = n + (steps, 0) { data - (0, steps) } else { None })
-    }
-
-    pub fn right_up(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| if let Some(data) = n - (steps, 0) { data + (0, steps) } else { None })
-    }
-
-    pub fn right_down(self, steps: usize) -> Box<dyn Fn(Node) -> Option<Node>> {
-        Box::new(move |n| n + (steps, steps))
+    #[inline]
+    fn right_up(self, steps: usize) -> Option<Self> {
+        (self - (steps, 0))? + (0, steps)
     }
 
     pub fn neighbours(self, unit_shape: &UnitShape) -> Vec<Node> {
-        match unit_shape {
+        let opts: Vec<Option<Node>> = match unit_shape {
             UnitShape::Triangle => match self.row % 4 {
                 0 => vec![self.down(1), self.left_down(1), self.up(1)],
                 1 => vec![self.right_up(1), self.down(1), self.up(1)],
@@ -114,7 +84,9 @@ impl Node {
                 3 => vec![self.up(1), self.down(1), self.left_up(1)],
                 _ => unreachable!(),
             },
-            UnitShape::Square | UnitShape::Octagon => vec![self.right(1), self.down(1), self.left(1), self.up(1)],
+            UnitShape::Square | UnitShape::Octagon => {
+                vec![self.right(1), self.down(1), self.left(1), self.up(1)]
+            }
             UnitShape::Rhombus => {
                 if self.row.is_even() {
                     vec![self.down(1), self.left_down(1), self.left_up(1), self.up(1)]
@@ -152,10 +124,8 @@ impl Node {
                     vec![self.right_down(1), self.down(1), self.up(1), self.right_up(1)]
                 }
             }
-        }
-        .iter()
-        .filter_map(|i| i(self))
-        .collect()
+        };
+        opts.into_iter().flatten().collect()
     }
 
     pub fn neighbours_open(self, maze: &Maze, unit_shape: &UnitShape) -> Vec<Node> {
@@ -181,7 +151,7 @@ pub struct DNodeWeightedForward {
     pub(crate) heu_cost: u32,
 }
 
-impl PartialOrd<Self> for DNodeWeightedForward {
+impl PartialOrd for DNodeWeightedForward {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
@@ -197,18 +167,9 @@ impl DNodeWeighted for DNodeWeightedForward {
     fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
         Self { node, cost, heu_cost }
     }
-
-    fn node(&self) -> Node {
-        self.node
-    }
-
-    fn cost(&self) -> u32 {
-        self.cost
-    }
-
-    fn heu_cost(&self) -> u32 {
-        self.heu_cost
-    }
+    fn node(&self) -> Node { self.node }
+    fn cost(&self) -> u32 { self.cost }
+    fn heu_cost(&self) -> u32 { self.heu_cost }
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -218,7 +179,7 @@ pub struct DNodeWeightedBackward {
     pub(crate) heu_cost: u32,
 }
 
-impl PartialOrd<Self> for DNodeWeightedBackward {
+impl PartialOrd for DNodeWeightedBackward {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
@@ -234,18 +195,9 @@ impl DNodeWeighted for DNodeWeightedBackward {
     fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
         Self { node, cost, heu_cost }
     }
-
-    fn node(&self) -> Node {
-        self.node
-    }
-
-    fn cost(&self) -> u32 {
-        self.cost
-    }
-
-    fn heu_cost(&self) -> u32 {
-        self.heu_cost
-    }
+    fn node(&self) -> Node { self.node }
+    fn cost(&self) -> u32 { self.cost }
+    fn heu_cost(&self) -> u32 { self.heu_cost }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -297,11 +249,11 @@ mod tests {
 
         assert_eq!(
             center_even.neighbours(&UnitShape::Rhombus),
-            vec![f.at(3, 2).unwrap(), f.at(3, 1).unwrap(), f.at(1, 1).unwrap(), f.at(1, 2).unwrap(),]
+            vec![f.at(3, 2).unwrap(), f.at(3, 1).unwrap(), f.at(1, 1).unwrap(), f.at(1, 2).unwrap()]
         );
         assert_eq!(
             center_odd.neighbours(&UnitShape::Rhombus),
-            vec![f.at(4, 3).unwrap(), f.at(4, 2).unwrap(), f.at(2, 2).unwrap(), f.at(2, 3).unwrap(),]
+            vec![f.at(4, 3).unwrap(), f.at(4, 2).unwrap(), f.at(2, 2).unwrap(), f.at(2, 3).unwrap()]
         );
     }
 

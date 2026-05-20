@@ -1,14 +1,18 @@
-use crate::app::shared::{get_colors, set_screen_size};
+use crate::app::common::{get_colors, set_screen_size};
 use crate::cli::{AmazeingArgs, AmazeingContext, SolveArgs};
 use crate::render::display_loop::{solve_loop, solve_simulation_loop};
 use crate::render::helper::load_maze_from_file;
 use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: SolveArgs) {
+    let maze = load_maze_from_file(args.maze.as_path());
     let context = AmazeingContext::solve_context(
-        load_maze_from_file(args.maze.as_path()),
-        (args.procedure, args.heuristic_function.heuristic()),
-        (global.zoom, global.fps, global.show_perimeter),
+        maze,
+        args.procedure,
+        args.heuristic_function.heuristic(),
+        global.zoom,
+        global.fps,
+        global.show_perimeter,
     );
 
     let mut scene = MazeScene::new_from_maze(

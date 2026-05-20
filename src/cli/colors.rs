@@ -81,8 +81,12 @@ pub(crate) struct ColorScheme {
 }
 
 impl ColorScheme {
-    pub(crate) fn from(path: &Path) -> Self {
-        toml::from_str(&fs::read_to_string(path).unwrap()).unwrap()
+    /// Load a `ColorScheme` from a TOML file.
+    pub(crate) fn load(path: &Path) -> Self {
+        let content = fs::read_to_string(path)
+            .unwrap_or_else(|e| panic!("Could not read color scheme file {}: {}", path.display(), e));
+        toml::from_str(&content)
+            .unwrap_or_else(|e| panic!("Could not parse color scheme file {}: {}", path.display(), e))
     }
 }
 
@@ -125,7 +129,7 @@ mod tests {
         writeln!(f, "color_traversed=0x888888").unwrap();
         writeln!(f, "color_perimeter=0x999999").unwrap();
 
-        let scheme = ColorScheme::from(&path);
+        let scheme = ColorScheme::load(&path);
         let colors = Colors::from(scheme, 3);
         assert_eq!(colors.color_visiting_gradient.len(), 3);
 

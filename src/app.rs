@@ -1,5 +1,5 @@
+mod common;
 mod create;
-mod shared;
 mod solve;
 mod view;
 
