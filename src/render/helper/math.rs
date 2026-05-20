@@ -41,6 +41,12 @@ pub(crate) fn current_millis() -> u128 {
     std::time::UNIX_EPOCH.elapsed().unwrap().as_millis()
 }
 
+/// Microsecond-precision wall-clock time.  Used for high-FPS frame pacing where
+/// 1 ms granularity would overshoot the target frame budget.
+pub(crate) fn current_micros() -> u128 {
+    std::time::UNIX_EPOCH.elapsed().unwrap().as_micros()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

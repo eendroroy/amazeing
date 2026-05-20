@@ -1,6 +1,6 @@
 use crate::cli::ArgProcedure;
 use crate::maze::{Node, VOID};
-use crate::render::helper::{current_millis, generate_maze, save_maze, take_a_snap};
+use crate::render::helper::{current_micros, generate_maze, save_maze, take_a_snap};
 use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
@@ -10,7 +10,7 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
     let mut generated = false;
 
     loop {
-        let current_frame_start_time = current_millis();
+        let current_frame_start_time = current_micros();
 
         scene.clear_and_draw();
 

@@ -1,5 +1,5 @@
 use crate::maze::Node;
-use crate::render::helper::{current_millis, handle_mouse_click, solve_maze, take_a_snap};
+use crate::render::helper::{current_micros, handle_mouse_click, solve_maze, take_a_snap};
 use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
@@ -9,7 +9,7 @@ pub(crate) async fn solve_loop(scene: &mut MazeScene) {
     let mut path: Vec<Node> = vec![];
 
     loop {
-        let current_frame_start_time = current_millis();
+        let current_frame_start_time = current_micros();
 
         scene.clear_and_draw();
 

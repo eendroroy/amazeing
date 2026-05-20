@@ -1,6 +1,6 @@
 use crate::cli::ArgProcedure;
 use crate::maze::{Maze, Node, Trace, VOID};
-use crate::render::helper::{current_millis, dump_maze_to_file, generate_maze_stream, take_a_snap};
+use crate::render::helper::{current_micros, dump_maze_to_file, generate_maze_stream, take_a_snap};
 use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
@@ -80,7 +80,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
     let mut destination: Option<Node> = None;
 
     loop {
-        let current_frame_start_time = current_millis();
+        let current_frame_start_time = current_micros();
 
         scene.clear_and_draw();
 

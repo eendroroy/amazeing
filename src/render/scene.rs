@@ -1,6 +1,6 @@
 use crate::cli::{AmazeingContext, Colors, ContextType};
-use crate::maze::{BLOCK, Maze, Node, NodeFactory, OPEN, Rank, UnitShape, VOID};
-use crate::render::helper::{current_millis, is_point_in_triangle};
+use crate::maze::{BLOCK, Maze, Node, NodeFactory, OPEN, Rank, UnitShape};
+use crate::render::helper::{current_micros, is_point_in_triangle};
 use crate::render::unit::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     RhombusUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
@@ -8,57 +8,150 @@ use crate::render::unit::{
 use crate::render::{BORDER, MARGIN};
 use crate::util::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
-use std::ops::{Index, IndexMut};
+
+// ── constants ─────────────────────────────────────────────────────────────────
+
+/// macroquad's internal geometry batcher (quad_gl) rejects calls that exceed
+/// these limits and prints "geometry() exceeded max drawcall size, clamping".
+/// We stay a little below the hard limits to leave headroom.
+///
+/// Limits from macroquad 0.4 `src/quad_gl.rs`:
+///   MAX_VERTICES = 10_000
+///   MAX_INDICES  =  5_000
+const CHUNK_MAX_VERTS: usize = 9_900;
+const CHUNK_MAX_INDICES: usize = 4_950;
+
+// ── internal data types ───────────────────────────────────────────────────────
+
+/// Location of a single cell's vertices inside the flat `scene_chunks` array.
+#[derive(Clone, Copy)]
+struct CellLocation {
+    /// Index into `scene_chunks`.
+    chunk: usize,
+    /// First vertex index inside `scene_chunks[chunk].vertices`.
+    vertex_start: usize,
+    /// Number of vertices belonging to this cell.
+    vertex_count: usize,
+}
+
+/// Polygon vertex positions used only for hit-testing.
+/// No colour data is stored here; all colour lives in `scene_chunks`.
+struct CellHitData {
+    positions: Vec<(f32, f32)>,
+}
+
+// ── MazeScene ─────────────────────────────────────────────────────────────────
 
 pub(crate) struct MazeScene {
     pub(crate) context: AmazeingContext,
-    pub(crate) meshes: Vec<Vec<Mesh>>,
     pub(crate) maze: Maze,
     pub(crate) colors: Colors,
     pub(crate) wh: (u32, u32),
     pub(crate) bound: Option<Mesh>,
     pub(crate) rows: usize,
     pub(crate) cols: usize,
+
+    /// Flat rendering geometry.
+    /// All cell polygons are merged into a small number of large Mesh objects
+    /// (typically 3-7 for a 175×285 maze) so that `draw()` issues only that
+    /// many GPU draw calls instead of one per cell (up to ~50 000).
+    scene_chunks: Vec<Mesh>,
+
+    /// For each cell: which chunk it lives in and its vertex range.
+    cell_locations: Vec<Vec<CellLocation>>,
+
+    /// Lightweight per-cell geometry used only for click detection.
+    cell_hitdata: Vec<Vec<CellHitData>>,
 }
 
+// ── construction helpers ──────────────────────────────────────────────────────
+
+#[inline]
+fn cell_color(cell: i8, colors: &Colors) -> Color {
+    match cell {
+        OPEN => colors.color_open,
+        BLOCK => colors.color_block,
+        _ => colors.color_bg,
+    }
+}
+
+/// Build flat scene chunks, per-cell location table, and hit-test data
+/// in a single pass over the maze.
+fn build_scene(
+    maze: &Maze,
+    shape_factory: &dyn UnitShapeFactory,
+    colors: &Colors,
+) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>) {
+    let (rows, cols) = (maze.rows(), maze.cols());
+
+    let mut chunks: Vec<Mesh> = vec![Mesh { vertices: Vec::new(), indices: Vec::new(), texture: None }];
+    let mut locations: Vec<Vec<CellLocation>> = Vec::with_capacity(rows);
+    let mut hitdata: Vec<Vec<CellHitData>> = Vec::with_capacity(rows);
+
+    for r in 0..rows {
+        let mut row_locs = Vec::with_capacity(cols);
+        let mut row_hits = Vec::with_capacity(cols);
+
+        for c in 0..cols {
+            let color = cell_color(maze.data[r][c], colors);
+            let mesh = shape_factory.shape(r, c, rows, cols, color);
+
+            // Collect vertex positions (read-only; used only for hit testing).
+            let positions = mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
+            row_hits.push(CellHitData { positions });
+
+            // Pack this cell into the current chunk, starting a new chunk when
+            // either the vertex count or index count would exceed macroquad's
+            // internal geometry batcher limits.
+            let vcount = mesh.vertices.len();
+            let icount = mesh.indices.len();
+            {
+                let last = chunks.last().unwrap();
+                if last.vertices.len() + vcount > CHUNK_MAX_VERTS
+                    || last.indices.len() + icount > CHUNK_MAX_INDICES
+                {
+                    chunks.push(Mesh { vertices: Vec::new(), indices: Vec::new(), texture: None });
+                }
+            }
+
+            let chunk_idx = chunks.len() - 1;
+            let chunk = chunks.last_mut().unwrap();
+            let vstart = chunk.vertices.len();
+            let base = vstart as u16;
+
+            chunk.vertices.extend_from_slice(&mesh.vertices);
+            for &idx in &mesh.indices {
+                chunk.indices.push(base + idx);
+            }
+
+            row_locs.push(CellLocation { chunk: chunk_idx, vertex_start: vstart, vertex_count: vcount });
+        }
+
+        locations.push(row_locs);
+        hitdata.push(row_hits);
+    }
+
+    (chunks, locations, hitdata)
+}
+
+// ── MazeScene impl ───────────────────────────────────────────────────────────
+
 impl MazeScene {
-    fn new_from(
-        maze: &Maze,
-        context: AmazeingContext,
-        colors: &Colors,
-        shape_factory: Box<dyn UnitShapeFactory>,
-    ) -> Self {
-        let (rows, cols) = (maze.rows(), maze.cols());
-        let meshes = maze
-            .data
-            .iter()
-            .enumerate()
-            .map(|(row, row_data)| {
-                row_data
-                    .iter()
-                    .enumerate()
-                    .map(|(col, &cell)| {
-                        let color = match cell {
-                            OPEN => colors.color_open,
-                            BLOCK => colors.color_block,
-                            VOID => colors.color_bg,
-                            _ => colors.color_bg,
-                        };
-                        shape_factory.shape(row, col, rows, cols, color)
-                    })
-                    .collect::<Vec<Mesh>>()
-            })
-            .collect::<Vec<Vec<Mesh>>>();
+    fn new_from(maze: &Maze, context: AmazeingContext, colors: &Colors, shape_factory: Box<dyn UnitShapeFactory>) -> Self {
+        let wh = shape_factory.wh_for(maze.rows(), maze.cols());
+        let (scene_chunks, cell_locations, cell_hitdata) = build_scene(maze, shape_factory.as_ref(), colors);
 
         let mut scene = Self {
             context,
-            meshes,
             maze: maze.clone(),
             colors: colors.clone(),
-            wh: shape_factory.wh_for(maze.rows(), maze.cols()),
+            wh,
             bound: None,
             rows: maze.rows(),
             cols: maze.cols(),
+            scene_chunks,
+            cell_locations,
+            cell_hitdata,
         };
 
         if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
@@ -79,46 +172,31 @@ impl MazeScene {
         MazeScene::new_from(&Maze::new_void(unit_shape, m_rows, m_cols), context.clone(), colors, shape_factory)
     }
 
-    pub(crate) fn w(&self) -> u32 {
-        self.wh.0
-    }
+    pub(crate) fn w(&self) -> u32 { self.wh.0 }
+    pub(crate) fn h(&self) -> u32 { self.wh.1 }
 
-    pub(crate) fn h(&self) -> u32 {
-        self.wh.1
-    }
-
+    /// Bulk-refresh all cell colours from the current maze state.
+    /// Called after a generation/load that replaced the entire maze.
     pub(crate) fn update(&mut self) {
-        let node_factory = NodeFactory::new(self.rows, self.cols);
         let color_open = self.colors.color_open;
         let color_block = self.colors.color_block;
         let color_bg = self.colors.color_bg;
 
-        // Collect all updates first
-        let updates: Vec<(Node, Color)> = self
-            .maze
-            .data
-            .iter()
-            .enumerate()
-            .flat_map(|(row, row_data)| {
-                row_data
-                    .iter()
-                    .enumerate()
-                    .map(move |(col, &cell)| {
-                        let color = match cell {
-                            OPEN => color_open,
-                            BLOCK => color_block,
-                            VOID => color_bg,
-                            _ => color_bg,
-                        };
-                        (node_factory.at(row, col).unwrap(), color)
-                    })
-                    .collect::<Vec<_>>()
-            })
-            .collect();
-
-        // Apply all updates without borrowing self.maze during the operation
-        for (node, color) in updates {
-            self.update_color(node, color);
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let color = match self.maze.data[r][c] {
+                    OPEN => color_open,
+                    BLOCK => color_block,
+                    _ => color_bg,
+                };
+                let loc = self.cell_locations[r][c];
+                let col: [u8; 4] = color.into();
+                let start = loc.vertex_start;
+                let end = start + loc.vertex_count;
+                for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
+                    v.color = col;
+                }
+            }
         }
     }
 
@@ -137,15 +215,27 @@ impl MazeScene {
         });
 
         if self.context.context_type == ContextType::Create {
-            let node_factory = NodeFactory::new(self.rows, self.cols);
-
-            for r in 0..self.rows {
-                for c in 0..self.cols {
-                    if self.is_mesh_in_bound(&self.meshes[r][c]) {
-                        self.update_color(node_factory.at(r, c).unwrap(), self.colors.color_block);
-                        self.maze[node_factory.at(r, c).unwrap()] = BLOCK;
+            // Determine which cells fall inside the bound before mutating colours
+            // (avoids a simultaneous immutable+mutable borrow of self).
+            let in_bound: Vec<(usize, usize)> = {
+                let bound = self.bound.as_ref().unwrap();
+                let mut result = Vec::new();
+                for r in 0..self.rows {
+                    for c in 0..self.cols {
+                        if Self::cell_in_bound(bound, &self.cell_hitdata[r][c]) {
+                            result.push((r, c));
+                        }
                     }
                 }
+                result
+            };
+
+            let node_factory = NodeFactory::new(self.rows, self.cols);
+            let color_block = self.colors.color_block;
+            for (r, c) in in_bound {
+                let node = node_factory.at(r, c).unwrap();
+                self.update_color(node, color_block);
+                self.maze[node] = BLOCK;
             }
         }
     }
@@ -156,45 +246,38 @@ impl MazeScene {
         self.draw_bound();
     }
 
+    /// Draw the entire scene.  Issues one `draw_mesh` call per chunk —
+    /// typically 3-7 calls regardless of maze size.
     pub(crate) fn draw(&self) {
-        self.meshes.iter().for_each(|row| row.iter().for_each(draw_mesh));
+        self.scene_chunks.iter().for_each(draw_mesh);
     }
 
     pub(crate) fn draw_bound(&self) {
         if !self.context.show_perimeter {
             return;
         }
-
         if let Some(bound) = &self.bound {
-            for i in 0..bound.vertices.len() {
-                if i < bound.vertices.len() - 1 {
-                    draw_line(
-                        bound.vertices[i].position.x,
-                        bound.vertices[i].position.y,
-                        bound.vertices[i + 1].position.x,
-                        bound.vertices[i + 1].position.y,
-                        1.,
-                        self.colors.color_perimeter,
-                    )
-                } else {
-                    draw_line(
-                        bound.vertices[i].position.x,
-                        bound.vertices[i].position.y,
-                        bound.vertices[0].position.x,
-                        bound.vertices[0].position.y,
-                        1.,
-                        self.colors.color_perimeter,
-                    )
-                }
+            let verts = &bound.vertices;
+            let n = verts.len();
+            for i in 0..n {
+                let next = (i + 1) % n;
+                draw_line(
+                    verts[i].position.x,
+                    verts[i].position.y,
+                    verts[next].position.x,
+                    verts[next].position.y,
+                    1.,
+                    self.colors.color_perimeter,
+                );
             }
         }
     }
 
     pub(crate) fn clicked_on(&self, (x, y): (f32, f32)) -> Option<Node> {
-        for (row_idx, row) in self.meshes.iter().enumerate() {
-            for (col_idx, mesh) in row.iter().enumerate() {
-                if self.is_point_in_mesh(mesh, x, y) {
-                    return NodeFactory::new(self.meshes.len(), row.len()).at(row_idx, col_idx);
+        for (row_idx, row) in self.cell_hitdata.iter().enumerate() {
+            for (col_idx, hit) in row.iter().enumerate() {
+                if Self::is_point_in_hit(hit, x, y) {
+                    return NodeFactory::new(self.rows, self.cols).at(row_idx, col_idx);
                 }
             }
         }
@@ -202,12 +285,20 @@ impl MazeScene {
     }
 
     pub(crate) fn update_node(&mut self, node: Node, value: i8, color: Color) {
-        self[node].vertices.iter_mut().for_each(|vertex| vertex.color = color.into());
+        self.update_color(node, color);
         self.maze[node] = value;
     }
 
+    /// Update vertex colours for a single cell in the appropriate scene chunk.
+    /// O(vertices_per_cell) — typically 3-8 vertex writes.
     pub(crate) fn update_color(&mut self, node: Node, color: Color) {
-        self[node].vertices.iter_mut().for_each(|vertex| vertex.color = color.into())
+        let loc = self.cell_locations[node.row][node.col];
+        let c: [u8; 4] = color.into();
+        let start = loc.vertex_start;
+        let end = start + loc.vertex_count;
+        for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
+            v.color = c;
+        }
     }
 
     #[allow(dead_code)]
@@ -248,14 +339,20 @@ impl MazeScene {
         self.update_color(node, self.colors.color_traversed)
     }
 
-    pub(crate) fn delay_till_next_frame(&self, current_frame_start_time: u128) {
-        let elapsed = (current_millis() - current_frame_start_time) as f32;
-        let minimum_frame_time = 1000. / self.context.fps;
-        if elapsed < minimum_frame_time {
-            let sleep_ms = (minimum_frame_time - elapsed) as u64;
-            std::thread::sleep(std::time::Duration::from_millis(sleep_ms));
+    /// Sleep until the next frame deadline using microsecond precision.
+    /// Allows accurate pacing at any FPS value including values above 300.
+    pub(crate) fn delay_till_next_frame(&self, frame_start_us: u128) {
+        let elapsed_us = (current_micros() - frame_start_us) as f64;
+        let target_us = 1_000_000.0 / self.context.fps as f64;
+        if elapsed_us < target_us {
+            let sleep_us = (target_us - elapsed_us) as u64;
+            if sleep_us > 0 {
+                std::thread::sleep(std::time::Duration::from_micros(sleep_us));
+            }
         }
     }
+
+    // ── private helpers ───────────────────────────────────────────────────────
 
     fn shape_factory(unit_shape: UnitShape, zoom: f32) -> Box<dyn UnitShapeFactory> {
         match unit_shape {
@@ -269,73 +366,45 @@ impl MazeScene {
         }
     }
 
-    fn is_point_in_mesh(&self, mesh: &Mesh, x: f32, y: f32) -> bool {
-        let vertices = &mesh.vertices;
-        let indices = &mesh.indices;
-
-        if indices.len() >= 3 {
-            for i in (0..indices.len()).step_by(3) {
-                if i + 2 < indices.len()
-                    && is_point_in_triangle(
-                        (x, y),
-                        (vertices[indices[i] as usize].position.x, vertices[indices[i] as usize].position.y),
-                        (vertices[indices[i + 1] as usize].position.x, vertices[indices[i + 1] as usize].position.y),
-                        (vertices[indices[i + 2] as usize].position.x, vertices[indices[i + 2] as usize].position.y),
-                    )
-                {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    fn is_mesh_in_bound(&self, mesh: &Mesh) -> bool {
-        // Return early if no bound is set
-        let Some(bound) = &self.bound else {
+    /// Triangle-fan hit test for a convex polygon stored in `hit.positions`.
+    fn is_point_in_hit(hit: &CellHitData, x: f32, y: f32) -> bool {
+        let pos = &hit.positions;
+        let n = pos.len();
+        if n < 3 {
             return false;
-        };
+        }
+        for i in 1..n - 1 {
+            if is_point_in_triangle((x, y), pos[0], pos[i], pos[i + 1]) {
+                return true;
+            }
+        }
+        false
+    }
 
-        // Check if all vertices of the mesh are within the bound mesh
-        // Calculate the center of the mesh
-        let (sum_x, sum_y) = mesh
-            .vertices
-            .iter()
-            .fold((0.0, 0.0), |acc, vertex| (acc.0 + vertex.position.x, acc.1 + vertex.position.y));
-        let center_x = sum_x / mesh.vertices.len() as f32;
-        let center_y = sum_y / mesh.vertices.len() as f32;
-        let center_point = (center_x, center_y);
+    /// Returns `true` when the centroid of `hit` lies inside the bound mesh.
+    fn cell_in_bound(bound: &Mesh, hit: &CellHitData) -> bool {
+        let n = hit.positions.len();
+        if n == 0 {
+            return false;
+        }
+        let (sx, sy) = hit.positions.iter().fold((0.0f32, 0.0f32), |acc, &(x, y)| (acc.0 + x, acc.1 + y));
+        let center = (sx / n as f32, sy / n as f32);
 
-        // Check if the center point is inside any triangle of the bound mesh
-        let bound_vertices = &bound.vertices;
-        let bound_indices = &bound.indices;
-
-        for i in (0..bound_indices.len()).step_by(3) {
-            if i + 2 < bound_indices.len() {
-                let v1 = (
-                    bound_vertices[bound_indices[i] as usize].position.x,
-                    bound_vertices[bound_indices[i] as usize].position.y,
-                );
-                let v2 = (
-                    bound_vertices[bound_indices[i + 1] as usize].position.x,
-                    bound_vertices[bound_indices[i + 1] as usize].position.y,
-                );
-                let v3 = (
-                    bound_vertices[bound_indices[i + 2] as usize].position.x,
-                    bound_vertices[bound_indices[i + 2] as usize].position.y,
-                );
-
-                if is_point_in_triangle(center_point, v1, v2, v3) {
+        let bv = &bound.vertices;
+        let bi = &bound.indices;
+        for i in (0..bi.len()).step_by(3) {
+            if i + 2 < bi.len() {
+                let v1 = (bv[bi[i] as usize].position.x, bv[bi[i] as usize].position.y);
+                let v2 = (bv[bi[i + 1] as usize].position.x, bv[bi[i + 1] as usize].position.y);
+                let v3 = (bv[bi[i + 2] as usize].position.x, bv[bi[i + 2] as usize].position.y);
+                if is_point_in_triangle(center, v1, v2, v3) {
                     return true;
                 }
             }
         }
-
         false
     }
 
-    #[allow(clippy::borrowed_box)]
     fn adjust_dimension(unit_shape: UnitShape, rows: usize, cols: usize) -> (usize, usize) {
         match unit_shape {
             UnitShape::Triangle | UnitShape::HexagonRectangle | UnitShape::OctagonSquare => {
@@ -346,16 +415,3 @@ impl MazeScene {
     }
 }
 
-impl Index<Node> for MazeScene {
-    type Output = Mesh;
-
-    fn index(&self, index: Node) -> &Self::Output {
-        &self.meshes[index.row][index.col]
-    }
-}
-
-impl IndexMut<Node> for MazeScene {
-    fn index_mut(&mut self, index: Node) -> &mut Self::Output {
-        &mut self.meshes[index.row][index.col]
-    }
-}

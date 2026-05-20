@@ -1,11 +1,11 @@
 use crate::maze::{BLOCK, OPEN};
-use crate::render::helper::{current_millis, save_maze, take_a_snap};
+use crate::render::helper::{current_micros, save_maze, take_a_snap};
 use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 
 pub(crate) async fn update_loop(scene: &mut MazeScene) {
     loop {
-        let current_frame_start_time = current_millis();
+        let current_frame_start_time = current_micros();
 
         scene.clear_and_draw();
 
