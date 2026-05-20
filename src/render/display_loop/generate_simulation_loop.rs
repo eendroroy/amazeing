@@ -11,11 +11,66 @@ enum GenerationEvent {
     Done(Maze),
 }
 
+/// Returns true if `node` is any of the selected sources or the destination.
+/// These should never be overwritten during trace rendering.
+#[inline]
+fn is_pinned(node: &Node, sources: &[Node], destination: Option<Node>) -> bool {
+    sources.contains(node) || destination.is_some_and(|d| d == *node)
+}
+
+/// Update the per-walker trace overlay without disturbing other walkers.
+///
+/// Each emitted `Trace` represents the path from a walker's root (source) to its
+/// current frontier node.  The root is the entry with the lowest rank value.
+/// We key `active_paths` by that root so each walker gets its own independent slot.
+///
+/// When a slot is refreshed we only clear cells that (a) left the new path AND
+/// (b) are not part of any other walker's current path — preventing cross-walker
+/// flicker.
+fn apply_step(
+    step: Trace,
+    active_paths: &mut HashMap<Node, Trace>,
+    scene: &mut MazeScene,
+    sources: &[Node],
+    destination: Option<Node>,
+) {
+    // Identify walker root = node with the minimum rank in this trace.
+    let Some(root) = step.iter().min_by_key(|(_, r)| **r).map(|(n, _)| *n) else {
+        return;
+    };
+
+    // Collect every node that belongs to a *different* walker's active path.
+    let other_nodes: std::collections::HashSet<Node> = active_paths
+        .iter()
+        .filter(|(k, _)| **k != root)
+        .flat_map(|(_, t)| t.keys().copied())
+        .collect();
+
+    // Clear cells that are leaving this walker's highlighted path.
+    if let Some(old) = active_paths.get(&root) {
+        for node in old.keys() {
+            if !step.contains_key(node) && !other_nodes.contains(node) && !is_pinned(node, sources, destination) {
+                scene.display_open(*node);
+            }
+        }
+    }
+
+    // Highlight the new path for this walker.
+    for (node, rank) in &step {
+        if !is_pinned(node, sources, destination) {
+            scene.display_visiting_gradient(*node, rank);
+        }
+    }
+
+    active_paths.insert(root, step);
+}
+
 pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
     let initial_maze = scene.maze.clone();
     let mut generation_events: Option<Receiver<GenerationEvent>> = None;
 
-    let mut current_path: Trace = HashMap::new();
+    // One Trace slot per walker (keyed by walker root / source node).
+    let mut active_paths: HashMap<Node, Trace> = HashMap::new();
 
     let mut trace_complete = false;
     let mut simulating = false;
@@ -34,7 +89,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             scene.update();
             sources.clear();
             destination = None;
-            current_path.clear();
+            active_paths.clear();
             generation_events = None;
             trace_complete = false;
             simulating = false;
@@ -50,36 +105,22 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 && !trace_complete
                 && let Some(receiver) = &generation_events
             {
-                // Process a small burst of frames per render so UI stays responsive.
+                // Process a small burst of steps per render so UI stays responsive.
                 for _ in 0..4 {
                     match receiver.try_recv() {
                         Ok(GenerationEvent::Step(step)) => {
-                            current_path.iter().for_each(|(node, _)| {
-                                if sources.first().is_none_or(|source| source.ne(node))
-                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
-                                {
-                                    scene.display_open(*node)
-                                }
-                            });
-
-                            current_path = step;
-
-                            current_path.iter().for_each(|(node, rank)| {
-                                if sources.first().is_none_or(|source| source.ne(node))
-                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
-                                {
-                                    scene.display_visiting_gradient(*node, rank)
-                                }
-                            });
+                            apply_step(step, &mut active_paths, scene, sources, destination);
                         }
                         Ok(GenerationEvent::Done(final_maze)) => {
-                            current_path.iter().for_each(|(node, _)| {
-                                if sources.first().is_none_or(|source| source.ne(node))
-                                    && (destination.is_none() || destination.is_some_and(|d| d.ne(node)))
-                                {
-                                    scene.display_open(*node)
+                            // Clear all walker overlays before showing the finished maze.
+                            for path in active_paths.values() {
+                                for node in path.keys() {
+                                    if !is_pinned(node, sources, destination) {
+                                        scene.display_open(*node);
+                                    }
                                 }
-                            });
+                            }
+                            active_paths.clear();
                             scene.maze = final_maze;
                             if let Some(maze_file_path) = scene.context.maze_file_path.clone() {
                                 dump_maze_to_file(&maze_file_path, &scene.maze);
@@ -132,7 +173,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
                     || destination.is_some())
             {
-                current_path.clear();
+                active_paths.clear();
                 let mut worker_maze = scene.maze.clone();
                 let worker_sources = sources.clone();
                 let worker_destination = destination;
