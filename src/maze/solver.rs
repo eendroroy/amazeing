@@ -2,10 +2,30 @@ use super::helper::{reconstruct_path, reconstruct_trace_path, validate};
 use super::structure::Maze;
 use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::maze::node::{DNodeWeightedForward, Node};
-use rand::prelude::SliceRandom;
-use rand::rng;
-use std::collections::{BTreeMap, BinaryHeap, HashMap, VecDeque};
+use std::collections::{BinaryHeap, HashMap, HashSet, VecDeque};
 
+
+// ---------------------------------------------------------------------------
+// Inline helper: build and dispatch a trace step only when needed.
+// Skipping reconstruct_trace_path in non-simulation mode eliminates
+// O(depth) HashMap allocations per visited node.
+// ---------------------------------------------------------------------------
+#[inline]
+fn emit_step(
+    current: Node,
+    parent: &HashMap<Node, Node>,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
+    if needs_trace {
+        let step = reconstruct_trace_path(current, parent);
+        if let Some(t) = tracer {
+            t.push(step.clone());
+        }
+        emit(step);
+    }
+}
 
 fn traverse(
     maze: &Maze,
@@ -15,8 +35,9 @@ fn traverse(
     pop: Pop,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    traverse_emit(maze, source, destination, push, pop, tracer, &mut noop)
+    traverse_impl(maze, source, destination, push, pop, tracer, &mut noop, needs_trace)
 }
 
 fn traverse_emit(
@@ -28,30 +49,42 @@ fn traverse_emit(
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
+    traverse_impl(maze, source, destination, push, pop, tracer, emit, true)
+}
+
+fn traverse_impl(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    push: Push,
+    pop: Pop,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) -> Vec<Node> {
     let storage = &mut VecDeque::new();
     validate(maze, source, destination);
 
-    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    // HashSet replaces HashMap<Node, bool> — saves memory and simplifies API.
+    let mut visited: HashSet<Node> = HashSet::with_capacity(maze.rows() * maze.cols());
+    // HashMap replaces BTreeMap — O(1) vs O(log n) per lookup/insert.
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(maze.rows() * maze.cols());
 
     push(storage, source);
 
     while let Some(current) = pop(storage) {
-        visited.insert(current, true);
-
-        let step = reconstruct_trace_path(current, &parent);
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
+        if !visited.insert(current) {
+            continue;
         }
-        emit(step);
+
+        emit_step(current, &parent, tracer, emit, needs_trace);
 
         if current == destination {
-            let path = reconstruct_path(destination, &parent);
-            return path;
+            return reconstruct_path(destination, &parent);
         }
 
         for next in current.neighbours_open(maze, &maze.unit_shape) {
-            if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+            if !visited.contains(&next) {
                 parent.insert(next, current);
                 push(storage, next);
             }
@@ -68,8 +101,9 @@ fn weighted_traverse(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    weighted_traverse_emit(maze, source, destination, heu, tracer, &mut noop)
+    weighted_traverse_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 fn weighted_traverse_emit(
@@ -80,13 +114,25 @@ fn weighted_traverse_emit(
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
+    weighted_traverse_impl(maze, source, destination, heu, tracer, emit, true)
+}
+
+fn weighted_traverse_impl(
+    maze: &Maze,
+    source: Node,
+    destination: Node,
+    heu: NodeHeuFn,
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) -> Vec<Node> {
     validate(maze, source, destination);
 
     let capacity = maze.rows() * maze.cols();
 
     let mut storage: BinaryHeap<DNodeWeightedForward> = BinaryHeap::with_capacity(capacity);
-    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(capacity);
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut visited: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
     storage.push(DNodeWeightedForward {
         node: source,
@@ -96,21 +142,18 @@ fn weighted_traverse_emit(
 
     while let Some(node) = storage.pop() {
         let (current, cost, _) = (node.node, node.cost, node.heu_cost);
-        visited.insert(current, true);
-
-        let step = reconstruct_trace_path(current, &parent);
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
+        if !visited.insert(current) {
+            continue;
         }
-        emit(step);
+
+        emit_step(current, &parent, tracer, emit, needs_trace);
 
         if current == destination {
-            let path = reconstruct_path(destination, &parent);
-            return path;
+            return reconstruct_path(destination, &parent);
         }
 
         for next in current.neighbours_open(maze, &maze.unit_shape) {
-            if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
+            if !visited.contains(&next) {
                 parent.insert(next, current);
                 storage.push(DNodeWeightedForward {
                     node: next,
@@ -148,7 +191,6 @@ pub fn dfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn F
     let push = |s: &mut VecDeque<Node>, n: Node| s.push_back(n);
     let pop = |s: &mut VecDeque<Node>| s.pop_back();
     let mut tracer = None;
-
     traverse_emit(maze, source, destination, push, pop, &mut tracer, emit)
 }
 
@@ -159,8 +201,9 @@ pub fn beam_search(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    beam_search_emit(maze, source, destination, heu, tracer, &mut noop)
+    beam_search_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 pub fn beam_search_stream(
@@ -171,43 +214,39 @@ pub fn beam_search_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    beam_search_emit(maze, source, destination, heu, &mut tracer, emit)
+    beam_search_impl(maze, source, destination, heu, &mut tracer, emit, true)
 }
 
-fn beam_search_emit(
+fn beam_search_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
     const BEAM_WIDTH: usize = 16;
     let mut current_layer = vec![source];
-    let mut discovered: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut discovered: HashSet<Node> = HashSet::with_capacity(maze.rows() * maze.cols());
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(maze.rows() * maze.cols());
 
-    discovered.insert(source, true);
+    discovered.insert(source);
 
     while !current_layer.is_empty() {
         let mut next_candidates: Vec<Node> = Vec::new();
 
         for current in current_layer {
-            let step = reconstruct_trace_path(current, &parent);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+            emit_step(current, &parent, tracer, emit, needs_trace);
 
             if current == destination {
                 return reconstruct_path(destination, &parent);
             }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
-                if discovered.get(&next).is_none_or(|seen| !*seen) {
-                    discovered.insert(next, true);
+                if discovered.insert(next) {
                     parent.insert(next, current);
                     next_candidates.push(next);
                 }
@@ -231,8 +270,9 @@ pub fn greedy_best_first(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    greedy_best_first_emit(maze, source, destination, heu, tracer, &mut noop)
+    greedy_best_first_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 pub fn greedy_best_first_stream(
@@ -243,25 +283,27 @@ pub fn greedy_best_first_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    greedy_best_first_emit(maze, source, destination, heu, &mut tracer, emit)
+    greedy_best_first_impl(maze, source, destination, heu, &mut tracer, emit, true)
 }
 
-fn greedy_best_first_emit(
+fn greedy_best_first_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
-    let mut storage: BinaryHeap<DNodeWeightedForward> = BinaryHeap::with_capacity(maze.rows() * maze.cols());
-    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut discovered: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let capacity = maze.rows() * maze.cols();
+    let mut storage: BinaryHeap<DNodeWeightedForward> = BinaryHeap::with_capacity(capacity);
+    let mut visited: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut discovered: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
-    discovered.insert(source, true);
+    discovered.insert(source);
     storage.push(DNodeWeightedForward {
         node: source,
         cost: 0,
@@ -270,24 +312,18 @@ fn greedy_best_first_emit(
 
     while let Some(node) = storage.pop() {
         let current = node.node;
-        if visited.get(&current).is_some_and(|v| *v) {
+        if !visited.insert(current) {
             continue;
         }
 
-        visited.insert(current, true);
-        let step = reconstruct_trace_path(current, &parent);
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
-        }
-        emit(step);
+        emit_step(current, &parent, tracer, emit, needs_trace);
 
         if current == destination {
             return reconstruct_path(destination, &parent);
         }
 
         for next in current.neighbours_open(maze, &maze.unit_shape) {
-            if discovered.get(&next).is_none_or(|seen| !*seen) {
-                discovered.insert(next, true);
+            if discovered.insert(next) {
                 parent.insert(next, current);
                 storage.push(DNodeWeightedForward {
                     node: next,
@@ -302,8 +338,9 @@ fn greedy_best_first_emit(
 }
 
 pub fn bidirectional_bfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    bidirectional_bfs_emit(maze, source, destination, tracer, &mut noop)
+    bidirectional_bfs_impl(maze, source, destination, tracer, &mut noop, needs_trace)
 }
 
 pub fn bidirectional_bfs_stream(
@@ -313,69 +350,54 @@ pub fn bidirectional_bfs_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    bidirectional_bfs_emit(maze, source, destination, &mut tracer, emit)
+    bidirectional_bfs_impl(maze, source, destination, &mut tracer, emit, true)
 }
 
-fn bidirectional_bfs_emit(
+fn bidirectional_bfs_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
     if source == destination {
-        let step = reconstruct_trace_path(source, &BTreeMap::new());
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
-        }
-        emit(step);
+        let empty_parent: HashMap<Node, Node> = HashMap::new();
+        emit_step(source, &empty_parent, tracer, emit, needs_trace);
         return vec![source];
     }
 
     let mut queue_f: VecDeque<Node> = VecDeque::new();
     let mut queue_b: VecDeque<Node> = VecDeque::new();
 
-    let mut visited_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut visited_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
-    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+    let capacity = maze.rows() * maze.cols();
+    let mut visited_f: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut visited_b: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent_f: HashMap<Node, Node> = HashMap::with_capacity(capacity);
+    let mut parent_b: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
     queue_f.push_back(source);
     queue_b.push_back(destination);
-    visited_f.insert(source, true);
-    visited_b.insert(destination, true);
+    visited_f.insert(source);
+    visited_b.insert(destination);
 
-    let source_step = reconstruct_trace_path(source, &parent_f);
-    if let Some(trace) = tracer {
-        trace.push(source_step.clone());
-    }
-    emit(source_step);
-
-    let destination_step = reconstruct_trace_path(destination, &parent_b);
-    if let Some(trace) = tracer {
-        trace.push(destination_step.clone());
-    }
-    emit(destination_step);
+    emit_step(source, &parent_f, tracer, emit, needs_trace);
+    emit_step(destination, &parent_b, tracer, emit, needs_trace);
 
     while !queue_f.is_empty() && !queue_b.is_empty() {
         let len_f = queue_f.len();
         for _ in 0..len_f {
             if let Some(current) = queue_f.pop_front() {
                 for next in current.neighbours_open(maze, &maze.unit_shape) {
-                    if visited_f.get(&next).is_none_or(|seen| !*seen) {
-                        visited_f.insert(next, true);
+                    if visited_f.insert(next) {
                         parent_f.insert(next, current);
                         queue_f.push_back(next);
 
-                        let step = reconstruct_trace_path(next, &parent_f);
-                        if let Some(trace) = tracer {
-                            trace.push(step.clone());
-                        }
-                        emit(step);
+                        emit_step(next, &parent_f, tracer, emit, needs_trace);
 
-                        if visited_b.get(&next).is_some_and(|seen| *seen) {
+                        if visited_b.contains(&next) {
                             let mut path = reconstruct_path(next, &parent_f);
                             let mut cursor = next;
                             while let Some(back_parent) = parent_b.get(&cursor) {
@@ -393,18 +415,13 @@ fn bidirectional_bfs_emit(
         for _ in 0..len_b {
             if let Some(current) = queue_b.pop_front() {
                 for next in current.neighbours_open(maze, &maze.unit_shape) {
-                    if visited_b.get(&next).is_none_or(|seen| !*seen) {
-                        visited_b.insert(next, true);
+                    if visited_b.insert(next) {
                         parent_b.insert(next, current);
                         queue_b.push_back(next);
 
-                        let step = reconstruct_trace_path(next, &parent_b);
-                        if let Some(trace) = tracer {
-                            trace.push(step.clone());
-                        }
-                        emit(step);
+                        emit_step(next, &parent_b, tracer, emit, needs_trace);
 
-                        if visited_f.get(&next).is_some_and(|seen| *seen) {
+                        if visited_f.contains(&next) {
                             let mut path = reconstruct_path(next, &parent_f);
                             let mut cursor = next;
                             while let Some(back_parent) = parent_b.get(&cursor) {
@@ -429,8 +446,9 @@ pub fn bidirectional_greedy_best_first(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    bidirectional_greedy_best_first_emit(maze, source, destination, heu, tracer, &mut noop)
+    bidirectional_greedy_best_first_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 pub fn bidirectional_greedy_best_first_stream(
@@ -441,30 +459,32 @@ pub fn bidirectional_greedy_best_first_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    bidirectional_greedy_best_first_emit(maze, source, destination, heu, &mut tracer, emit)
+    bidirectional_greedy_best_first_impl(maze, source, destination, heu, &mut tracer, emit, true)
 }
 
-fn bidirectional_greedy_best_first_emit(
+fn bidirectional_greedy_best_first_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
+    let capacity = maze.rows() * maze.cols();
     let mut open_f: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
     let mut open_b: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
-    let mut discovered_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut discovered_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut visited_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut visited_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
-    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut discovered_f: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut discovered_b: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut visited_f: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut visited_b: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent_f: HashMap<Node, Node> = HashMap::with_capacity(capacity);
+    let mut parent_b: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
-    discovered_f.insert(source, true);
-    discovered_b.insert(destination, true);
+    discovered_f.insert(source);
+    discovered_b.insert(destination);
 
     open_f.push(DNodeWeightedForward {
         node: source,
@@ -480,18 +500,13 @@ fn bidirectional_greedy_best_first_emit(
     while !open_f.is_empty() && !open_b.is_empty() {
         if let Some(front) = open_f.pop() {
             let current = front.node;
-            if visited_f.get(&current).is_some_and(|seen| *seen) {
+            if !visited_f.insert(current) {
                 continue;
             }
-            visited_f.insert(current, true);
 
-            let step = reconstruct_trace_path(current, &parent_f);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+            emit_step(current, &parent_f, tracer, emit, needs_trace);
 
-            if visited_b.get(&current).is_some_and(|seen| *seen) {
+            if visited_b.contains(&current) {
                 let mut path = reconstruct_path(current, &parent_f);
                 let mut cursor = current;
                 while let Some(back_parent) = parent_b.get(&cursor) {
@@ -502,8 +517,7 @@ fn bidirectional_greedy_best_first_emit(
             }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
-                if discovered_f.get(&next).is_none_or(|seen| !*seen) {
-                    discovered_f.insert(next, true);
+                if discovered_f.insert(next) {
                     parent_f.insert(next, current);
                     open_f.push(DNodeWeightedForward {
                         node: next,
@@ -516,18 +530,13 @@ fn bidirectional_greedy_best_first_emit(
 
         if let Some(back) = open_b.pop() {
             let current = back.node;
-            if visited_b.get(&current).is_some_and(|seen| *seen) {
+            if !visited_b.insert(current) {
                 continue;
             }
-            visited_b.insert(current, true);
 
-            let step = reconstruct_trace_path(current, &parent_b);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+            emit_step(current, &parent_b, tracer, emit, needs_trace);
 
-            if visited_f.get(&current).is_some_and(|seen| *seen) {
+            if visited_f.contains(&current) {
                 let mut path = reconstruct_path(current, &parent_f);
                 let mut cursor = current;
                 while let Some(back_parent) = parent_b.get(&cursor) {
@@ -538,8 +547,7 @@ fn bidirectional_greedy_best_first_emit(
             }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
-                if discovered_b.get(&next).is_none_or(|seen| !*seen) {
-                    discovered_b.insert(next, true);
+                if discovered_b.insert(next) {
                     parent_b.insert(next, current);
                     open_b.push(DNodeWeightedForward {
                         node: next,
@@ -561,8 +569,9 @@ pub fn simulated_annealing_search(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    simulated_annealing_search_emit(maze, source, destination, heu, tracer, &mut noop)
+    simulated_annealing_search_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 pub fn simulated_annealing_search_stream(
@@ -573,34 +582,31 @@ pub fn simulated_annealing_search_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    simulated_annealing_search_emit(maze, source, destination, heu, &mut tracer, emit)
+    simulated_annealing_search_impl(maze, source, destination, heu, &mut tracer, emit, true)
 }
 
-fn simulated_annealing_search_emit(
+fn simulated_annealing_search_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
     let mut current = source;
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
-    let mut discovered: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    discovered.insert(source, true);
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut discovered: HashSet<Node> = HashSet::with_capacity(maze.rows() * maze.cols());
+    discovered.insert(source);
 
     let mut temperature = (maze.rows() + maze.cols()).max(2) as f32;
     let cooling = 0.995f32;
     let max_steps = maze.rows().saturating_mul(maze.cols()).saturating_mul(256);
 
     for _ in 0..max_steps {
-        let step = reconstruct_trace_path(current, &parent);
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
-        }
-        emit(step);
+        emit_step(current, &parent, tracer, emit, needs_trace);
 
         if current == destination {
             return reconstruct_path(destination, &parent);
@@ -618,8 +624,7 @@ fn simulated_annealing_search_emit(
         let accept = delta <= 0.0 || rand::random::<f32>() < (-delta / temperature.max(0.001)).exp();
 
         if accept {
-            if discovered.get(&candidate).is_none_or(|seen| !*seen) {
-                discovered.insert(candidate, true);
+            if discovered.insert(candidate) {
                 parent.insert(candidate, current);
             }
             current = candidate;
@@ -629,9 +634,8 @@ fn simulated_annealing_search_emit(
     }
 
     // Fallback keeps behavior deterministic for difficult random walks.
-    greedy_best_first_emit(maze, source, destination, heu, tracer, emit)
+    greedy_best_first_impl(maze, source, destination, heu, tracer, emit, needs_trace)
 }
-
 
 #[allow(clippy::too_many_arguments)]
 fn iddfs_depth_limited(
@@ -639,36 +643,32 @@ fn iddfs_depth_limited(
     source: Node,
     destination: Node,
     max_depth: usize,
-    visited: &mut HashMap<Node, bool>,
-    parent: &mut BTreeMap<Node, Node>,
+    visited: &mut HashSet<Node>,
+    parent: &mut HashMap<Node, Node>,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Option<Vec<Node>> {
     let mut stack: Vec<(Node, usize)> = vec![(source, 0)];
     let mut found_path: Option<Vec<Node>> = None;
 
     while let Some((current, depth)) = stack.pop() {
-        if !visited.contains_key(&current) || !(*visited.get(&current).unwrap()) {
-            visited.insert(current, true);
+        if !visited.insert(current) {
+            continue;
+        }
 
-            let step = reconstruct_trace_path(current, parent);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+        emit_step(current, parent, tracer, emit, needs_trace);
 
-            if current == destination {
-                let path = reconstruct_path(destination, parent);
-                found_path = Some(path);
-                break;
-            }
+        if current == destination {
+            found_path = Some(reconstruct_path(destination, parent));
+            break;
+        }
 
-            if depth < max_depth {
-                for next in current.neighbours_open(maze, &maze.unit_shape) {
-                    if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
-                        parent.insert(next, current);
-                        stack.push((next, depth + 1));
-                    }
+        if depth < max_depth {
+            for next in current.neighbours_open(maze, &maze.unit_shape) {
+                if !visited.contains(&next) {
+                    parent.insert(next, current);
+                    stack.push((next, depth + 1));
                 }
             }
         }
@@ -678,29 +678,31 @@ fn iddfs_depth_limited(
 }
 
 pub fn iddfs(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    iddfs_emit(maze, source, destination, tracer, &mut noop)
+    iddfs_impl(maze, source, destination, tracer, &mut noop, needs_trace)
 }
 
-fn iddfs_emit(
+fn iddfs_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
-    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let capacity = maze.rows() * maze.cols();
+    let mut visited: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
-    // Try increasing depth limits
     for depth_limit in 0..=(maze.rows() * maze.cols()) {
         visited.clear();
         parent.clear();
 
         if let Some(path) =
-            iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit)
+            iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit, needs_trace)
         {
             if !path.is_empty() {
                 return path;
@@ -713,39 +715,38 @@ fn iddfs_emit(
 
 pub fn iddfs_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
     let mut tracer = None;
-    iddfs_emit(maze, source, destination, &mut tracer, emit)
+    iddfs_impl(maze, source, destination, &mut tracer, emit, true)
 }
 
 pub fn aldous_broder(maze: &Maze, source: Node, destination: Node, tracer: &mut Option<Tracer>) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    aldous_broder_emit(maze, source, destination, tracer, &mut noop)
+    aldous_broder_impl(maze, source, destination, tracer, &mut noop, needs_trace)
 }
 
 pub fn aldous_broder_stream(maze: &Maze, source: Node, destination: Node, emit: &mut dyn FnMut(Trace)) -> Vec<Node> {
     let mut tracer = None;
-    aldous_broder_emit(maze, source, destination, &mut tracer, emit)
+    aldous_broder_impl(maze, source, destination, &mut tracer, emit, true)
 }
 
-fn aldous_broder_emit(
+fn aldous_broder_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
-    let mut visited: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut parent: BTreeMap<Node, Node> = BTreeMap::new();
+    let capacity = maze.rows() * maze.cols();
+    let mut visited: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut parent: HashMap<Node, Node> = HashMap::with_capacity(capacity);
     let mut current = source;
 
-    visited.insert(source, true);
+    visited.insert(source);
 
-    let first_step = reconstruct_trace_path(source, &parent);
-    if let Some(trace) = tracer {
-        trace.push(first_step.clone());
-    }
-    emit(first_step);
+    emit_step(source, &parent, tracer, emit, needs_trace);
 
     if source == destination {
         return vec![source];
@@ -759,24 +760,19 @@ fn aldous_broder_emit(
         .saturating_mul(64);
 
     for _ in 0..max_steps {
-        let mut options = current.neighbours_open(maze, &maze.unit_shape);
+        let options = current.neighbours_open(maze, &maze.unit_shape);
         if options.is_empty() {
             return Vec::new();
         }
-        options.shuffle(&mut rng());
-        let next = options[0];
+        // Direct random pick: O(1) vs O(n) shuffle-then-index
+        let next = options[rand::random_range(0..options.len())];
 
-        if !visited.contains_key(&next) || !(*visited.get(&next).unwrap()) {
-            visited.insert(next, true);
+        if visited.insert(next) {
             parent.insert(next, current);
         }
 
         current = next;
-        let step = reconstruct_trace_path(current, &parent);
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
-        }
-        emit(step);
+        emit_step(current, &parent, tracer, emit, needs_trace);
 
         if current == destination {
             return reconstruct_path(destination, &parent);
@@ -793,8 +789,9 @@ pub fn bidirectional_a_start(
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
 ) -> Vec<Node> {
+    let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    bidirectional_a_start_emit(maze, source, destination, heu, tracer, &mut noop)
+    bidirectional_a_start_impl(maze, source, destination, heu, tracer, &mut noop, needs_trace)
 }
 
 pub fn bidirectional_a_start_stream(
@@ -805,38 +802,37 @@ pub fn bidirectional_a_start_stream(
     emit: &mut dyn FnMut(Trace),
 ) -> Vec<Node> {
     let mut tracer = None;
-    bidirectional_a_start_emit(maze, source, destination, heu, &mut tracer, emit)
+    bidirectional_a_start_impl(maze, source, destination, heu, &mut tracer, emit, true)
 }
 
-fn bidirectional_a_start_emit(
+fn bidirectional_a_start_impl(
     maze: &Maze,
     source: Node,
     destination: Node,
     heu: NodeHeuFn,
     tracer: &mut Option<Tracer>,
     emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
 ) -> Vec<Node> {
     validate(maze, source, destination);
 
     if source == destination {
-        let step = reconstruct_trace_path(source, &BTreeMap::new());
-        if let Some(trace) = tracer {
-            trace.push(step.clone());
-        }
-        emit(step);
+        let empty_parent: HashMap<Node, Node> = HashMap::new();
+        emit_step(source, &empty_parent, tracer, emit, needs_trace);
         return vec![source];
     }
 
+    let capacity = maze.rows() * maze.cols();
     let mut open_f: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
     let mut open_b: BinaryHeap<DNodeWeightedForward> = BinaryHeap::new();
 
-    let mut g_f: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut g_b: HashMap<Node, u32> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut closed_f: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
-    let mut closed_b: HashMap<Node, bool> = HashMap::with_capacity(maze.rows() * maze.cols());
+    let mut g_f: HashMap<Node, u32> = HashMap::with_capacity(capacity);
+    let mut g_b: HashMap<Node, u32> = HashMap::with_capacity(capacity);
+    let mut closed_f: HashSet<Node> = HashSet::with_capacity(capacity);
+    let mut closed_b: HashSet<Node> = HashSet::with_capacity(capacity);
 
-    let mut parent_f: BTreeMap<Node, Node> = BTreeMap::new();
-    let mut parent_b: BTreeMap<Node, Node> = BTreeMap::new();
+    let mut parent_f: HashMap<Node, Node> = HashMap::with_capacity(capacity);
+    let mut parent_b: HashMap<Node, Node> = HashMap::with_capacity(capacity);
 
     g_f.insert(source, maze[source] as u32);
     g_b.insert(destination, maze[destination] as u32);
@@ -863,20 +859,16 @@ fn bidirectional_a_start_emit(
                 continue;
             }
 
-            closed_f.insert(current, true);
-            let step = reconstruct_trace_path(current, &parent_f);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+            closed_f.insert(current);
+            emit_step(current, &parent_f, tracer, emit, needs_trace);
 
-            if closed_b.get(&current).is_some_and(|visited| *visited)
-                && let Some(backward_cost) = g_b.get(&current)
-            {
-                let total = cost + *backward_cost;
-                if total < best_total_cost {
-                    best_total_cost = total;
-                    best_meet = Some(current);
+            if closed_b.contains(&current) {
+                if let Some(backward_cost) = g_b.get(&current) {
+                    let total = cost + *backward_cost;
+                    if total < best_total_cost {
+                        best_total_cost = total;
+                        best_meet = Some(current);
+                    }
                 }
             }
 
@@ -901,20 +893,16 @@ fn bidirectional_a_start_emit(
                 continue;
             }
 
-            closed_b.insert(current, true);
-            let step = reconstruct_trace_path(current, &parent_b);
-            if let Some(trace) = tracer {
-                trace.push(step.clone());
-            }
-            emit(step);
+            closed_b.insert(current);
+            emit_step(current, &parent_b, tracer, emit, needs_trace);
 
-            if closed_f.get(&current).is_some_and(|visited| *visited)
-                && let Some(forward_cost) = g_f.get(&current)
-            {
-                let total = cost + *forward_cost;
-                if total < best_total_cost {
-                    best_total_cost = total;
-                    best_meet = Some(current);
+            if closed_f.contains(&current) {
+                if let Some(forward_cost) = g_f.get(&current) {
+                    let total = cost + *forward_cost;
+                    if total < best_total_cost {
+                        best_total_cost = total;
+                        best_meet = Some(current);
+                    }
                 }
             }
 

@@ -1,5 +1,5 @@
 use super::{Maze, Node, OPEN, Rank, Trace};
-use std::collections::{BTreeMap, HashMap};
+use std::collections::HashMap;
 
 pub(crate) fn validate_node(maze: &Maze, node: Node) {
     if node.row >= maze.rows() || node.col >= maze.cols() {
@@ -19,19 +19,19 @@ pub(crate) fn validate_node_open(maze: &Maze, node: Node) {
     }
 }
 
-pub(crate) fn reconstruct_path(destination: Node, parent: &BTreeMap<Node, Node>) -> Vec<Node> {
-    let mut path = Vec::<Node>::new();
-    let mut current_node = destination;
-    while parent.contains_key(&current_node) {
-        path.push(current_node);
-        current_node = parent[&current_node];
+pub(crate) fn reconstruct_path(destination: Node, parent: &HashMap<Node, Node>) -> Vec<Node> {
+    let mut path = Vec::new();
+    let mut current = destination;
+    while let Some(&prev) = parent.get(&current) {
+        path.push(current);
+        current = prev;
     }
-    path.push(current_node);
+    path.push(current);
     path.reverse();
     path
 }
 
-pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, Node>) -> Trace {
+pub(crate) fn reconstruct_trace_path(destination: Node, parent: &HashMap<Node, Node>) -> Trace {
     let mut nodes = Vec::with_capacity(parent.len() + 1);
     let mut current = destination;
     nodes.push(current);
@@ -52,7 +52,6 @@ pub(crate) fn reconstruct_trace_path(destination: Node, parent: &BTreeMap<Node, 
 pub(crate) fn validate(maze: &Maze, source: Node, destination: Node) {
     validate_node(maze, source);
     validate_node_open(maze, source);
-
     validate_node(maze, destination);
     validate_node_open(maze, destination);
 }
@@ -69,7 +68,7 @@ mod tests {
         let b = f.at(0, 1).unwrap();
         let c = f.at(0, 2).unwrap();
 
-        let mut parent = BTreeMap::new();
+        let mut parent = HashMap::new();
         parent.insert(b, a);
         parent.insert(c, b);
 
