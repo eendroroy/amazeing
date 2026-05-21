@@ -186,6 +186,7 @@ pub fn beam_search_stream(
     beam_search_impl(maze, sources, destination, heu, jumble_factor, &mut tracer, emit, true);
 }
 
+#[allow(clippy::too_many_arguments)]
 fn beam_search_impl(
     maze: &mut Maze,
     sources: &[Node],
@@ -321,6 +322,7 @@ pub fn bidirectional_greedy_best_first_stream(
     bidirectional_greedy_best_first_impl(maze, sources, destination, heu, jumble_factor, &mut tracer, emit, true);
 }
 
+#[allow(clippy::too_many_arguments)]
 fn bidirectional_greedy_best_first_impl(
     maze: &mut Maze,
     sources: &[Node],
@@ -627,6 +629,7 @@ fn iddfs_impl(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn iddfs_depth_limited(
     maze: &mut Maze,
     source: Node,
@@ -792,6 +795,7 @@ pub fn bidirectional_a_start_stream(
     bidirectional_a_start_impl(maze, sources, destination, heu, jumble_factor, &mut tracer, emit, true);
 }
 
+#[allow(clippy::too_many_arguments)]
 fn bidirectional_a_start_impl(
     maze: &mut Maze,
     sources: &[Node],
@@ -872,6 +876,7 @@ fn bidirectional_a_start_impl(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn a_star_impl<T: DNodeWeighted>(
     maze: &mut Maze,
     sources: &[Node],

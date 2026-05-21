@@ -51,6 +51,7 @@ fn traverse_emit(
     traverse_impl(maze, source, destination, push, pop, tracer, emit, true)
 }
 
+#[allow(clippy::too_many_arguments)]
 fn traverse_impl(
     maze: &Maze,
     source: Node,

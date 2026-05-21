@@ -57,7 +57,7 @@ fn maze_file_roundtrip_preserves_data() {
     let mut lines: Vec<&str> = file_data.split('\n').collect();
     let shape_str = lines.remove(0);
     assert_eq!(shape_str, "hexagon");
-    assert!(lines.len() > 0);
+    assert!(!lines.is_empty());
 
     let _ = fs::remove_file(path);
 }
