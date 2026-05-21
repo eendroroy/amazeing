@@ -84,7 +84,11 @@ fn build_scene(
 ) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>) {
     let (rows, cols) = (maze.rows(), maze.cols());
 
-    let mut chunks: Vec<Mesh> = vec![Mesh { vertices: Vec::new(), indices: Vec::new(), texture: None }];
+    let mut chunks: Vec<Mesh> = vec![Mesh {
+        vertices: Vec::new(),
+        indices: Vec::new(),
+        texture: None,
+    }];
     let mut locations: Vec<Vec<CellLocation>> = Vec::with_capacity(rows);
     let mut hitdata: Vec<Vec<CellHitData>> = Vec::with_capacity(rows);
 
@@ -107,10 +111,12 @@ fn build_scene(
             let icount = mesh.indices.len();
             {
                 let last = chunks.last().unwrap();
-                if last.vertices.len() + vcount > CHUNK_MAX_VERTS
-                    || last.indices.len() + icount > CHUNK_MAX_INDICES
-                {
-                    chunks.push(Mesh { vertices: Vec::new(), indices: Vec::new(), texture: None });
+                if last.vertices.len() + vcount > CHUNK_MAX_VERTS || last.indices.len() + icount > CHUNK_MAX_INDICES {
+                    chunks.push(Mesh {
+                        vertices: Vec::new(),
+                        indices: Vec::new(),
+                        texture: None,
+                    });
                 }
             }
 
@@ -124,7 +130,11 @@ fn build_scene(
                 chunk.indices.push(base + idx);
             }
 
-            row_locs.push(CellLocation { chunk: chunk_idx, vertex_start: vstart, vertex_count: vcount });
+            row_locs.push(CellLocation {
+                chunk: chunk_idx,
+                vertex_start: vstart,
+                vertex_count: vcount,
+            });
         }
 
         locations.push(row_locs);
@@ -137,7 +147,12 @@ fn build_scene(
 // ── MazeScene impl ───────────────────────────────────────────────────────────
 
 impl MazeScene {
-    fn new_from(maze: &Maze, context: AmazeingContext, colors: &Colors, shape_factory: Box<dyn UnitShapeFactory>) -> Self {
+    fn new_from(
+        maze: &Maze,
+        context: AmazeingContext,
+        colors: &Colors,
+        shape_factory: Box<dyn UnitShapeFactory>,
+    ) -> Self {
         let wh = shape_factory.wh_for(maze.rows(), maze.cols());
         let (scene_chunks, cell_locations, cell_hitdata) = build_scene(maze, shape_factory.as_ref(), colors);
 
@@ -172,8 +187,12 @@ impl MazeScene {
         MazeScene::new_from(&Maze::new_void(unit_shape, m_rows, m_cols), context.clone(), colors, shape_factory)
     }
 
-    pub(crate) fn w(&self) -> u32 { self.wh.0 }
-    pub(crate) fn h(&self) -> u32 { self.wh.1 }
+    pub(crate) fn w(&self) -> u32 {
+        self.wh.0
+    }
+    pub(crate) fn h(&self) -> u32 {
+        self.wh.1
+    }
 
     /// Bulk-refresh all cell colours from the current maze state.
     /// Called after a generation/load that replaced the entire maze.
@@ -387,7 +406,10 @@ impl MazeScene {
         if n == 0 {
             return false;
         }
-        let (sx, sy) = hit.positions.iter().fold((0.0f32, 0.0f32), |acc, &(x, y)| (acc.0 + x, acc.1 + y));
+        let (sx, sy) = hit
+            .positions
+            .iter()
+            .fold((0.0f32, 0.0f32), |acc, &(x, y)| (acc.0 + x, acc.1 + y));
         let center = (sx / n as f32, sy / n as f32);
 
         let bv = &bound.vertices;
@@ -414,4 +436,3 @@ impl MazeScene {
         }
     }
 }
-

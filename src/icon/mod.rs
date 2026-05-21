@@ -19,4 +19,3 @@ pub(crate) fn window_icon() -> Option<Icon> {
         big: decode_rgba::<{ 64 * 64 * 4 }>(ICON_64, 64)?,
     })
 }
-

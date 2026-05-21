@@ -19,4 +19,3 @@ pub(super) fn get_colors(rows: usize, cols: usize, scheme_path: Option<&PathBuf>
 fn gradient_steps(rows: usize, cols: usize) -> usize {
     ((rows + cols) as f32 * 0.25).clamp(8., 64.) as usize
 }
-

@@ -40,7 +40,13 @@ pub fn bfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace)
     bfs_impl(maze, sources, &mut tracer, emit, true);
 }
 
-fn bfs_impl(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace), needs_trace: bool) {
+fn bfs_impl(
+    maze: &mut Maze,
+    sources: &[Node],
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -93,7 +99,13 @@ pub fn prim_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trace
     prim_impl(maze, sources, &mut tracer, emit, true);
 }
 
-fn prim_impl(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace), needs_trace: bool) {
+fn prim_impl(
+    maze: &mut Maze,
+    sources: &[Node],
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
     if sources.is_empty() {
         return;
     }
@@ -207,7 +219,9 @@ fn beam_search_impl(
         let mut candidates: Vec<(Node, Node, u32)> = frontier
             .iter()
             .filter(|(node, _)| maze[*node] == BLOCK)
-            .map(|(node, from)| (*node, *from, heu(*node, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE)))
+            .map(|(node, from)| {
+                (*node, *from, heu(*node, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE))
+            })
             .collect();
 
         if candidates.is_empty() {
@@ -283,7 +297,16 @@ pub fn bidirectional_greedy_best_first(
 ) {
     let needs_trace = tracer.is_some();
     let mut noop = |_| {};
-    bidirectional_greedy_best_first_impl(maze, sources, destination, heu, jumble_factor, tracer, &mut noop, needs_trace);
+    bidirectional_greedy_best_first_impl(
+        maze,
+        sources,
+        destination,
+        heu,
+        jumble_factor,
+        tracer,
+        &mut noop,
+        needs_trace,
+    );
 }
 
 pub fn bidirectional_greedy_best_first_stream(
@@ -521,7 +544,13 @@ fn simulated_annealing_search_impl(
     }
 }
 
-fn dfs_impl(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace), needs_trace: bool) {
+fn dfs_impl(
+    maze: &mut Maze,
+    sources: &[Node],
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -575,7 +604,13 @@ pub fn iddfs_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn FnMut(Trac
     iddfs_impl(maze, sources, &mut tracer, emit, true);
 }
 
-fn iddfs_impl(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace), needs_trace: bool) {
+fn iddfs_impl(
+    maze: &mut Maze,
+    sources: &[Node],
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
     sources.iter().for_each(|source| {
         validate_node(maze, *source);
     });
@@ -639,7 +674,13 @@ pub fn aldous_broder_stream(maze: &mut Maze, sources: &[Node], emit: &mut dyn Fn
     aldous_broder_impl(maze, sources, &mut tracer, emit, true);
 }
 
-fn aldous_broder_impl(maze: &mut Maze, sources: &[Node], tracer: &mut Option<Tracer>, emit: &mut dyn FnMut(Trace), needs_trace: bool) {
+fn aldous_broder_impl(
+    maze: &mut Maze,
+    sources: &[Node],
+    tracer: &mut Option<Tracer>,
+    emit: &mut dyn FnMut(Trace),
+    needs_trace: bool,
+) {
     if sources.is_empty() {
         return;
     }
@@ -775,13 +816,17 @@ fn bidirectional_a_start_impl(
         forward.push(DNodeWeightedForward {
             node: *source,
             cost: maze[*source] as u32,
-            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
+            heu_cost: maze[*source] as u32
+                + heu(*source, destination)
+                + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
         });
     });
     backward.push(DNodeWeightedForward {
         node: destination,
         cost: maze[destination] as u32,
-        heu_cost: maze[destination] as u32 + heu(destination, sources[0]) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
+        heu_cost: maze[destination] as u32
+            + heu(destination, sources[0])
+            + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
     });
 
     while !forward.is_empty() || !backward.is_empty() {
@@ -867,7 +912,9 @@ fn a_star_impl<T: DNodeWeighted>(
                 storage.push(T::new(
                     next,
                     cost + maze[next] as u32,
-                    cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
+                    cost + maze[next] as u32
+                        + heu(next, destination)
+                        + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                 ));
             }
         }

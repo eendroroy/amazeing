@@ -6,7 +6,8 @@ use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: ViewArgs) {
     let maze = load_maze_from_file(args.maze.as_path());
-    let context = AmazeingContext::view_context(maze, args.maze.clone(), global.zoom, global.fps, global.show_perimeter);
+    let context =
+        AmazeingContext::view_context(maze, args.maze.clone(), global.zoom, global.fps, global.show_perimeter);
 
     let mut scene = MazeScene::new_from_maze(
         context.maze.as_ref().expect("view context always includes maze"),

@@ -4,7 +4,6 @@ use super::{NodeHeuFn, Pop, Push, Trace, Tracer};
 use crate::maze::node::{DNodeWeightedForward, Node};
 use std::collections::{BinaryHeap, HashMap, HashSet, VecDeque};
 
-
 // ---------------------------------------------------------------------------
 // Inline helper: build and dispatch a trace step only when needed.
 // Skipping reconstruct_trace_path in non-simulation mode eliminates
@@ -701,13 +700,20 @@ fn iddfs_impl(
         visited.clear();
         parent.clear();
 
-        if let Some(path) =
-            iddfs_depth_limited(maze, source, destination, depth_limit, &mut visited, &mut parent, tracer, emit, needs_trace)
-        {
-            if !path.is_empty() {
+        if let Some(path) = iddfs_depth_limited(
+            maze,
+            source,
+            destination,
+            depth_limit,
+            &mut visited,
+            &mut parent,
+            tracer,
+            emit,
+            needs_trace,
+        )
+            && !path.is_empty() {
                 return path;
             }
-        }
     }
 
     Vec::new()
@@ -862,15 +868,14 @@ fn bidirectional_a_start_impl(
             closed_f.insert(current);
             emit_step(current, &parent_f, tracer, emit, needs_trace);
 
-            if closed_b.contains(&current) {
-                if let Some(backward_cost) = g_b.get(&current) {
+            if closed_b.contains(&current)
+                && let Some(backward_cost) = g_b.get(&current) {
                     let total = cost + *backward_cost;
                     if total < best_total_cost {
                         best_total_cost = total;
                         best_meet = Some(current);
                     }
                 }
-            }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
                 let tentative = cost + maze[next] as u32;
@@ -896,15 +901,14 @@ fn bidirectional_a_start_impl(
             closed_b.insert(current);
             emit_step(current, &parent_b, tracer, emit, needs_trace);
 
-            if closed_f.contains(&current) {
-                if let Some(forward_cost) = g_f.get(&current) {
+            if closed_f.contains(&current)
+                && let Some(forward_cost) = g_f.get(&current) {
                     let total = cost + *forward_cost;
                     if total < best_total_cost {
                         best_total_cost = total;
                         best_meet = Some(current);
                     }
                 }
-            }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
                 let tentative = cost + maze[next] as u32;

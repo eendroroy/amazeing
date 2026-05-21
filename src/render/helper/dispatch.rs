@@ -231,54 +231,126 @@ mod tests {
         let destination = f.at(4, 4).unwrap();
 
         let make_ctx = |proc, heu| {
-            AmazeingContext::create_context(None, None, proc, heu, 0, ArgWeightDirection::Forward.direction(), 5, 5, 1.0, 60.0, false)
+            AmazeingContext::create_context(
+                None,
+                None,
+                proc,
+                heu,
+                0,
+                ArgWeightDirection::Forward.direction(),
+                5,
+                5,
+                1.0,
+                60.0,
+                false,
+            )
         };
 
         let mut maze = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze(&mut maze, &[source], None, &make_ctx(ArgProcedure::Bfs, ArgHeuristic::Dijkstra.heuristic()), &mut None);
+        generate_maze(
+            &mut maze,
+            &[source],
+            None,
+            &make_ctx(ArgProcedure::Bfs, ArgHeuristic::Dijkstra.heuristic()),
+            &mut None,
+        );
         assert_eq!(maze[source], OPEN);
 
         let mut maze_dfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_dfs, &[source], None, &make_ctx(ArgProcedure::Dfs, ArgHeuristic::Dijkstra.heuristic()), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_dfs,
+            &[source],
+            None,
+            &make_ctx(ArgProcedure::Dfs, ArgHeuristic::Dijkstra.heuristic()),
+            &mut |_| {},
+        );
         assert_eq!(maze_dfs[source], OPEN);
 
         let mut maze_prim = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_prim, &[source], None, &make_ctx(ArgProcedure::Prim, ArgHeuristic::Dijkstra.heuristic()), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_prim,
+            &[source],
+            None,
+            &make_ctx(ArgProcedure::Prim, ArgHeuristic::Dijkstra.heuristic()),
+            &mut |_| {},
+        );
         assert_eq!(maze_prim[source], OPEN);
 
         let mut maze_beam = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_beam, &[source], Some(destination), &make_ctx(ArgProcedure::BeamSearch, manhattan_heuristic), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_beam,
+            &[source],
+            Some(destination),
+            &make_ctx(ArgProcedure::BeamSearch, manhattan_heuristic),
+            &mut |_| {},
+        );
         assert_eq!(maze_beam[source], OPEN);
 
         let mut maze_iddfs = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_iddfs, &[source], None, &make_ctx(ArgProcedure::Iddfs, ArgHeuristic::Dijkstra.heuristic()), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_iddfs,
+            &[source],
+            None,
+            &make_ctx(ArgProcedure::Iddfs, ArgHeuristic::Dijkstra.heuristic()),
+            &mut |_| {},
+        );
         assert_eq!(maze_iddfs[source], OPEN);
 
         let mut maze_ab = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_ab, &[source], None, &make_ctx(ArgProcedure::AldousBroder, ArgHeuristic::Dijkstra.heuristic()), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_ab,
+            &[source],
+            None,
+            &make_ctx(ArgProcedure::AldousBroder, ArgHeuristic::Dijkstra.heuristic()),
+            &mut |_| {},
+        );
         assert_eq!(maze_ab[source], OPEN);
 
         let mut maze_bi = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_bi, &[source], Some(destination), &make_ctx(ArgProcedure::BidirectionalAStart, manhattan_heuristic), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_bi,
+            &[source],
+            Some(destination),
+            &make_ctx(ArgProcedure::BidirectionalAStart, manhattan_heuristic),
+            &mut |_| {},
+        );
         assert_eq!(maze_bi[source], OPEN);
 
         let mut maze_bi_gbf = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_bi_gbf, &[source], Some(destination), &make_ctx(ArgProcedure::BidirectionalGreedyBestFirst, manhattan_heuristic), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_bi_gbf,
+            &[source],
+            Some(destination),
+            &make_ctx(ArgProcedure::BidirectionalGreedyBestFirst, manhattan_heuristic),
+            &mut |_| {},
+        );
         assert_eq!(maze_bi_gbf[source], OPEN);
 
         let mut maze_sas = Maze::new(UnitShape::Square, 5, 5, BLOCK);
-        generate_maze_stream(&mut maze_sas, &[source], Some(destination), &make_ctx(ArgProcedure::SimulatedAnnealingSearch, manhattan_heuristic), &mut |_| {});
+        generate_maze_stream(
+            &mut maze_sas,
+            &[source],
+            Some(destination),
+            &make_ctx(ArgProcedure::SimulatedAnnealingSearch, manhattan_heuristic),
+            &mut |_| {},
+        );
         assert_eq!(maze_sas[source], OPEN);
 
         let mut maze_astar = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let astar_ctx = AmazeingContext::create_context(
-            None, None,
-            ArgProcedure::AStar, manhattan_heuristic,
-            0, ArgWeightDirection::Backward.direction(),
-            5, 5, 1.0, 60.0, false,
+            None,
+            None,
+            ArgProcedure::AStar,
+            manhattan_heuristic,
+            0,
+            ArgWeightDirection::Backward.direction(),
+            5,
+            5,
+            1.0,
+            60.0,
+            false,
         );
         generate_maze(&mut maze_astar, &[source], Some(destination), &astar_ctx, &mut None);
         assert_eq!(maze_astar[source], OPEN);
     }
 }
-

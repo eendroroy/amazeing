@@ -43,8 +43,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         }
 
         if simulating {
-            if !paused && !trace_complete {
-                if let Some(receiver) = &solve_events {
+            if !paused && !trace_complete
+                && let Some(receiver) = &solve_events {
                     // Process a small burst of frames per render so UI stays responsive.
                     for _ in 0..4 {
                         match receiver.try_recv() {
@@ -119,7 +119,6 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                         }
                     }
                 }
-            }
 
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;

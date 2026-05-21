@@ -13,8 +13,8 @@ pub(crate) fn handle_mouse_click(
     destination: &mut Option<Node>,
     mouse_pos: (f32, f32),
 ) {
-    if let Some(node) = scene.clicked_on(mouse_pos) {
-        if scene.maze[node] == OPEN {
+    if let Some(node) = scene.clicked_on(mouse_pos)
+        && scene.maze[node] == OPEN {
             if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
                 if let Some(dest_node) = *destination {
                     scene.display_open(dest_node);
@@ -29,7 +29,6 @@ pub(crate) fn handle_mouse_click(
                 scene.display_source(node);
             }
         }
-    }
 }
 
 // ── screenshot / save ────────────────────────────────────────────────────────
@@ -48,9 +47,8 @@ pub(crate) fn take_a_snap(scene: &MazeScene) {
 
 /// Persists the current maze to disk when Ctrl+S is pressed.
 pub(crate) fn save_maze(scene: &MazeScene) {
-    if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::S) {
-        if let Some(maze_file_path) = scene.context.maze_file_path.clone() {
+    if (is_key_down(KeyCode::LeftControl) || is_key_down(KeyCode::RightControl)) && is_key_pressed(KeyCode::S)
+        && let Some(maze_file_path) = scene.context.maze_file_path.clone() {
             dump_maze_to_file(&maze_file_path, &scene.maze);
         }
-    }
 }

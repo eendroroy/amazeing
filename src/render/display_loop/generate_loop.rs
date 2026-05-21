@@ -14,8 +14,8 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
 
         scene.clear_and_draw();
 
-        if !generated && is_mouse_button_released(MouseButton::Left) {
-            if let Some(node) = scene.clicked_on(mouse_position()) {
+        if !generated && is_mouse_button_released(MouseButton::Left)
+            && let Some(node) = scene.clicked_on(mouse_position()) {
                 if scene.maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
                     if sources.contains(&node) {
                         if let Some(index) = sources.iter().position(|value| *value == node) {
@@ -38,7 +38,6 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
                     }
                 }
             }
-        }
 
         if is_key_pressed(KeyCode::Q) {
             break;

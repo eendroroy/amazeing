@@ -18,7 +18,12 @@ impl NodeFactory {
         if row >= self.rows || col >= self.cols {
             None
         } else {
-            Some(Node { row, col, rows: self.rows, cols: self.cols })
+            Some(Node {
+                row,
+                col,
+                rows: self.rows,
+                cols: self.cols,
+            })
         }
     }
 }
@@ -40,7 +45,12 @@ impl Add<(usize, usize)> for Node {
         if row >= self.rows || col >= self.cols {
             None
         } else {
-            Some(Node { row, col, rows: self.rows, cols: self.cols })
+            Some(Node {
+                row,
+                col,
+                rows: self.rows,
+                cols: self.cols,
+            })
         }
     }
 }
@@ -52,18 +62,40 @@ impl Sub<(usize, usize)> for Node {
         if self.row < dr || self.col < dc {
             None
         } else {
-            Some(Self { row: self.row - dr, col: self.col - dc, ..self })
+            Some(Self {
+                row: self.row - dr,
+                col: self.col - dc,
+                ..self
+            })
         }
     }
 }
 
 impl Node {
-    #[inline] fn left(self, steps: usize)       -> Option<Self> { self - (0, steps) }
-    #[inline] fn right(self, steps: usize)      -> Option<Self> { self + (0, steps) }
-    #[inline] fn up(self, steps: usize)         -> Option<Self> { self - (steps, 0) }
-    #[inline] fn down(self, steps: usize)       -> Option<Self> { self + (steps, 0) }
-    #[inline] fn left_up(self, steps: usize)    -> Option<Self> { self - (steps, steps) }
-    #[inline] fn right_down(self, steps: usize) -> Option<Self> { self + (steps, steps) }
+    #[inline]
+    fn left(self, steps: usize) -> Option<Self> {
+        self - (0, steps)
+    }
+    #[inline]
+    fn right(self, steps: usize) -> Option<Self> {
+        self + (0, steps)
+    }
+    #[inline]
+    fn up(self, steps: usize) -> Option<Self> {
+        self - (steps, 0)
+    }
+    #[inline]
+    fn down(self, steps: usize) -> Option<Self> {
+        self + (steps, 0)
+    }
+    #[inline]
+    fn left_up(self, steps: usize) -> Option<Self> {
+        self - (steps, steps)
+    }
+    #[inline]
+    fn right_down(self, steps: usize) -> Option<Self> {
+        self + (steps, steps)
+    }
 
     #[inline]
     fn left_down(self, steps: usize) -> Option<Self> {
@@ -167,9 +199,15 @@ impl DNodeWeighted for DNodeWeightedForward {
     fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
         Self { node, cost, heu_cost }
     }
-    fn node(&self) -> Node { self.node }
-    fn cost(&self) -> u32 { self.cost }
-    fn heu_cost(&self) -> u32 { self.heu_cost }
+    fn node(&self) -> Node {
+        self.node
+    }
+    fn cost(&self) -> u32 {
+        self.cost
+    }
+    fn heu_cost(&self) -> u32 {
+        self.heu_cost
+    }
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -195,9 +233,15 @@ impl DNodeWeighted for DNodeWeightedBackward {
     fn new(node: Node, cost: u32, heu_cost: u32) -> Self {
         Self { node, cost, heu_cost }
     }
-    fn node(&self) -> Node { self.node }
-    fn cost(&self) -> u32 { self.cost }
-    fn heu_cost(&self) -> u32 { self.heu_cost }
+    fn node(&self) -> Node {
+        self.node
+    }
+    fn cost(&self) -> u32 {
+        self.cost
+    }
+    fn heu_cost(&self) -> u32 {
+        self.heu_cost
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]

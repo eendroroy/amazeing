@@ -154,4 +154,3 @@ mod tests {
         assert_eq!(sc.context_type, ContextType::Solve);
     }
 }
-

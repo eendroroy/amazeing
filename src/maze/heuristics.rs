@@ -162,10 +162,10 @@ mod tests {
         let (a, b) = nodes();
         let cheb = chebyshev_heuristic(a, b);
         let eucl = euclidean_heuristic(a, b);
-        let oct  = octile_heuristic(a, b);
+        let oct = octile_heuristic(a, b);
         let manh = manhattan_heuristic(a, b);
         assert!(cheb <= eucl, "chebyshev ({cheb}) should be ≤ euclidean ({eucl})");
-        assert!(eucl <= oct,  "euclidean ({eucl}) should be ≤ octile ({oct})");
-        assert!(oct  <= manh, "octile ({oct}) should be ≤ manhattan ({manh})");
+        assert!(eucl <= oct, "euclidean ({eucl}) should be ≤ octile ({oct})");
+        assert!(oct <= manh, "octile ({oct}) should be ≤ manhattan ({manh})");
     }
 }

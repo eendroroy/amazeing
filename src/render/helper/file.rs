@@ -41,20 +41,23 @@ pub(crate) fn load_maze_from_file(path: &Path) -> Maze {
         panic!("Maze file {} does not exist", path.display());
     }
 
-    let file_data = fs::read_to_string(path)
-        .unwrap_or_else(|e| panic!("Could not read maze file {}: {}", path.display(), e));
+    let file_data =
+        fs::read_to_string(path).unwrap_or_else(|e| panic!("Could not read maze file {}: {}", path.display(), e));
 
     let mut lines: Vec<&str> = file_data.lines().collect();
 
-    let unit_shape = UnitShape::from_str(lines.remove(0))
-        .unwrap_or_else(|e| panic!("{}", e));
+    let unit_shape = UnitShape::from_str(lines.remove(0)).unwrap_or_else(|e| panic!("{}", e));
 
     let data: MazeData = lines
         .iter()
         .filter(|line| !line.trim().is_empty())
         .map(|line| {
             line.split_whitespace()
-                .map(|token| token.parse::<i8>().unwrap_or_else(|e| panic!("Invalid cell value '{}': {}", token, e)))
+                .map(|token| {
+                    token
+                        .parse::<i8>()
+                        .unwrap_or_else(|e| panic!("Invalid cell value '{}': {}", token, e))
+                })
                 .collect()
         })
         .collect();

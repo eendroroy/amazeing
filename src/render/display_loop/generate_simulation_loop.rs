@@ -143,8 +143,8 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         }
 
         if !simulating && !trace_complete {
-            if is_mouse_button_released(MouseButton::Left) {
-                if let Some(node) = scene.clicked_on(mouse_position()) {
+            if is_mouse_button_released(MouseButton::Left)
+                && let Some(node) = scene.clicked_on(mouse_position()) {
                     if scene.maze[node] != VOID
                         && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
                     {
@@ -167,7 +167,6 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                         scene.display_destination(node)
                     }
                 }
-            }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
