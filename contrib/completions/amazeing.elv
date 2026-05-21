@@ -147,8 +147,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --verbose 'Show a simulation of the solving process'
             cand -P 'Draw maze bound (perimeter)'
             cand --show-perimeter 'Draw maze bound (perimeter)'
-            cand -h 'Print help'
-            cand --help 'Print help'
+            cand -h 'Print help (see more with ''--help'')'
+            cand --help 'Print help (see more with ''--help'')'
         }
         &'amazeing;S'= {
             cand -m 'Maze file path'
@@ -167,8 +167,8 @@ set edit:completion:arg-completer[amazeing] = {|@words|
             cand --verbose 'Show a simulation of the solving process'
             cand -P 'Draw maze bound (perimeter)'
             cand --show-perimeter 'Draw maze bound (perimeter)'
-            cand -h 'Print help'
-            cand --help 'Print help'
+            cand -h 'Print help (see more with ''--help'')'
+            cand --help 'Print help (see more with ''--help'')'
         }
         &'amazeing;help'= {
             cand create 'Create a Maze'

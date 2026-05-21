@@ -63,6 +63,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s H -l heuris
 euclidean\t''
 chebyshev\t''
 octile\t''
+hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
@@ -99,6 +100,7 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s H -l heuristic-f
 euclidean\t''
 chebyshev\t''
 octile\t''
+hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
@@ -140,13 +142,14 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s H -l heurist
 euclidean\t''
 chebyshev\t''
 octile\t''
+hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -d 'Show a simulation of the solving process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s h -l help -d 'Print help'
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -164,13 +167,14 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s H -l heuristic-f
 euclidean\t''
 chebyshev\t''
 octile\t''
+hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -d 'Show a simulation of the solving process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s h -l help -d 'Print help'
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "create" -d 'Create a Maze'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "view" -d 'View a Maze'
 complete -c amazeing -n "__fish_amazeing_using_subcommand help; and not __fish_seen_subcommand_from create view solve help" -f -a "solve" -d 'Solve a Maze'

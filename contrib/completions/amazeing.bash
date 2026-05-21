@@ -141,11 +141,11 @@ _amazeing() {
                     return 0
                     ;;
                 --heuristic-function)
-                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile hex dijkstra" -- "${cur}"))
                     return 0
                     ;;
                 -H)
-                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile hex dijkstra" -- "${cur}"))
                     return 0
                     ;;
                 --jumble-factor)
@@ -289,11 +289,11 @@ _amazeing() {
                     return 0
                     ;;
                 --heuristic-function)
-                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile hex dijkstra" -- "${cur}"))
                     return 0
                     ;;
                 -H)
-                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile dijkstra" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "manhattan euclidean chebyshev octile hex dijkstra" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)

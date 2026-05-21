@@ -1,4 +1,5 @@
 use super::helper::{reconstruct_trace_path, validate_node};
+use super::heuristics::SCALE as HEURISTIC_SCALE;
 use super::types::{Trace, Tracer};
 use super::{BLOCK, Maze, Node, NodeFactory, NodeHeuFn, OPEN, VOID};
 use crate::maze::node::{DNodeWeighted, DNodeWeightedForward};
@@ -206,7 +207,7 @@ fn beam_search_impl(
         let mut candidates: Vec<(Node, Node, u32)> = frontier
             .iter()
             .filter(|(node, _)| maze[*node] == BLOCK)
-            .map(|(node, from)| (*node, *from, heu(*node, destination) + rand::random_range(0..=jumble_factor)))
+            .map(|(node, from)| (*node, *from, heu(*node, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE)))
             .collect();
 
         if candidates.is_empty() {
@@ -328,7 +329,7 @@ fn bidirectional_greedy_best_first_impl(
         forward.push(DNodeWeightedForward {
             node: *source,
             cost: 0,
-            heu_cost: heu(*source, destination) + rand::random_range(0..=jumble_factor),
+            heu_cost: heu(*source, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
         });
         emit_step(*source, &parent_f, tracer, emit, needs_trace);
     }
@@ -338,7 +339,7 @@ fn bidirectional_greedy_best_first_impl(
     backward.push(DNodeWeightedForward {
         node: destination,
         cost: 0,
-        heu_cost: heu(destination, backward_target) + rand::random_range(0..=jumble_factor),
+        heu_cost: heu(destination, backward_target) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
     });
     emit_step(destination, &parent_b, tracer, emit, needs_trace);
 
@@ -361,7 +362,7 @@ fn bidirectional_greedy_best_first_impl(
                 forward.push(DNodeWeightedForward {
                     node: next,
                     cost: 0,
-                    heu_cost: heu(next, destination) + rand::random_range(0..=jumble_factor),
+                    heu_cost: heu(next, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                 });
                 emit_step(next, &parent_f, tracer, emit, needs_trace);
             }
@@ -385,7 +386,7 @@ fn bidirectional_greedy_best_first_impl(
                 backward.push(DNodeWeightedForward {
                     node: next,
                     cost: 0,
-                    heu_cost: heu(next, backward_target) + rand::random_range(0..=jumble_factor),
+                    heu_cost: heu(next, backward_target) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                 });
                 emit_step(next, &parent_b, tracer, emit, needs_trace);
             }
@@ -774,13 +775,13 @@ fn bidirectional_a_start_impl(
         forward.push(DNodeWeightedForward {
             node: *source,
             cost: maze[*source] as u32,
-            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
+            heu_cost: maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
         });
     });
     backward.push(DNodeWeightedForward {
         node: destination,
         cost: maze[destination] as u32,
-        heu_cost: maze[destination] as u32 + heu(destination, sources[0]) + rand::random_range(0..=jumble_factor),
+        heu_cost: maze[destination] as u32 + heu(destination, sources[0]) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
     });
 
     while !forward.is_empty() || !backward.is_empty() {
@@ -798,7 +799,7 @@ fn bidirectional_a_start_impl(
                         heu_cost: cost
                             + maze[next] as u32
                             + heu(next, destination)
-                            + rand::random_range(0..=jumble_factor),
+                            + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                     });
                 }
             }
@@ -818,7 +819,7 @@ fn bidirectional_a_start_impl(
                         heu_cost: cost
                             + maze[next] as u32
                             + heu(next, sources[0])
-                            + rand::random_range(0..=jumble_factor),
+                            + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                     });
                 }
             }
@@ -849,7 +850,7 @@ fn a_star_impl<T: DNodeWeighted>(
         storage.push(T::new(
             *source,
             maze[*source] as u32,
-            maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor),
+            maze[*source] as u32 + heu(*source, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
         ));
     });
 
@@ -866,7 +867,7 @@ fn a_star_impl<T: DNodeWeighted>(
                 storage.push(T::new(
                     next,
                     cost + maze[next] as u32,
-                    cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor),
+                    cost + maze[next] as u32 + heu(next, destination) + rand::random_range(0..=jumble_factor * HEURISTIC_SCALE),
                 ));
             }
         }

@@ -9,10 +9,10 @@ use crate::maze::node::Node;
 /// algorithm can distinguish "slightly closer" from "slightly farther" nodes
 /// and produces more visually directed traversal.
 ///
-/// **Note for generators**: the `jumble_factor` CLI argument adds noise on the
-/// scale `0..=jumble_factor`.  With SCALE = 100, meaningful visual randomness
-/// requires a jumble_factor in the range 50–500 rather than the old 1–10.
-const SCALE: u32 = 100;
+/// **Note for generators**: the `jumble_factor` CLI argument maps to noise in
+/// the range `0..=jumble_factor * SCALE`, so the user-visible 1–10 range
+/// remains unchanged — the scaling happens internally in the generator.
+pub(crate) const SCALE: u32 = 100;
 
 // ── heuristic functions ───────────────────────────────────────────────────────
 

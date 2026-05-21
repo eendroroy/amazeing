@@ -155,8 +155,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--verbose', '--verbose', [CompletionResultType]::ParameterName, 'Show a simulation of the solving process')
             [CompletionResult]::new('-P', '-P ', [CompletionResultType]::ParameterName, 'Draw maze bound (perimeter)')
             [CompletionResult]::new('--show-perimeter', '--show-perimeter', [CompletionResultType]::ParameterName, 'Draw maze bound (perimeter)')
-            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help')
-            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help (see more with ''--help'')')
+            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help (see more with ''--help'')')
             break
         }
         'amazeing;S' {
@@ -176,8 +176,8 @@ Register-ArgumentCompleter -Native -CommandName 'amazeing' -ScriptBlock {
             [CompletionResult]::new('--verbose', '--verbose', [CompletionResultType]::ParameterName, 'Show a simulation of the solving process')
             [CompletionResult]::new('-P', '-P ', [CompletionResultType]::ParameterName, 'Draw maze bound (perimeter)')
             [CompletionResult]::new('--show-perimeter', '--show-perimeter', [CompletionResultType]::ParameterName, 'Draw maze bound (perimeter)')
-            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help')
-            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help (see more with ''--help'')')
+            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help (see more with ''--help'')')
             break
         }
         'amazeing;help' {
