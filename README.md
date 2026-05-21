@@ -19,27 +19,31 @@ amzeing --help
 
 ### Key/Mouse events
 
-- `Control`+`I` - Save current screen as png in current directory
-- Create
-    - `G`/`<Space>` - (Re)Generate Maze
-    - Additional action in simulation mode (`--verbose`/`-v`):
-        - `LeftClick` - Add/Remove Source
-        - `Shift`+`LeftClick` - Set Destination
-        - `G`/`<Space>` - Start Simulation
-        - `<Space>` - Start/Pause/Resume Simulation
-        - `R` - Restart simulation and reset selection
+- Common (all interactive modes)
+    - `Control`+`I` - Save current screen as PNG in current directory
+    - `Q` - Quit current view
 
-- View - Update mode (`--update`/`-u`):
+- Create (`create`)
+    - `LeftClick` - Add/Remove Source (before generation starts)
+    - `Shift`+`LeftClick` - Set Destination (before generation starts; required for `a-star`/`bidirectional-a-start`)
+    - `G`/`<Space>` - Generate maze / Start simulation
+    - Additional actions in simulation mode (`--verbose`/`-v`):
+        - `<Space>` - Pause/Resume simulation
+        - `R` - Restart simulation and reset selection
+    - Additional action in non-simulation mode:
+        - `Control`+`S` - Save current maze to `--maze` path (if provided)
+
+- View (`view`) - Update mode (`--update`/`-u`):
     - `LeftClick` - Open path
-    - `Shift`+`LeftClick` - Block Path
+    - `Shift`+`LeftClick` - Block path
     - `Control`+`S` - Save current maze to the same file
 
-- Solve
+- Solve (`solve`)
     - `LeftClick` - Select Source
     - `Shift`+`LeftClick` - Select Destination
     - Additional action in simulation mode (`--verbose`/`-v`):
-        - `S`/`<Space>` - Start Simulation
-        - `<Space>` - Start/Pause/Resume Simulation
+        - `S`/`<Space>` - Start simulation
+        - `<Space>` - Pause/Resume simulation
         - `R` - Restart simulation and reset selection
 
 ## Generate Maze
