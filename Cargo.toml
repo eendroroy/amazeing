@@ -20,6 +20,7 @@ toml = "1"
 serde = { version = "1", features = ["derive"] }
 clap = { version = "4", features = ["color", "derive"] }
 rand = "0.10"
+image = { version = "0.25", default-features = false, features = ["png"] }
 
 [build-dependencies]
 clap = { version = "4", features = ["derive"] }
