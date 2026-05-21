@@ -12,6 +12,7 @@ repository = "https://github.com/eendroroy/amazeing"
 license = "AGPL-3.0"
 keywords = ["maze"]
 categories = ["algorithms", "visualization"]
+exclude = ["target", "tests", "assets"]
 
 [dependencies]
 macroquad = "0.4"
