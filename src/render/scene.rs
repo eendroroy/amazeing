@@ -91,11 +91,19 @@ fn cell_color(cell: i8, colors: &Colors) -> Color {
 
 /// Build flat scene chunks, per-cell location table, hit-test data,
 /// semantic colours, and cell centroids in a single pass over the maze.
+type SceneData = (
+    Vec<Mesh>,
+    Vec<Vec<CellLocation>>,
+    Vec<Vec<CellHitData>>,
+    Vec<Vec<[u8; 4]>>,
+    Vec<Vec<(f32, f32)>>,
+);
+
 fn build_scene(
     maze: &Maze,
     shape_factory: &dyn UnitShapeFactory,
     colors: &Colors,
-) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>, Vec<Vec<[u8; 4]>>, Vec<Vec<(f32, f32)>>) {
+) -> SceneData {
     let (rows, cols) = (maze.rows(), maze.cols());
 
     let mut chunks: Vec<Mesh> = vec![Mesh {
@@ -398,6 +406,7 @@ impl MazeScene {
     /// Any effect may be disabled by passing `false`; the method degrades
     /// gracefully to just the enabled effect(s).  All effects read from the
     /// *unlit* `cell_semantic_colors` buffer so repeated calls never compound.
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn apply_color_effects(
         &mut self,
         center: Node,
@@ -510,8 +519,7 @@ impl MazeScene {
                 let vcount = loc.vertex_count;
                 let orig = &self.cell_hitdata[r][c].positions;
 
-                for i in 0..vcount {
-                    let (ox, oy) = orig[i];
+                for (i, &(ox, oy)) in orig.iter().enumerate().take(vcount) {
                     let dx = ox - cx;
                     let dy = oy - cy;
                     let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
@@ -549,8 +557,7 @@ impl MazeScene {
                 let vcount = loc.vertex_count;
                 let orig = &self.cell_hitdata[r][c].positions;
 
-                for i in 0..vcount {
-                    let (ox, oy) = orig[i];
+                for (i, &(ox, oy)) in orig.iter().enumerate().take(vcount) {
                     let dx = ox - cx;
                     let dy = oy - cy;
                     let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
@@ -592,8 +599,7 @@ impl MazeScene {
                 let vcount = loc.vertex_count;
                 let orig = &self.cell_hitdata[r][c].positions;
 
-                for i in 0..vcount {
-                    let (ox, oy) = orig[i];
+                for (i, &(ox, oy)) in orig.iter().enumerate().take(vcount) {
                     // Radial direction from the light source centroid to this vertex.
                     let vdx = ox - cx;
                     let vdy = oy - cy;
@@ -620,8 +626,7 @@ impl MazeScene {
                 let start = loc.vertex_start;
                 let vcount = loc.vertex_count;
                 let orig = &self.cell_hitdata[r][c].positions;
-                for i in 0..vcount {
-                    let (ox, oy) = orig[i];
+                for (i, &(ox, oy)) in orig.iter().enumerate().take(vcount) {
                     let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
                     v.position.x = ox;
                     v.position.y = oy;

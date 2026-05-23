@@ -194,8 +194,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         let do_light = scene.context.effects.torch;
         let do_color_source = scene.context.effects.glow;
         let do_chromatic_wave = scene.context.effects.chromatic_wave;
-        if do_light || do_color_source || do_chromatic_wave {
-            if let Some(center) = light_center {
+        if (do_light || do_color_source || do_chromatic_wave)
+            && let Some(center) = light_center {
                 scene.apply_color_effects(
                     center,
                     LIGHT_RADIUS,
@@ -206,28 +206,24 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                     get_time() as f32,
                 );
             }
-        }
 
         // Apply the fish-eye zoom effect while simulating.
-        if scene.context.effects.fisheye {
-            if let Some(center) = light_center {
+        if scene.context.effects.fisheye
+            && let Some(center) = light_center {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
-        }
 
         // Apply the gravity-well inward-pull effect while simulating.
-        if scene.context.effects.gravity_well {
-            if let Some(center) = light_center {
+        if scene.context.effects.gravity_well
+            && let Some(center) = light_center {
                 scene.apply_gravity_well(center, GRAVITY_WELL_RADIUS);
             }
-        }
 
         // Apply the shockwave-pulse distortion effect while simulating.
-        if scene.context.effects.shockwave_pulse {
-            if let Some(center) = light_center {
+        if scene.context.effects.shockwave_pulse
+            && let Some(center) = light_center {
                 scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }
-        }
 
         take_a_snap(scene);
 

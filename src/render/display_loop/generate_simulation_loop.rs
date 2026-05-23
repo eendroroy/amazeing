@@ -38,9 +38,7 @@ fn apply_step(
     destination: Option<Node>,
 ) -> Option<Node> {
     // Identify walker root = node with the minimum rank in this trace.
-    let Some(root) = step.iter().min_by_key(|(_, r)| **r).map(|(n, _)| *n) else {
-        return None;
-    };
+    let root = step.iter().min_by_key(|(_, r)| **r).map(|(n, _)| *n)?;
 
     // Frontier node = node with the maximum rank (most recently visited).
     let frontier = step.iter().max_by_key(|(_, r)| **r).map(|(n, _)| *n);
@@ -227,8 +225,8 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         let do_light = scene.context.effects.torch;
         let do_color_source = scene.context.effects.glow;
         let do_chromatic_wave = scene.context.effects.chromatic_wave;
-        if do_light || do_color_source || do_chromatic_wave {
-            if let Some(center) = light_center {
+        if (do_light || do_color_source || do_chromatic_wave)
+            && let Some(center) = light_center {
                 scene.apply_color_effects(
                     center,
                     LIGHT_RADIUS,
@@ -239,28 +237,24 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                     get_time() as f32,
                 );
             }
-        }
 
         // Apply the fish-eye zoom effect every frame while a light is active.
-        if scene.context.effects.fisheye {
-            if let Some(center) = light_center {
+        if scene.context.effects.fisheye
+            && let Some(center) = light_center {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
-        }
 
         // Apply the gravity-well inward-pull effect every frame while a light is active.
-        if scene.context.effects.gravity_well {
-            if let Some(center) = light_center {
+        if scene.context.effects.gravity_well
+            && let Some(center) = light_center {
                 scene.apply_gravity_well(center, GRAVITY_WELL_RADIUS);
             }
-        }
 
         // Apply the shockwave-pulse distortion effect every frame while a light is active.
-        if scene.context.effects.shockwave_pulse {
-            if let Some(center) = light_center {
+        if scene.context.effects.shockwave_pulse
+            && let Some(center) = light_center {
                 scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }
-        }
 
         take_a_snap(scene);
 
