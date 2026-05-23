@@ -711,10 +711,10 @@ fn iddfs_impl(
             tracer,
             emit,
             needs_trace,
-        )
-            && !path.is_empty() {
-                return path;
-            }
+        ) && !path.is_empty()
+        {
+            return path;
+        }
     }
 
     Vec::new()
@@ -870,13 +870,14 @@ fn bidirectional_a_start_impl(
             emit_step(current, &parent_f, tracer, emit, needs_trace);
 
             if closed_b.contains(&current)
-                && let Some(backward_cost) = g_b.get(&current) {
-                    let total = cost + *backward_cost;
-                    if total < best_total_cost {
-                        best_total_cost = total;
-                        best_meet = Some(current);
-                    }
+                && let Some(backward_cost) = g_b.get(&current)
+            {
+                let total = cost + *backward_cost;
+                if total < best_total_cost {
+                    best_total_cost = total;
+                    best_meet = Some(current);
                 }
+            }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
                 let tentative = cost + maze[next] as u32;
@@ -903,13 +904,14 @@ fn bidirectional_a_start_impl(
             emit_step(current, &parent_b, tracer, emit, needs_trace);
 
             if closed_f.contains(&current)
-                && let Some(forward_cost) = g_f.get(&current) {
-                    let total = cost + *forward_cost;
-                    if total < best_total_cost {
-                        best_total_cost = total;
-                        best_meet = Some(current);
-                    }
+                && let Some(forward_cost) = g_f.get(&current)
+            {
+                let total = cost + *forward_cost;
+                if total < best_total_cost {
+                    best_total_cost = total;
+                    best_meet = Some(current);
                 }
+            }
 
             for next in current.neighbours_open(maze, &maze.unit_shape) {
                 let tentative = cost + maze[next] as u32;

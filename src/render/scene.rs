@@ -25,7 +25,6 @@ use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_
 const CHUNK_MAX_VERTS: usize = 9_900;
 const CHUNK_MAX_INDICES: usize = 4_950;
 
-
 // ── internal data types ───────────────────────────────────────────────────────
 
 /// Location of a single cell's vertices inside the flat `scene_chunks` array.
@@ -120,8 +119,7 @@ fn build_scene(
             let mesh = shape_factory.shape(r, c, rows, cols, color);
 
             // Collect vertex positions (read-only; used only for hit testing).
-            let positions: Vec<(f32, f32)> =
-                mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
+            let positions: Vec<(f32, f32)> = mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
 
             // Precompute the centroid from the vertex positions.
             let n = positions.len();
@@ -563,7 +561,6 @@ impl MazeScene {
             }
         }
     }
-
 
     ///
     /// Each vertex is displaced **radially** from the light-source centroid by:

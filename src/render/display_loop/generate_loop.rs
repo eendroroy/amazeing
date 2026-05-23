@@ -14,30 +14,31 @@ pub(crate) async fn generate_loop(scene: &mut MazeScene) {
 
         scene.clear_and_draw();
 
-        if !generated && is_mouse_button_released(MouseButton::Left)
-            && let Some(node) = scene.clicked_on(mouse_position()) {
-                if scene.maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
-                    if sources.contains(&node) {
-                        if let Some(index) = sources.iter().position(|value| *value == node) {
-                            let node = sources.swap_remove(index);
-                            scene.display_block(node);
-                        }
-                    } else {
-                        sources.push(node);
-                        scene.display_source(node);
+        if !generated
+            && is_mouse_button_released(MouseButton::Left)
+            && let Some(node) = scene.clicked_on(mouse_position())
+        {
+            if scene.maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
+                if sources.contains(&node) {
+                    if let Some(index) = sources.iter().position(|value| *value == node) {
+                        let node = sources.swap_remove(index);
+                        scene.display_block(node);
                     }
-                } else if scene.maze[node] != VOID
-                    && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
-                {
-                    if let Some(dest) = destination {
-                        scene.display_block(dest);
-                    }
-                    destination = Some(node);
-                    if let Some(dest) = destination {
-                        scene.display_destination(dest);
-                    }
+                } else {
+                    sources.push(node);
+                    scene.display_source(node);
+                }
+            } else if scene.maze[node] != VOID && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
+            {
+                if let Some(dest) = destination {
+                    scene.display_block(dest);
+                }
+                destination = Some(node);
+                if let Some(dest) = destination {
+                    scene.display_destination(dest);
                 }
             }
+        }
 
         if is_key_pressed(KeyCode::Q) {
             break;

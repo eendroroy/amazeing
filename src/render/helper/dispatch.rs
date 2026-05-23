@@ -188,7 +188,7 @@ pub(crate) fn generate_maze_stream(
 #[cfg(test)]
 mod tests {
     use super::*;
-        use crate::cli::{ArgHeuristic, ArgWeightDirection, EffectOptions};
+    use crate::cli::{ArgHeuristic, ArgWeightDirection, EffectOptions};
     use crate::maze::heuristics::manhattan_heuristic;
     use crate::maze::{BLOCK, NodeFactory, OPEN, UnitShape};
 

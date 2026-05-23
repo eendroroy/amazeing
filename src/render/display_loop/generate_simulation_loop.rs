@@ -2,10 +2,10 @@ use crate::cli::ArgProcedure;
 use crate::maze::{Maze, Node, Trace, VOID};
 use crate::render::helper::{current_micros, dump_maze_to_file, generate_maze_stream, take_a_snap};
 use crate::render::scene::MazeScene;
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, GRAVITY_WELL_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
-use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, GRAVITY_WELL_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 
 enum GenerationEvent {
     Step(Trace),
@@ -121,9 +121,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 for _ in 0..4 {
                     match receiver.try_recv() {
                         Ok(GenerationEvent::Step(step)) => {
-                            if let Some(frontier) =
-                                apply_step(step, &mut active_paths, scene, sources, destination)
-                            {
+                            if let Some(frontier) = apply_step(step, &mut active_paths, scene, sources, destination) {
                                 light_center = Some(frontier);
                             }
                         }
@@ -167,29 +165,28 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
 
         if !simulating && !trace_complete {
             if is_mouse_button_released(MouseButton::Left)
-                && let Some(node) = scene.clicked_on(mouse_position()) {
-                    if scene.maze[node] != VOID
-                        && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
-                    {
-                        if sources.contains(&node) {
-                            if let Some(index) = sources.iter().position(|value| *value == node) {
-                                let node = sources.swap_remove(index);
-                                scene.display_block(node)
-                            }
-                        } else {
-                            sources.push(node);
-                            scene.display_source(node)
-                        }
-                    } else if scene.maze[node] != VOID
-                        && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
-                    {
-                        if let Some(node) = destination {
+                && let Some(node) = scene.clicked_on(mouse_position())
+            {
+                if scene.maze[node] != VOID && !(is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift)) {
+                    if sources.contains(&node) {
+                        if let Some(index) = sources.iter().position(|value| *value == node) {
+                            let node = sources.swap_remove(index);
                             scene.display_block(node)
                         }
-                        destination = Some(node);
-                        scene.display_destination(node)
+                    } else {
+                        sources.push(node);
+                        scene.display_source(node)
                     }
+                } else if scene.maze[node] != VOID
+                    && (is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift))
+                {
+                    if let Some(node) = destination {
+                        scene.display_block(node)
+                    }
+                    destination = Some(node);
+                    scene.display_destination(node)
                 }
+            }
 
             if (!sources.is_empty() && (is_key_pressed(KeyCode::G) || is_key_pressed(KeyCode::Space)))
                 && (!matches!(scene.context.procedure, ArgProcedure::AStar | ArgProcedure::BidirectionalAStart)
@@ -265,7 +262,6 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
         }
 
-
         take_a_snap(scene);
 
         if is_key_pressed(KeyCode::Q) {
@@ -277,4 +273,3 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         next_frame().await
     }
 }
-

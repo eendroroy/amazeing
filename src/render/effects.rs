@@ -47,4 +47,3 @@ pub(crate) const CHROMATIC_WAVE_AMPLITUDE: f32 = 0.45;
 pub(crate) const CHROMATIC_WAVE_FREQUENCY: f32 = 0.75;
 /// Speed at which the chromatic-wave phase advances per second.
 pub(crate) const CHROMATIC_WAVE_SPEED: f32 = 4.0;
-
