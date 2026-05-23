@@ -9,4 +9,4 @@ pub(crate) use args::{
     SolveArgs, ViewArgs,
 };
 pub(crate) use colors::{ColorScheme, Colors};
-pub(crate) use context::{AmazeingContext, ContextType};
+pub(crate) use context::{AmazeingContext, ContextType, EffectOptions};

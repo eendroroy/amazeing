@@ -1,4 +1,4 @@
-use crate::cli::{ArgHeuristic, ArgProcedure, ArgWeightDirection};
+use crate::cli::{ArgEffect, ArgHeuristic, ArgProcedure, ArgWeightDirection};
 use crate::maze::node::WeightDirection;
 use crate::maze::{Maze, NodeHeuFn};
 use std::path::PathBuf;
@@ -10,6 +10,34 @@ pub(crate) enum ContextType {
     Create,
     View,
     Solve,
+}
+
+// ── effect options ─────────────────────────────────────────────────────────────
+
+/// Groups all optional visual-effect toggles into a single value.
+#[derive(Debug, Clone, Default)]
+pub struct EffectOptions {
+    pub(crate) light_source: bool,
+    pub(crate) fisheye: bool,
+    pub(crate) color_source: bool,
+    pub(crate) shockwave: bool,
+}
+
+impl EffectOptions {
+    /// All effects disabled.
+    pub fn none() -> Self {
+        Self::default()
+    }
+
+    /// Build from the CLI effect list.
+    pub fn from_args(effects: &[ArgEffect]) -> Self {
+        Self {
+            light_source: effects.contains(&ArgEffect::LightSource),
+            fisheye: effects.contains(&ArgEffect::FishEye),
+            color_source: effects.contains(&ArgEffect::ColorSource),
+            shockwave: effects.contains(&ArgEffect::ShockwaveDistortion),
+        }
+    }
 }
 
 // ── runtime context ───────────────────────────────────────────────────────────
@@ -28,31 +56,18 @@ pub struct AmazeingContext {
     pub(crate) zoom: f32,
     pub(crate) fps: f32,
     pub(crate) show_perimeter: bool,
-    pub(crate) light_source_effect: bool,
-    pub(crate) fisheye_effect: bool,
-    pub(crate) color_source_effect: bool,
-    pub(crate) shockwave_effect: bool,
+    pub(crate) effects: EffectOptions,
     pub(crate) context_type: ContextType,
 }
 
 impl AmazeingContext {
-    #[allow(clippy::too_many_arguments)]
     pub fn create_context(
-        maze: Option<Maze>,
-        maze_file_path: Option<PathBuf>,
-        procedure: ArgProcedure,
-        heuristic: NodeHeuFn,
-        jumble_factor: u32,
-        weight_direction: WeightDirection,
-        rows: usize,
-        cols: usize,
-        zoom: f32,
-        fps: f32,
-        show_perimeter: bool,
-        light_source_effect: bool,
-        fisheye_effect: bool,
-        color_source_effect: bool,
-        shockwave_effect: bool,
+        (maze, maze_file_path): (Option<Maze>, Option<PathBuf>),
+        (procedure, heuristic): (ArgProcedure, NodeHeuFn),
+        (jumble_factor, weight_direction): (u32, WeightDirection),
+        (rows, cols): (usize, usize),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
+        effects: EffectOptions,
     ) -> Self {
         Self {
             maze,
@@ -66,15 +81,15 @@ impl AmazeingContext {
             zoom,
             fps,
             show_perimeter,
-            light_source_effect,
-            fisheye_effect,
-            color_source_effect,
-            shockwave_effect,
+            effects,
             context_type: ContextType::Create,
         }
     }
 
-    pub(crate) fn view_context(maze: Maze, maze_file_path: PathBuf, zoom: f32, fps: f32, show_perimeter: bool) -> Self {
+    pub(crate) fn view_context(
+        (maze, maze_file_path): (Maze, PathBuf),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
+    ) -> Self {
         Self {
             rows: maze.rows(),
             cols: maze.cols(),
@@ -87,25 +102,16 @@ impl AmazeingContext {
             zoom,
             fps,
             show_perimeter,
-            light_source_effect: false,
-            fisheye_effect: false,
-            color_source_effect: false,
-            shockwave_effect: false,
+            effects: EffectOptions::none(),
             context_type: ContextType::View,
         }
     }
 
     pub fn solve_context(
         maze: Maze,
-        procedure: ArgProcedure,
-        heuristic: NodeHeuFn,
-        zoom: f32,
-        fps: f32,
-        show_perimeter: bool,
-        light_source_effect: bool,
-        fisheye_effect: bool,
-        color_source_effect: bool,
-        shockwave_effect: bool,
+        (procedure, heuristic): (ArgProcedure, NodeHeuFn),
+        (zoom, fps, show_perimeter): (f32, f32, bool),
+        effects: EffectOptions,
     ) -> Self {
         Self {
             rows: maze.rows(),
@@ -119,10 +125,7 @@ impl AmazeingContext {
             zoom,
             fps,
             show_perimeter,
-            light_source_effect,
-            fisheye_effect,
-            color_source_effect,
-            shockwave_effect,
+            effects,
             context_type: ContextType::Solve,
         }
     }
@@ -136,30 +139,21 @@ mod tests {
     #[test]
     fn create_context_sets_expected_fields() {
         let context = AmazeingContext::create_context(
-            None,
-            Some(PathBuf::from("tmp/test.maze")),
-            ArgProcedure::AStar,
-            ArgHeuristic::Octile.heuristic(),
-            3,
-            ArgWeightDirection::Forward.direction(),
-            21,
-            31,
-            1.25,
-            48.0,
-            true,
-            false,
-            false,
-            false,
-            false,
+            (None, Some(PathBuf::from("tmp/test.maze"))),
+            (ArgProcedure::AStar, ArgHeuristic::Octile.heuristic()),
+            (3, ArgWeightDirection::Forward.direction()),
+            (21, 31),
+            (1.25, 48.0, true),
+            EffectOptions::none(),
         );
         assert_eq!(context.rows, 21);
         assert_eq!(context.cols, 31);
         assert_eq!(context.jumble_factor, 3);
         assert!(context.show_perimeter);
-        assert!(!context.light_source_effect);
-        assert!(!context.fisheye_effect);
-        assert!(!context.color_source_effect);
-        assert!(!context.shockwave_effect);
+        assert!(!context.effects.light_source);
+        assert!(!context.effects.fisheye);
+        assert!(!context.effects.color_source);
+        assert!(!context.effects.shockwave);
         assert_eq!(context.context_type, ContextType::Create);
         assert_eq!(context.maze_file_path, Some(PathBuf::from("tmp/test.maze")));
     }
@@ -168,29 +162,24 @@ mod tests {
     fn view_and_solve_context_copy_maze_dimensions() {
         let maze = Maze::new_void(UnitShape::Square, 5, 7);
 
-        let vc = AmazeingContext::view_context(maze.clone(), PathBuf::from("tmp/view.maze"), 1.0, 60.0, false);
+        let vc = AmazeingContext::view_context((maze.clone(), PathBuf::from("tmp/view.maze")), (1.0, 60.0, false));
         assert_eq!(vc.rows, 5);
         assert_eq!(vc.cols, 7);
         assert_eq!(vc.context_type, ContextType::View);
 
+        let all_effects = EffectOptions { light_source: true, fisheye: true, color_source: true, shockwave: true };
         let sc = AmazeingContext::solve_context(
             maze,
-            ArgProcedure::Dfs,
-            ArgHeuristic::Dijkstra.heuristic(),
-            1.0,
-            60.0,
-            false,
-            true,
-            true,
-            true,
-            true,
+            (ArgProcedure::Dfs, ArgHeuristic::Dijkstra.heuristic()),
+            (1.0, 60.0, false),
+            all_effects,
         );
         assert_eq!(sc.rows, 5);
         assert_eq!(sc.cols, 7);
-        assert!(sc.light_source_effect);
-        assert!(sc.fisheye_effect);
-        assert!(sc.color_source_effect);
-        assert!(sc.shockwave_effect);
+        assert!(sc.effects.light_source);
+        assert!(sc.effects.fisheye);
+        assert!(sc.effects.color_source);
+        assert!(sc.effects.shockwave);
         assert_eq!(sc.context_type, ContextType::Solve);
     }
 }

@@ -1,29 +1,16 @@
 use crate::app::common::{get_colors, set_screen_size};
-use crate::cli::{AmazeingArgs, AmazeingContext, ArgEffect, CreateArgs};
+use crate::cli::{AmazeingArgs, AmazeingContext, CreateArgs, EffectOptions};
 use crate::render::display_loop::{generate_loop, generate_simulation_loop};
 use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
-    let light_source_effect = args.effect.contains(&ArgEffect::LightSource);
-    let fisheye_effect = args.effect.contains(&ArgEffect::FishEye);
-    let color_source_effect = args.effect.contains(&ArgEffect::ColorSource);
-    let shockwave_effect = args.effect.contains(&ArgEffect::ShockwaveDistortion);
     let context = AmazeingContext::create_context(
-        None,
-        args.maze,
-        args.procedure,
-        args.heuristic_function.heuristic(),
-        args.jumble_factor,
-        args.weight_direction.direction(),
-        args.rows,
-        args.cols,
-        global.zoom,
-        args.fps,
-        global.show_perimeter,
-        light_source_effect,
-        fisheye_effect,
-        color_source_effect,
-        shockwave_effect,
+        (None, args.maze),
+        (args.procedure, args.heuristic_function.heuristic()),
+        (args.jumble_factor, args.weight_direction.direction()),
+        (args.rows, args.cols),
+        (global.zoom, args.fps, global.show_perimeter),
+        EffectOptions::from_args(&args.effect),
     );
 
     let mut scene = MazeScene::new_from_dimension(

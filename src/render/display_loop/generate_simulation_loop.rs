@@ -227,8 +227,8 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
 
         // Apply colour effects in a single combined pass so light-source and
         // colour-source compose correctly (tint first, then dim).
-        let do_light = scene.context.light_source_effect;
-        let do_color_source = scene.context.color_source_effect;
+        let do_light = scene.context.effects.light_source;
+        let do_color_source = scene.context.effects.color_source;
         if do_light || do_color_source {
             if let Some(center) = light_center {
                 scene.apply_color_effects(center, LIGHT_RADIUS, COLOR_SOURCE_RADIUS, do_light, do_color_source);
@@ -236,14 +236,14 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         }
 
         // Apply the fish-eye zoom effect every frame while a light is active.
-        if scene.context.fisheye_effect {
+        if scene.context.effects.fisheye {
             if let Some(center) = light_center {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
         }
 
         // Apply the shockwave distortion effect every frame while a light is active.
-        if scene.context.shockwave_effect {
+        if scene.context.effects.shockwave {
             if let Some(center) = light_center {
                 scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }

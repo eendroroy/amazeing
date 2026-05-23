@@ -188,7 +188,7 @@ pub(crate) fn generate_maze_stream(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::cli::{ArgHeuristic, ArgWeightDirection};
+        use crate::cli::{ArgHeuristic, ArgWeightDirection, EffectOptions};
     use crate::maze::heuristics::manhattan_heuristic;
     use crate::maze::{BLOCK, NodeFactory, OPEN, UnitShape};
 
@@ -232,21 +232,12 @@ mod tests {
 
         let make_ctx = |proc, heu| {
             AmazeingContext::create_context(
-                None,
-                None,
-                proc,
-                heu,
-                0,
-                ArgWeightDirection::Forward.direction(),
-                5,
-                5,
-                1.0,
-                60.0,
-                false,
-                false,
-                false,
-                false,
-                false, // shockwave_effect
+                (None, None),
+                (proc, heu),
+                (0, ArgWeightDirection::Forward.direction()),
+                (5, 5),
+                (1.0, 60.0, false),
+                EffectOptions::none(),
             )
         };
 
@@ -342,21 +333,12 @@ mod tests {
 
         let mut maze_astar = Maze::new(UnitShape::Square, 5, 5, BLOCK);
         let astar_ctx = AmazeingContext::create_context(
-            None,
-            None,
-            ArgProcedure::AStar,
-            manhattan_heuristic,
-            0,
-            ArgWeightDirection::Backward.direction(),
-            5,
-            5,
-            1.0,
-            60.0,
-            false,
-            false,
-            false,
-            false,
-            false, // shockwave_effect
+            (None, None),
+            (ArgProcedure::AStar, manhattan_heuristic),
+            (0, ArgWeightDirection::Backward.direction()),
+            (5, 5),
+            (1.0, 60.0, false),
+            EffectOptions::none(),
         );
         generate_maze(&mut maze_astar, &[source], Some(destination), &astar_ctx, &mut None);
         assert_eq!(maze_astar[source], OPEN);
