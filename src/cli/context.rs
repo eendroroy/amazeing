@@ -29,6 +29,7 @@ pub struct AmazeingContext {
     pub(crate) fps: f32,
     pub(crate) show_perimeter: bool,
     pub(crate) light_source_effect: bool,
+    pub(crate) fisheye_effect: bool,
     pub(crate) context_type: ContextType,
 }
 
@@ -47,6 +48,7 @@ impl AmazeingContext {
         fps: f32,
         show_perimeter: bool,
         light_source_effect: bool,
+        fisheye_effect: bool,
     ) -> Self {
         Self {
             maze,
@@ -61,6 +63,7 @@ impl AmazeingContext {
             fps,
             show_perimeter,
             light_source_effect,
+            fisheye_effect,
             context_type: ContextType::Create,
         }
     }
@@ -79,6 +82,7 @@ impl AmazeingContext {
             fps,
             show_perimeter,
             light_source_effect: false,
+            fisheye_effect: false,
             context_type: ContextType::View,
         }
     }
@@ -91,6 +95,7 @@ impl AmazeingContext {
         fps: f32,
         show_perimeter: bool,
         light_source_effect: bool,
+        fisheye_effect: bool,
     ) -> Self {
         Self {
             rows: maze.rows(),
@@ -105,6 +110,7 @@ impl AmazeingContext {
             fps,
             show_perimeter,
             light_source_effect,
+            fisheye_effect,
             context_type: ContextType::Solve,
         }
     }
@@ -130,12 +136,14 @@ mod tests {
             48.0,
             true,
             false,
+            false,
         );
         assert_eq!(context.rows, 21);
         assert_eq!(context.cols, 31);
         assert_eq!(context.jumble_factor, 3);
         assert!(context.show_perimeter);
         assert!(!context.light_source_effect);
+        assert!(!context.fisheye_effect);
         assert_eq!(context.context_type, ContextType::Create);
         assert_eq!(context.maze_file_path, Some(PathBuf::from("tmp/test.maze")));
     }
@@ -157,10 +165,12 @@ mod tests {
             60.0,
             false,
             true,
+            true,
         );
         assert_eq!(sc.rows, 5);
         assert_eq!(sc.cols, 7);
         assert!(sc.light_source_effect);
+        assert!(sc.fisheye_effect);
         assert_eq!(sc.context_type, ContextType::Solve);
     }
 }

@@ -43,8 +43,8 @@ pub struct AmazeingArgs {
     pub show_perimeter: bool,
 
     /// Visual effect to apply during simulation
-    #[clap(global = true, long, short = 'E', display_order = 104, value_name = "Effect")]
-    pub effect: Option<ArgEffect>,
+    #[clap(global = true, long, short = 'E', display_order = 104, value_name = "Effect", action = clap::ArgAction::Append)]
+    pub effect: Vec<ArgEffect>,
 }
 
 /// {ui-name} amazeing create
@@ -271,12 +271,17 @@ pub enum ArgEffect {
     /// with brightness falling off as distance grows.
     #[clap(alias = "ls")]
     LightSource,
+    /// Fish-eye zoom effect: the visiting frontier is magnified; the zoom
+    /// falls off smoothly as grid-cell distance grows.
+    #[clap(alias = "fe")]
+    FishEye,
 }
 
 impl Display for ArgEffect {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ArgEffect::LightSource => write!(f, "light-source"),
+            ArgEffect::FishEye => write!(f, "fish-eye"),
         }
     }
 }

@@ -243,6 +243,8 @@ mod tests {
                 1.0,
                 60.0,
                 false,
+                false,
+                false,
             )
         };
 
@@ -348,6 +350,8 @@ mod tests {
             5,
             1.0,
             60.0,
+            false,
+            false,
             false,
         );
         generate_maze(&mut maze_astar, &[source], Some(destination), &astar_ctx, &mut None);

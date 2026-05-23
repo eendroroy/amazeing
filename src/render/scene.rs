@@ -67,6 +67,11 @@ pub(crate) struct MazeScene {
     /// `apply_light_source` reads from here so repeated light calls never
     /// compound-darken already-lit vertex colours.
     cell_semantic_colors: Vec<Vec<[u8; 4]>>,
+
+    /// Precomputed pixel-space centroid of each cell.
+    /// Used by `apply_fisheye` to locate the light-source cell in screen space
+    /// without recomputing centroids every frame.
+    cell_centroids: Vec<Vec<(f32, f32)>>,
 }
 
 // ── construction helpers ──────────────────────────────────────────────────────
@@ -80,13 +85,13 @@ fn cell_color(cell: i8, colors: &Colors) -> Color {
     }
 }
 
-/// Build flat scene chunks, per-cell location table, hit-test data, and
-/// semantic colours in a single pass over the maze.
+/// Build flat scene chunks, per-cell location table, hit-test data,
+/// semantic colours, and cell centroids in a single pass over the maze.
 fn build_scene(
     maze: &Maze,
     shape_factory: &dyn UnitShapeFactory,
     colors: &Colors,
-) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>, Vec<Vec<[u8; 4]>>) {
+) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>, Vec<Vec<[u8; 4]>>, Vec<Vec<(f32, f32)>>) {
     let (rows, cols) = (maze.rows(), maze.cols());
 
     let mut chunks: Vec<Mesh> = vec![Mesh {
@@ -97,18 +102,27 @@ fn build_scene(
     let mut locations: Vec<Vec<CellLocation>> = Vec::with_capacity(rows);
     let mut hitdata: Vec<Vec<CellHitData>> = Vec::with_capacity(rows);
     let mut semantics: Vec<Vec<[u8; 4]>> = Vec::with_capacity(rows);
+    let mut centroids: Vec<Vec<(f32, f32)>> = Vec::with_capacity(rows);
 
     for r in 0..rows {
         let mut row_locs = Vec::with_capacity(cols);
         let mut row_hits = Vec::with_capacity(cols);
         let mut row_sem = Vec::with_capacity(cols);
+        let mut row_cen = Vec::with_capacity(cols);
 
         for c in 0..cols {
             let color = cell_color(maze.data[r][c], colors);
             let mesh = shape_factory.shape(r, c, rows, cols, color);
 
             // Collect vertex positions (read-only; used only for hit testing).
-            let positions = mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
+            let positions: Vec<(f32, f32)> =
+                mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
+
+            // Precompute the centroid from the vertex positions.
+            let n = positions.len();
+            let (sx, sy) = positions.iter().fold((0.0f32, 0.0f32), |acc, &(x, y)| (acc.0 + x, acc.1 + y));
+            row_cen.push(if n > 0 { (sx / n as f32, sy / n as f32) } else { (0.0, 0.0) });
+
             row_hits.push(CellHitData { positions });
 
             // Store the unlit semantic colour for this cell.
@@ -150,9 +164,10 @@ fn build_scene(
         locations.push(row_locs);
         hitdata.push(row_hits);
         semantics.push(row_sem);
+        centroids.push(row_cen);
     }
 
-    (chunks, locations, hitdata, semantics)
+    (chunks, locations, hitdata, semantics, centroids)
 }
 
 // ── MazeScene impl ───────────────────────────────────────────────────────────
@@ -165,7 +180,7 @@ impl MazeScene {
         shape_factory: Box<dyn UnitShapeFactory>,
     ) -> Self {
         let wh = shape_factory.wh_for(maze.rows(), maze.cols());
-        let (scene_chunks, cell_locations, cell_hitdata, cell_semantic_colors) =
+        let (scene_chunks, cell_locations, cell_hitdata, cell_semantic_colors, cell_centroids) =
             build_scene(maze, shape_factory.as_ref(), colors);
 
         let mut scene = Self {
@@ -180,6 +195,7 @@ impl MazeScene {
             cell_locations,
             cell_hitdata,
             cell_semantic_colors,
+            cell_centroids,
         };
 
         if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
@@ -383,6 +399,64 @@ impl MazeScene {
                 let end = start + loc.vertex_count;
                 for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
                     v.color = lit;
+                }
+            }
+        }
+    }
+
+    /// Apply a fish-eye zoom effect centred on `center` (in grid-cell coords).
+    ///
+    /// Cells near the centre are magnified: every vertex is displaced outward
+    /// from the light-source pixel with a zoom factor that follows an
+    /// inverse-square falloff based on **grid-cell** distance:
+    ///
+    ///   `zoom = ZOOM_STRENGTH / (1 + (d_cells / cell_radius)²)`
+    ///
+    /// Reads original positions from `cell_hitdata` so repeated calls never
+    /// compound the displacement.
+    pub(crate) fn apply_fisheye(&mut self, center: Node, cell_radius: f32) {
+        const ZOOM_STRENGTH: f32 = 0.5; // magnification factor at the peak (50 % larger)
+        let (cx, cy) = self.cell_centroids[center.row][center.col];
+        let r2 = cell_radius * cell_radius;
+
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let dr = r as f32 - center.row as f32;
+                let dc = c as f32 - center.col as f32;
+                let d2 = dr * dr + dc * dc;
+                let zoom = ZOOM_STRENGTH / (1.0 + d2 / r2);
+
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let vcount = loc.vertex_count;
+                let orig = &self.cell_hitdata[r][c].positions;
+
+                for i in 0..vcount {
+                    let (ox, oy) = orig[i];
+                    let dx = ox - cx;
+                    let dy = oy - cy;
+                    let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
+                    v.position.x = cx + dx * (1.0 + zoom);
+                    v.position.y = cy + dy * (1.0 + zoom);
+                }
+            }
+        }
+    }
+
+    /// Restore every vertex to its original (un-distorted) position.
+    /// Call this when the fish-eye effect is switched off.
+    pub(crate) fn restore_original_positions(&mut self) {
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let vcount = loc.vertex_count;
+                let orig = &self.cell_hitdata[r][c].positions;
+                for i in 0..vcount {
+                    let (ox, oy) = orig[i];
+                    let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
+                    v.position.x = ox;
+                    v.position.y = oy;
                 }
             }
         }

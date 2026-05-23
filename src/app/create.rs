@@ -4,7 +4,8 @@ use crate::render::display_loop::{generate_loop, generate_simulation_loop};
 use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
-    let light_source_effect = matches!(global.effect, Some(ArgEffect::LightSource));
+    let light_source_effect = global.effect.contains(&ArgEffect::LightSource);
+    let fisheye_effect = global.effect.contains(&ArgEffect::FishEye);
     let context = AmazeingContext::create_context(
         None,
         args.maze,
@@ -18,6 +19,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
         global.fps,
         global.show_perimeter,
         light_source_effect,
+        fisheye_effect,
     );
 
     let mut scene = MazeScene::new_from_dimension(

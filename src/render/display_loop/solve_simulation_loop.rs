@@ -9,6 +9,10 @@ use std::sync::mpsc::{self, Receiver, TryRecvError};
 /// At this distance the brightness is ~50 % of the peak brightness.
 const LIGHT_RADIUS: f32 = 15.0;
 
+/// Radius of the fish-eye zoom effect in grid-cell units.
+/// At this distance the magnification is ~50 % of the peak magnification.
+const FISHEYE_RADIUS: f32 = 10.0;
+
 enum SolveEvent {
     Step(Trace),
     Done(Vec<Node>),
@@ -40,6 +44,7 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         if is_key_pressed(KeyCode::R) {
             scene.maze = initial_maze.clone();
             scene.update();
+            scene.restore_original_positions();
             sources.clear();
             destination = None;
             current_trace_from_source.clear();
@@ -125,6 +130,7 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                 light_center = None;
                                 // Restore full brightness so the final result is clearly visible.
                                 scene.restore_full_brightness();
+                                scene.restore_original_positions();
                                 break;
                             }
                             Err(TryRecvError::Empty) => break,
@@ -134,6 +140,7 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                 solve_events = None;
                                 light_center = None;
                                 scene.restore_full_brightness();
+                                scene.restore_original_positions();
                                 break;
                             }
                         }
@@ -192,6 +199,13 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         if scene.context.light_source_effect {
             if let Some(center) = light_center {
                 scene.apply_light_source(center, LIGHT_RADIUS);
+            }
+        }
+
+        // Apply the fish-eye zoom effect while simulating.
+        if scene.context.fisheye_effect {
+            if let Some(center) = light_center {
+                scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
         }
 

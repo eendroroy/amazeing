@@ -21,8 +21,10 @@ _amazeing() {
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-P[Draw maze bound (perimeter)]' \
 '--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -72,8 +74,10 @@ dijkstra\:""))' \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -116,8 +120,10 @@ dijkstra\:""))' \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -136,8 +142,10 @@ _arguments "${_arguments_options[@]}" : \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -156,8 +164,10 @@ _arguments "${_arguments_options[@]}" : \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -190,8 +200,10 @@ dijkstra\:""))' \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -224,8 +236,10 @@ dijkstra\:""))' \
 '--colors=[Color file (.toml) path]:Colors.toml:_files' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
-'-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
-'--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"))' \
+'*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+'*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
 '-P[Draw maze bound (perimeter)]' \

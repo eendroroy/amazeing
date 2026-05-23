@@ -9,6 +9,9 @@ use std::sync::mpsc::{self, Receiver, TryRecvError};
 /// Radius of the torch-light effect in grid-cell units.
 const LIGHT_RADIUS: f32 = 15.0;
 
+/// Radius of the fish-eye zoom effect in grid-cell units.
+const FISHEYE_RADIUS: f32 = 10.0;
+
 enum GenerationEvent {
     Step(Trace),
     Done(Maze),
@@ -99,6 +102,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         if is_key_pressed(KeyCode::R) {
             scene.maze = initial_maze.clone();
             scene.update();
+            scene.restore_original_positions();
             sources.clear();
             destination = None;
             active_paths.clear();
@@ -148,6 +152,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                             light_center = None;
                             // Restore full brightness now that the light is gone.
                             scene.restore_full_brightness();
+                            scene.restore_original_positions();
                             break;
                         }
                         Err(TryRecvError::Empty) => break,
@@ -157,6 +162,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                             generation_events = None;
                             light_center = None;
                             scene.restore_full_brightness();
+                            scene.restore_original_positions();
                             break;
                         }
                     }
@@ -228,6 +234,13 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         if scene.context.light_source_effect {
             if let Some(center) = light_center {
                 scene.apply_light_source(center, LIGHT_RADIUS);
+            }
+        }
+
+        // Apply the fish-eye zoom effect every frame while a light is active.
+        if scene.context.fisheye_effect {
+            if let Some(center) = light_center {
+                scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
         }
 

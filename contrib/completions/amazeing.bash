@@ -87,11 +87,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -197,11 +197,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -337,11 +337,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -391,11 +391,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "light-source fish-eye" -- "${cur}"))
                     return 0
                     ;;
                 *)
