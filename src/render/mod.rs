@@ -16,9 +16,9 @@ pub(crate) const LIGHT_RADIUS: f32 = 15.0;
 pub(crate) const LIGHT_AMBIENT: f32 = 0.5;
 
 /// Radius of the fish-eye zoom effect in grid-cell units.
-pub(crate) const FISHEYE_RADIUS: f32 = 10.0;
+pub(crate) const FISHEYE_RADIUS: f32 = 5.0;
 /// Zoom strength of the fish-eye zoom effect in grid-cell units.
-pub(crate) const ZOOM_STRENGTH: f32 = 0.5;
+pub(crate) const ZOOM_STRENGTH: f32 = 0.25;
 
 /// Radius of the colour-source glow effect in grid-cell units.
 pub(crate) const COLOR_SOURCE_RADIUS: f32 = 3.0;
