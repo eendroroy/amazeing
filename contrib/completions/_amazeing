@@ -64,14 +64,18 @@ dijkstra\:""))' \
 '--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-F+[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
-'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
-'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
+'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -114,14 +118,18 @@ dijkstra\:""))' \
 '--weight-direction=[Weight direction (ordering) (to use with AStar)]:WEIGHT_DIRECTION:(forward backward)' \
 '-F+[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
-'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
-'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
+'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -186,14 +194,18 @@ hex\:"Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this w
 dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
-'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
-'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
+'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -226,14 +238,18 @@ hex\:"Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this w
 dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
-'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+'*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
-'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
+'*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((torch\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
-shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
+glow\:"Glow effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-pulse\:"Shockwave-pulse effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"
+gravity-well\:"Gravity-well effect\: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp"
+chromatic-wave\:"Chromatic-wave effect\: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \

@@ -165,11 +165,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source fish-eye color-source shockwave-distortion" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "torch fish-eye glow shockwave-pulse gravity-well chromatic-wave" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source fish-eye color-source shockwave-distortion" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "torch fish-eye glow shockwave-pulse gravity-well chromatic-wave" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)
@@ -305,11 +305,11 @@ _amazeing() {
                     return 0
                     ;;
                 --effect)
-                    COMPREPLY=($(compgen -W "light-source fish-eye color-source shockwave-distortion" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "torch fish-eye glow shockwave-pulse gravity-well chromatic-wave" -- "${cur}"))
                     return 0
                     ;;
                 -E)
-                    COMPREPLY=($(compgen -W "light-source fish-eye color-source shockwave-distortion" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "torch fish-eye glow shockwave-pulse gravity-well chromatic-wave" -- "${cur}"))
                     return 0
                     ;;
                 --zoom)

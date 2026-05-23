@@ -17,10 +17,12 @@ pub(crate) enum ContextType {
 /// Groups all optional visual-effect toggles into a single value.
 #[derive(Debug, Clone, Default)]
 pub struct EffectOptions {
-    pub(crate) light_source: bool,
+    pub(crate) torch: bool,
     pub(crate) fisheye: bool,
-    pub(crate) color_source: bool,
-    pub(crate) shockwave: bool,
+    pub(crate) glow: bool,
+    pub(crate) shockwave_pulse: bool,
+    pub(crate) gravity_well: bool,
+    pub(crate) chromatic_wave: bool,
 }
 
 impl EffectOptions {
@@ -32,10 +34,12 @@ impl EffectOptions {
     /// Build from the CLI effect list.
     pub fn from_args(effects: &[ArgEffect]) -> Self {
         Self {
-            light_source: effects.contains(&ArgEffect::LightSource),
+            torch: effects.contains(&ArgEffect::Torch),
             fisheye: effects.contains(&ArgEffect::FishEye),
-            color_source: effects.contains(&ArgEffect::ColorSource),
-            shockwave: effects.contains(&ArgEffect::ShockwaveDistortion),
+            glow: effects.contains(&ArgEffect::Glow),
+            shockwave_pulse: effects.contains(&ArgEffect::ShockwavePulse),
+            gravity_well: effects.contains(&ArgEffect::GravityWell),
+            chromatic_wave: effects.contains(&ArgEffect::ChromaticWave),
         }
     }
 }
@@ -150,10 +154,12 @@ mod tests {
         assert_eq!(context.cols, 31);
         assert_eq!(context.jumble_factor, 3);
         assert!(context.show_perimeter);
-        assert!(!context.effects.light_source);
+        assert!(!context.effects.torch);
         assert!(!context.effects.fisheye);
-        assert!(!context.effects.color_source);
-        assert!(!context.effects.shockwave);
+        assert!(!context.effects.glow);
+        assert!(!context.effects.shockwave_pulse);
+        assert!(!context.effects.gravity_well);
+        assert!(!context.effects.chromatic_wave);
         assert_eq!(context.context_type, ContextType::Create);
         assert_eq!(context.maze_file_path, Some(PathBuf::from("tmp/test.maze")));
     }
@@ -167,7 +173,14 @@ mod tests {
         assert_eq!(vc.cols, 7);
         assert_eq!(vc.context_type, ContextType::View);
 
-        let all_effects = EffectOptions { light_source: true, fisheye: true, color_source: true, shockwave: true };
+        let all_effects = EffectOptions {
+            torch: true,
+            fisheye: true,
+            glow: true,
+            shockwave_pulse: true,
+            gravity_well: true,
+            chromatic_wave: true,
+        };
         let sc = AmazeingContext::solve_context(
             maze,
             (ArgProcedure::Dfs, ArgHeuristic::Dijkstra.heuristic()),
@@ -176,10 +189,12 @@ mod tests {
         );
         assert_eq!(sc.rows, 5);
         assert_eq!(sc.cols, 7);
-        assert!(sc.effects.light_source);
+        assert!(sc.effects.torch);
         assert!(sc.effects.fisheye);
-        assert!(sc.effects.color_source);
-        assert!(sc.effects.shockwave);
+        assert!(sc.effects.glow);
+        assert!(sc.effects.shockwave_pulse);
+        assert!(sc.effects.gravity_well);
+        assert!(sc.effects.chromatic_wave);
         assert_eq!(sc.context_type, ContextType::Solve);
     }
 }

@@ -68,10 +68,12 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s j -l jumble
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "torch\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
-shockwave-distortion\t'Shockwave distortion effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'"
+glow\t'Glow effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
+shockwave-pulse\t'Shockwave-pulse effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'
+gravity-well\t'Gravity-well effect: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp'
+chromatic-wave\t'Chromatic-wave effect: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -109,10 +111,12 @@ complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s j -l jumble-fact
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "torch\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
-shockwave-distortion\t'Shockwave distortion effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'"
+glow\t'Glow effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
+shockwave-pulse\t'Shockwave-pulse effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'
+gravity-well\t'Gravity-well effect: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp'
+chromatic-wave\t'Chromatic-wave effect: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
@@ -150,10 +154,12 @@ octile\t''
 hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "torch\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
-shockwave-distortion\t'Shockwave distortion effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'"
+glow\t'Glow effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
+shockwave-pulse\t'Shockwave-pulse effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'
+gravity-well\t'Gravity-well effect: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp'
+chromatic-wave\t'Chromatic-wave effect: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -d 'Show a simulation of the solving process'
@@ -179,10 +185,12 @@ octile\t''
 hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "torch\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
-shockwave-distortion\t'Shockwave distortion effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'"
+glow\t'Glow effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'
+shockwave-pulse\t'Shockwave-pulse effect: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance'
+gravity-well\t'Gravity-well effect: vertices near the visiting frontier are pulled inward toward the peak, creating a sinkhole / black-hole warp'
+chromatic-wave\t'Chromatic-wave effect: animated luminance rings radiate outward from the visiting frontier as a sine-wave brightness modulation that decays exponentially with distance — no vertex displacement'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -d 'Show a simulation of the solving process'

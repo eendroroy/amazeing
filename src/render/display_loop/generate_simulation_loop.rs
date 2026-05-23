@@ -5,7 +5,7 @@ use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
-use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, GRAVITY_WELL_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 
 enum GenerationEvent {
     Step(Trace),
@@ -225,13 +225,22 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
         }
 
-        // Apply colour effects in a single combined pass so light-source and
-        // colour-source compose correctly (tint first, then dim).
-        let do_light = scene.context.effects.light_source;
-        let do_color_source = scene.context.effects.color_source;
-        if do_light || do_color_source {
+        // Apply colour effects in a single combined pass so torch, glow, and
+        // chromatic-wave compose correctly (tint → dim → wave).
+        let do_light = scene.context.effects.torch;
+        let do_color_source = scene.context.effects.glow;
+        let do_chromatic_wave = scene.context.effects.chromatic_wave;
+        if do_light || do_color_source || do_chromatic_wave {
             if let Some(center) = light_center {
-                scene.apply_color_effects(center, LIGHT_RADIUS, COLOR_SOURCE_RADIUS, do_light, do_color_source);
+                scene.apply_color_effects(
+                    center,
+                    LIGHT_RADIUS,
+                    COLOR_SOURCE_RADIUS,
+                    do_light,
+                    do_color_source,
+                    do_chromatic_wave,
+                    get_time() as f32,
+                );
             }
         }
 
@@ -242,8 +251,15 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
         }
 
-        // Apply the shockwave distortion effect every frame while a light is active.
-        if scene.context.effects.shockwave {
+        // Apply the gravity-well inward-pull effect every frame while a light is active.
+        if scene.context.effects.gravity_well {
+            if let Some(center) = light_center {
+                scene.apply_gravity_well(center, GRAVITY_WELL_RADIUS);
+            }
+        }
+
+        // Apply the shockwave-pulse distortion effect every frame while a light is active.
+        if scene.context.effects.shockwave_pulse {
             if let Some(center) = light_center {
                 scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }

@@ -5,7 +5,11 @@ use crate::render::unit::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     RhombusUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
 };
-use crate::render::{BORDER, COLOR_SOURCE_PEAK, LIGHT_AMBIENT, MARGIN, SHOCKWAVE_AMPLITUDE, SHOCKWAVE_FREQUENCY, SHOCKWAVE_SPEED, ZOOM_STRENGTH};
+use crate::render::{
+    BORDER, CHROMATIC_WAVE_AMPLITUDE, CHROMATIC_WAVE_FREQUENCY, CHROMATIC_WAVE_RADIUS, CHROMATIC_WAVE_SPEED,
+    COLOR_SOURCE_PEAK, GRAVITY_WELL_STRENGTH, LIGHT_AMBIENT, MARGIN, SHOCKWAVE_AMPLITUDE, SHOCKWAVE_FREQUENCY,
+    SHOCKWAVE_SPEED, ZOOM_STRENGTH,
+};
 use crate::util::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
 
@@ -382,6 +386,20 @@ impl MazeScene {
     /// Either effect may be disabled by passing `false`; the method degrades
     /// gracefully to just the enabled effect(s).  Both effects read from the
     /// *unlit* `cell_semantic_colors` buffer so repeated calls never compound.
+    /// Apply all active colour effects in a single pass so they compose
+    /// correctly instead of the last writer winning.
+    ///
+    /// When both effects are enabled the pipeline is:
+    ///   1. **Glow tint** – blend the visiting-peak colour onto the
+    ///      cell's unlit semantic colour.
+    ///   2. **Torch brightness** – dim the result with an inverse-square
+    ///      brightness curve (ambient floor: `LIGHT_AMBIENT`).
+    ///   3. **Chromatic-wave brightness** – modulate luminance with animated
+    ///      sine rings that decay exponentially with distance.
+    ///
+    /// Any effect may be disabled by passing `false`; the method degrades
+    /// gracefully to just the enabled effect(s).  All effects read from the
+    /// *unlit* `cell_semantic_colors` buffer so repeated calls never compound.
     pub(crate) fn apply_color_effects(
         &mut self,
         center: Node,
@@ -389,8 +407,9 @@ impl MazeScene {
         color_source_radius: f32,
         do_light: bool,
         do_color_source: bool,
+        do_chromatic_wave: bool,
+        elapsed_secs: f32,
     ) {
-
         let source_rgba: [u8; 4] = if do_color_source {
             self.colors
                 .color_visiting_gradient
@@ -414,7 +433,7 @@ impl MazeScene {
 
                 let base = self.cell_semantic_colors[r][c];
 
-                // ── step 1: colour-source tint ──────────────────────────────
+                // ── step 1: glow tint ───────────────────────────────────────
                 let tinted = if do_color_source {
                     let blend = COLOR_SOURCE_PEAK / (1.0 + dist_sq / cs_r2);
                     let inv = 1.0 - blend;
@@ -428,8 +447,8 @@ impl MazeScene {
                     base
                 };
 
-                // ── step 2: light-source brightness ─────────────────────────
-                let final_color = if do_light {
+                // ── step 2: torch brightness ────────────────────────────────
+                let lit = if do_light {
                     let t = dist_sq / light_r2;
                     let brightness = LIGHT_AMBIENT + (1.0 - LIGHT_AMBIENT) / (1.0 + t);
                     [
@@ -440,6 +459,22 @@ impl MazeScene {
                     ]
                 } else {
                     tinted
+                };
+
+                // ── step 3: chromatic-wave brightness rings ─────────────────
+                let final_color = if do_chromatic_wave {
+                    let d = dist_sq.sqrt();
+                    let envelope = (-d / CHROMATIC_WAVE_RADIUS).exp();
+                    let phase = d * CHROMATIC_WAVE_FREQUENCY - elapsed_secs * CHROMATIC_WAVE_SPEED;
+                    let wave = (1.0 + CHROMATIC_WAVE_AMPLITUDE * phase.sin() * envelope).clamp(0.15, 1.85);
+                    [
+                        (lit[0] as f32 * wave).clamp(0.0, 255.0) as u8,
+                        (lit[1] as f32 * wave).clamp(0.0, 255.0) as u8,
+                        (lit[2] as f32 * wave).clamp(0.0, 255.0) as u8,
+                        lit[3],
+                    ]
+                } else {
+                    lit
                 };
 
                 let loc = self.cell_locations[r][c];
@@ -489,7 +524,47 @@ impl MazeScene {
         }
     }
 
-    /// Apply a shockwave (ripple) distortion centred on `center` (grid-cell coords).
+    /// Apply a gravity-well inward-pull effect centred on `center` (grid-cell coords).
+    ///
+    /// This is the inverse of the fish-eye: every vertex is pulled **toward**
+    /// the peak centroid with a pull factor that follows an inverse-square
+    /// falloff based on **grid-cell** distance:
+    ///
+    ///   `pull = GRAVITY_WELL_STRENGTH / (1 + (d_cells / cell_radius)²)`
+    ///
+    /// Reads original positions from `cell_hitdata` so repeated calls never
+    /// compound the displacement.
+    pub(crate) fn apply_gravity_well(&mut self, center: Node, cell_radius: f32) {
+        let (cx, cy) = self.cell_centroids[center.row][center.col];
+        let r2 = cell_radius * cell_radius;
+
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let dr = r as f32 - center.row as f32;
+                let dc = c as f32 - center.col as f32;
+                let d2 = dr * dr + dc * dc;
+                // Negative zoom → pulls vertices inward toward the center.
+                let pull = GRAVITY_WELL_STRENGTH / (1.0 + d2 / r2);
+
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let vcount = loc.vertex_count;
+                let orig = &self.cell_hitdata[r][c].positions;
+
+                for i in 0..vcount {
+                    let (ox, oy) = orig[i];
+                    let dx = ox - cx;
+                    let dy = oy - cy;
+                    let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
+                    // (1 - pull) moves each vertex that fraction closer to cx,cy.
+                    v.position.x = cx + dx * (1.0 - pull);
+                    v.position.y = cy + dy * (1.0 - pull);
+                }
+            }
+        }
+    }
+
+
     ///
     /// Each vertex is displaced **radially** from the light-source centroid by:
     ///

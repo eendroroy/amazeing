@@ -277,30 +277,41 @@ impl Display for ArgHeuristic {
 pub enum ArgEffect {
     /// Torch-light effect: the visiting frontier illuminates nearby cells,
     /// with brightness falling off as distance grows.
-    #[clap(alias = "ls")]
-    LightSource,
+    #[clap(alias = "t")]
+    Torch,
     /// Fish-eye zoom effect: the visiting frontier is magnified; the zoom
     /// falls off smoothly as grid-cell distance grows.
     #[clap(alias = "fe")]
     FishEye,
-    /// Color-source effect: the visiting-peak color bleeds / glows onto nearby
+    /// Glow effect: the visiting-peak color bleeds / glows onto nearby
     /// cells, with the tint intensity falling off smoothly with distance.
-    #[clap(alias = "cs")]
-    ColorSource,
-    /// Shockwave distortion effect: an animated radial ripple emanates from the
+    #[clap(alias = "g")]
+    Glow,
+    /// Shockwave-pulse effect: an animated radial ripple emanates from the
     /// visiting frontier, displacing vertices in a sine-wave pattern that decays
     /// exponentially with distance.
-    #[clap(alias = "sw")]
-    ShockwaveDistortion,
+    #[clap(alias = "sp")]
+    ShockwavePulse,
+    /// Gravity-well effect: vertices near the visiting frontier are pulled
+    /// inward toward the peak, creating a sinkhole / black-hole warp.
+    #[clap(alias = "gw")]
+    GravityWell,
+    /// Chromatic-wave effect: animated luminance rings radiate outward from
+    /// the visiting frontier as a sine-wave brightness modulation that decays
+    /// exponentially with distance — no vertex displacement.
+    #[clap(alias = "cw")]
+    ChromaticWave,
 }
 
 impl Display for ArgEffect {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ArgEffect::LightSource => write!(f, "light-source"),
+            ArgEffect::Torch => write!(f, "torch"),
             ArgEffect::FishEye => write!(f, "fish-eye"),
-            ArgEffect::ColorSource => write!(f, "color-source"),
-            ArgEffect::ShockwaveDistortion => write!(f, "shockwave-distortion"),
+            ArgEffect::Glow => write!(f, "glow"),
+            ArgEffect::ShockwavePulse => write!(f, "shockwave-pulse"),
+            ArgEffect::GravityWell => write!(f, "gravity-well"),
+            ArgEffect::ChromaticWave => write!(f, "chromatic-wave"),
         }
     }
 }

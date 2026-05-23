@@ -1,7 +1,7 @@
 use crate::maze::{Maze, Node, Trace};
 use crate::render::helper::{current_micros, handle_mouse_click, solve_maze_stream, take_a_snap};
 use crate::render::scene::MazeScene;
-use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, GRAVITY_WELL_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
@@ -189,13 +189,22 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             light_center = Some(*source);
         }
 
-        // Apply colour effects in a single combined pass so light-source and
-        // colour-source compose correctly (tint first, then dim).
-        let do_light = scene.context.effects.light_source;
-        let do_color_source = scene.context.effects.color_source;
-        if do_light || do_color_source {
+        // Apply colour effects in a single combined pass so torch, glow, and
+        // chromatic-wave compose correctly (tint → dim → wave).
+        let do_light = scene.context.effects.torch;
+        let do_color_source = scene.context.effects.glow;
+        let do_chromatic_wave = scene.context.effects.chromatic_wave;
+        if do_light || do_color_source || do_chromatic_wave {
             if let Some(center) = light_center {
-                scene.apply_color_effects(center, LIGHT_RADIUS, COLOR_SOURCE_RADIUS, do_light, do_color_source);
+                scene.apply_color_effects(
+                    center,
+                    LIGHT_RADIUS,
+                    COLOR_SOURCE_RADIUS,
+                    do_light,
+                    do_color_source,
+                    do_chromatic_wave,
+                    get_time() as f32,
+                );
             }
         }
 
@@ -206,8 +215,15 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             }
         }
 
-        // Apply the shockwave distortion effect while simulating.
-        if scene.context.effects.shockwave {
+        // Apply the gravity-well inward-pull effect while simulating.
+        if scene.context.effects.gravity_well {
+            if let Some(center) = light_center {
+                scene.apply_gravity_well(center, GRAVITY_WELL_RADIUS);
+            }
+        }
+
+        // Apply the shockwave-pulse distortion effect while simulating.
+        if scene.context.effects.shockwave_pulse {
             if let Some(center) = light_center {
                 scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }
