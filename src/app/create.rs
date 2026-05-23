@@ -7,6 +7,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
     let light_source_effect = args.effect.contains(&ArgEffect::LightSource);
     let fisheye_effect = args.effect.contains(&ArgEffect::FishEye);
     let color_source_effect = args.effect.contains(&ArgEffect::ColorSource);
+    let shockwave_effect = args.effect.contains(&ArgEffect::ShockwaveDistortion);
     let context = AmazeingContext::create_context(
         None,
         args.maze,
@@ -22,6 +23,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
         light_source_effect,
         fisheye_effect,
         color_source_effect,
+        shockwave_effect,
     );
 
     let mut scene = MazeScene::new_from_dimension(

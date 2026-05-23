@@ -1,7 +1,7 @@
 use crate::maze::{Maze, Node, Trace};
 use crate::render::helper::{current_micros, handle_mouse_click, solve_maze_stream, take_a_snap};
 use crate::render::scene::MazeScene;
-use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS};
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
@@ -203,6 +203,13 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         if scene.context.fisheye_effect {
             if let Some(center) = light_center {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
+            }
+        }
+
+        // Apply the shockwave distortion effect while simulating.
+        if scene.context.shockwave_effect {
+            if let Some(center) = light_center {
+                scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }
         }
 

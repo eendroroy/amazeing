@@ -5,7 +5,7 @@ use crate::render::unit::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     RhombusUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
 };
-use crate::render::{BORDER, COLOR_SOURCE_PEAK, LIGHT_AMBIENT, MARGIN, ZOOM_STRENGTH};
+use crate::render::{BORDER, COLOR_SOURCE_PEAK, LIGHT_AMBIENT, MARGIN, SHOCKWAVE_AMPLITUDE, SHOCKWAVE_FREQUENCY, SHOCKWAVE_SPEED, ZOOM_STRENGTH};
 use crate::util::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
 
@@ -484,6 +484,56 @@ impl MazeScene {
                     let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
                     v.position.x = cx + dx * (1.0 + zoom);
                     v.position.y = cy + dy * (1.0 + zoom);
+                }
+            }
+        }
+    }
+
+    /// Apply a shockwave (ripple) distortion centred on `center` (grid-cell coords).
+    ///
+    /// Each vertex is displaced **radially** from the light-source centroid by:
+    ///
+    ///   `displacement = SHOCKWAVE_AMPLITUDE × sin(d × SHOCKWAVE_FREQUENCY − elapsed × SHOCKWAVE_SPEED)`
+    ///                 `× exp(−d / cell_radius)`
+    ///
+    /// where `d` is the grid-cell distance from the center and `elapsed` is the
+    /// time in seconds since the simulation started (drives the animation).
+    ///
+    /// Reads original vertex positions from `cell_hitdata` so repeated calls
+    /// never compound the displacement.
+    pub(crate) fn apply_shockwave(&mut self, center: Node, cell_radius: f32, elapsed_secs: f32) {
+        let (cx, cy) = self.cell_centroids[center.row][center.col];
+
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let dr = r as f32 - center.row as f32;
+                let dc = c as f32 - center.col as f32;
+                let d = (dr * dr + dc * dc).sqrt();
+
+                // Smooth exponential envelope so the wave dies off with distance.
+                let envelope = (-d / cell_radius).exp();
+                let phase = d * SHOCKWAVE_FREQUENCY - elapsed_secs * SHOCKWAVE_SPEED;
+                let ripple = phase.sin() * SHOCKWAVE_AMPLITUDE * envelope;
+
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let vcount = loc.vertex_count;
+                let orig = &self.cell_hitdata[r][c].positions;
+
+                for i in 0..vcount {
+                    let (ox, oy) = orig[i];
+                    // Radial direction from the light source centroid to this vertex.
+                    let vdx = ox - cx;
+                    let vdy = oy - cy;
+                    let vdist = (vdx * vdx + vdy * vdy).sqrt();
+                    let (nx, ny) = if vdist > 0.001 {
+                        (ox + (vdx / vdist) * ripple, oy + (vdy / vdist) * ripple)
+                    } else {
+                        (ox, oy)
+                    };
+                    let v = &mut self.scene_chunks[loc.chunk].vertices[start + i];
+                    v.position.x = nx;
+                    v.position.y = ny;
                 }
             }
         }

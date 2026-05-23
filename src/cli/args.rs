@@ -287,6 +287,11 @@ pub enum ArgEffect {
     /// cells, with the tint intensity falling off smoothly with distance.
     #[clap(alias = "cs")]
     ColorSource,
+    /// Shockwave distortion effect: an animated radial ripple emanates from the
+    /// visiting frontier, displacing vertices in a sine-wave pattern that decays
+    /// exponentially with distance.
+    #[clap(alias = "sw")]
+    ShockwaveDistortion,
 }
 
 impl Display for ArgEffect {
@@ -295,6 +300,7 @@ impl Display for ArgEffect {
             ArgEffect::LightSource => write!(f, "light-source"),
             ArgEffect::FishEye => write!(f, "fish-eye"),
             ArgEffect::ColorSource => write!(f, "color-source"),
+            ArgEffect::ShockwaveDistortion => write!(f, "shockwave-distortion"),
         }
     }
 }

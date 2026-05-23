@@ -66,10 +66,12 @@ dijkstra\:""))' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -114,10 +116,12 @@ dijkstra\:""))' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -184,10 +188,12 @@ dijkstra\:""))' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \
@@ -222,10 +228,12 @@ dijkstra\:""))' \
 '--fps=[Frame rate per second (controls simulation speed); only valid with --verbose]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '*--effect=[Visual effect to apply during simulation; only valid with --verbose]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
 fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
-color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"
+shockwave-distortion\:"Shockwave distortion effect\: an animated radial ripple emanates from the visiting frontier, displacing vertices in a sine-wave pattern that decays exponentially with distance"))' \
 '-Z+[Display size (zoom)]:ZOOM:_default' \
 '--zoom=[Display size (zoom)]:ZOOM:_default' \
 '-C+[Color file (.toml) path]:Colors.toml:_files' \

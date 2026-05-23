@@ -24,3 +24,13 @@ pub(crate) const ZOOM_STRENGTH: f32 = 0.25;
 pub(crate) const COLOR_SOURCE_RADIUS: f32 = 3.0;
 /// Maximum colour-source blend weight at the peak cell (0 = no tint, 1 = solid source colour).
 pub(crate) const COLOR_SOURCE_PEAK: f32 = 0.65;
+
+/// Decay radius of the shock-wave distortion effect in grid-cell units.
+pub(crate) const SHOCKWAVE_RADIUS: f32 = 10.0;
+/// Maximum pixel-space radial displacement at the wave crest.
+pub(crate) const SHOCKWAVE_AMPLITUDE: f32 = 5.0;
+/// Spatial frequency of the shock-wave ripple (higher = more rings per cell).
+pub(crate) const SHOCKWAVE_FREQUENCY: f32 = 0.75;
+/// Speed at which the shock-wave phase advances per second.
+pub(crate) const SHOCKWAVE_SPEED: f32 = 5.0;
+

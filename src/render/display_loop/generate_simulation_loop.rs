@@ -5,7 +5,7 @@ use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
-use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS};
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS, SHOCKWAVE_RADIUS};
 
 enum GenerationEvent {
     Step(Trace),
@@ -239,6 +239,13 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         if scene.context.fisheye_effect {
             if let Some(center) = light_center {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
+            }
+        }
+
+        // Apply the shockwave distortion effect every frame while a light is active.
+        if scene.context.shockwave_effect {
+            if let Some(center) = light_center {
+                scene.apply_shockwave(center, SHOCKWAVE_RADIUS, get_time() as f32);
             }
         }
 

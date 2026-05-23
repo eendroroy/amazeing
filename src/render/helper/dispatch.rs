@@ -246,6 +246,7 @@ mod tests {
                 false,
                 false,
                 false,
+                false, // shockwave_effect
             )
         };
 
@@ -355,6 +356,7 @@ mod tests {
             false,
             false,
             false,
+            false, // shockwave_effect
         );
         generate_maze(&mut maze_astar, &[source], Some(destination), &astar_ctx, &mut None);
         assert_eq!(maze_astar[source], OPEN);
