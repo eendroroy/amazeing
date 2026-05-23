@@ -34,17 +34,9 @@ pub struct AmazeingArgs {
     #[clap(global = true, long, short = 'C', display_order = 102, value_name = "Colors.toml")]
     pub colors: Option<PathBuf>,
 
-    /// Frame rate per second (controls simulation speed)
-    #[clap(global = true, long, short = 'F', display_order = 103, default_value_t = 60.)]
-    pub fps: f32,
-
     /// Draw maze bound (perimeter)
     #[clap(global = true, long, short = 'P', display_order = 103, default_value_t = false)]
     pub show_perimeter: bool,
-
-    /// Visual effect to apply during simulation
-    #[clap(global = true, long, short = 'E', display_order = 104, value_name = "Effect", action = clap::ArgAction::Append)]
-    pub effect: Vec<ArgEffect>,
 }
 
 /// {ui-name} amazeing create
@@ -102,6 +94,14 @@ pub struct CreateArgs {
     /// Show a simulation of the generation process
     #[clap(global = true, long, short, default_value_t = false)]
     pub verbose: bool,
+
+    /// Frame rate per second (controls simulation speed); only valid with --verbose
+    #[clap(long, short = 'F', display_order = 103, default_value_t = 60., requires = "verbose")]
+    pub fps: f32,
+
+    /// Visual effect to apply during simulation; only valid with --verbose
+    #[clap(long, short = 'E', display_order = 104, value_name = "Effect", action = clap::ArgAction::Append, requires = "verbose")]
+    pub effect: Vec<ArgEffect>,
 }
 
 #[derive(Debug, Clone, PartialEq, Parser)]
@@ -132,6 +132,14 @@ pub struct SolveArgs {
     /// Show a simulation of the solving process
     #[clap(long, short, default_value_t = false)]
     pub verbose: bool,
+
+    /// Frame rate per second (controls simulation speed); only valid with --verbose
+    #[clap(long, short = 'F', display_order = 103, default_value_t = 60., requires = "verbose")]
+    pub fps: f32,
+
+    /// Visual effect to apply during simulation; only valid with --verbose
+    #[clap(long, short = 'E', display_order = 104, value_name = "Effect", action = clap::ArgAction::Append, requires = "verbose")]
+    pub effect: Vec<ArgEffect>,
 }
 
 #[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
@@ -303,7 +311,6 @@ mod tests {
             .expect("create args should parse");
 
         assert_eq!(parsed.zoom, 1.0);
-        assert_eq!(parsed.fps, 60.0);
         assert!(!parsed.show_perimeter);
 
         match parsed.command {
@@ -324,8 +331,6 @@ mod tests {
             "amazeing",
             "--zoom",
             "1.5",
-            "--fps",
-            "24",
             "solve",
             "--maze",
             "assets/maze/001_005_005_square.maze",
@@ -333,16 +338,19 @@ mod tests {
             "a-star",
             "-H",
             "manhattan",
+            "--verbose",
+            "--fps",
+            "24",
         ])
         .expect("solve args should parse");
 
         assert_eq!(parsed.zoom, 1.5);
-        assert_eq!(parsed.fps, 24.0);
 
         match parsed.command {
             ArgCommand::Solve(solve) => {
                 assert_eq!(solve.procedure, ArgProcedure::AStar);
                 assert_eq!(solve.heuristic_function, ArgHeuristic::Manhattan);
+                assert_eq!(solve.fps, 24.0);
                 assert_eq!(solve.maze, Path::new("assets/maze/001_005_005_square.maze"));
             }
             _ => panic!("expected solve command"),

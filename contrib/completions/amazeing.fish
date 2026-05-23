@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_amazeing_global_optspecs
-	string join \n Z/zoom= C/colors= F/fps= P/show-perimeter E/effect= h/help V/version
+	string join \n Z/zoom= C/colors= P/show-perimeter h/help V/version
 end
 
 function __fish_amazeing_needs_command
@@ -26,10 +26,6 @@ end
 
 complete -c amazeing -n "__fish_amazeing_needs_command" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_needs_command" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_needs_command" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_needs_command" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
-fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
 complete -c amazeing -n "__fish_amazeing_needs_command" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_needs_command" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_needs_command" -s V -l version -d 'Print version'
@@ -71,12 +67,12 @@ dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
 color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand create" -s h -l help -d 'Print help (see more with \'--help\')'
@@ -111,35 +107,27 @@ dijkstra\t''"
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s j -l jumble-factor -d 'Weight randomization factor (to use with AStar)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s w -l weight-direction -d 'Weight direction (ordering) (to use with AStar)' -r -f -a "forward\t''
 backward\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
 color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s v -l verbose -d 'Show a simulation of the generation process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand C" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
-fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s u -l update -d 'View and update'
 complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand view" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s Z -l zoom -d 'Display size (zoom)' -r
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
-fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
-color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s u -l update -d 'View and update'
 complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
-complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c amazeing -n "__fish_amazeing_using_subcommand V" -s h -l help -d 'Print help'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s m -l maze -d 'Maze file path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s p -l procedure -d 'Maze Solving Procedure' -r -f -a "bfs\t''
 dfs\t''
@@ -159,12 +147,12 @@ chebyshev\t''
 octile\t''
 hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
 color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s v -l verbose -d 'Show a simulation of the solving process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand solve" -s h -l help -d 'Print help (see more with \'--help\')'
@@ -187,12 +175,12 @@ chebyshev\t''
 octile\t''
 hex\t'Exact minimum-step distance for hexagonal (odd-r offset) grids. Use this with `--unit-shape hexagon` or `hexagon-rectangle`'
 dijkstra\t''"
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size (zoom)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l colors -d 'Color file (.toml) path' -r -F
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Frame rate per second (controls simulation speed)' -r
-complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s E -l effect -d 'Visual effect to apply during simulation' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s F -l fps -d 'Frame rate per second (controls simulation speed); only valid with --verbose' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s E -l effect -d 'Visual effect to apply during simulation; only valid with --verbose' -r -f -a "light-source\t'Torch-light effect: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows'
 fish-eye\t'Fish-eye zoom effect: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows'
 color-source\t'Color-source effect: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance'"
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s Z -l zoom -d 'Display size (zoom)' -r
+complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s C -l colors -d 'Color file (.toml) path' -r -F
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s v -l verbose -d 'Show a simulation of the solving process'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s P -l show-perimeter -d 'Draw maze bound (perimeter)'
 complete -c amazeing -n "__fish_amazeing_using_subcommand S" -s h -l help -d 'Print help (see more with \'--help\')'
