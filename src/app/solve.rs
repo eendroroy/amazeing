@@ -8,6 +8,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: SolveArgs) {
     let maze = load_maze_from_file(args.maze.as_path());
     let light_source_effect = global.effect.contains(&ArgEffect::LightSource);
     let fisheye_effect = global.effect.contains(&ArgEffect::FishEye);
+    let color_source_effect = global.effect.contains(&ArgEffect::ColorSource);
     let context = AmazeingContext::solve_context(
         maze,
         args.procedure,
@@ -17,6 +18,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: SolveArgs) {
         global.show_perimeter,
         light_source_effect,
         fisheye_effect,
+        color_source_effect,
     );
 
     let mut scene = MazeScene::new_from_maze(

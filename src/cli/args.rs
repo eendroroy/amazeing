@@ -275,6 +275,10 @@ pub enum ArgEffect {
     /// falls off smoothly as grid-cell distance grows.
     #[clap(alias = "fe")]
     FishEye,
+    /// Color-source effect: the visiting-peak color bleeds / glows onto nearby
+    /// cells, with the tint intensity falling off smoothly with distance.
+    #[clap(alias = "cs")]
+    ColorSource,
 }
 
 impl Display for ArgEffect {
@@ -282,6 +286,7 @@ impl Display for ArgEffect {
         match self {
             ArgEffect::LightSource => write!(f, "light-source"),
             ArgEffect::FishEye => write!(f, "fish-eye"),
+            ArgEffect::ColorSource => write!(f, "color-source"),
         }
     }
 }

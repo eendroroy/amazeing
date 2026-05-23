@@ -5,7 +5,7 @@ use crate::render::unit::{
     HexagonRectangleUnitShapeFactory, HexagonUnitShapeFactory, OctagonSquareUnitShapeFactory, OctagonUnitShapeFactory,
     RhombusUnitShapeFactory, SquareUnitShapeFactory, TriangleUnitShapeFactory, UnitShapeFactory,
 };
-use crate::render::{BORDER, MARGIN};
+use crate::render::{BORDER, COLOR_SOURCE_PEAK, LIGHT_AMBIENT, MARGIN, ZOOM_STRENGTH};
 use crate::util::IsDivisible;
 use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_mesh, vec2, vec3};
 
@@ -20,6 +20,7 @@ use macroquad::prelude::{Color, Mesh, Vertex, clear_background, draw_line, draw_
 ///   MAX_INDICES  =  5_000
 const CHUNK_MAX_VERTS: usize = 9_900;
 const CHUNK_MAX_INDICES: usize = 4_950;
+
 
 // ── internal data types ───────────────────────────────────────────────────────
 
@@ -369,43 +370,89 @@ impl MazeScene {
         }
     }
 
-    /// Apply a radial light source centred on `center` with the given `radius`
-    /// (in grid-cell units).  Cells near the centre are fully bright; brightness
-    /// falls off with an inverse-square curve down to `LIGHT_AMBIENT`.
+    /// Apply all active colour effects in a single pass so they compose
+    /// correctly instead of the last writer winning.
     ///
-    /// Reads the *unlit* semantic colour so calling this every frame never
-    /// compounds darkness on already-lit cells.
-    pub(crate) fn apply_light_source(&mut self, center: Node, radius: f32) {
-        const LIGHT_AMBIENT: f32 = 0.5; // minimum brightness for far-away cells
-        let radius_sq = radius * radius;
+    /// When both effects are enabled the pipeline is:
+    ///   1. **Colour-source tint** – blend the visiting-peak colour onto the
+    ///      cell's unlit semantic colour.
+    ///   2. **Light-source brightness** – dim the result with an inverse-square
+    ///      brightness curve (ambient floor: `LIGHT_AMBIENT`).
+    ///
+    /// Either effect may be disabled by passing `false`; the method degrades
+    /// gracefully to just the enabled effect(s).  Both effects read from the
+    /// *unlit* `cell_semantic_colors` buffer so repeated calls never compound.
+    pub(crate) fn apply_color_effects(
+        &mut self,
+        center: Node,
+        light_radius: f32,
+        color_source_radius: f32,
+        do_light: bool,
+        do_color_source: bool,
+    ) {
+
+        let source_rgba: [u8; 4] = if do_color_source {
+            self.colors
+                .color_visiting_gradient
+                .first()
+                .copied()
+                .unwrap_or(self.colors.color_visiting)
+                .into()
+        } else {
+            [0, 0, 0, 0]
+        };
+        let [sr, sg, sb, _] = source_rgba;
+
+        let light_r2 = light_radius * light_radius;
+        let cs_r2 = color_source_radius * color_source_radius;
+
         for r in 0..self.rows {
             for c in 0..self.cols {
                 let dr = r as f32 - center.row as f32;
                 let dc = c as f32 - center.col as f32;
                 let dist_sq = dr * dr + dc * dc;
-                // Smooth inverse-square falloff: 1.0 at centre → LIGHT_AMBIENT at ∞
-                let t = dist_sq / radius_sq;
-                let brightness = LIGHT_AMBIENT + (1.0 - LIGHT_AMBIENT) / (1.0 + t);
 
                 let base = self.cell_semantic_colors[r][c];
-                let lit = [
-                    (base[0] as f32 * brightness).min(255.0) as u8,
-                    (base[1] as f32 * brightness).min(255.0) as u8,
-                    (base[2] as f32 * brightness).min(255.0) as u8,
-                    base[3],
-                ];
+
+                // ── step 1: colour-source tint ──────────────────────────────
+                let tinted = if do_color_source {
+                    let blend = COLOR_SOURCE_PEAK / (1.0 + dist_sq / cs_r2);
+                    let inv = 1.0 - blend;
+                    [
+                        (base[0] as f32 * inv + sr as f32 * blend).min(255.0) as u8,
+                        (base[1] as f32 * inv + sg as f32 * blend).min(255.0) as u8,
+                        (base[2] as f32 * inv + sb as f32 * blend).min(255.0) as u8,
+                        base[3],
+                    ]
+                } else {
+                    base
+                };
+
+                // ── step 2: light-source brightness ─────────────────────────
+                let final_color = if do_light {
+                    let t = dist_sq / light_r2;
+                    let brightness = LIGHT_AMBIENT + (1.0 - LIGHT_AMBIENT) / (1.0 + t);
+                    [
+                        (tinted[0] as f32 * brightness).min(255.0) as u8,
+                        (tinted[1] as f32 * brightness).min(255.0) as u8,
+                        (tinted[2] as f32 * brightness).min(255.0) as u8,
+                        tinted[3],
+                    ]
+                } else {
+                    tinted
+                };
+
                 let loc = self.cell_locations[r][c];
                 let start = loc.vertex_start;
                 let end = start + loc.vertex_count;
                 for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
-                    v.color = lit;
+                    v.color = final_color;
                 }
             }
         }
     }
 
-    /// Apply a fish-eye zoom effect centred on `center` (in grid-cell coords).
-    ///
+    /// Apply a fish-eye zoom effect centred on `center` (in grid-cell coords).    ///
     /// Cells near the centre are magnified: every vertex is displaced outward
     /// from the light-source pixel with a zoom factor that follows an
     /// inverse-square falloff based on **grid-cell** distance:
@@ -415,7 +462,6 @@ impl MazeScene {
     /// Reads original positions from `cell_hitdata` so repeated calls never
     /// compound the displacement.
     pub(crate) fn apply_fisheye(&mut self, center: Node, cell_radius: f32) {
-        const ZOOM_STRENGTH: f32 = 0.5; // magnification factor at the peak (50 % larger)
         let (cx, cy) = self.cell_centroids[center.row][center.col];
         let r2 = cell_radius * cell_radius;
 

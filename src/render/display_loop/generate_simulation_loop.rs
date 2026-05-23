@@ -5,12 +5,7 @@ use crate::render::scene::MazeScene;
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
-
-/// Radius of the torch-light effect in grid-cell units.
-const LIGHT_RADIUS: f32 = 15.0;
-
-/// Radius of the fish-eye zoom effect in grid-cell units.
-const FISHEYE_RADIUS: f32 = 10.0;
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS};
 
 enum GenerationEvent {
     Step(Trace),
@@ -230,10 +225,13 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             }
         }
 
-        // Apply the torch-light effect every frame while a light is active.
-        if scene.context.light_source_effect {
+        // Apply colour effects in a single combined pass so light-source and
+        // colour-source compose correctly (tint first, then dim).
+        let do_light = scene.context.light_source_effect;
+        let do_color_source = scene.context.color_source_effect;
+        if do_light || do_color_source {
             if let Some(center) = light_center {
-                scene.apply_light_source(center, LIGHT_RADIUS);
+                scene.apply_color_effects(center, LIGHT_RADIUS, COLOR_SOURCE_RADIUS, do_light, do_color_source);
             }
         }
 
@@ -243,6 +241,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 scene.apply_fisheye(center, FISHEYE_RADIUS);
             }
         }
+
 
         take_a_snap(scene);
 

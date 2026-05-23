@@ -22,9 +22,11 @@ _amazeing() {
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-P[Draw maze bound (perimeter)]' \
 '--show-perimeter[Draw maze bound (perimeter)]' \
 '-h[Print help (see more with '\''--help'\'')]' \
@@ -75,9 +77,11 @@ dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -121,9 +125,11 @@ dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-v[Show a simulation of the generation process]' \
 '--verbose[Show a simulation of the generation process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -143,9 +149,11 @@ _arguments "${_arguments_options[@]}" : \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -165,9 +173,11 @@ _arguments "${_arguments_options[@]}" : \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-u[View and update]' \
 '--update[View and update]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -201,9 +211,11 @@ dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
 '-P[Draw maze bound (perimeter)]' \
@@ -237,9 +249,11 @@ dijkstra\:""))' \
 '-F+[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '--fps=[Frame rate per second (controls simulation speed)]:FPS:_default' \
 '*-E+[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '*--effect=[Visual effect to apply during simulation]:Effect:((light-source\:"Torch-light effect\: the visiting frontier illuminates nearby cells, with brightness falling off as distance grows"
-fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"))' \
+fish-eye\:"Fish-eye zoom effect\: the visiting frontier is magnified; the zoom falls off smoothly as grid-cell distance grows"
+color-source\:"Color-source effect\: the visiting-peak color bleeds / glows onto nearby cells, with the tint intensity falling off smoothly with distance"))' \
 '-v[Show a simulation of the solving process]' \
 '--verbose[Show a simulation of the solving process]' \
 '-P[Draw maze bound (perimeter)]' \

@@ -245,6 +245,7 @@ mod tests {
                 false,
                 false,
                 false,
+                false,
             )
         };
 
@@ -350,6 +351,7 @@ mod tests {
             5,
             1.0,
             60.0,
+            false,
             false,
             false,
             false,

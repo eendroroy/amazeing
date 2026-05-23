@@ -1,17 +1,10 @@
 use crate::maze::{Maze, Node, Trace};
 use crate::render::helper::{current_micros, handle_mouse_click, solve_maze_stream, take_a_snap};
 use crate::render::scene::MazeScene;
+use crate::render::{COLOR_SOURCE_RADIUS, FISHEYE_RADIUS, LIGHT_RADIUS};
 use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
-
-/// Radius of the torch-light effect in grid-cell units.
-/// At this distance the brightness is ~50 % of the peak brightness.
-const LIGHT_RADIUS: f32 = 15.0;
-
-/// Radius of the fish-eye zoom effect in grid-cell units.
-/// At this distance the magnification is ~50 % of the peak magnification.
-const FISHEYE_RADIUS: f32 = 10.0;
 
 enum SolveEvent {
     Step(Trace),
@@ -57,95 +50,97 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
         }
 
         if simulating {
-            if !paused && !trace_complete
-                && let Some(receiver) = &solve_events {
-                    // Process a small burst of frames per render so UI stays responsive.
-                    for _ in 0..4 {
-                        match receiver.try_recv() {
-                            Ok(SolveEvent::Step(step)) => {
-                                let is_destination_side = destination.is_some_and(|d| step.contains_key(&d));
+            if !paused
+                && !trace_complete
+                && let Some(receiver) = &solve_events
+            {
+                // Process a small burst of frames per render so UI stays responsive.
+                for _ in 0..4 {
+                    match receiver.try_recv() {
+                        Ok(SolveEvent::Step(step)) => {
+                            let is_destination_side = destination.is_some_and(|d| step.contains_key(&d));
 
-                                let active_trace = if is_destination_side {
-                                    &mut current_trace_from_destination
-                                } else {
-                                    &mut current_trace_from_source
-                                };
+                            let active_trace = if is_destination_side {
+                                &mut current_trace_from_destination
+                            } else {
+                                &mut current_trace_from_source
+                            };
 
-                                active_trace.iter().for_each(|(node, _)| {
-                                    if sources.first().is_none_or(|source| source.ne(node))
-                                        && destination.is_some_and(|d| d.ne(node))
-                                    {
-                                        scene.display_traversed(*node)
-                                    }
-                                });
-
-                                *active_trace = step;
-
-                                // Update light to the frontier (highest-rank node).
-                                if let Some((peak, _)) = active_trace.iter().max_by_key(|(_, r)| *r) {
-                                    light_center = Some(*peak);
+                            active_trace.iter().for_each(|(node, _)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && destination.is_some_and(|d| d.ne(node))
+                                {
+                                    scene.display_traversed(*node)
                                 }
+                            });
 
-                                active_trace.iter().for_each(|(node, rank)| {
-                                    if sources.first().is_none_or(|source| source.ne(node))
-                                        && destination.is_some_and(|d| d.ne(node))
-                                    {
-                                        scene.display_visiting_gradient(*node, rank)
-                                    }
-                                });
+                            *active_trace = step;
+
+                            // Update light to the frontier (highest-rank node).
+                            if let Some((peak, _)) = active_trace.iter().max_by_key(|(_, r)| *r) {
+                                light_center = Some(*peak);
                             }
-                            Ok(SolveEvent::Done(solution)) => {
-                                trace_complete = true;
-                                simulating = false;
-                                solve_events = None;
 
-                                current_trace_from_source.iter().for_each(|(node, _)| {
-                                    if sources.first().is_none_or(|source| source.ne(node))
-                                        && destination.is_some_and(|d| d.ne(node))
-                                    {
-                                        scene.display_traversed(*node)
-                                    }
-                                });
-
-                                current_trace_from_destination.iter().for_each(|(node, _)| {
-                                    if sources.first().is_none_or(|source| source.ne(node))
-                                        && destination.is_some_and(|d| d.ne(node))
-                                    {
-                                        scene.display_traversed(*node)
-                                    }
-                                });
-
-                                if solution.is_empty() {
-                                    // no-op: peaks already flushed to traversed above
-                                } else {
-                                    solution.iter().for_each(|node| {
-                                        if sources.first().is_none_or(|source| source.ne(node))
-                                            && destination.is_some_and(|d| d.ne(node))
-                                        {
-                                            scene.display_path(*node)
-                                        }
-                                    });
+                            active_trace.iter().for_each(|(node, rank)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && destination.is_some_and(|d| d.ne(node))
+                                {
+                                    scene.display_visiting_gradient(*node, rank)
                                 }
-                                // Remove the light once solving is done.
-                                light_center = None;
-                                // Restore full brightness so the final result is clearly visible.
-                                scene.restore_full_brightness();
-                                scene.restore_original_positions();
-                                break;
+                            });
+                        }
+                        Ok(SolveEvent::Done(solution)) => {
+                            trace_complete = true;
+                            simulating = false;
+                            solve_events = None;
+
+                            current_trace_from_source.iter().for_each(|(node, _)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && destination.is_some_and(|d| d.ne(node))
+                                {
+                                    scene.display_traversed(*node)
+                                }
+                            });
+
+                            current_trace_from_destination.iter().for_each(|(node, _)| {
+                                if sources.first().is_none_or(|source| source.ne(node))
+                                    && destination.is_some_and(|d| d.ne(node))
+                                {
+                                    scene.display_traversed(*node)
+                                }
+                            });
+
+                            if solution.is_empty() {
+                                // no-op: peaks already flushed to traversed above
+                            } else {
+                                solution.iter().for_each(|node| {
+                                    if sources.first().is_none_or(|source| source.ne(node))
+                                        && destination.is_some_and(|d| d.ne(node))
+                                    {
+                                        scene.display_path(*node)
+                                    }
+                                });
                             }
-                            Err(TryRecvError::Empty) => break,
-                            Err(TryRecvError::Disconnected) => {
-                                trace_complete = true;
-                                simulating = false;
-                                solve_events = None;
-                                light_center = None;
-                                scene.restore_full_brightness();
-                                scene.restore_original_positions();
-                                break;
-                            }
+                            // Remove the light once solving is done.
+                            light_center = None;
+                            // Restore full brightness so the final result is clearly visible.
+                            scene.restore_full_brightness();
+                            scene.restore_original_positions();
+                            break;
+                        }
+                        Err(TryRecvError::Empty) => break,
+                        Err(TryRecvError::Disconnected) => {
+                            trace_complete = true;
+                            simulating = false;
+                            solve_events = None;
+                            light_center = None;
+                            scene.restore_full_brightness();
+                            scene.restore_original_positions();
+                            break;
                         }
                     }
                 }
+            }
 
             if is_key_pressed(KeyCode::Space) {
                 paused = !paused;
@@ -194,11 +189,13 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             light_center = Some(*source);
         }
 
-        // Apply the torch-light effect while simulating (or immediately after
-        // completion so the final state is also lit).
-        if scene.context.light_source_effect {
+        // Apply colour effects in a single combined pass so light-source and
+        // colour-source compose correctly (tint first, then dim).
+        let do_light = scene.context.light_source_effect;
+        let do_color_source = scene.context.color_source_effect;
+        if do_light || do_color_source {
             if let Some(center) = light_center {
-                scene.apply_light_source(center, LIGHT_RADIUS);
+                scene.apply_color_effects(center, LIGHT_RADIUS, COLOR_SOURCE_RADIUS, do_light, do_color_source);
             }
         }
 
