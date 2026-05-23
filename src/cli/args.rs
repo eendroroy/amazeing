@@ -41,6 +41,10 @@ pub struct AmazeingArgs {
     /// Draw maze bound (perimeter)
     #[clap(global = true, long, short = 'P', display_order = 103, default_value_t = false)]
     pub show_perimeter: bool,
+
+    /// Visual effect to apply during simulation
+    #[clap(global = true, long, short = 'E', display_order = 104, value_name = "Effect")]
+    pub effect: Option<ArgEffect>,
 }
 
 /// {ui-name} amazeing create
@@ -257,6 +261,22 @@ impl Display for ArgHeuristic {
             ArgHeuristic::Octile => write!(f, "octile"),
             ArgHeuristic::Hex => write!(f, "hex"),
             ArgHeuristic::Dijkstra => write!(f, "dijkstra"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, ValueEnum)]
+pub enum ArgEffect {
+    /// Torch-light effect: the visiting frontier illuminates nearby cells,
+    /// with brightness falling off as distance grows.
+    #[clap(alias = "ls")]
+    LightSource,
+}
+
+impl Display for ArgEffect {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ArgEffect::LightSource => write!(f, "light-source"),
         }
     }
 }

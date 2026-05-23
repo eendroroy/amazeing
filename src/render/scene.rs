@@ -62,6 +62,11 @@ pub(crate) struct MazeScene {
 
     /// Lightweight per-cell geometry used only for click detection.
     cell_hitdata: Vec<Vec<CellHitData>>,
+
+    /// The unlit ("semantic") RGBA color of every cell.
+    /// `apply_light_source` reads from here so repeated light calls never
+    /// compound-darken already-lit vertex colours.
+    cell_semantic_colors: Vec<Vec<[u8; 4]>>,
 }
 
 // ── construction helpers ──────────────────────────────────────────────────────
@@ -75,13 +80,13 @@ fn cell_color(cell: i8, colors: &Colors) -> Color {
     }
 }
 
-/// Build flat scene chunks, per-cell location table, and hit-test data
-/// in a single pass over the maze.
+/// Build flat scene chunks, per-cell location table, hit-test data, and
+/// semantic colours in a single pass over the maze.
 fn build_scene(
     maze: &Maze,
     shape_factory: &dyn UnitShapeFactory,
     colors: &Colors,
-) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>) {
+) -> (Vec<Mesh>, Vec<Vec<CellLocation>>, Vec<Vec<CellHitData>>, Vec<Vec<[u8; 4]>>) {
     let (rows, cols) = (maze.rows(), maze.cols());
 
     let mut chunks: Vec<Mesh> = vec![Mesh {
@@ -91,10 +96,12 @@ fn build_scene(
     }];
     let mut locations: Vec<Vec<CellLocation>> = Vec::with_capacity(rows);
     let mut hitdata: Vec<Vec<CellHitData>> = Vec::with_capacity(rows);
+    let mut semantics: Vec<Vec<[u8; 4]>> = Vec::with_capacity(rows);
 
     for r in 0..rows {
         let mut row_locs = Vec::with_capacity(cols);
         let mut row_hits = Vec::with_capacity(cols);
+        let mut row_sem = Vec::with_capacity(cols);
 
         for c in 0..cols {
             let color = cell_color(maze.data[r][c], colors);
@@ -103,6 +110,9 @@ fn build_scene(
             // Collect vertex positions (read-only; used only for hit testing).
             let positions = mesh.vertices.iter().map(|v| (v.position.x, v.position.y)).collect();
             row_hits.push(CellHitData { positions });
+
+            // Store the unlit semantic colour for this cell.
+            row_sem.push(color.into());
 
             // Pack this cell into the current chunk, starting a new chunk when
             // either the vertex count or index count would exceed macroquad's
@@ -139,9 +149,10 @@ fn build_scene(
 
         locations.push(row_locs);
         hitdata.push(row_hits);
+        semantics.push(row_sem);
     }
 
-    (chunks, locations, hitdata)
+    (chunks, locations, hitdata, semantics)
 }
 
 // ── MazeScene impl ───────────────────────────────────────────────────────────
@@ -154,7 +165,8 @@ impl MazeScene {
         shape_factory: Box<dyn UnitShapeFactory>,
     ) -> Self {
         let wh = shape_factory.wh_for(maze.rows(), maze.cols());
-        let (scene_chunks, cell_locations, cell_hitdata) = build_scene(maze, shape_factory.as_ref(), colors);
+        let (scene_chunks, cell_locations, cell_hitdata, cell_semantic_colors) =
+            build_scene(maze, shape_factory.as_ref(), colors);
 
         let mut scene = Self {
             context,
@@ -167,6 +179,7 @@ impl MazeScene {
             scene_chunks,
             cell_locations,
             cell_hitdata,
+            cell_semantic_colors,
         };
 
         if scene.context.context_type == ContextType::Create || scene.context.show_perimeter {
@@ -210,6 +223,7 @@ impl MazeScene {
                 };
                 let loc = self.cell_locations[r][c];
                 let col: [u8; 4] = color.into();
+                self.cell_semantic_colors[r][c] = col;
                 let start = loc.vertex_start;
                 let end = start + loc.vertex_count;
                 for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
@@ -313,10 +327,64 @@ impl MazeScene {
     pub(crate) fn update_color(&mut self, node: Node, color: Color) {
         let loc = self.cell_locations[node.row][node.col];
         let c: [u8; 4] = color.into();
+        // Persist unlit semantic colour so apply_light_source can read it.
+        self.cell_semantic_colors[node.row][node.col] = c;
         let start = loc.vertex_start;
         let end = start + loc.vertex_count;
         for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
             v.color = c;
+        }
+    }
+
+    /// Restore every cell's vertex colour to its unlit semantic colour,
+    /// removing any light-source darkening without touching the semantic buffer.
+    /// Call this when the light source is switched off.
+    pub(crate) fn restore_full_brightness(&mut self) {
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let base = self.cell_semantic_colors[r][c];
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let end = start + loc.vertex_count;
+                for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
+                    v.color = base;
+                }
+            }
+        }
+    }
+
+    /// Apply a radial light source centred on `center` with the given `radius`
+    /// (in grid-cell units).  Cells near the centre are fully bright; brightness
+    /// falls off with an inverse-square curve down to `LIGHT_AMBIENT`.
+    ///
+    /// Reads the *unlit* semantic colour so calling this every frame never
+    /// compounds darkness on already-lit cells.
+    pub(crate) fn apply_light_source(&mut self, center: Node, radius: f32) {
+        const LIGHT_AMBIENT: f32 = 0.5; // minimum brightness for far-away cells
+        let radius_sq = radius * radius;
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                let dr = r as f32 - center.row as f32;
+                let dc = c as f32 - center.col as f32;
+                let dist_sq = dr * dr + dc * dc;
+                // Smooth inverse-square falloff: 1.0 at centre → LIGHT_AMBIENT at ∞
+                let t = dist_sq / radius_sq;
+                let brightness = LIGHT_AMBIENT + (1.0 - LIGHT_AMBIENT) / (1.0 + t);
+
+                let base = self.cell_semantic_colors[r][c];
+                let lit = [
+                    (base[0] as f32 * brightness).min(255.0) as u8,
+                    (base[1] as f32 * brightness).min(255.0) as u8,
+                    (base[2] as f32 * brightness).min(255.0) as u8,
+                    base[3],
+                ];
+                let loc = self.cell_locations[r][c];
+                let start = loc.vertex_start;
+                let end = start + loc.vertex_count;
+                for v in &mut self.scene_chunks[loc.chunk].vertices[start..end] {
+                    v.color = lit;
+                }
+            }
         }
     }
 

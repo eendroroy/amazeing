@@ -56,7 +56,7 @@ _amazeing() {
 
     case "${cmd}" in
         amazeing)
-            opts="-Z -C -F -P -h -V --zoom --colors --fps --show-perimeter --help --version create C view V solve S help"
+            opts="-Z -C -F -P -E -h -V --zoom --colors --fps --show-perimeter --effect --help --version create C view V solve S help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -86,6 +86,14 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                --effect)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
+                -E)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -94,7 +102,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__subcmd__create)
-            opts="-u -m -r -c -p -H -j -w -v -Z -C -F -P -h --unit-shape --maze --rows --cols --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --help"
+            opts="-u -m -r -c -p -H -j -w -v -Z -C -F -P -E -h --unit-shape --maze --rows --cols --procedure --heuristic-function --jumble-factor --weight-direction --verbose --zoom --colors --fps --show-perimeter --effect --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -188,6 +196,14 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                --effect)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
+                -E)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -266,7 +282,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__subcmd__solve)
-            opts="-m -p -H -v -Z -C -F -P -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --show-perimeter --help"
+            opts="-m -p -H -v -Z -C -F -P -E -h --maze --procedure --heuristic-function --verbose --zoom --colors --fps --show-perimeter --effect --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -320,6 +336,14 @@ _amazeing() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                --effect)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
+                -E)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -328,7 +352,7 @@ _amazeing() {
             return 0
             ;;
         amazeing__subcmd__view)
-            opts="-m -u -Z -C -F -P -h --maze --update --zoom --colors --fps --show-perimeter --help"
+            opts="-m -u -Z -C -F -P -E -h --maze --update --zoom --colors --fps --show-perimeter --effect --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -364,6 +388,14 @@ _amazeing() {
                     ;;
                 -F)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --effect)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
+                    return 0
+                    ;;
+                -E)
+                    COMPREPLY=($(compgen -W "light-source" -- "${cur}"))
                     return 0
                     ;;
                 *)

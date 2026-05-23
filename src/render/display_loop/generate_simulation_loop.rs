@@ -6,6 +6,9 @@ use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
 
+/// Radius of the torch-light effect in grid-cell units.
+const LIGHT_RADIUS: f32 = 15.0;
+
 enum GenerationEvent {
     Step(Trace),
     Done(Maze),
@@ -27,17 +30,22 @@ fn is_pinned(node: &Node, sources: &[Node], destination: Option<Node>) -> bool {
 /// When a slot is refreshed we only clear cells that (a) left the new path AND
 /// (b) are not part of any other walker's current path — preventing cross-walker
 /// flicker.
+///
+/// Returns the frontier node (highest rank) so the caller can update the light.
 fn apply_step(
     step: Trace,
     active_paths: &mut HashMap<Node, Trace>,
     scene: &mut MazeScene,
     sources: &[Node],
     destination: Option<Node>,
-) {
+) -> Option<Node> {
     // Identify walker root = node with the minimum rank in this trace.
     let Some(root) = step.iter().min_by_key(|(_, r)| **r).map(|(n, _)| *n) else {
-        return;
+        return None;
     };
+
+    // Frontier node = node with the maximum rank (most recently visited).
+    let frontier = step.iter().max_by_key(|(_, r)| **r).map(|(n, _)| *n);
 
     // Collect every node that belongs to a *different* walker's active path.
     let other_nodes: std::collections::HashSet<Node> = active_paths
@@ -63,6 +71,7 @@ fn apply_step(
     }
 
     active_paths.insert(root, step);
+    frontier
 }
 
 pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
@@ -79,6 +88,9 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
     let sources: &mut Vec<Node> = &mut vec![];
     let mut destination: Option<Node> = None;
 
+    // The node currently acting as the torch / light source.
+    let mut light_center: Option<Node> = None;
+
     loop {
         let current_frame_start_time = current_micros();
 
@@ -94,6 +106,7 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
             trace_complete = false;
             simulating = false;
             paused = false;
+            light_center = None;
         }
 
         if simulating {
@@ -109,7 +122,11 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 for _ in 0..4 {
                     match receiver.try_recv() {
                         Ok(GenerationEvent::Step(step)) => {
-                            apply_step(step, &mut active_paths, scene, sources, destination);
+                            if let Some(frontier) =
+                                apply_step(step, &mut active_paths, scene, sources, destination)
+                            {
+                                light_center = Some(frontier);
+                            }
                         }
                         Ok(GenerationEvent::Done(final_maze)) => {
                             // Clear all walker overlays before showing the finished maze.
@@ -128,6 +145,9 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                             trace_complete = true;
                             simulating = false;
                             generation_events = None;
+                            light_center = None;
+                            // Restore full brightness now that the light is gone.
+                            scene.restore_full_brightness();
                             break;
                         }
                         Err(TryRecvError::Empty) => break,
@@ -135,6 +155,8 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                             trace_complete = true;
                             simulating = false;
                             generation_events = None;
+                            light_center = None;
+                            scene.restore_full_brightness();
                             break;
                         }
                     }
@@ -197,6 +219,15 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
                 generation_events = Some(rx);
                 simulating = true;
                 paused = false;
+                // Initialise light at the first source so darkness is visible immediately.
+                light_center = sources.first().copied();
+            }
+        }
+
+        // Apply the torch-light effect every frame while a light is active.
+        if scene.context.light_source_effect {
+            if let Some(center) = light_center {
+                scene.apply_light_source(center, LIGHT_RADIUS);
             }
         }
 
@@ -211,3 +242,4 @@ pub(crate) async fn generate_simulation_loop(scene: &mut MazeScene) {
         next_frame().await
     }
 }
+

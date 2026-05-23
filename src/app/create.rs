@@ -1,9 +1,10 @@
 use crate::app::common::{get_colors, set_screen_size};
-use crate::cli::{AmazeingArgs, AmazeingContext, CreateArgs};
+use crate::cli::{AmazeingArgs, AmazeingContext, ArgEffect, CreateArgs};
 use crate::render::display_loop::{generate_loop, generate_simulation_loop};
 use crate::render::scene::MazeScene;
 
 pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
+    let light_source_effect = matches!(global.effect, Some(ArgEffect::LightSource));
     let context = AmazeingContext::create_context(
         None,
         args.maze,
@@ -16,6 +17,7 @@ pub(super) async fn run(global: &AmazeingArgs, args: CreateArgs) {
         global.zoom,
         global.fps,
         global.show_perimeter,
+        light_source_effect,
     );
 
     let mut scene = MazeScene::new_from_dimension(

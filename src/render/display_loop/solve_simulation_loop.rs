@@ -5,6 +5,10 @@ use macroquad::prelude::*;
 use std::collections::HashMap;
 use std::sync::mpsc::{self, Receiver, TryRecvError};
 
+/// Radius of the torch-light effect in grid-cell units.
+/// At this distance the brightness is ~50 % of the peak brightness.
+const LIGHT_RADIUS: f32 = 15.0;
+
 enum SolveEvent {
     Step(Trace),
     Done(Vec<Node>),
@@ -24,6 +28,10 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
     let mut simulating = false;
     let mut paused = false;
 
+    // The node currently acting as the torch / light source.
+    // Updated to the frontier peak every time a step arrives.
+    let mut light_center: Option<Node> = None;
+
     loop {
         let current_frame_start_time = current_micros();
 
@@ -40,6 +48,7 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             trace_complete = false;
             simulating = false;
             paused = false;
+            light_center = None;
         }
 
         if simulating {
@@ -66,6 +75,11 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                 });
 
                                 *active_trace = step;
+
+                                // Update light to the frontier (highest-rank node).
+                                if let Some((peak, _)) = active_trace.iter().max_by_key(|(_, r)| *r) {
+                                    light_center = Some(*peak);
+                                }
 
                                 active_trace.iter().for_each(|(node, rank)| {
                                     if sources.first().is_none_or(|source| source.ne(node))
@@ -107,6 +121,10 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                         }
                                     });
                                 }
+                                // Remove the light once solving is done.
+                                light_center = None;
+                                // Restore full brightness so the final result is clearly visible.
+                                scene.restore_full_brightness();
                                 break;
                             }
                             Err(TryRecvError::Empty) => break,
@@ -114,6 +132,8 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
                                 trace_complete = true;
                                 simulating = false;
                                 solve_events = None;
+                                light_center = None;
+                                scene.restore_full_brightness();
                                 break;
                             }
                         }
@@ -163,6 +183,16 @@ pub(crate) async fn solve_simulation_loop(scene: &mut MazeScene) {
             solve_events = Some(rx);
             simulating = true;
             paused = false;
+            // Initialise light at the source so darkness is visible from frame 1.
+            light_center = Some(*source);
+        }
+
+        // Apply the torch-light effect while simulating (or immediately after
+        // completion so the final state is also lit).
+        if scene.context.light_source_effect {
+            if let Some(center) = light_center {
+                scene.apply_light_source(center, LIGHT_RADIUS);
+            }
         }
 
         take_a_snap(scene);
